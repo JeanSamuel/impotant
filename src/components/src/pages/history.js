@@ -4,11 +4,14 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { Icon, } from 'react-native-elements';
 
 // create a component
-class Screen1 extends Component {
+class History extends Component {
 
     static navigationOptions = {
-        tabBarLabel : 'Screen 1',
-        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />
+        title : 'Historique',
+        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        headerLeft : (
+            <Button title = "me"  />
+        )
     }
 
     render() {
@@ -33,4 +36,4 @@ class Screen1 extends Component {
 
 
 //make this component available to the app
-export default Screen1;
+export default History;

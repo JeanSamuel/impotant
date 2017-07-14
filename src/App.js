@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import DrawerExample from './components/src/main';
+import DrawerExample from './components/src/slideBar/drawer';
 
 // create a component
 class Index extends Component {

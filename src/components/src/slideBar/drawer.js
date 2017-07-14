@@ -2,18 +2,28 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {DrawerNavigator, StackNavigator} from 'react-navigation'
-import Screen1 from './screen1';
-import Screen2 from './screen2';
+import Home from '../pages/home';
+import History from '../pages/history';
+import Setting from '../pages/setting';
+import Login from '../pages/login';
 
 const DrawerExample  = DrawerNavigator(
     {
         First : {
             path : '/',
-            screen : Screen1
+            screen : Home
         },
         Second : {
             path : '/sent',
-            screen : Screen2
+            screen : History
+        },
+        Third : {
+            path : '/sent1',
+            screen : Setting
+        },
+        Fourth : {
+            path : '/sent2',
+            screen : Login
         }
     },
     {
@@ -25,5 +35,7 @@ const DrawerExample  = DrawerNavigator(
         }
     }
 );
+
+
 
 export default DrawerExample;

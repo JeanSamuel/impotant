@@ -4,11 +4,14 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { Icon, } from 'react-native-elements';
 
 // create a component
-class Screen2 extends Component {
+class Login extends Component {
 
     static navigationOptions = {
-        tabBarLabel : 'Screen 1',
-        drawerIcon : ({tintColor}) => <Icon name="list" size= {35} />
+        title : 'Login',
+        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        headerLeft : (
+            <Button title = "me"  />
+        )
     }
 
     render() {
@@ -20,7 +23,7 @@ class Screen2 extends Component {
                     alignItems : 'center'
                 }}
             >
-                <Text>Screen 2</Text>
+                <Text>Login</Text>
                 <Button
                     onPress = { () =>this.props.navigation.navigate('DrawerOpen')}
                     title = "Open DrawerNavigator"
@@ -33,4 +36,4 @@ class Screen2 extends Component {
 
 
 //make this component available to the app
-export default Screen2;
+export default Login;
