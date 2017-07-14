@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 // create a component
-class QrCode extends Component {
+class Screen2 extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>QrCode</Text>
+                <Text>Screen2</Text>
             </View>
         );
     }
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default QrCode;
+export default Screen2;

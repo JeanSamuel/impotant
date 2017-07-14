@@ -1,25 +1,20 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Style from '../../styles/Styles';
 
 // create a component
-class List extends Component {
-
-    static navigationOptions = {
-        title : 'MontPellier',
-    }
-
+class SideBar extends Component {
     render() {
         return (
             <View>
-                <Text>MyClass</Text>
+                <Text>SideBar</Text>
+                <Text>SideBar1</Text>
+                <Text>SideBar2</Text>
             </View>
         );
     }
 }
 
 
-
 //make this component available to the app
-export default List;
+export default SideBar;
