@@ -1,32 +1,17 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import Search from './components/src/search/Search';
-import Main from './components/src/main/Main';
-import { TabNavigator } from 'react-navigation';
-import Style from './components/styles/Styles';
-
-const Tabs = TabNavigator({
-  Main : {screen : Main},
-  Search : {screen : Search}
-  
-},{
-  tabBarPosition : 'bottom',
-  tabBarOptions : {
-    showIcon : true,
-    showLabel : false
-  }
-})
-
+import DrawerExample from './components/src/drawer/Main';
 
 // create a component
 class Index extends Component {
   render() {
     return (
-      <View style={Style.container}>
+      <View style = {{flex : 1}}>
         <StatusBar hidden = {true} />
-        <Tabs />
+        <DrawerExample />
       </View>
+      
     );
   }
 }
