@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import Main from './components/src/main';
+import DrawerExample from './components/src/main';
 
 // create a component
 class Index extends Component {
@@ -9,7 +9,7 @@ class Index extends Component {
     return (
       <View style = {{flex : 1}}>
         <StatusBar hidden = {true} />
-        <Main />
+        <DrawerExample />
       </View>
       
     );
