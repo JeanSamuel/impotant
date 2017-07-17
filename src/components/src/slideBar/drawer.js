@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import {DrawerNavigator, StackNavigator, NavigationActions} from 'react-navigation'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {DrawerNavigator, StackNavigator, NavigationActions, DrawerItems} from 'react-navigation'
 import Home from '../pages/home';
 import Style from '../../styles/MainStyles';
 import { Icon } from 'react-native-elements';
@@ -59,12 +59,19 @@ const drawerConfigs = {
     initialRouteName : 'First',
     drawerPosition : 'left',
     contentOptions : {
-        activeBackgroundColor : '#34495e',
+        activeBackgroundColor : '#bdc3c7',
         activeTintColor : '#FFF',
         style : Style.drawerStyle
     },
     headerMode : 'screen',
-    contentComponent:({navigation})=> <DrawerContent navigation={navigation} routes={drawerRoutes} />,
+    contentComponent: props => 
+        <ScrollView>
+            <DrawerContent />
+            <DrawerItems {...props} />
+        </ScrollView>
+    
+    
+    // contentComponent:({navigation})=> <DrawerContent navigation={navigation} routes={drawerRoutes} />,
     
 }
 

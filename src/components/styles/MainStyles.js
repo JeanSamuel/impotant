@@ -33,7 +33,7 @@ export default {
         marginVertical : 20
     },
     header : {
-        backgroundColor : '#3498db',
+        backgroundColor : '#1abc9c',
         justifyContent: 'center',
         paddingHorizontal : 15
     },
@@ -45,7 +45,7 @@ export default {
         color : '#ecf0f1',
     },
     drawerStyle : {
-        marginTop : 75,
+        marginTop : 0,
 
     }
 

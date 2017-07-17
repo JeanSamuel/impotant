@@ -23,7 +23,7 @@ class History extends Component {
                     alignItems : 'center'
                 }}
             >
-                <Text>Screen 1</Text>
+                <Text>History</Text>
                 <Button
                     onPress = { () =>this.props.navigation.navigate('DrawerOpen')}
                     title = "Open DrawerNavigator"
