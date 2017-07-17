@@ -10,7 +10,7 @@ class History extends Component {
         title : 'Historique',
         drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
         headerLeft : (
-            <Button title = "me"  />
+            <Button title = "me"  onPress = { () =>this.navigate()}/>
         )
     }
 
@@ -30,6 +30,10 @@ class History extends Component {
                  />
             </View>
         );
+    }
+
+    navigation(){
+        this.props.navigation.navigate('DrawerOpen')
     }
 }
 

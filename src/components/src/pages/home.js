@@ -1,22 +1,25 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Image, Button, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Style from '../../styles/MainStyles';
 import QRCode from 'react-native-qrcode';
+import {StackNavigator} from 'react-navigation';
 
 // create a component
-class Home extends Component {
+export default class Home extends Component {
+
+    siding(){
+        console.log('tonga ato oh')
+        this.props.navigation.navigate('DrawerOpen')
+    }
+
 
     static navigationOptions = {
         title : 'Home',
-        headerLeft: <Icon name="menu" color="#ecf0f1" size= {35} onPress={() => this.drawerOpen()} />,
         headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
         titleStyle : Style.headerTitle,
         drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
-        headerLeft : (
-            <Button title = "me"  />
-        )
     }
 
     constructor(props){
@@ -66,28 +69,15 @@ class Home extends Component {
                         
                     </View>
                 </View>
-                <Button
-                    onPress = { () =>this.props.navigation.navigate('DrawerOpen')}
-                    title = "Open DrawerNavigator"
-                 />
+                <View style={Style.row}>
+                    <Button
+                        onPress = { () =>this.siding()}
+                        title = "Open DrawerNavigator"
+                    />
+                </View>
             </View>
         );
     }
+    
 }
 
-const navigationOptions = {
-    headerStyle : Style.header,
-    headerTitleStyle : Style.headerTitle
-}
-
-//make this component available to the app
-export default StackNavigator({
-    Home : {
-        screen : Home,
-        navigationOptions
-    }
-})
-
-
-
-//make this component available to the app
