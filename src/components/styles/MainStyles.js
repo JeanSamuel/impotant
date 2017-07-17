@@ -41,6 +41,13 @@ export default {
         color : "#ecf0f1",
         fontSize : 25
     },
+    icon : {
+        color : '#ecf0f1',
+    },
+    drawerStyle : {
+        marginTop : 75,
+
+    }
 
 
 

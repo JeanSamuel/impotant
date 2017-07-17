@@ -8,7 +8,7 @@ class Setting extends Component {
 
     static navigationOptions = {
         title : 'Setting',
-        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        drawerIcon : ({tintColor}) => <Icon name="settings" size= {25} />,
         headerLeft : (
             <Button title = "me"  />
         )

@@ -8,7 +8,7 @@ class Login extends Component {
 
     static navigationOptions = {
         title : 'Login',
-        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        drawerIcon : ({tintColor}) => <Icon name="input" size= {25} />,
         headerLeft : (
             <Button title = "me"  />
         )

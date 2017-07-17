@@ -19,7 +19,7 @@ export default class Home extends Component {
         title : 'Home',
         headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
         titleStyle : Style.headerTitle,
-        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
     }
 
     constructor(props){

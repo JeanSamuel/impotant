@@ -7,8 +7,8 @@ import { Icon, } from 'react-native-elements';
 class History extends Component {
 
     static navigationOptions = {
-        title : 'Historique',
-        drawerIcon : ({tintColor}) => <Icon name="help" size= {35} />,
+        title : 'History',
+        drawerIcon : ({tintColor}) => <Icon name="list" size= {25} />,
         headerLeft : (
             <Button title = "me"  onPress = { () =>this.navigate()}/>
         )
