@@ -6,7 +6,7 @@ import Style from '../../styles/MainStyles';
 import QRCode from 'react-native-qrcode';
 import {StackNavigator} from 'react-navigation';
 import Board from '../keyboard/board';
-import NumberFormat from 'react-number-format';
+// import NumberFormat from 'react-number-format';
 
 // create a component
 export default class Home extends Component {
@@ -65,12 +65,12 @@ export default class Home extends Component {
                     <View style = {Style.TextQrContainer}> 
                         <Badge
                             containerStyle={{ backgroundColor: 'violet'}}
-                            value='MGA'
+                            value='Amount'
                         />
                         <Text style = {Style.amount}>
                             {this.state.amount}
                         </Text>
-                        <NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        {/* <NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'$'} /> */}
                         <Icon
                             raised
                             name='remove'
