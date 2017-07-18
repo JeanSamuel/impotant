@@ -1,37 +1,28 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Key from './key';
 import styles from './keyStyles';
 
 // create a component
 class Board extends Component {
 
-    static propTypes = {
-        movies : React.PropTypes.array
-    }
-
-
     render() {
+        const {handler} = this.props;
         return (
             <View style={styles.pinKeyboard}>
-                 {this.props.movies.map((movie, k) => {
-                    return (
-                        <Image key={k} source = {{uri : movie}} style={{width : 35, height : 35}}/>
-                    )
-                })} 
-                {/* <Key label='1' onPress={console.log('eto')}/>
-                <Key label='2'/>
-                <Key label='3'/>
-                <Key label='4'/>
-                <Key label='5'/>
-                <Key label='6'/>
-                <Key label='7'/>
-                <Key label='8'/>
-                <Key label='9'/>
-                <Key label='0' />
-                <Key label='00' />
-                <Key label='000' /> */}
+                <Key label='1' handler={handler}/>
+                <Key label='2' handler={handler}/>
+                <Key label='3' handler={handler}/>
+                <Key label='4' handler={handler}/>
+                <Key label='5' handler={handler}/>
+                <Key label='6' handler={handler}/>
+                <Key label='7' handler={handler}/>
+                <Key label='8' handler={handler}/>
+                <Key label='9' handler={handler}/>
+                <Key label='0' handler={handler}/>
+                <Key label='00' handler={handler}/>
+                <Key label='000' handler={handler}/>
             </View>
         );
     }

@@ -9,25 +9,16 @@ export default class Key extends Component {
         label: React.PropTypes.string.isRequired
     };
 
-    constructor(props){
-        super(props)
-        this.state = {
-            value : 100,
-        }
+    render() {
+        const {handler} = this.props;
+        return (
+            <TouchableOpacity style={styles.pinKey} onPress={() => {
+                //call GrandParent handler when press
+                handler(this.props.label)
+            }}>
+                <Text style={{fontSize: 26}}>{this.props.label}</Text>
+            </TouchableOpacity>
+        );
     }
-
-    changeValue(value){
-        this.props.changeValue(this.state.value)
-        thi.setState(value = value)
-    }
-
-
-  render() {
-    return (
-      <TouchableOpacity style={styles.pinKey} onPress={() => console.log(this.props.label)}>
-        <Text style={{fontSize: 26}}>{this.props.label}</Text>
-      </TouchableOpacity>
-    );
-  }
 
 }

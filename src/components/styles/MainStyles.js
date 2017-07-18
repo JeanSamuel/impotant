@@ -7,7 +7,7 @@ export default {
         
     },
     row : {
-        marginHorizontal : 20
+        
     },
     qrCodeContainer : {
         alignItems : 'center',
@@ -15,8 +15,15 @@ export default {
         flexGrow : 1 ,
 
     },
-    inputQrContainer : {
-        justifyContent : 'center',
+    TextQrContainer : {
+        backgroundColor : 'rgba(189, 195, 199,0.5)',
+        marginTop : 20,
+        justifyContent : 'space-between',
+        flexDirection : 'row'
+    },
+    amount : {
+       fontSize : 50,
+        textAlign : 'center',
     },
     input : {
         paddingHorizontal : 25,

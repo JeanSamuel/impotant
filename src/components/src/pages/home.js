@@ -1,20 +1,15 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Badge } from 'react-native-elements';
 import Style from '../../styles/MainStyles';
 import QRCode from 'react-native-qrcode';
 import {StackNavigator} from 'react-navigation';
-import Board from '../keyboard/board'
+import Board from '../keyboard/board';
+import NumberFormat from 'react-number-format';
 
 // create a component
 export default class Home extends Component {
-
-    siding(){
-        console.log('tonga ato oh')
-        this.props.navigation.navigate('DrawerOpen')
-    }
-
 
     static navigationOptions = {
         title : 'Home',
@@ -23,37 +18,40 @@ export default class Home extends Component {
         drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
     }
 
+
     constructor(props){
         super(props)
         this.state = {
             staticText : 'vola:1547865&num:',
             amount : '0',
-            movies : [
-                'http://www.eatlogos.com/alphabet_logos/png/vector_a_arrow_logo.png',
-                'http://www.eatlogos.com/alphabet_logos/png/vector_a_arrow_logo.png',
-                'http://www.eatlogos.com/alphabet_logos/png/vector_a_arrow_logo.png'
-            ]
         }
     }
 
- 
-
-  setAmount(amount){
-    if(amount == ''){
-      this.state.amount = '0'
+    handleKeyPress = (label) => {
+        if(this.state.amount == '0'){
+            this.setState({amount : label})
+        }else{
+            this.setState({amount : this.state.amount + label})
+        }  
     }
-    this.setState({amount})
 
-  }
+    
+    formatAmount(){
+
+    }
+
+    reinitializeAmount(){
+        this.setState({amount : '0'})
+    }
+
 
     render() {
-        return (
-            
+        return ( 
             <View style={Style.container}>
                 <ScrollView style={Style.row}>
                     <View style = {Style.qrCodeContainer}> 
                         <Text style={Style.qrText}>
-                            Toucher et copier ou prenez en photo avec le ClientVola pour recevoir de l'argent
+                             Toucher et copier ou prenez en photo avec le ClientVola pour recevoir de l'argent 
                         </Text>
 
                         <QRCode
@@ -64,19 +62,26 @@ export default class Home extends Component {
                         fgColor='white'/>
                     </View>
 
-                    <View style = {Style.inputQrContainer}> 
-                        <TextInput
-                            autoFocus = {false}
-                            keyboardType = {'numeric'}
-                            style = {Style.input}
-                            onChangeText={(text) => this.setAmount(text)}
-                            value={this.state.amount}
+                    <View style = {Style.TextQrContainer}> 
+                        <Badge
+                            containerStyle={{ backgroundColor: 'violet'}}
+                            value='MGA'
                         />
-                        
+                        <Text style = {Style.amount}>
+                            {this.state.amount}
+                        </Text>
+                        <NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        <Icon
+                            raised
+                            name='remove'
+                            type='font-awesome'
+                            color='#f50'
+                            onPress={() => this.reinitializeAmount()} 
+                        />
                     </View>
                     
                 </ScrollView>
-                <Board movies={this.state.movies}/>
+                <Board handler={this.handleKeyPress}/>
             </View>
         );
     }
