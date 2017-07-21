@@ -10,7 +10,7 @@ class Setting extends Component {
         title : 'Setting',
         drawerIcon : ({tintColor}) => <Icon name="settings" size= {25} />,
         headerLeft : (
-            <Button title = "me"  />
+            <Text>eto</Text>
         )
     }
 

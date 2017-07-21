@@ -10,7 +10,7 @@ class Login extends Component {
         title : 'Login',
         drawerIcon : ({tintColor}) => <Icon name="input" size= {25} />,
         headerLeft : (
-            <Button title = "me"  />
+            <Text>eto</Text>
         )
     }
 

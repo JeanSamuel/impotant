@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 export default {
     container : {
         backgroundColor : '#FFF',
-        flex : 1,
-        
+        flex : 1
     },
     row : {
         
@@ -12,14 +11,14 @@ export default {
     qrCodeContainer : {
         alignItems : 'center',
         justifyContent : 'center',
-        flexGrow : 1 ,
+
 
     },
     TextQrContainer : {
         backgroundColor : 'rgba(189, 195, 199,0.5)',
         marginTop : 20,
         justifyContent : 'space-between',
-        flexDirection : 'row'
+        flexDirection : 'row',
     },
     amount : {
        fontSize : 50,
@@ -27,6 +26,7 @@ export default {
     },
     input : {
         paddingHorizontal : 25,
+        width : 200,
         fontSize : 40,
         alignItems:'flex-start'
     },
