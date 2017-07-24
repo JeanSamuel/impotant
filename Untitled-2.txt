@@ -1,11 +1,10 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Button } from 'react-native';
-// import QRCode from 'react-native-qrcode';
-import QRCode from 'react-native-qrcode-svg';
-// import QRCode from 'react-native-qrcode-logo';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import QRCode from 'react-native-qrcode';
 import { Icon, Badge } from 'react-native-elements';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import FormattedCurrency from 'react-native-globalize';
  
 
 
@@ -68,51 +67,20 @@ class MyClass extends Component {
     constructor(props){
         super(props)
         this.state = {
-            type : 'vola',
-            data : {
-                'accesToken' : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
-                'currency' :  'mga',
-                'senderId' : '1'
-            },
-            amount : '0',
-            jsonData : '0'
+            staticText : 'vola:1547865&num:',
+            amount : '',
         }
     }
 
-    
-    componentDidMount() {
-        this.setJsonData(this.generateQrCodeText())
-        console.log(this.state.jsonData)
-    }
-
-    goCheckSolde(){
-        this.props.navigation.navigate('Solde')
-    }
-
-    generateQrCodeText(){
-        let myData = {
-            'type' : this.state.type,
-            'data' : this.state.data,
-            'amount' : this.state.amount
-        }
-        return JSON.stringify(myData)
-    }
-
-    setJsonData(jsonData){
-        this.setState({jsonData})
-    }
-
-    setUpdate(amount){
-        // amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1.')
-        this.setState({
-            amount : amount,
-            jsonData : this.generateQrCodeText()
-        })
-        // console.log(this.state)
+    setAmount(amount){
+        console.log(this.state.amount + 'avnt modif')
+        amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1.')
+        this.setState({amount})
+        console.log(this.state.amount + 'apres modif')
+        // this.setState({amount : 5})
     }
 
     render() {
-        let logoFromFile = require('../../images/icons/real.png');
         return (
             <View  style={styles.container}>
                 
@@ -125,31 +93,31 @@ class MyClass extends Component {
                     </View>
                     <View>
                         <Text style={styles.amountLabel}>Amount</Text>
+                        {/* <Text style={styles.amount}>
+                            Ar {this.state.amount}
+                        </Text> */}
                             
                         <TextInput
-                            value = {this.state.amount}
+                            placeholder = ''
+                            
                             style={styles.amount}
                             autoFocus= {true}
                             keyboardType = 'numeric'  
-                            onChangeText = {(text) => this.setUpdate(text)}
+                            onChangeText = {(amount) => this.setAmount(amount)}
                         />
                     </View>
                 </View>
                     
                 <View style={styles.row}>
                     <QRCode  
-                        value={this.generateQrCodeText()}
-                        logo = {logoFromFile}
-                        size={170}
+                        value={this.state.staticText + this.state.amount}
+                        size={150}
+                        bgColor='#000'
+                        fgColor='white'
                     />
                     <Text style={styles.qrText}>
                             Toucher et copier ou prenez en photo avec le ClientVola pour recevoir de l'argent 
                     </Text>
-
-                    <Button 
-                        title="solde"
-                        onPress = {() => this.goCheckSolde()}
-                    />
                 </View>
                 
                 <KeyboardSpacer />

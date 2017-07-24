@@ -7,6 +7,7 @@ import Style from '../../styles/MainStyles';
 import { Icon } from 'react-native-elements';
 import History from '../pages/history';
 import Setting from '../pages/setting';
+import Solde from '../pages/solde';
 import Login from '../pages/login';
 import DrawerButton from './drawerButton';
 import DrawerContent from './drawerContent';
@@ -22,6 +23,10 @@ const navigationOptions = {
 const stackExemple = new StackNavigator({
     Home : {
         screen : Home,
+        navigationOptions
+    },
+    Solde : {
+        screen : Solde,
         navigationOptions
     }
 },{
