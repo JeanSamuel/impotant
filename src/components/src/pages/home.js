@@ -1,16 +1,22 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Button } from 'react-native';
-// import QRCode from 'react-native-qrcode';
+import {StackNavigator} from 'react-navigation'
 import QRCode from 'react-native-qrcode-svg';
-// import QRCode from 'react-native-qrcode-logo';
 import { Icon, Badge } from 'react-native-elements';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import DrawerButton from '../slideBar/drawerButton';
+import Solde from './solde';
  
 
 
 // define your styles
 const styles = StyleSheet.create({
+    header : {
+        backgroundColor : '#1abc9c',
+        justifyContent: 'center',
+        paddingHorizontal : 15
+    },
     row : {
         justifyContent: 'center',
         alignItems: 'center',
@@ -55,7 +61,7 @@ const styles = StyleSheet.create({
 });
 
 // create a component
-class MyClass extends Component {
+class Home extends Component {
 
     static navigationOptions = {
         title : 'Home',
@@ -82,11 +88,6 @@ class MyClass extends Component {
     
     componentDidMount() {
         this.setJsonData(this.generateQrCodeText())
-        console.log(this.state.jsonData)
-    }
-
-    goCheckSolde(){
-        this.props.navigation.navigate('Solde')
     }
 
     generateQrCodeText(){
@@ -112,7 +113,7 @@ class MyClass extends Component {
     }
 
     render() {
-        let logoFromFile = require('../../images/icons/real.png');
+        let logoFromFile = require('../../images/icons/logo.png');
         return (
             <View  style={styles.container}>
                 
@@ -145,11 +146,6 @@ class MyClass extends Component {
                     <Text style={styles.qrText}>
                             Toucher et copier ou prenez en photo avec le ClientVola pour recevoir de l'argent 
                     </Text>
-
-                    <Button 
-                        title="solde"
-                        onPress = {() => this.goCheckSolde()}
-                    />
                 </View>
                 
                 <KeyboardSpacer />
@@ -159,5 +155,27 @@ class MyClass extends Component {
 }
 
 
+
+const navigationOptions = {
+    headerStyle : styles.header,
+    headerTitleStyle : styles.headerTitle
+}
+
+const stackHome = new StackNavigator({
+    Home : {
+        screen : Home,
+        navigationOptions
+    },
+    Solde : {
+        screen : Solde,
+        navigationOptions
+    }
+},{
+    navigationOptions : ({navigation}) => ({
+        headerLeft : <DrawerButton navigation={navigation} />
+    })
+})
+
+
 //make this component available to the app
-export default MyClass;
+export default stackHome;

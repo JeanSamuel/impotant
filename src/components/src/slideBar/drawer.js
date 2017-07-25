@@ -14,34 +14,12 @@ import DrawerContent from './drawerContent';
 
 
 
-const navigationOptions = {
-    headerStyle : Style.header,
-    headerTitleStyle : Style.headerTitle
-}
-
-
-const stackExemple = new StackNavigator({
-    Home : {
-        screen : Home,
-        navigationOptions
-    },
-    Solde : {
-        screen : Solde,
-        navigationOptions
-    }
-},{
-    navigationOptions : ({navigation}) => ({
-        headerLeft : <DrawerButton navigation={navigation} />
-    })
-})
-
-
 // DrawerNavigator path
 
 const drawerRoutes = {
     First : {
         path : '/',
-        screen : stackExemple,
+        screen : Home,
         
     },
     Second : {
@@ -55,13 +33,14 @@ const drawerRoutes = {
     Fourth : {
         path : '/sent2',
         screen : Login
-    }
+    },
+    
 }
 
 // DrawerNavigator configuration 
 
 const drawerConfigs = {
-    initialRouteName : 'First',
+    initialRouteName : 'Second',
     drawerPosition : 'left',
     contentOptions : {
         activeBackgroundColor : '#bdc3c7',

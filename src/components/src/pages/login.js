@@ -7,7 +7,7 @@ import { Icon, } from 'react-native-elements';
 class Login extends Component {
 
     static navigationOptions = {
-        title : 'Login',
+        title : 'Logout',
         drawerIcon : ({tintColor}) => <Icon name="input" size= {25} />,
         headerLeft : (
             <Text>eto</Text>

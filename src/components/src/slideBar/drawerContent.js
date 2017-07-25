@@ -1,23 +1,67 @@
 import React, {Component} from 'react'
-import {View,Text,ScrollView} from 'react-native';
+import {View,Text,ActivityIndicator, Image} from 'react-native';
+import axios from 'axios';
+import { Icon } from 'react-native-elements';
 
 
 export default class DrawerContent extends Component {
 
+    constructor(props){
+        super(props)
+        this.state = {
+            solde : '',
+            report : 'null',
+            ownerId : 2,
+            ownerName : 'Toavina Ralambosoa'
+        }
+        this.checkSolde()
+    }
+
+    getReport(){
+        return this.state.report
+    }
+
+
+    checkSolde() {
+        var url = 'http://ariary.vola.mg/balance/'+ this.state.ownerId
+        axios.get(
+            url
+        ).then((response) =>{
+            this.setState({report : response.data[0].value})
+
+        }).catch((error) =>{
+            console.log(error)
+        })
+    }
+    
+
   render(){
-    return(
-        <View style={{elevation: 10}}>
-                <View style={{height:150,backgroundColor:'#16a085'}}>
-                    <View style={{marginTop:20, alignItems:'center'}}>
-                        <Text style={{fontSize:30,color:'#fff'}}>
-                            Marchand Vola
-                        </Text>
-                        <Text style={{fontSize:50,color:'#fff'}}>
-                            MGA 25 000
-                        </Text>
+        let logoFromFile = require('../../images/icons/user.png');
+        let reportFormated = String(this.getReport()).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
+        return (
+            <View style={{elevation: 10}}>
+                    <View style={{height:150,backgroundColor:'#16a085', padding : 20}}>
+                        <View >
+                            <View style={{marginTop:20, flexDirection:'row', justifyContent : 'space-between'}}>
+                                <View>
+                                    <Icon name="user-circle" color="#ecf0f1" size= {60} type='font-awesome' />
+                                </View>
+                                <View>
+                                    <Text style={{fontSize:25,color:'#fff',textAlign:'right'}}>
+                                        Marchand Vola
+                                    </Text> 
+                                    <View>
+                                        <Text
+                                            style={{fontSize:35,color:'#fff',textAlign:'right'}}
+                                        >{reportFormated} Ar</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                        <Text style={{fontSize:20,color:'#fff', textAlign:'right'}}>( {this.state.ownerName} )</Text>
                     </View>
-                </View>
-        </View>
-    )
+            </View>
+            
+        )
   }
 }

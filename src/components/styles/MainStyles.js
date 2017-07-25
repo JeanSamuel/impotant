@@ -53,7 +53,17 @@ export default {
     },
     drawerStyle : {
         marginTop : 0,
-
+    },
+    headerList : {
+        flexDirection : 'row',
+        justifyContent : 'space-between',
+        marginHorizontal : 20,
+        marginTop : 10,
+        borderBottomWidth : 2,
+        borderBottomColor : 'rgba(149, 165, 166,0.7)',
+    },
+    greyText : {
+        color : 'rgba(149, 165, 166,1.0)'
     }
 
 

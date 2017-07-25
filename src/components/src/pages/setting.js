@@ -7,7 +7,7 @@ import { Icon, } from 'react-native-elements';
 class Setting extends Component {
 
     static navigationOptions = {
-        title : 'Setting',
+        title : 'Settings',
         drawerIcon : ({tintColor}) => <Icon name="settings" size= {25} />,
         headerLeft : (
             <Text>eto</Text>
