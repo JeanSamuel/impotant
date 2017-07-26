@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ListView } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ListView, RefreshControl } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {StackNavigator} from 'react-navigation'
 import styles from '../../styles/MainStyles';
@@ -8,6 +8,9 @@ import Details from './details';
 import Row from './row';
 import DrawerButton from '../slideBar/drawerButton';
 import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/fr'
+moment.locale('fr')
 
 // create a component
 class History extends Component {
@@ -24,7 +27,8 @@ class History extends Component {
             token : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
             accountId : 1,
             accountName : 'Toavina',
-            data : null
+            data : null,
+            refreshing : false
         }
         this.getHistory()
     }
@@ -38,12 +42,61 @@ class History extends Component {
             axios.get(
                 url
             ).then((response) =>{
-                this.setState({data : response.data})
+                this.setState({data : this.refactHistory(response.data)})
+                
             }).catch((error) =>{
                 console.log(error)
             })
+        }   
+    }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.getHistory()
+        this.setState({refreshing: false});
+    }
+
+    refactHistory(data){
+        var actualDate = data[0].date.split(' ')[0]
+        var dataRefactored = [[data[0]]]
+        var actualLigne = 0
+
+        for (var index = 1; index < data.length; index++) {
+            var transac = data[index]
+            var date = transac.date.split(' ')[0]
+            if(date == actualDate){
+                dataRefactored[actualLigne].push(transac)
+            }else{
+                actualDate = date
+                actualLigne++
+                dataRefactored[actualLigne] = []
+                dataRefactored[actualLigne][0] = transac
+            } 
         }
-            
+        return dataRefactored
+    }
+
+    renderSectionHeader(sectionData, sectionID) {
+        let actualDate = sectionData[0].date.split(' ')[0]
+        var section = moment(actualDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
+        var test = moment('2017-07-03', 'YYYY-MM-DD').format('YYYY-MM-DD')
+        var today = "Aujourd'hui"
+        if(moment(test).isSame(section, 'd')){
+            section = (
+                <View style={styles.sectionHeaderNow} >
+                    <Text style={[styles.sectionHeaderTitle, styles.sectionHeaderTitleNow]} >{today}</Text>
+                </View>
+            )
+        }else{
+            section = (
+                <View style={styles.sectionHeader} >
+                    <Text style={styles.sectionHeaderTitle} >{moment(section).format('dddd Do MMMM YYYY')}</Text>
+                </View>
+            )
+        }
+        return (
+            <View>{section}</View>
+        )
     }
 
     render() {
@@ -62,17 +115,25 @@ class History extends Component {
              
         }else{
             const ds = new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
+                rowHasChanged: (r1, r2) => r1 !== r2,
+                sectionHeaderHasChanged : (s1, s2) => s1 !== s2
             });
             
             return (
                 <View>
                     <View style={styles.headerList}>
-                        <Text style={styles.greyText}>Nom | date</Text>
+                        <Text style={styles.greyText}>Nom | Type</Text>
                         <Text  style={styles.greyText}>Amount</Text>
                     </View>
                     <ListView
-                        dataSource={ds.cloneWithRows(this.state.data)}
+                        refreshControl = {
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this._onRefresh.bind(this)}
+                            />
+                        }
+                        dataSource={ds.cloneWithRowsAndSections(this.state.data)}
+                        renderSectionHeader = {this.renderSectionHeader}
                         renderRow={(row, j, k) => <Row info={row} index={parseInt(k)} navigation={this.props.navigation}  />}
                     />
                 </View>

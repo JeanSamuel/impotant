@@ -40,7 +40,7 @@ const drawerRoutes = {
 // DrawerNavigator configuration 
 
 const drawerConfigs = {
-    initialRouteName : 'Second',
+    initialRouteName : 'First',
     drawerPosition : 'left',
     contentOptions : {
         activeBackgroundColor : '#bdc3c7',

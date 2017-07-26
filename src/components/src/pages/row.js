@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 // create a component
 class Row extends Component {
@@ -14,17 +15,49 @@ class Row extends Component {
 
     render() {
         let reportFormated = String(this.props.info.amount).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
+        let currency = (
+            <View style={styles.amountContainer}>
+                <Text style={styles.amount}>{reportFormated} </Text>
+                <Text style={styles.currency}>{this.props.info.currency}</Text>
+            </View>
+        )
+        let hour = this.props.info.date.split(" ")[1]
+        let sourceImage = require('../../images/icons/receive.png') 
+        let type = "Récéption d'argent"
+        if(parseInt(this.props.info.amount) < 0){
+            currency = (
+                <View style={styles.amountContainer}>
+                    <Text style={[styles.amount, styles.currencyNegative]}>{reportFormated} </Text>
+                    <Text style={[styles.currency,styles.currencyNegative]}>{this.props.info.currency}</Text>
+                </View>
+            )
+            sourceImage = require('../../images/icons/online-store.png') 
+            type = "Achat"
+            if(parseInt(this.props.info.amount) < -1000){
+                sourceImage = require('../../images/icons/send.png') 
+                type = "Envoi d'argent"
+            }
+            
+        }
+        let icon = (
+            <Image source={sourceImage} style={{width : 40, height:40}}/>
+        )
+        
+
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
                     <View style={styles.userContainer}>
-                        <Text style={styles.user}>Nivo SA</Text>
-                        <Text style={styles.date}>{this.props.info.date}</Text>
+                        <View style={styles.iconContainer}>
+                            {icon}
+                        </View>
+                        <View style={styles.userInfoContainer}>
+                            <Text style={styles.user}>Toavina Ralambosoa</Text>
+                            <Text style={styles.date}>{type}</Text>
+                            <Text style={styles.date}>{hour}</Text>
+                        </View>
                     </View>
-                    <View style={styles.amountContainer}>
-                        <Text style={styles.amount}>{reportFormated} </Text>
-                        <Text style={styles.currency}>{this.props.info.currency}</Text>
-                    </View>
+                    <View>{currency}</View>
                 </View>
             </View>
         );
@@ -45,27 +78,41 @@ const styles = StyleSheet.create({
         justifyContent : 'space-between',
     },
     user : {
-        fontSize : 20
+        fontSize : 15
     },
     amount : {
+
         fontWeight : 'bold',
         fontSize : 22,
+        textAlign : 'right',
         color : 'rgba(44, 62, 80,1.0)'
     },
     amountContainer : {
-        justifyContent : 'center'
+        justifyContent : 'center',
     },
     userContainer : {
+        flexDirection :'row',
         paddingHorizontal : 10,
     },
+    userInfoContainer : {
+    },
+    iconContainer : {
+        padding : 5,
+        justifyContent : 'center'
+    },
     date : {
+        fontSize : 15,
         color : 'rgba(149, 165, 166,1.0)',
-        paddingBottom : 10
     },
     currency : {
         fontSize : 20,
+        fontWeight : 'bold',
         textAlign : 'right',
-        color : 'rgba(149, 165, 166,1.0)',
+        color : 'rgba(44, 62, 80,1.0)',
+        paddingRight : 5
+    }, 
+    currencyNegative : {
+        color : 'rgba(192, 57, 43,1.0)'
     }
 });
 

@@ -64,6 +64,25 @@ export default {
     },
     greyText : {
         color : 'rgba(149, 165, 166,1.0)'
+    },
+    sectionHeader : {
+        marginTop : 10,
+        paddingVertical : 5,
+        backgroundColor : 'rgba(127, 140, 141,0.2)'
+    },
+    sectionHeaderTitle : {
+        textAlign : 'center',
+        fontSize : 15
+    },
+    sectionHeaderTitleNow : {
+        fontSize : 25,
+        fontWeight : 'bold',
+        color : '#FFF'
+    }, 
+    sectionHeaderNow : {
+        paddingTop : 10,
+        paddingBottom : 10,
+        backgroundColor : 'rgba(127, 140, 141,0.8)'
     }
 
 
