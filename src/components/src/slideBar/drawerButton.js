@@ -1,11 +1,18 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Style from '../../styles/MainStyles';
 
-const DrawerButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')}>
+
+
+const DrawerButton = ({ navigation, keyboard }) => (
+  <TouchableOpacity 
+    onPress={() => {
+      keyboard.dismiss()
+      navigation.navigate('DrawerOpen')
+      }
+    }>
     <Icon
       name="menu"
       size = {35}

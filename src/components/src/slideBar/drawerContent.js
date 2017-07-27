@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View,Text,ActivityIndicator, Image} from 'react-native';
 import axios from 'axios';
 import { Icon } from 'react-native-elements';
+import Services from '../services/services';
 
 
 export default class DrawerContent extends Component {
@@ -21,7 +22,6 @@ export default class DrawerContent extends Component {
         return this.state.report
     }
 
-
     checkSolde() {
         var url = 'http://ariary.vola.mg/balance/'+ this.state.ownerId
         axios.get(
@@ -34,10 +34,9 @@ export default class DrawerContent extends Component {
         })
     }
     
-
-  render(){
+    render(){
         let logoFromFile = require('../../images/icons/user.png');
-        let reportFormated = String(this.getReport()).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
+        let reportFormated = Services.formatNumber(this.getReport())
         return (
             <View style={{elevation: 10}}>
                     <View style={{height:150,backgroundColor:'#16a085', padding : 20}}>
@@ -60,8 +59,7 @@ export default class DrawerContent extends Component {
                         </View>
                         <Text style={{fontSize:20,color:'#fff', textAlign:'right'}}>( {this.state.ownerName} )</Text>
                     </View>
-            </View>
-            
+            </View>     
         )
   }
 }

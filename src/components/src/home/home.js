@@ -1,12 +1,11 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Button, Clipboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard } from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import QRCode from 'react-native-qrcode-svg';
-import { Icon, Badge } from 'react-native-elements';
+import { Icon} from 'react-native-elements';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DrawerButton from '../slideBar/drawerButton';
-import Solde from './solde';
 import styles from '../../styles/HomeStyles';
 import Toast from 'react-native-easy-toast';
  
@@ -32,7 +31,7 @@ class Home extends Component {
                 'currency' :  'mga',
                 'senderId' : '1'
             },
-            amount : '0',
+            amount : '',
             jsonData : '0'
         }
     }
@@ -63,11 +62,15 @@ class Home extends Component {
         })
         // console.log(this.state)
     }
-    copyToClipBoard(){
-        Clipboard.setString(this.state.jsonData)
-        this.refs.input.focus()
-        this.refs.toast.show('Copié dans le presse-papier !!')
 
+    getJsonData(){
+        return this.state.jsonData
+    }
+
+    copyToClipBoard(){
+        Clipboard.setString(this.generateQrCodeText())
+        this.refs.toast.show('Copié dans le presse-papier!!')
+        Keyboard.dismiss()
     }
 
     render() {
@@ -90,22 +93,20 @@ class Home extends Component {
                          />
                     </View>
                     <View>
-                        <Text style={styles.amountLabel}>Amount</Text>
-                            
+                        <Text style={styles.amountLabel}>Amount (Ar)</Text> 
                         <TextInput
                             ref="input"
                             value = {this.state.amount}
                             style={styles.amount}
-                            autoFocus= {true}
-                            keyboardType = 'numeric'  
+                            autoFocus= {false}
+                            keyboardType = 'numeric' 
                             onChangeText = {(text) => this.setUpdate(text)}
                         />
                     </View>
-                </View>
-                    
+                </View>    
                 <View style={styles.row}>
                     <TouchableOpacity
-                        activeOpacity={0.9}
+                        activeOpacity={0.2}
                         onLongPress = {() => this.copyToClipBoard()}
                     >
                         <QRCode  
@@ -117,17 +118,12 @@ class Home extends Component {
                     <Text style={styles.qrText}>
                             Prenez en photo avec le ClientVola pour recevoir de l'argent ou Toucher 2 ou 3s pour copier dans le presse-papier
                     </Text>
-                </View>   
-                
-                <KeyboardSpacer ref="keyboard"
-                    
-                />
+                </View>    
+                <KeyboardSpacer ref="keyboard"   />
             </View>
         );
     }
 }
-
-
 
 const navigationOptions = {
     headerStyle : styles.header,
@@ -138,14 +134,10 @@ const stackHome = new StackNavigator({
     Home : {
         screen : Home,
         navigationOptions
-    },
-    Solde : {
-        screen : Solde,
-        navigationOptions
     }
 },{
     navigationOptions : ({navigation}) => ({
-        headerLeft : <DrawerButton navigation={navigation} />
+        headerLeft : <DrawerButton navigation={navigation} keyboard={Keyboard} />
     })
 })
 

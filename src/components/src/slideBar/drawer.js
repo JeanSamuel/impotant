@@ -1,14 +1,12 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import {DrawerNavigator, StackNavigator, NavigationActions, DrawerItems} from 'react-navigation'
-import Home from '../pages/home';
+import { ScrollView } from 'react-native';
+import {DrawerNavigator, DrawerItems} from 'react-navigation'
+import Home from '../home/home';
 import Style from '../../styles/MainStyles';
-import { Icon } from 'react-native-elements';
-import History from '../pages/history';
-import Setting from '../pages/setting';
-import Solde from '../pages/solde';
-import Login from '../pages/login';
+import History from '../history/history';
+import Setting from '../settings/setting';
+import Login from '../login/login';
 import DrawerButton from './drawerButton';
 import DrawerContent from './drawerContent';
 
@@ -40,7 +38,7 @@ const drawerRoutes = {
 // DrawerNavigator configuration 
 
 const drawerConfigs = {
-    initialRouteName : 'First',
+    initialRouteName : 'Fourth',
     drawerPosition : 'left',
     contentOptions : {
         activeBackgroundColor : '#bdc3c7',
