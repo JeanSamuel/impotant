@@ -42,7 +42,6 @@ class Row extends Component {
             <Image source={sourceImage} style={{width : 40, height:40}}/>
         )
         
-
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
@@ -51,7 +50,7 @@ class Row extends Component {
                             {icon}
                         </View>
                         <View style={styles.userInfoContainer}>
-                            <Text style={styles.user}>Toavina Ralambosoa</Text>
+                            <Text style={styles.user}>{this.props.info.name}</Text>
                             <Text style={styles.date}>{type}</Text>
                             <Text style={styles.date}>{hour}</Text>
                         </View>

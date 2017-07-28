@@ -3,11 +3,17 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import LoginForm from './loginForm';
 import {StackNavigator} from 'react-navigation'
+import { Icon } from 'react-native-elements';
+
 
 // create a component
 class Login extends Component {
 
-
+    static navigationOptions = {
+        title : 'Logout',
+        headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
+        drawerIcon : ({tintColor}) => <Icon name="login" size= {25} type={'material-community'} />,
+    }
     constructor(props){
         super(props)
         this.state = {

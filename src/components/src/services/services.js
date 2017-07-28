@@ -7,6 +7,10 @@ class Services extends Component {
     static formatNumber(number){
         return String(number).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
     }
+
+    static keyboardDismiss(){
+        
+    }
 }
 
 

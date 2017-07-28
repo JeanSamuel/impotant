@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ListView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ListView, RefreshControl, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import {StackNavigator} from 'react-navigation'
 import styles from '../../styles/MainStyles';
@@ -24,7 +24,7 @@ class History extends Component {
         super(props)
         this.state = {
             token : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
-            accountId : 1,
+            accountId : 3,
             accountName : 'Toavina',
             data : null,
             refreshing : false
@@ -34,6 +34,7 @@ class History extends Component {
 
     getHistory(){
         var url = 'http://ariary.vola.mg/transaction/'+ this.state.accountId
+        console.log('url', url)
         axios.get(url).then((response) =>{
             this.setState({data : this.refactHistory(response.data)})
         }).catch((error) =>{
@@ -105,7 +106,7 @@ const stackHistory = new StackNavigator({
     }
 },{
     navigationOptions : ({navigation}) => ({
-        headerLeft : <DrawerButton navigation={navigation} />
+        headerLeft : <DrawerButton navigation={navigation}  keyboard={Keyboard}  />
     })
 })
 

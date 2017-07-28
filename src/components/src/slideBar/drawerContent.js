@@ -12,7 +12,7 @@ export default class DrawerContent extends Component {
         this.state = {
             solde : '',
             report : 'null',
-            ownerId : 2,
+            ownerId : 3,
             ownerName : 'Toavina Ralambosoa'
         }
         this.checkSolde()
@@ -27,7 +27,7 @@ export default class DrawerContent extends Component {
         axios.get(
             url
         ).then((response) =>{
-            this.setState({report : response.data[0].value})
+            this.setState({report : response.data.value})
 
         }).catch((error) =>{
             console.log(error)

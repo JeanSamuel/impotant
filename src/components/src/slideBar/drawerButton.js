@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Style from '../../styles/MainStyles';
+import Services from '../services/services';
 
 
 

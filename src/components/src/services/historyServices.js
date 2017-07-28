@@ -42,7 +42,7 @@ class HistorySevices extends Component {
         let section = this.getMomentFormat1(actualDate)
         let test = this.getMomentFormat1('2017-07-03')
         let today = "Aujourd'hui"
-            if(moment(test).isSame(section, 'd')){
+            if(moment().isSame(section, 'd')){
                 section = (
                     <View style={styles.sectionHeaderNow} >
                         <Text style={[styles.sectionHeaderTitle, styles.sectionHeaderTitleNow]} >{today}</Text>
@@ -66,6 +66,7 @@ class HistorySevices extends Component {
      *@argument data : le table de départ
      */
     refactHistory(data){
+        console.log('data', data)
         var actualDate = data[0].date.split(' ')[0]
         var dataRefactored = [[data[0]]]
         var actualLigne = 0

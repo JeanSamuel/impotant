@@ -27,8 +27,10 @@ class LoginForm extends Component {
     }
 
     goLogin(){
+        this.props.navigator.push({
+            id :'home'
+        })
         console.log('mankato v')
-        console.log(this.state)
     }
 
     render() {
@@ -49,14 +51,7 @@ class LoginForm extends Component {
                             placeholderTextColor = 'rgba(189, 195, 199,0.7)'
                         />
                         <FormValidationMessage>{this.getErrorUser()}</FormValidationMessage>
-                    </View>
-                    <TouchableHighlight
-                        onPress = {() => this.goLogin()}
-                    >
-                        <Text>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci ea nemo,
-                        </Text>    
-                    </TouchableHighlight>    
+                    </View>   
                     <View style={styles.oneInput} > 
                         <FormLabel
                             labelStyle = {styles.inputLabel}
