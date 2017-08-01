@@ -2,15 +2,15 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import LoginForm from './loginForm';
-import {StackNavigator} from 'react-navigation'
+import {StackNavigator} from 'react-navigation';
 import { Icon } from 'react-native-elements';
-
+import Services from '../services/loginServices';
 
 // create a component
 class Login extends Component {
 
     static navigationOptions = {
-        title : 'Logout',
+        title : 'Login',
         headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
         drawerIcon : ({tintColor}) => <Icon name="login" size= {25} type={'material-community'} />,
     }
@@ -35,12 +35,12 @@ class Login extends Component {
                             Recevez de l'argent avec Ariary.net
                         </Text>
                         <Text style={styles.logoText}>
-                            Devenez un Marchand Vola. 
+                            Devenez un Marchand Vola
                         </Text>
                     </View>
                 </View>
                 <View style={styles.formContainer}>
-                    <LoginForm />
+                    <LoginForm navigation={this.props.navigation} />
                 </View>
             </View>
         );

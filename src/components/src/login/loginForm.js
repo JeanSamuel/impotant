@@ -4,7 +4,12 @@ import { View, Text, StyleSheet, TextInput, TouchableHighlight } from 'react-nat
 import { Button } from 'react-native-elements';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import Services from '../services/services';
+import LoginServices from '../services/loginServices';
 import { Icon } from 'react-native-elements';
+import axios from 'axios';
+import FormData from 'FormData';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // create a component
 class LoginForm extends Component {
@@ -14,7 +19,10 @@ class LoginForm extends Component {
         this.state = {
             errorUser : '',
             errorPassword : '',
-            errorLogin : ''
+            action : null,
+            visible : false,
+            username : '',
+            password : ''
         }
     }
 
@@ -26,27 +34,79 @@ class LoginForm extends Component {
         return this.state.errorPassword
     }
 
-    goLogin(){
-        this.props.navigator.push({
-            id :'home'
+    changeVisibility(){
+        this.setState({visible : !this.state.visible})
+    }
+
+    clearError(){
+        this.setState({
+            errorUser : '',
+            errorPassword : '',
+            action : null
         })
-        console.log('mankato v')
+    }
+
+    setUsername(username){
+        this.setState({username})
+    }
+
+    setPassword(password){
+        this.setState({password})
+    }
+
+    goLogin() {       
+        this.changeVisibility()
+        this.clearError()
+        var url = 'http://ariary.vola.mg/UserRestController.php'
+        var formData = new FormData();
+
+        formData.append('accountId', this.state.username);
+        let data = {
+            method: 'POST',
+            body: formData
+        }
+
+        fetch(url, data)
+        .then((response) => response.json())
+        .then((responseJson) => { 
+            if(responseJson.accountId != null){
+                var service = new Services()
+                service.saveData('user', responseJson.accountId)
+                this.props.navigation.navigate('DrawerExample')
+            }else{
+                var erreur = Services.createError("les données sont vides")
+                this.setState({action : erreur})
+            }
+            this.changeVisibility()
+         })
+        .catch((error) => { 
+            var erreur = Services.createError(error)
+            this.setState({action : erreur})
+        });
+
     }
 
     render() {
         return (
             <View>
                 <View style={styles.input}>
+                    <View>
+                        <Spinner visible={this.state.visible} textStyle={{color: '#FFF'}} />
+                    </View>
+                    <View>
+                        {this.state.action}
+                    </View>
                     <View style={styles.oneInput} > 
                         <FormLabel
                             labelStyle = {styles.inputLabel}
                         >Name</FormLabel>
                         <FormInput 
-                            onChangeText={console.log('aaaa')}
+                            value = {this.state.username}
                             keyboardType = {'email-address'}
                             placeholder= 'your username here...'
                             inputStyle = {styles.inputText}
                             returnKeyType = 'next'
+                            onChangeText = {(text) => this.setUsername(text)}
                             onSubmitEditing = {() => this.passwordInput.focus()}
                             placeholderTextColor = 'rgba(189, 195, 199,0.7)'
                         />
@@ -57,10 +117,11 @@ class LoginForm extends Component {
                             labelStyle = {styles.inputLabel}
                         >Name</FormLabel>
                         <FormInput 
-                            onChangeText={console.log('aaaa')}
+                            value = {this.state.password}
                             returnKeyType = 'go'
-                            ref = {(input) => this.passwordInput = input}
+                            textInputRef = {(input) => this.passwordInput = input}
                             placeholder= 'your password '
+                            onChangeText = {(text) => this.setPassword(text)}
                             inputStyle = {styles.inputText}
                             placeholderTextColor = 'rgba(189, 195, 199,0.7)'
                             secureTextEntry = {true}
@@ -100,7 +161,8 @@ const styles = StyleSheet.create({
     },
     button : {
         opacity : 0.7,
-    }
+    },
+    
 });
 
 //make this component available to the app

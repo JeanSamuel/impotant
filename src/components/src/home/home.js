@@ -1,24 +1,28 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard} from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import QRCode from 'react-native-qrcode-svg';
 import { Icon} from 'react-native-elements';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import DrawerButton from '../slideBar/drawerButton';
+import DrawerButton from '../navigation/drawerButton';
 import styles from '../../styles/HomeStyles';
 import Toast from 'react-native-easy-toast';
+import Services from '../services/services';
  
-
 
 // create a component
 class Home extends Component {
 
-    static navigationOptions = {
-        title : 'Home',
-        headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
-        titleStyle : styles.headerTitle,
-        drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
+    
+    static navigationOptions =({navigation}) => {
+        console.log(navigation)
+        return {
+            title : navigation.state.params.accountId,
+            headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
+            titleStyle : styles.headerTitle,
+            drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
+        }
     }
 
 
@@ -27,19 +31,31 @@ class Home extends Component {
         this.state = {
             type : 'vola',
             data : {
-                'accesToken' : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
-                'currency' :  'mga',
-                'senderId' : '1'
+                'currency' :  'MGA',
+                'userId' : '0'
             },
             amount : '',
             jsonData : '0'
         }
+        // this.checkUserData()
     }
 
-    
+    checkUserData(){
+        this.setState({
+            data : {
+                currency : 'MGA',
+                userId : this.props.navigation.state.params.accountId
+            }
+        })
+    }
+
+
     componentDidMount() {
+        this.checkUserData()
         this.setJsonData(this.generateQrCodeText())
     }
+
+
 
     generateQrCodeText(){
         let myData = {
@@ -47,11 +63,16 @@ class Home extends Component {
             'data' : this.state.data,
             'amount' : this.state.amount
         }
-        return JSON.stringify(myData)
+        var text = JSON.stringify(myData)
+        return text
     }
 
     setJsonData(jsonData){
         this.setState({jsonData})
+    }
+
+    setType(type){
+        this.setState({type})
     }
 
     setUpdate(amount){
@@ -85,20 +106,14 @@ class Home extends Component {
                     fadeOutDuration={1000}
                     activeOpacity={0.5}
                 />
-                <View style={styles.amountContainer}>
-                    <View>
-                        <Image
-                            style = {{width : 70, height:70}}
-                         source = {{uri : 'http://firebirdsql.org/file/about/firebird-logo300.png'}} 
-                         />
-                    </View>
-                    <View>
+                <View>
+                    <View style={styles.amountContainer}>
                         <Text style={styles.amountLabel}>Amount (Ar)</Text> 
                         <TextInput
+                            autoFocus= {true}
                             ref="input"
                             value = {this.state.amount}
                             style={styles.amount}
-                            autoFocus= {false}
                             keyboardType = 'numeric' 
                             onChangeText = {(text) => this.setUpdate(text)}
                         />
@@ -113,6 +128,8 @@ class Home extends Component {
                             value={this.generateQrCodeText()}
                             logo = {logoFromFile}
                             size={170}
+                            logoSize={70}
+                            logoBackgroundColor='transparent'
                         />    
                     </TouchableOpacity>  
                     <Text style={styles.qrText}>

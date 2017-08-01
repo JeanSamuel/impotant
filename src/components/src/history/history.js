@@ -7,7 +7,7 @@ import styles from '../../styles/MainStyles';
 import styleBase from '../../styles/Styles';
 import HistoryServices from '../services/historyServices';
 import Row from './row';
-import DrawerButton from '../slideBar/drawerButton';
+import DrawerButton from '../navigation/drawerButton';
 import axios from 'axios';
 
 
@@ -24,7 +24,7 @@ class History extends Component {
         super(props)
         this.state = {
             token : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
-            accountId : 3,
+            accountId : 1,
             accountName : 'Toavina',
             data : null,
             refreshing : false
@@ -72,7 +72,7 @@ class History extends Component {
             });
             
             return (
-                <View>
+                <View style={styles.listView}>
                     <View style={styles.headerList}>
                         <Text style={styles.greyText}>Nom | Type</Text>
                         <Text  style={styles.greyText}>Amount</Text>

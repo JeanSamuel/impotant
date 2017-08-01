@@ -83,6 +83,9 @@ export default {
         paddingTop : 10,
         paddingBottom : 10,
         backgroundColor : 'rgba(127, 140, 141,0.8)'
+    },
+    listView : {
+        marginBottom : 20
     }
 
 

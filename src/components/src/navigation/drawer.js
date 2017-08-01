@@ -6,7 +6,7 @@ import Home from '../home/home';
 import Style from '../../styles/MainStyles';
 import History from '../history/history';
 import Setting from '../settings/setting';
-import Login from '../login/login';
+import Logout from '../logout/logout';
 import DrawerButton from './drawerButton';
 import DrawerContent from './drawerContent';
 
@@ -30,7 +30,7 @@ const drawerRoutes = {
     },
     Fourth : {
         path : '/sent2',
-        screen : Login
+        screen : Logout
     },
     
 }

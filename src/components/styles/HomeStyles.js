@@ -33,18 +33,18 @@ export default {
     },
     amount : {
         fontSize : 30,
-        textAlign : 'right',
+        textAlign : 'center',
         width : 200
 
     },
     amountContainer : {
-        justifyContent : 'space-between',
-        flexDirection : 'row',
+        justifyContent : 'center',
+        alignItems: 'center',
         marginHorizontal : 20,
     },
     amountLabel : {
         fontSize : 25,
-        textAlign : 'right',
+        textAlign : 'center',
         color : 'rgba(142, 68, 173,1.0)'
     }
 
