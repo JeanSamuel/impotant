@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';  
 
 export default {
-  color : 'rgba(241, 196, 15,1.0)',
+  yellow : 'rgba(241, 196, 15,1.0)',
+  silver : 'rgba(236, 240, 241,1.0)',
   containerBase: {
     flex: 1,
     justifyContent: 'center',

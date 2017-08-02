@@ -23,8 +23,7 @@ class History extends Component {
     constructor(props){
         super(props)
         this.state = {
-            token : 'Azertyukjhgfd245SD3HBVS35FZF52EZ224SFGBVCHNBVC',
-            accountId : 1,
+            accountId : this.props.navigation.state.params.accountId,
             accountName : 'Toavina',
             data : null,
             refreshing : false

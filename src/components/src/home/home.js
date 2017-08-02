@@ -1,30 +1,31 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard, Modal,WebView} from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import QRCode from 'react-native-qrcode-svg';
 import { Icon} from 'react-native-elements';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import DrawerButton from '../navigation/drawerButton';
 import styles from '../../styles/HomeStyles';
+import styleBase from '../../styles/Styles';
 import Toast from 'react-native-easy-toast';
 import Services from '../services/services';
+import Login from '../login/login';
  
 
 // create a component
 class Home extends Component {
-
     
     static navigationOptions =({navigation}) => {
         console.log(navigation)
         return {
-            title : navigation.state.params.accountId,
+            title : 'Nouveau', //+ navigation.state.params.accountId,
+            drawerLabel: 'Home',
             headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
             titleStyle : styles.headerTitle,
             drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
         }
     }
-
 
     constructor(props){
         super(props)
@@ -32,39 +33,42 @@ class Home extends Component {
             type : 'vola',
             data : {
                 'currency' :  'MGA',
-                'userId' : '0'
+                'userId' : ''
             },
             amount : '',
-            jsonData : '0'
+            jsonData : '0',
+            modalVisible: false
         }
         // this.checkUserData()
+    }
+
+    generateQrCodeText(){
+        let myData = {
+            't' : this.state.type,
+            'data' : {
+                'c' : this.state.data.currency,
+                'u' : this.state.data.userId
+            },
+            'a' : this.state.amount
+        }
+        var text = JSON.stringify(myData)
+        return text
     }
 
     checkUserData(){
         this.setState({
             data : {
                 currency : 'MGA',
-                userId : this.props.navigation.state.params.accountId
+                userId : 'azer' //this.props.navigation.state.params.accountId
             }
         })
     }
 
-
     componentDidMount() {
         this.checkUserData()
         this.setJsonData(this.generateQrCodeText())
-    }
-
-
-
-    generateQrCodeText(){
-        let myData = {
-            'type' : this.state.type,
-            'data' : this.state.data,
-            'amount' : this.state.amount
-        }
-        var text = JSON.stringify(myData)
-        return text
+        this.refs.input.focus()
+        Keyboard.dismiss()
     }
 
     setJsonData(jsonData){
@@ -75,13 +79,16 @@ class Home extends Component {
         this.setState({type})
     }
 
+    ChangeModalVisibility() {
+        this.setState({modalVisible: !this.state.modalVisible});
+    }
+
     setUpdate(amount){
         // amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1.')
         this.setState({
             amount : amount,
             jsonData : this.generateQrCodeText()
         })
-        // console.log(this.state)
     }
 
     getJsonData(){
@@ -98,6 +105,7 @@ class Home extends Component {
         let logoFromFile = require('../../images/icons/logo.png');
         return (
             <View  style={styles.container}>
+                
                 <Toast 
                     ref="toast"
                     position='top'
@@ -109,16 +117,18 @@ class Home extends Component {
                 <View>
                     <View style={styles.amountContainer}>
                         <Text style={styles.amountLabel}>Amount (Ar)</Text> 
-                        <TextInput
-                            autoFocus= {true}
+                        <TextInput          
                             ref="input"
                             value = {this.state.amount}
                             style={styles.amount}
                             keyboardType = 'numeric' 
                             onChangeText = {(text) => this.setUpdate(text)}
+                            autoFocus= {false}
                         />
                     </View>
-                </View>    
+                </View>  
+
+                {/* QR Code   */}
                 <View style={styles.row}>
                     <TouchableOpacity
                         activeOpacity={0.2}
@@ -129,14 +139,67 @@ class Home extends Component {
                             logo = {logoFromFile}
                             size={170}
                             logoSize={70}
-                            logoBackgroundColor='transparent'
+                        
                         />    
                     </TouchableOpacity>  
                     <Text style={styles.qrText}>
-                            Prenez en photo avec le ClientVola pour recevoir de l'argent ou Toucher 2 ou 3s pour copier dans le presse-papier
+                            Prenez en photo avec le ClientVola pour recevoir de l'argent
                     </Text>
                 </View>    
-                <KeyboardSpacer ref="keyboard"   />
+                
+                <KeyboardSpacer ref="keyboard"   /> 
+
+                {/* Modal signin or warning  */}
+                <Modal
+                    animationType={"slide"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => this.ChangeModalVisibility()}
+                    >
+                    <View style={styles.modalContainer}>
+                        <View style = {styles.closeTextContainer}>
+                            <TouchableOpacity 
+                                style = {styles.closeTextObject}
+                                onPress = {() => this.ChangeModalVisibility()}
+                            >
+                                <Icon name="close" size= {20}  color = {'rgba(236, 240, 241,1.0)'}/>
+                                <Text style = {styles.closeText}>Fermer</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.webViewContainer}>
+                            
+                            <Login />
+                        </View> 
+                    </View>
+                </Modal>
+
+                <View>
+                    {/* Button for the  signupButton */}
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity 
+                            activeOpacity={0.8}
+                            style = {styles.loginButton}
+                            onPress={() => {
+                                this.ChangeModalVisibility()
+                            }}>
+                            <Icon name ='input'  size= {20} color={styleBase.silver}/>
+                            <Text style = {styles.signinButtonText}> Save my new account</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            activeOpacity={0.8}
+                            style = {styles.signinButton}
+                            onPress={() => {
+                                this.ChangeModalVisibility()
+                            }}>
+                            <Icon name ='login' type ='material-community' size= {15} color={styleBase.silver}/>
+                            <Text style = {styles.loginButtonText}> Login with Ariary.net</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+
+                
+                
             </View>
         );
     }

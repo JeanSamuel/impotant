@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, StatusBar } from 'react-native';
 // import DrawerExample from './components/src/navigation/drawer';
 import Login from './components/src/login/login';
 import Login2 from './components/src/login/login2';
+import Drawer from './components/src/navigation/drawer';
 import MainStack from './components/src/navigation/mainStack';
 import TestShare from './components/src/login/login2';
 
@@ -17,7 +18,7 @@ class Index extends Component {
     return (
       <View style = {{flex : 1}}>
         <StatusBar hidden = {true} />
-        <MainStack />
+        <Drawer />
       </View>
       
     );

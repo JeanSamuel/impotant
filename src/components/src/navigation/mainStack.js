@@ -6,12 +6,13 @@ import DrawerExample from './drawer';
 import Login from '../login/login2';
 
 const MainStack = new StackNavigator({
+    
+    DrawerExample : {
+        screen : DrawerExample
+    },
     Login : {
         screen : Login
     },
-    DrawerExample : {
-        screen : DrawerExample
-    }
 },{
     navigationOptions : ({
         header: null,

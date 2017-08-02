@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { Icon, } from 'react-native-elements';
+import { WebView } from 'react-native';
 
 // create a component
 class Setting extends Component {
@@ -16,19 +17,10 @@ class Setting extends Component {
 
     render() {
         return (
-            <View
-                style = {{
-                    flex : 1,
-                    justifyContent : 'center',
-                    alignItems : 'center'
-                }}
-            >
-                <Text>Settin</Text>
-                <Button
-                    onPress = { () =>this.props.navigation.navigate('DrawerOpen')}
-                    title = "Open DrawerNavigator"
-                 />
-            </View>
+        <WebView
+            source={{uri: 'https://github.com/facebook/react-native'}}
+            style={{marginTop: 20}}
+        />
         );
     }
 }

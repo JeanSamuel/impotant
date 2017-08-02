@@ -1,74 +1,57 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import LoginForm from './loginForm';
-import {StackNavigator} from 'react-navigation';
-import { Icon } from 'react-native-elements';
-import Services from '../services/loginServices';
+import { View, Text, StyleSheet, WebView, Dimensions, TouchableOpacity } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { Icon} from 'react-native-elements';
 
+
+const { width, height } = Dimensions.get("window");
 // create a component
-class Login extends Component {
+class MyClass extends Component {
 
-    static navigationOptions = {
-        title : 'Login',
-        headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
-        drawerIcon : ({tintColor}) => <Icon name="login" size= {25} type={'material-community'} />,
-    }
     constructor(props){
         super(props)
         this.state = {
-            username : '',
-            password : '',
+            spinnerVisibility : false,
         }
     }
 
+    changeSpinnerVisibility(spinnerVisibility){
+        this.setState({spinnerVisibility})
+    }
+
     render() {
+        errorView = (
+            <View>
+                <Text>Erreur de connexion</Text>
+            </View>
+        )
         return (
             <View style={styles.container}>
-                <View style={styles.formContainer}>
-                    <Image 
-                        source={require('../../images/icons/online-store.png')} 
-                        style={styles.logoImage}
-                    />
-                    <View>
-                        <Text style={styles.logoText}>
-                            Recevez de l'argent avec Ariary.net
-                        </Text>
-                        <Text style={styles.logoText}>
-                            Devenez un Marchand Vola
-                        </Text>
-                    </View>
+                <View>
+                    <Spinner visible={this.state.spinnerVisibility} textStyle={{color: '#FFF'}} />
                 </View>
-                <View style={styles.formContainer}>
-                    <LoginForm navigation={this.props.navigation} />
-                </View>
-            </View>
+                <WebView
+                    source={{uri: 'https://twitter.com/login?lang=fr'}}
+                    style={styles.webview}
+                    onLoadStart = {() => this.changeSpinnerVisibility(true)}
+                    onLoadEnd = {() => this.changeSpinnerVisibility(false)}
+                    onRenderError = {() => console.log('zerty')}
+                />
+            </View>    
         );
     }
 }
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'rgba(22, 160, 133,1.0)',
-        justifyContent: 'center',
-        alignItems: 'center',
+    container : {
+        flex :1
     },
-
-    formContainer : {
-        alignItems: 'center',
-    },
-    logoImage : {
-        width : 100,
-        height:100
-    },
-    logoText : {
-        textAlign : 'center',
-        color : 'rgba(236, 240, 241,1.0)',
-        fontSize: 15
+    webview : {
+         
     }
 });
 
 //make this component available to the app
-export default Login;
+export default MyClass;

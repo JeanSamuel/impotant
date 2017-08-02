@@ -16,7 +16,7 @@ import LoginForm from './loginForm2';
 
 
 const background = require("../../images/back.png");
-const mark = require("../../images/icons/login1_mark.png");
+const mark = require("../../images/icons/login2_mark.png");
 const lockIcon = require("../../images/icons/login1_lock.png");
 const personIcon = require("../../images/icons/login1_person.png");
 

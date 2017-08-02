@@ -8,7 +8,7 @@ export default {
   },
   markWrap: {
     flex: 1,
-    paddingVertical: 30,
+    marginTop : 50,
   },
   mark: {
     width: null,
