@@ -93,19 +93,19 @@ class LoginForm extends Component {
                         {this.state.error}
                     </View>
                     <View style={styles.inputWrap}>
-                    <View style={styles.iconWrap}>
-                        <Image source={personIcon} style={styles.icon} resizeMode="contain" />
-                    </View>
-                    <TextInput 
-                        onChangeText = {(text) => this.setState({username : text})}
-                        placeholder="Username" 
-                        keyboardType = 'email-address'
-                        placeholderTextColor="rgba(236, 240, 241,0.5)"
-                        style={styles.input} 
-                        underlineColorAndroid = 'transparent'
-                        onSubmitEditing = {() => this.passwordInput.focus()}
-                        returnKeyType = 'next'
-                    />
+                        <View style={styles.iconWrap}>
+                            <Image source={personIcon} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput 
+                            onChangeText = {(text) => this.setState({username : text})}
+                            placeholder="Username" 
+                            keyboardType = 'email-address'
+                            placeholderTextColor="rgba(236, 240, 241,0.5)"
+                            style={styles.input} 
+                            underlineColorAndroid = 'transparent'
+                            onSubmitEditing = {() => this.passwordInput.focus()}
+                            returnKeyType = 'next'
+                        />
                     </View>
                     <View style={styles.inputWrap}>
                     <View style={styles.iconWrap}>

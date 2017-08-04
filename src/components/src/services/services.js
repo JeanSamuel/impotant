@@ -57,6 +57,10 @@ class Services extends Component {
             console.log("la clé n'existe plus")
         }
     }
+
+    static getRandomIntoArray(myArray){
+        return myArray[Math.floor(Math.random() * myArray.length)];
+    }
 }
 
 

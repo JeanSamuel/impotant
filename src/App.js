@@ -18,7 +18,7 @@ class Index extends Component {
     return (
       <View style = {{flex : 1}}>
         <StatusBar hidden = {true} />
-        <Drawer />
+        <MainStack />
       </View>
       
     );

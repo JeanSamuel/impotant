@@ -5,19 +5,40 @@ export default {
   silver : 'rgba(236, 240, 241,1.0)',
   containerBase: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   error : {
         flexDirection : 'row',
         alignItems : 'center',
         justifyContent : 'center',
-        
     },
     errorText : {
       color : '#FFF',
       marginHorizontal : 5
+    },
+    centered : {
+      alignItems : 'center',
+      justifyContent : 'center',
+    },
+    textWhiteCentered : {
+      textAlign : 'center',
+      color : '#FFF'
+    },
+    textWhite :{
+      color : '#FFF'
+    },
+    textWhiteBold : {
+      color : '#FFF',
+      fontWeight : 'bold'
+    },
+    textCenter : {
+      textAlign : 'center'
+    },
+    alignCentered : {
+        flexDirection : 'row',
+        alignItems : 'center',
+        justifyContent : 'center',
     }
+
+
   
 }

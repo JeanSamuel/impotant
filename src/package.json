@@ -1,5 +1,5 @@
 {
-  "name": "MarchandVola",
+  "name": "MarchandAriary",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -23,17 +23,13 @@
     "expo": "^18.0.3",
     "moment": "^2.18.1",
     "react": "16.0.0-alpha.12",
-    "react-native": "^0.45.1",
+    "react-native": "0.45.0",
     "react-native-easy-toast": "^1.0.6",
     "react-native-elements": "0.14.0",
-    "react-native-fbsdk": "^0.6.1",
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-loading-spinner-overlay": "^0.5.1",
-    "react-native-qrcode-svg": "^5.0.0",
-    "react-native-share": "^1.0.20",
-    "react-native-simple-login": "^1.1.0",
-    "react-native-social-share": "^1.1.0",
-    "react-native-svg": "^5.2.0",
+    "react-native-qrcode-svg": "5.0.0",
+    "react-native-svg": "5.2.0",
     "react-navigation": "^1.0.0-beta.11"
   }
 }
