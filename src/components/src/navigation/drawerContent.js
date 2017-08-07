@@ -22,7 +22,13 @@ export default class DrawerContent extends Component {
         return this.state.report
     }
 
-    checkSolde() {
+    async checkSolde() {
+        var user_id = await new Services().getData('user_id')
+        this.setState({
+            ownerId : user_id,
+            ownerName : user_id
+        })
+        console.log(this.state)
         var url = 'http://ariary.vola.mg/balance/'+ this.state.ownerId
         axios.get(
             url
@@ -39,7 +45,7 @@ export default class DrawerContent extends Component {
         let reportFormated = Services.formatNumber(this.getReport())
         return (
             <View style={{elevation: 10}}>
-                    <View style={{height:150,backgroundColor:'rgba(52, 152, 219,1.0)', padding : 20}}>
+                    <View style={{height:150,backgroundColor:'rgba(41, 128, 185,1.0)', padding : 20}}>
                         <View >
                             <View style={{marginTop:20, flexDirection:'row', justifyContent : 'space-between'}}>
                                 <View>

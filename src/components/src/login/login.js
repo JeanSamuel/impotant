@@ -1,24 +1,55 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, WebView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, WebView, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Icon} from 'react-native-elements';
+import Services from '../services/services';
+import styleBase from '../../styles/Styles';
 
 
 const { width, height } = Dimensions.get("window");
+const uri = Services.loginUrl()
 // create a component
-class MyClass extends Component {
+class Login extends Component {
 
     constructor(props){
         super(props)
         this.state = {
             spinnerVisibility : false,
+            saving : false
         }
     }
 
-    changeSpinnerVisibility(spinnerVisibility){
-        this.setState({spinnerVisibility})
+    changeSpinnerVisibility(value){
+        this.setState({spinnerVisibility : value})
     }
+
+    async _onNavigationStateChange(webViewState){
+        var service = new Services()
+        if(webViewState.url != uri && !this.state.saving){
+            this.changeSpinnerVisibility(true)
+            
+            this.setState({saving : true})
+            var user_id = await service.goLogin(webViewState)
+            this.props.modal()
+            console.log('eto le misy erreur')
+            // this.changeSpinnerVisibility(false)
+            this.props.navigation.navigate('DrawerExample', {'user_id' : user_id})
+        }  
+    }
+
+    onErrorLoading(webViewState){
+        console.log('nis erreur de connexion ')
+    }
+
+    webviewRenderError =  (errorDomain, errorCode, errorDesc) => (
+        <View >
+        <Text >
+            No Internet Connection
+        </Text>
+        </View>
+    )
+
 
     render() {
         errorView = (
@@ -32,12 +63,16 @@ class MyClass extends Component {
                     <Spinner visible={this.state.spinnerVisibility} textStyle={{color: '#FFF'}} />
                 </View>
                 <WebView
-                    source={{uri: 'https://twitter.com/login?lang=fr'}}
+                    ref = 'webview'
+                    source={{uri : uri}}
                     style={styles.webview}
-                    onLoadStart = {() => this.changeSpinnerVisibility(true)}
-                    onLoadEnd = {() => this.changeSpinnerVisibility(false)}
-                    onRenderError = {() => console.log('zerty')}
+                    onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+                    renderLoading = {this.renderLoading}
+                    onError={this.onErrorLoading.bind(this)}
+                    renderError = {() => this.webviewRenderError()}
+                    startInLoadingState
                 />
+
             </View>    
         );
     }
@@ -54,4 +89,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default MyClass;
+export default Login;

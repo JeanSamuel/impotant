@@ -14,12 +14,15 @@ import Login from '../login/login';
  
 
 // create a component
+const service = new Services()
+
+
 class Home extends Component {
-    
+
+
     static navigationOptions =({navigation}) => {
-        console.log(navigation)
         return {
-            title : 'Nouveau', //+ navigation.state.params.accountId,
+            title : navigation.state.params.user_id,
             drawerLabel: 'Home',
             headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
             titleStyle : styles.headerTitle,
@@ -39,7 +42,6 @@ class Home extends Component {
             jsonData : '0',
             modalVisible: false
         }
-        // this.checkUserData()
     }
 
     generateQrCodeText(){
@@ -59,7 +61,7 @@ class Home extends Component {
         this.setState({
             data : {
                 currency : 'MGA',
-                userId : 'azer' //this.props.navigation.state.params.accountId
+                userId : this.props.navigation.state.params.user_id
             }
         })
     }
@@ -67,8 +69,6 @@ class Home extends Component {
     componentDidMount() {
         this.checkUserData()
         this.setJsonData(this.generateQrCodeText())
-        this.refs.input.focus()
-        Keyboard.dismiss()
     }
 
     setJsonData(jsonData){
@@ -123,7 +123,7 @@ class Home extends Component {
                             style={styles.amount}
                             keyboardType = 'numeric' 
                             onChangeText = {(text) => this.setUpdate(text)}
-                            autoFocus= {false}
+                            autoFocus= {true}
                         />
                     </View>
                 </View>  
@@ -147,59 +147,7 @@ class Home extends Component {
                     </Text>
                 </View>    
                 
-                <KeyboardSpacer ref="keyboard"   /> 
-
-                {/* Modal signin or warning  */}
-                <Modal
-                    animationType={"slide"}
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => this.ChangeModalVisibility()}
-                    >
-                    <View style={styles.modalContainer}>
-                        <View style = {styles.closeTextContainer}>
-                            <TouchableOpacity 
-                                style = {styles.closeTextObject}
-                                onPress = {() => this.ChangeModalVisibility()}
-                            >
-                                <Icon name="close" size= {20}  color = {'rgba(236, 240, 241,1.0)'}/>
-                                <Text style = {styles.closeText}>Fermer</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.webViewContainer}>
-                            
-                            <Login />
-                        </View> 
-                    </View>
-                </Modal>
-
-                <View>
-                    {/* Button for the  signupButton */}
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity 
-                            activeOpacity={0.8}
-                            style = {styles.loginButton}
-                            onPress={() => {
-                                this.ChangeModalVisibility()
-                            }}>
-                            <Icon name ='input'  size= {20} color={styleBase.silver}/>
-                            <Text style = {styles.signinButtonText}> Save my new account</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            activeOpacity={0.8}
-                            style = {styles.signinButton}
-                            onPress={() => {
-                                this.ChangeModalVisibility()
-                            }}>
-                            <Icon name ='login' type ='material-community' size= {15} color={styleBase.silver}/>
-                            <Text style = {styles.loginButtonText}> Login with Ariary.net</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-                
-                
+                <KeyboardSpacer ref="keyboard"   />                 
             </View>
         );
     }

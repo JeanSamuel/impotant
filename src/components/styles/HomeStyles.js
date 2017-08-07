@@ -4,7 +4,7 @@ const { width, height } = Dimensions.get("window");
 
 export default {
     header : {
-        backgroundColor : 'rgba(52, 152, 219,1.0)',
+        backgroundColor : 'rgba(41, 128, 185,1.0)',
         justifyContent: 'center',
         paddingHorizontal : 15
     },

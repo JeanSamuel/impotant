@@ -24,6 +24,10 @@ class StarterButton extends Component {
         this.props.navigation.navigate('NewUser')
     }
 
+    getRefs(modal){
+        this.refs.modal.visible(false)
+    }
+
     render() {
         return (
             <View>
@@ -47,6 +51,7 @@ class StarterButton extends Component {
                 </TouchableOpacity>
                 <Modal
                     animationType={"slide"}
+                    ref = 'modal'
                     transparent={true}
                     visible={this.state.modalVisible}
                     onRequestClose={() => this.ChangeModalVisibility()}
@@ -63,7 +68,7 @@ class StarterButton extends Component {
                         </View>
                         <View style={styles.webViewContainer}>
                             
-                            <Login />
+                            <Login navigation = {this.props.navigation} modal={this.ChangeModalVisibility.bind(this)} />
                         </View> 
                     </View>
                 </Modal>

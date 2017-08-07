@@ -14,22 +14,32 @@ import axios from 'axios';
 // create a component
 class History extends Component {
 
-    static navigationOptions = {
-        title : 'History',
-        drawerIcon : ({tintColor}) => <Icon name="list" size= {25} />,
-        headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
+    static navigationOptions =(navigation) => {
+        return {
+            title : '',
+            drawerLabel: 'History',
+            drawerIcon : ({tintColor}) => <Icon name="list" size= {25} />,
+            headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
+        }
     }
 
     constructor(props){
         super(props)
         this.state = {
-            accountId : this.props.navigation.state.params.accountId,
+            accountId : this.props.navigation.state.params.user_id,
             accountName : 'Toavina',
             data : null,
             refreshing : false
         }
-        this.getHistory()
+        this.getHistory(this)
     }
+
+    setAccount(user_Id){
+        this.setState({
+            accountId : user_Id
+        })
+    }
+
 
     getHistory(){
         var url = 'http://ariary.vola.mg/transaction/'+ this.state.accountId
@@ -39,6 +49,14 @@ class History extends Component {
         }).catch((error) =>{
             console.log(error)
         })
+        // fetch(url, {method : 'GET'})
+        // .then((response) => response.json())
+        // .then((responseJson) => { 
+        //      this.setState({data : this.refactHistory(responseJson)})
+        // })
+        // .catch((error) => { 
+        //     console.log('error GetHistory :', error)
+        // });
     }
 
     _onRefresh() {
