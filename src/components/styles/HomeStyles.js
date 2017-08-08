@@ -3,25 +3,15 @@ import { StyleSheet,Dimensions } from 'react-native';
 const { width, height } = Dimensions.get("window");
 
 export default {
-    header : {
-        backgroundColor : 'rgba(41, 128, 185,1.0)',
-        justifyContent: 'center',
-        paddingHorizontal : 15
-    },
     row : {
         justifyContent: 'center',
         alignItems: 'center',
-        flexGrow : 1,
-
+        marginTop : 20
     },
     container: {
         flex: 1,
         backgroundColor: '#FFF',
         
-    },
-    headerTitle : {
-        color : "#ecf0f1",
-        fontSize : 25
     },
     qrText : {
         textAlign : 'center',
@@ -32,6 +22,13 @@ export default {
     },
     input : {
 
+    },
+    invalidInput : {
+        flexDirection : 'row'
+    },
+    invalidInputText : {
+        color : 'red',
+        paddingHorizontal : 5
     },
     amount : {
         fontSize : 30,

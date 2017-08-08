@@ -109,7 +109,7 @@ class NewUser extends Component {
                              style={styles.iconWrap}
                              onPress = {this.editValue.bind(this)}
                              activeOpacity = {0.7}
-                            >
+                            >  
                                 <Icon name="edit" size= {30} />
                             </TouchableOpacity>
                         </View>

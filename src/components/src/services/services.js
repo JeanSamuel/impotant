@@ -11,6 +11,33 @@ import FormData from 'FormData';
 
 // create a component
 class Services extends Component {
+
+    loadData(){
+        var promise = new Promise((resolve, reject) => { 
+        setTimeout(() => {
+            console.log('This happens 5th (after 3 seconds).');
+            resolve('This is my data.');
+        }, 3000);
+        });
+    }
+
+    async getInitialRoutes(){
+        var isLogged = await this.isLogged()
+        var response = 'Starter'
+        console.log('is logged' , isLogged)
+        if(isLogged) response = 'DrawerExample'
+
+        return response
+    }
+
+    async isLogged(){
+        var oAuthCode = await this.getData('oauthCode')
+        if(oAuthCode === null){
+            return false
+        }
+        return true
+    }
+
     static formatNumber(number){
         return String(number).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
     }
@@ -48,35 +75,49 @@ class Services extends Component {
     }
 
     async saveData(key, value){
-        console.log('début sauvegarde de données avec la clé : ', key)
         try {
             await AsyncStorage.setItem(key, value);
         } catch (error) {
             throw ('something went wrong when saving data')
         }
-        console.log('fin sauvegarde de données avec la clé : ', key)
     }
 
+
     async getData(key){
-        console.log('début prise de donnée de la clé : ', key)
         try { 
             return await AsyncStorage.getItem(key);
         } catch (error) {
             console.log("la clé n'existe pas")
         }
-        console.log('fin prise de donnée avec clé ', key)
     }
 
-    async removeData(key){
-        console.log('début suppression de donnée')
+    /**
+     * Supprimer des données de connexion
+     * @param {*} key : la clé du donnée à supprimer
+     */
+    async logout(){
+        let keys = ['token', 'oauthCode', 'user_id' ]
         try { 
-            await AsyncStorage.removeItem(key);
+            await AsyncStorage.multiRemove(keys, (err) =>{
+                console.log('misy tsy nety')
+            });
         } catch (error) {
             console.log("la clé n'existe plus")
         }
-        console.log('fin de la suppression avec clé ', key)
     }
 
+    async removeAll(){
+        try {
+            await AsyncStorage.removeAll();
+        } catch (error) {
+            console.log("Erreur lors de la supression")
+        }
+    }
+
+    /**
+     * liste  des webservices à faire et les données à stocké lors d'une connexion
+     * @param {*} webViewState : l'etat actuel dela fenetre de login (Webview)
+     */
     async goLogin(webViewState){
         
         var OauthCode = await this.extractOauthCode(webViewState.url)

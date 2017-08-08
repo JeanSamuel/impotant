@@ -7,6 +7,7 @@ import styles from '../../styles/MainStyles';
 import styleBase from '../../styles/Styles';
 import HistoryServices from '../services/historyServices';
 import Row from './row';
+import Error from './errorHistory';
 import DrawerButton from '../navigation/drawerButton';
 import axios from 'axios';
 
@@ -16,9 +17,10 @@ class History extends Component {
 
     static navigationOptions =(navigation) => {
         return {
-            title : '',
+            title : 'History',
             drawerLabel: 'History',
             drawerIcon : ({tintColor}) => <Icon name="list" size= {25} />,
+            titleStyle : styleBase.headerTitle,
             headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
         }
     }
@@ -29,7 +31,8 @@ class History extends Component {
             accountId : this.props.navigation.state.params.user_id,
             accountName : 'Toavina',
             data : null,
-            refreshing : false
+            refreshing : false,
+            loadingError : false
         }
         this.getHistory(this)
     }
@@ -43,10 +46,12 @@ class History extends Component {
 
     getHistory(){
         var url = 'http://ariary.vola.mg/transaction/'+ this.state.accountId
-        console.log('url', url)
         axios.get(url).then((response) =>{
             this.setState({data : this.refactHistory(response.data)})
         }).catch((error) =>{
+            this.setState({
+                loadingError : true
+            })
             console.log(error)
         })
         // fetch(url, {method : 'GET'})
@@ -76,12 +81,19 @@ class History extends Component {
     }
 
     render() {
-        if(this.state.data === null){
+        if(this.state.data === null && !this.state.loadingError){
             return (
                 <View style = {styleBase.containerBase}>
                     <ActivityIndicator size="large"  />  
                 </View>
             );  
+        }
+        else if (this.state.data === null && this.state.loadingError) {
+            return (
+                <View>
+                    <Error />
+                </View>
+            )
         }else{
             const ds = new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2,
@@ -112,8 +124,8 @@ class History extends Component {
 }
 
 const navigationOptions = {
-    headerStyle : styles.header,
-    headerTitleStyle : styles.headerTitle
+    headerStyle : styleBase.header,
+    headerTitleStyle : styleBase.headerTitle
 }
 
 const stackHistory = new StackNavigator({

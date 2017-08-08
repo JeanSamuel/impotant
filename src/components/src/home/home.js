@@ -10,7 +10,7 @@ import styles from '../../styles/HomeStyles';
 import styleBase from '../../styles/Styles';
 import Toast from 'react-native-easy-toast';
 import Services from '../services/services';
-import Login from '../login/login';
+import WarningInput from './warningInput';
  
 
 // create a component
@@ -25,7 +25,7 @@ class Home extends Component {
             title : navigation.state.params.user_id,
             drawerLabel: 'Home',
             headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
-            titleStyle : styles.headerTitle,
+            titleStyle : styleBase.headerTitle,
             drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
         }
     }
@@ -40,7 +40,9 @@ class Home extends Component {
             },
             amount : '',
             jsonData : '0',
-            modalVisible: false
+            modalVisible: false,
+            isInvalidData : false,
+            warning : null
         }
     }
 
@@ -85,10 +87,18 @@ class Home extends Component {
 
     setUpdate(amount){
         // amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1.')
-        this.setState({
-            amount : amount,
-            jsonData : this.generateQrCodeText()
-        })
+            if(isNaN(amount)){
+                this.setState({
+                    warning : (
+                        <WarningInput />
+                    )
+                })
+            }else{
+                this.setState({
+                amount : amount,
+                jsonData : this.generateQrCodeText()
+            })
+            }
     }
 
     getJsonData(){
@@ -98,11 +108,12 @@ class Home extends Component {
     copyToClipBoard(){
         Clipboard.setString(this.generateQrCodeText())
         this.refs.toast.show('Copié dans le presse-papier!!')
-        Keyboard.dismiss()
+        
     }
 
     render() {
         let logoFromFile = require('../../images/icons/logo.png');
+
         return (
             <View  style={styles.container}>
                 
@@ -125,13 +136,14 @@ class Home extends Component {
                             onChangeText = {(text) => this.setUpdate(text)}
                             autoFocus= {true}
                         />
+                        <View>{this.state.warning}</View>
                     </View>
                 </View>  
 
                 {/* QR Code   */}
                 <View style={styles.row}>
                     <TouchableOpacity
-                        activeOpacity={0.2}
+                        activeOpacity={0.8}
                         onLongPress = {() => this.copyToClipBoard()}
                     >
                         <QRCode  
@@ -146,7 +158,6 @@ class Home extends Component {
                             Prenez en photo avec le ClientVola pour recevoir de l'argent
                     </Text>
                 </View>    
-                
                 <KeyboardSpacer ref="keyboard"   />                 
             </View>
         );
@@ -154,8 +165,8 @@ class Home extends Component {
 }
 
 const navigationOptions = {
-    headerStyle : styles.header,
-    headerTitleStyle : styles.headerTitle
+    headerStyle : styleBase.header,
+    headerTitleStyle : styleBase.headerTitle
 }
 
 const stackHome = new StackNavigator({

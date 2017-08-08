@@ -12,7 +12,7 @@ export default class DrawerContent extends Component {
         this.state = {
             solde : '',
             report : 'null',
-            ownerId : 3,
+            ownerId : 0,
             ownerName : 'Toavina Ralambosoa'
         }
         this.checkSolde()
@@ -28,7 +28,6 @@ export default class DrawerContent extends Component {
             ownerId : user_id,
             ownerName : user_id
         })
-        console.log(this.state)
         var url = 'http://ariary.vola.mg/balance/'+ this.state.ownerId
         axios.get(
             url

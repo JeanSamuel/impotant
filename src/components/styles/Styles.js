@@ -37,7 +37,16 @@ export default {
         flexDirection : 'row',
         alignItems : 'center',
         justifyContent : 'center',
-    }
+    },
+      headerTitle : {
+        color : "#ecf0f1",
+        fontSize : 25
+    },
+      header : {
+        backgroundColor : 'rgba(41, 128, 185,1.0)',
+        justifyContent: 'center',
+        paddingHorizontal : 15
+    },
 
 
   
