@@ -38,8 +38,20 @@ class Services extends Component {
         return true
     }
 
+    /**
+     * Mise en forme d'un nombre (sous format string)
+     * @param {*} number 
+     */
     static formatNumber(number){
-        return String(number).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
+        var dataformat = String(number).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
+        dataformat = dataformat.replace('-','')
+        var value = parseFloat(number)
+        var sign = '+ '
+        if(value < 0){
+            sign = '- '
+        }
+        dataformat = sign + dataformat
+        return dataformat
     }
 
     static waiting(){

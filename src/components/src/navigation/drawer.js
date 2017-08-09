@@ -7,6 +7,8 @@ import Style from '../../styles/MainStyles';
 import History from '../history/history';
 import Setting from '../settings/setting';
 import Logout from '../logout/logout';
+import About from '../about/about';
+import UserInfo from '../userInfo/userInfo';
 import DrawerButton from './drawerButton';
 import DrawerContent from './drawerContent';
 
@@ -21,17 +23,28 @@ const drawerRoutes = {
         
     },
     Second : {
+        path : '/userinfo',
+        screen : UserInfo,
+        
+    },
+    Third : {
         path : '/sent',
         screen : History
     },
-    Third : {
+    
+    Fourth : {
+        path : '/',
+        screen : About,
+        
+    },
+    Fifth : {
         path : '/sent1',
         screen : Setting
     },
-    Fourth : {
+    Sixth : {
         path : '/sent2',
-        screen : Logout
-    },
+        screen : Logout,
+    }
     
 }
 

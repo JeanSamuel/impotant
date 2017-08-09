@@ -60,7 +60,7 @@ class Logout extends Component{
                                     <Text style={styles.titleText}>Déconnecter votre compte de ce mobile</Text>
                                 </View>
                                 <View style={[styles.content]} >
-                                    <Text style={styles.contentText}>Une perte de compte pourrait survenir si votre compte n'est pas encore complet</Text>
+                                    <Text style={styles.contentText}>Une perte pourrait survenir si votre compte n'est pas encore complet</Text>
                                     
                                     <Text style={styles.contentText}>Voulez vous vraiment vous déconnecter?</Text>
                                     

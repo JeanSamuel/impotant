@@ -1,14 +1,16 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { Icon } from 'react-native-elements';
 
 // create a component
-class Sharing extends Component {
+class MyClass extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Sharing</Text>
-            </View>
+            <ModalDropdown options={['option 1', 'option 2']} >
+                <Icon name="help" color="#ecf0f1" size= {30} />
+            </ModalDropdown>
         );
     }
 }
@@ -24,4 +26,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Sharing;
+export default MyClass;

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import Services from '../services/services';
 
+const mark = require("../../images/icons/logo-pro.png");
 
 export default class DrawerContent extends Component {
 
@@ -48,7 +49,7 @@ export default class DrawerContent extends Component {
                         <View >
                             <View style={{marginTop:20, flexDirection:'row', justifyContent : 'space-between'}}>
                                 <View>
-                                    <Icon name="user-circle" color="#ecf0f1" size= {60} type='font-awesome' />
+                                    <Image source={mark} style={{width: 80, height : 80}} resizeMode='contain'/>
                                 </View>
                                 <View>
                                     <Text style={{fontSize:25,color:'#fff',textAlign:'right'}}>

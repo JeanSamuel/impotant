@@ -17,10 +17,9 @@ class Setting extends Component {
 
     render() {
         return (
-        <WebView
-            source={{uri: 'https://github.com/facebook/react-native'}}
-            style={{marginTop: 20}}
-        />
+            <View>
+                <Text>Bienvenue dans les configurations</Text>
+            </View>
         );
     }
 }

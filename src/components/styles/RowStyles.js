@@ -20,7 +20,7 @@ export default {
         fontWeight : 'bold',
         fontSize : 22,
         textAlign : 'right',
-        color : 'rgba(44, 62, 80,1.0)'
+        color : 'rgba(22, 160, 133,1.0)'
     },
     amountContainer : {
         justifyContent : 'center',
@@ -43,10 +43,10 @@ export default {
         fontSize : 20,
         fontWeight : 'bold',
         textAlign : 'right',
-        color : 'rgba(44, 62, 80,1.0)',
+        color : 'rgba(22, 160, 133,1.0)',
         paddingRight : 5
     }, 
     currencyNegative : {
-        color : 'rgba(192, 57, 43,1.0)'
+        color : 'rgba(44, 62, 80,1.0)'
     }
 }

@@ -10,6 +10,7 @@ import styles from '../../styles/HomeStyles';
 import styleBase from '../../styles/Styles';
 import Toast from 'react-native-easy-toast';
 import Services from '../services/services';
+import Sharing from '../sharing/sharing';
 import WarningInput from './warningInput';
  
 
@@ -24,7 +25,7 @@ class Home extends Component {
         return {
             title : navigation.state.params.user_id,
             drawerLabel: 'Home',
-            headerRight: <Icon name="share" color="#ecf0f1" size= {30} />,
+            headerRight: <Sharing />,
             titleStyle : styleBase.headerTitle,
             drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
         }
@@ -47,16 +48,21 @@ class Home extends Component {
     }
 
     generateQrCodeText(){
+        amount = '0'
+        if(this.state.amount !== ''){
+            amount = this.state.amount
+        }
         let myData = {
             't' : this.state.type,
             'data' : {
                 'c' : this.state.data.currency,
                 'u' : this.state.data.userId
             },
-            'a' : this.state.amount
+            'a' : amount
         }
-        var text = JSON.stringify(myData)
-        return text
+        var dataJSON = JSON.stringify(myData)
+        return dataJSON
+
     }
 
     checkUserData(){
@@ -86,7 +92,7 @@ class Home extends Component {
     }
 
     setUpdate(amount){
-        // amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1.')
+        amount = amount.replace(/ /g, '')        
             if(isNaN(amount)){
                 this.setState({
                     warning : (
@@ -94,9 +100,11 @@ class Home extends Component {
                     )
                 })
             }else{
+                amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
                 this.setState({
                 amount : amount,
-                jsonData : this.generateQrCodeText()
+                jsonData : this.generateQrCodeText(),
+                warning : null
             })
             }
     }
@@ -128,14 +136,17 @@ class Home extends Component {
                 <View>
                     <View style={styles.amountContainer}>
                         <Text style={styles.amountLabel}>Amount (Ar)</Text> 
-                        <TextInput          
-                            ref="input"
-                            value = {this.state.amount}
-                            style={styles.amount}
-                            keyboardType = 'numeric' 
-                            onChangeText = {(text) => this.setUpdate(text)}
-                            autoFocus= {true}
-                        />
+                        <View style={styles.inputWarp}>
+                            <TextInput          
+                                ref="input"
+                                value = {this.state.amount}
+                                style={styles.amount}
+                                keyboardType = 'numeric' 
+                                underlineColorAndroid = 'transparent'
+                                onChangeText = {(text) => this.setUpdate(text)}
+                                autoFocus= {true}
+                            />
+                        </View>
                         <View>{this.state.warning}</View>
                     </View>
                 </View>  
@@ -147,10 +158,10 @@ class Home extends Component {
                         onLongPress = {() => this.copyToClipBoard()}
                     >
                         <QRCode  
-                            value={this.generateQrCodeText()}
-                            logo = {logoFromFile}
-                            size={170}
-                            logoSize={70}
+                            value={JSON.stringify('vola:"eto elah"')}
+                            logo={logoFromFile}
+                            size={160}
+                            logoSize = {40}
                         
                         />    
                     </TouchableOpacity>  

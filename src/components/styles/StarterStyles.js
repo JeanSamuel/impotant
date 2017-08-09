@@ -25,6 +25,12 @@ export default {
     logoText : {
         fontSize : 25,
     },
+    copyright : {
+        marginBottom : 10
+    },
+    copyrightText : {
+        color : '#FFF'
+    },
 
     // ***********************************************************
 

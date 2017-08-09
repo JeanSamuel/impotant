@@ -33,8 +33,8 @@ export default {
     amount : {
         fontSize : 30,
         textAlign : 'center',
-        width : 200
-
+        width : 200,
+        marginBottom : 10 
     },
     amountContainer : {
         justifyContent : 'center',
@@ -46,6 +46,10 @@ export default {
         textAlign : 'center',
         color : 'rgba(142, 68, 173,1.0)'
     },
+    inputWarp : {
+        borderBottomWidth: 1,
+        borderBottomColor: "rgba(44, 62, 80,1.0)"
+    }
     
     
     
