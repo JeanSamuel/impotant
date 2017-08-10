@@ -1,26 +1,31 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet,ActivityIndicator, AsyncStorage, Share } from 'react-native';
 import styleBase from '../../styles/Styles';
 import data from '../../data/dataName';
 import loginData from '../../data/loginData';
 import {FormValidationMessage } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import FormData from 'FormData';
+import Toast from 'react-native-easy-toast';
 
 
 // create a component
 class Services extends Component {
 
-    loadData(){
-        var promise = new Promise((resolve, reject) => { 
-        setTimeout(() => {
-            console.log('This happens 5th (after 3 seconds).');
-            resolve('This is my data.');
-        }, 3000);
-        });
+    static _shareMessage(value) {
+        Share.share({
+        message: value
+        }).then(this._showResult);
     }
 
+    _showResult(result){
+        Alert.alert('Alert Title')
+    }
+
+    /**
+     * Choisir entre aller ver le login ou tout de suite la page d'accueil s'il est déjà connecté
+     */
     async getInitialRoutes(){
         var isLogged = await this.isLogged()
         var response = 'Starter'
@@ -30,6 +35,9 @@ class Services extends Component {
         return response
     }
 
+    /**
+     * On check si il y a déjà un compte connecté ou non
+     */
     async isLogged(){
         var oAuthCode = await this.getData('oauthCode')
         if(oAuthCode === null){

@@ -15,14 +15,12 @@ import axios from 'axios';
 // create a component
 class History extends Component {
 
-    static navigationOptions =(navigation) => {
-        return {
+    static navigationOptions = {
             title : 'History',
             drawerLabel: 'History',
             drawerIcon : ({tintColor}) => <Icon name="list" size= {25} />,
             titleStyle : styleBase.headerTitle,
             headerRight: <Icon name="help" color="#ecf0f1" size= {30} />,
-        }
     }
 
     constructor(props){
@@ -44,7 +42,7 @@ class History extends Component {
     }
 
 
-    getHistory(){
+    async getHistory(){
         var url = 'http://ariary.vola.mg/transaction/'+ this.state.accountId
         axios.get(url).then((response) =>{
             this.setState({data : this.refactHistory(response.data)})
@@ -66,8 +64,15 @@ class History extends Component {
 
     _onRefresh() {
         this.setState({refreshing: true});
-        this.getHistory()
-        this.setState({refreshing: false});
+        this.getHistory().then(
+            this.setState({refreshing: false})
+        ).catch(
+            this.setState({
+                refreshing: false,
+                loadingError : true
+            })
+        )
+        
     }
 
     refactHistory(data){

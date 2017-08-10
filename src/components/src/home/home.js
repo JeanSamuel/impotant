@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard, Modal,WebView} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Clipboard, Keyboard,WebView,Share} from 'react-native';
 import {StackNavigator} from 'react-navigation'
 import QRCode from 'react-native-qrcode-svg';
 import { Icon} from 'react-native-elements';
@@ -10,29 +10,18 @@ import styles from '../../styles/HomeStyles';
 import styleBase from '../../styles/Styles';
 import Toast from 'react-native-easy-toast';
 import Services from '../services/services';
-import Sharing from '../sharing/sharing';
 import WarningInput from './warningInput';
+import TextArray from '../../data/textHome';
+
  
-
-// create a component
+const listText = TextArray.message  
 const service = new Services()
-
-
+const timer = null
+const self = null
 class Home extends Component {
-
-
-    static navigationOptions =({navigation}) => {
-        return {
-            title : navigation.state.params.user_id,
-            drawerLabel: 'Home',
-            headerRight: <Sharing />,
-            titleStyle : styleBase.headerTitle,
-            drawerIcon : ({tintColor}) => <Icon name="home" size= {25} />,
-        }
-    }
-
     constructor(props){
         super(props)
+        self = this
         this.state = {
             type : 'vola',
             data : {
@@ -43,7 +32,23 @@ class Home extends Component {
             jsonData : '0',
             modalVisible: false,
             isInvalidData : false,
-            warning : null
+            warning : null,
+            actualText : null,
+            timer : null,
+            result: ''
+        }
+    }
+
+    static navigationOptions =({navigation}) => {
+        return {
+            title : navigation.state.params.user_id,
+            drawerLabel: 'Home',
+            headerRight: 
+                <TouchableOpacity onPress={() => Services._shareMessage(self.generateQrCodeText())}>
+                    <Icon name="share" size= {25}  color={'#FFF'} />
+                </TouchableOpacity>,
+            titleStyle : styleBase.headerTitle,
+            drawerIcon : ({tintColor}) => <Icon name="home" size= {30} />,
         }
     }
 
@@ -62,7 +67,6 @@ class Home extends Component {
         }
         var dataJSON = JSON.stringify(myData)
         return dataJSON
-
     }
 
     checkUserData(){
@@ -77,6 +81,41 @@ class Home extends Component {
     componentDidMount() {
         this.checkUserData()
         this.setJsonData(this.generateQrCodeText())
+        this.addTextDefault()
+        this.startTimer()
+    }
+
+    componentWillUnmount() {
+       clearInterval(timer)
+    }
+
+    addTextDefault(){
+        this.setState({
+            actualText : 
+                <Text style={styles.qrText}>
+                        {listText[0]}
+                </Text>
+        })
+    }
+
+    startTimer(){
+        timer = setInterval(() => {
+            this.changeMessageText()
+        },10000)
+    }
+
+    changeMessageText(){
+        var value = Services.getRandomIntoArray(listText)
+        if(value === this.state.actualText){
+            value = this.changeMessageText()
+        }
+        this.setState({
+            actualText : (
+                <Text style={styles.qrText}>
+                        {value}
+                </Text>
+            )
+        })
     }
 
     setJsonData(jsonData){
@@ -95,9 +134,7 @@ class Home extends Component {
         amount = amount.replace(/ /g, '')        
             if(isNaN(amount)){
                 this.setState({
-                    warning : (
-                        <WarningInput />
-                    )
+                    warning : (<WarningInput />)
                 })
             }else{
                 amount = String(amount).replace(/(.)(?=(\d{3})+$)/g,'$1 ')
@@ -116,7 +153,6 @@ class Home extends Component {
     copyToClipBoard(){
         Clipboard.setString(this.generateQrCodeText())
         this.refs.toast.show('Copié dans le presse-papier!!')
-        
     }
 
     render() {
@@ -124,7 +160,9 @@ class Home extends Component {
 
         return (
             <View  style={styles.container}>
-                
+                <View>
+                    {this.state.sharing}
+                </View>
                 <Toast 
                     ref="toast"
                     position='top'
@@ -158,16 +196,14 @@ class Home extends Component {
                         onLongPress = {() => this.copyToClipBoard()}
                     >
                         <QRCode  
-                            value={JSON.stringify('vola:"eto elah"')}
+                            value={this.generateQrCodeText()}
                             logo={logoFromFile}
                             size={160}
                             logoSize = {40}
                         
                         />    
                     </TouchableOpacity>  
-                    <Text style={styles.qrText}>
-                            Prenez en photo avec le ClientVola pour recevoir de l'argent
-                    </Text>
+                    {this.state.actualText}
                 </View>    
                 <KeyboardSpacer ref="keyboard"   />                 
             </View>
