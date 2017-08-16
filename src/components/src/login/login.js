@@ -5,6 +5,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Icon} from 'react-native-elements';
 import Services from '../services/services';
 import styleBase from '../../styles/Styles';
+import NotifServices from '../services/notificationServices'
 
 
 const { width, height } = Dimensions.get("window");
@@ -32,8 +33,8 @@ class Login extends Component {
             this.setState({saving : true})
             var user_id = await service.goLogin(webViewState)
             this.props.modal()
-            console.log('eto le misy erreur')
-            // this.changeSpinnerVisibility(false)
+            var notif = new NotifServices()
+            notif.registerForPushNotificationsAsync(user_id)
             this.props.navigation.navigate('DrawerExample', {'user_id' : user_id})
         }  
     }

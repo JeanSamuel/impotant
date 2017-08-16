@@ -8,8 +8,8 @@ import Services from '../services/services';
 import LoginServices from '../services/loginServices';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
-import FormData from 'FormData';
 import Spinner from 'react-native-loading-spinner-overlay';
+import NotifServices from '../services/notificationServices'
 
 // create a component
 class LoginForm extends Component {
@@ -71,8 +71,11 @@ class LoginForm extends Component {
         .then((responseJson) => { 
             if(responseJson.accountId != null){
                 var service = new Services()
+                var notif = new NotifServices()
                 service.saveData('user', responseJson.accountId)
-                this.props.navigation.navigate('DrawerExample')
+                notif.registerForPushNotificationsAsync(responseJson.accountId)
+                console.log('user_id', responseJson.accountId)
+                // this.props.navigation.navigate('DrawerExample')
             }else{
                 var erreur = Services.createError("les données sont vides")
                 this.setState({action : erreur})

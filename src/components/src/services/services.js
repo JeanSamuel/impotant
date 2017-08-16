@@ -29,7 +29,6 @@ class Services extends Component {
     async getInitialRoutes(){
         var isLogged = await this.isLogged()
         var response = 'Starter'
-        console.log('is logged' , isLogged)
         if(isLogged) response = 'DrawerExample'
 
         return response

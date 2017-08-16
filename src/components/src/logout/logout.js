@@ -7,6 +7,7 @@ import Services from '../services/services';
 import styleBase from '../../styles/Styles';
 import {StackNavigator} from 'react-navigation';
 import DrawerButton from '../navigation/drawerButton';
+import NotifServices from '../services/notificationServices'
 const { width, height } = Dimensions.get("window");
  // 0.6.1
  
@@ -30,9 +31,12 @@ class Logout extends Component{
 
 
     disconnect(){
+        
         this.ChangeModalVisibility()
         var services = new Services()
+        var notif = new NotifServices()
         services.logout().then(()=>{
+            notif.stopNotification(this.props.navigation.state.params.user_id)
             this.props.navigation.navigate('Loader')
         })
     }
@@ -76,7 +80,7 @@ class Logout extends Component{
                                     <Text style={[ styles.buttonText,styles.no]}>Non</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={() => this.disconnect()}
+                                    onPress={this.disconnect.bind(this)}
                                     style={[styleBase.centered,  styles.button]}
                                 >
                                     <Text style={ [styles.buttonText,styles.yes]}>Oui</Text>

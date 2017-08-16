@@ -1,5 +1,6 @@
-src/node_modules/
-src/.expo/
+node_modules/
+lib/node_modules/
+.expo/
 src/npm-debug.*
 output/app/ios/
 output/app/android/
