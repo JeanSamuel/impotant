@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "18.0.0"
+    "name" : "AriaryPro",
+    "sdkVersion": "18.0.0",
+    "icon": "./components/images/icons/logo.png",
+    "version": "1.0.0",
+    "slug": "marchandariary",
+    "ios": {
+      "bundleIdentifier": "com.ariarynet.ariaryPro"
+    },
+    "android": {
+      "package": "com.ariarynet.ariaryPro"
+    }
   }
 }
