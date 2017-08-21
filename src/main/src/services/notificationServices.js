@@ -8,7 +8,7 @@ const PUSH_STOP = "http://ariary.vola.mg/exp_token/disconnect.php";
 export default class NotifServices extends Component {
   async imBackNotification() {
     var services = new Services();
-    var token = await services.getData(expo_token);
+    var token = await services.getData("expo_token");
   }
 
   async registerForPushNotificationsAsync(username) {
@@ -25,7 +25,6 @@ export default class NotifServices extends Component {
       return;
     }
     var token = await Notifications.getExponentPushTokenAsync();
-    console.log("token", token);
     await this.saveExpoToken(token);
     var formData = new FormData();
     formData.append("token", token);
@@ -40,7 +39,6 @@ export default class NotifServices extends Component {
     }).catch(error => {
       console.log("error", error);
     });
-    console.log("jsonData", response);
   }
 
   async saveExpoToken(expo_token) {
@@ -66,6 +64,5 @@ export default class NotifServices extends Component {
       console.log("error", error);
     });
     await services.removeData("expo_token");
-    console.log("jsonData", response);
   }
 }

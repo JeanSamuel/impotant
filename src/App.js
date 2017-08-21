@@ -1,8 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import MainStack from './components/src/navigation/mainStack';
-import Sharing from './components/src/sharing/sharing';
+import MainStack from './main/src/navigation/mainStack';
 
 
 

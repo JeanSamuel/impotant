@@ -171,7 +171,6 @@ class Home extends Component {
 
   render() {
     let logoFromFile = require("../../images/icons/logo.png");
-
     return (
       <View style={styles.container}>
         <View>
@@ -221,6 +220,7 @@ class Home extends Component {
           {this.state.actualText}
         </View>
         <KeyboardSpacer ref="keyboard" />
+        <View style={styles.storeLinkContainer} />
       </View>
     );
   }

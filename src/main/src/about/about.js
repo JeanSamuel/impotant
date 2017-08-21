@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 import styleBase from "../../styles/Styles";
+import AppLink from "react-native-app-link";
 
 // create a component
 class About extends Component {
@@ -15,6 +16,16 @@ class About extends Component {
       headerRight: <Icon name="help" color="#ecf0f1" size={30} />
     };
   };
+
+  componentDidMount() {
+    AppLink.openInStore("id529379082", "me.lyft.android")
+      .then(() => {
+        console.log("vita");
+      })
+      .catch(err => {
+        // handle error
+      });
+  }
 
   render() {
     return (
@@ -31,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#FFF"
   }
 });
 

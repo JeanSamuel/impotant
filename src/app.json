@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name" : "AriaryPro",
+    "name": "AriaryPro",
     "sdkVersion": "18.0.0",
     "icon": "./components/images/icons/logo.png",
     "version": "1.0.0",

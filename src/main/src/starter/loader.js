@@ -24,7 +24,6 @@ class Loader extends Component {
     var notif = new NotifServices();
 
     services.getData("user_id").then(user_id => {
-      console.log("we have token", user_id);
       if (user_id === null) {
         this.props.navigation.navigate("Starter");
       } else {

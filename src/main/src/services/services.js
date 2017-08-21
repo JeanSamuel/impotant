@@ -75,17 +75,6 @@ class Services extends Component {
   }
 
   static loginUrl() {
-    var data = JSON.stringify({
-      response_type: "code",
-      state: "xyz",
-      client_id: "ariarynet",
-      redirect_uri: "http://auth.vola.mg/index.php/&scope=userinfo"
-    });
-    var dataURL = {
-      uri: "http://auth.vola.mg/oauth2/authorize",
-      method: "GET",
-      body: data
-    };
     return loginData.uri;
   }
 
@@ -104,6 +93,7 @@ class Services extends Component {
     try {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
+      console.log("error", error);
       throw "something went wrong when saving data";
     }
   }
