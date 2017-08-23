@@ -13,20 +13,23 @@ import styles from "../../styles/StarterStyles";
 import styleBase from "../../styles/Styles";
 import Services from "../services/services";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { Icon } from "react-native-elements";
+import { Icon, Button } from "react-native-elements";
 import data from "../../data/dataName";
+import { WarningInput } from "../../components/warning";
 
 const check = require("../../images/icons/Check.png");
 const mark = require("../../images/icons/login2_mark.png");
 const backHeader = require("../../images/backHeader.jpg");
 
 // create a component
-class NewUser extends Component {
+class Step1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: " ",
-      alreadyEdit: false
+      value: "",
+      alreadyEdit: false,
+      warning: null,
+      withError: false
     };
   }
 
@@ -37,11 +40,37 @@ class NewUser extends Component {
   }
 
   editFinished() {
+    this.checkInputError();
     Keyboard.dismiss();
+  }
+
+  checkInputError() {
+    this.state.value == ""
+      ? this.setState({
+          warning: <WarningInput warningText="Le nom ne doit pas être vide" />,
+          withError: true
+        })
+      : this.setWarning(null);
+  }
+
+  goToStep2() {
+    this.checkInputError();
+    if (this.state.withError) {
+      this.refs.input.focus();
+      Keyboard.dismiss();
+    } else {
+      this.props.navigation.navigate("Step2");
+    }
   }
 
   setValue(value) {
     this.setState({ value });
+  }
+
+  setWarning(warning) {
+    this.setState({
+      warning
+    });
   }
 
   setEdited() {
@@ -129,50 +158,35 @@ class NewUser extends Component {
                 <Icon name="edit" size={30} />
               </TouchableOpacity>
             </View>
+            <View style={styleBase.centered}>
+              {this.state.warning}
+            </View>
             <KeyboardSpacer />
           </TouchableOpacity>
+
+          <View>
+            <Text>
+              Cliquez sur <Text style={{ fontWeight: "bold" }}>
+                suivant
+              </Text>{" "}
+              pour valider le compte
+            </Text>
+          </View>
         </ScrollView>
         <View style={[styleBase.alignCentered, styles.newUserButtonContainer]}>
-          <TouchableOpacity
-            style={[
-              styles.newUserButton,
-              { backgroundColor: "rgba(230, 126, 34,1.0)" }
-            ]}
-            activeOpacity={0.7}
+          <Button
+            title="Précédent"
+            icon={{ name: "arrow-back" }}
+            backgroundColor="rgba(230, 126, 34,1.0)"
             onPress={this.returnStarter.bind(this)}
-          >
-            <View style={[styles.buttonContent]}>
-              <Icon
-                name="arrow-back"
-                size={20}
-                color="#FFF"
-                style={{ marginHorizontal: 5 }}
-              />
-              <Text style={[styleBase.textWhite, styles.buttonText]}>
-                Précédent
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.newUserButton,
-              { backgroundColor: "rgba(230, 126, 34,1.0)" }
-            ]}
-            activeOpacity={0.7}
-            onPress={this.editValue.bind(this)}
-          >
-            <View style={[styles.buttonContent]}>
-              <Text style={[styleBase.textWhite, styles.buttonText]}>
-                Je continue
-              </Text>
-              <Icon
-                name="arrow-forward"
-                size={20}
-                style={{ marginHorizontal: 5 }}
-                color="#FFF"
-              />
-            </View>
-          </TouchableOpacity>
+          />
+          <Button
+            title="Suivant"
+            iconRight
+            icon={{ name: "arrow-forward" }}
+            backgroundColor="rgba(230, 126, 34,1.0)"
+            onPress={this.goToStep2.bind(this)}
+          />
         </View>
       </View>
     );
@@ -180,4 +194,4 @@ class NewUser extends Component {
 }
 
 //make this component available to the app
-export default NewUser;
+export default Step1;

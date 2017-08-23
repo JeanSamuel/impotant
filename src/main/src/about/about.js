@@ -10,7 +10,7 @@ class About extends Component {
   static navigationOptions = navigation => {
     return {
       title: "AriaryPro",
-      drawerLabel: "About",
+      drawerLabel: "A propos",
       drawerIcon: ({ tintColor }) => <Icon name="info" size={25} />,
       titleStyle: styleBase.headerTitle,
       headerRight: <Icon name="help" color="#ecf0f1" size={30} />

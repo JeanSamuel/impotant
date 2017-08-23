@@ -20,7 +20,7 @@ const { width, height } = Dimensions.get("window");
 
 class Logout extends Component {
   static navigationOptions = {
-    title: "Logout",
+    title: "Déconnexion",
     drawerIcon: ({ tintColor }) =>
       <Icon name="logout" size={25} type={"material-community"} />
   };

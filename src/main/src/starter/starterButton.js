@@ -28,7 +28,7 @@ class StarterButton extends Component {
     this.setState({ modal: null });
   }
 
-  createModal(uri) {
+  createModal() {
     this.setState({
       modal: (
         <Modal

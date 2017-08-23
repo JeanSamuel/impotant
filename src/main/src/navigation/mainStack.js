@@ -5,7 +5,7 @@ import { StackNavigator } from "react-navigation";
 import DrawerExample from "./drawer";
 import Starter from "../starter/starter";
 import Loader from "../starter/loader";
-import NewUser from "../starter/newUser";
+import NewUser from "../register/newUser";
 import Services from "../services/services";
 
 const MainStack = new StackNavigator(
@@ -24,7 +24,7 @@ const MainStack = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Loader",
+    initialRouteName: "NewUser",
     navigationOptions: {
       header: null
     }

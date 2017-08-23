@@ -22,8 +22,8 @@ import axios from "axios";
 // create a component
 class History extends Component {
   static navigationOptions = {
-    title: "History",
-    drawerLabel: "History",
+    title: "Historique",
+    drawerLabel: "Historique",
     drawerIcon: ({ tintColor }) => <Icon name="list" size={25} />,
     titleStyle: styleBase.headerTitle,
     headerRight: <Icon name="help" color="#ecf0f1" size={30} />

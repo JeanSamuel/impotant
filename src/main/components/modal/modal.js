@@ -42,7 +42,7 @@ class MyModal extends Component {
               <Text style={styles.closeText}>Fermer</Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.webViewContainer, height]}>
+          <View style={[styles.webViewContainer, { height: height }]}>
             {this.props.data}
           </View>
         </View>

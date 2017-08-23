@@ -10,7 +10,8 @@ import {
   Keyboard,
   WebView,
   Share,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView
 } from "react-native";
 import { StackNavigator } from "react-navigation";
 import QRCode from "react-native-qrcode-svg";
@@ -21,8 +22,12 @@ import styles from "../../styles/HomeStyles";
 import styleBase from "../../styles/Styles";
 import Toast from "react-native-easy-toast";
 import Services from "../services/services";
-import WarningInput from "./warningInput";
+import HomeServices from "../services/homeServices";
+import { WarningInput } from "../../components/warning";
 import TextArray from "../../data/textHome";
+import GoToStore from "./goToStore";
+import HeaderRight from "./headerRight";
+import Notification from "./notification";
 
 const listText = TextArray.message;
 const service = new Services();
@@ -40,25 +45,21 @@ class Home extends Component {
       },
       amount: "",
       jsonData: "0",
-      modalVisible: false,
       isInvalidData: false,
       warning: null,
       actualText: null,
-      timer: null,
-      result: ""
+      timer: null
     };
   }
 
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.state.params.user_id,
-      drawerLabel: "Home",
+      drawerLabel: "Accueil",
       headerRight: (
-        <TouchableOpacity
-          onPress={() => Services._shareMessage(self.generateQrCodeText())}
-        >
-          <Icon name="share" size={25} color={"#FFF"} />
-        </TouchableOpacity>
+        <HeaderRight
+          actionShare={() => Services._shareMessage(self.generateQrCodeText())}
+        />
       ),
       titleStyle: styleBase.headerTitle,
       drawerIcon: ({ tintColor }) => <Icon name="home" size={30} />
@@ -68,14 +69,12 @@ class Home extends Component {
   generateQrCodeText() {
     amount = "0";
     if (this.state.amount !== "") {
-      amount = this.state.amount;
+      amount = this.state.amount.replace(/ /g, "");
     }
     let myData = {
       t: this.state.type,
-      data: {
-        c: this.state.data.currency,
-        u: this.state.data.userId
-      },
+      c: this.state.data.currency,
+      u: this.state.data.userId,
       a: amount
     };
     var dataJSON = JSON.stringify(myData);
@@ -91,7 +90,7 @@ class Home extends Component {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.checkUserData();
     this.setJsonData(this.generateQrCodeText());
     this.addTextDefault();
@@ -136,19 +135,11 @@ class Home extends Component {
     this.setState({ jsonData });
   }
 
-  setType(type) {
-    this.setState({ type });
-  }
-
-  ChangeModalVisibility() {
-    this.setState({ modalVisible: !this.state.modalVisible });
-  }
-
   setUpdate(amount) {
     amount = amount.replace(/ /g, "");
     if (isNaN(amount)) {
       this.setState({
-        warning: <WarningInput />
+        warning: <WarningInput warningText="Montant invalide" />
       });
     } else {
       amount = String(amount).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
@@ -171,56 +162,59 @@ class Home extends Component {
 
   render() {
     let logoFromFile = require("../../images/icons/logo.png");
+
     return (
       <View style={styles.container}>
-        <View>
-          {this.state.sharing}
-        </View>
-        <Toast
-          ref="toast"
-          position="top"
-          positionValue={20}
-          fadeInDuration={750}
-          fadeOutDuration={1000}
-          activeOpacity={0.5}
-        />
-        <View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountLabel}>Amount (Ar)</Text>
-            <KeyboardAvoidingView style={styles.inputWarp}>
-              <TextInput
-                ref="input"
-                value={this.state.amount}
-                style={styles.amount}
-                keyboardType="numeric"
-                underlineColorAndroid="transparent"
-                onChangeText={text => this.setUpdate(text)}
-                autoFocus={true}
-              />
-            </KeyboardAvoidingView>
-            <View>
-              {this.state.warning}
+        <Notification />
+        <ScrollView>
+          <View>
+            {this.state.sharing}
+          </View>
+          <Toast
+            ref="toast"
+            position="top"
+            positionValue={20}
+            fadeInDuration={750}
+            fadeOutDuration={1000}
+            activeOpacity={0.5}
+          />
+          <View>
+            <View style={styles.amountContainer}>
+              <Text style={styles.amountLabel}>Montant (Ar)</Text>
+              <KeyboardAvoidingView style={styles.inputWarp}>
+                <TextInput
+                  ref="input"
+                  value={this.state.amount}
+                  style={styles.amount}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                  onChangeText={text => this.setUpdate(text)}
+                  autoFocus={true}
+                />
+              </KeyboardAvoidingView>
+              <View>
+                {this.state.warning}
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* QR Code   */}
-        <View style={styles.row}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onLongPress={() => this.copyToClipBoard()}
-          >
-            <QRCode
-              value={this.generateQrCodeText()}
-              logo={logoFromFile}
-              size={160}
-              logoSize={40}
-            />
-          </TouchableOpacity>
-          {this.state.actualText}
-        </View>
-        <KeyboardSpacer ref="keyboard" />
-        <View style={styles.storeLinkContainer} />
+          {/* QR Code   */}
+          <View style={styles.row}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onLongPress={() => this.copyToClipBoard()}
+            >
+              <QRCode
+                value={this.generateQrCodeText()}
+                logo={logoFromFile}
+                size={160}
+                logoSize={40}
+              />
+            </TouchableOpacity>
+            {this.state.actualText}
+          </View>
+        </ScrollView>
+        <GoToStore />
       </View>
     );
   }
