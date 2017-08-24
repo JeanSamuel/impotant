@@ -190,6 +190,7 @@ class Step1 extends Component {
             icon={{ name: "arrow-back" }}
             backgroundColor="rgba(230, 126, 34,1.0)"
             onPress={this.returnStarter.bind(this)}
+            underlayColor="#FFF"
           />
           <Button
             title="Suivant"
@@ -197,6 +198,7 @@ class Step1 extends Component {
             icon={{ name: "arrow-forward" }}
             backgroundColor="rgba(230, 126, 34,1.0)"
             onPress={this.goToStep2.bind(this)}
+            underlayColor="#FFF"
           />
         </View>
       </View>

@@ -154,13 +154,14 @@ class Step2 extends Component {
 
           <View style={styleBase.centered}>
             <Button
+              large
               iconRight
               icon={{
                 name: "angle-double-right",
                 type: "font-awesome",
                 color: color
               }}
-              title="Non, je le ferais plus tard"
+              title="Je passe tout de suite à l'accueil"
               color={color}
               backgroundColor="rgba(236, 240, 241,0)"
               onPress={() => this.createModal()}
