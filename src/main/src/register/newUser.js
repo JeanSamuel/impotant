@@ -18,7 +18,7 @@ const NewUser = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Step2",
+    initialRouteName: "Step1",
     headerMode: "none"
   }
 );

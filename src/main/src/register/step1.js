@@ -16,13 +16,15 @@ import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Icon, Button } from "react-native-elements";
 import data from "../../data/dataName";
 import { WarningInput } from "../../components/warning";
-
 const check = require("../../images/icons/Check.png");
 const mark = require("../../images/icons/login2_mark.png");
 const backHeader = require("../../images/backHeader.jpg");
 
 // create a component
 class Step1 extends Component {
+  static navigationOptions = {
+    title: "Inscription"
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -45,21 +47,26 @@ class Step1 extends Component {
   }
 
   checkInputError() {
-    this.state.value == ""
-      ? this.setState({
-          warning: <WarningInput warningText="Le nom ne doit pas être vide" />,
-          withError: true
-        })
-      : this.setWarning(null);
+    let status = true;
+    if (this.state.value == "") {
+      this.setState({
+        warning: <WarningInput warningText="Le nom ne doit pas être vide" />,
+        withError: true
+      });
+    } else {
+      this.setState({ warning: null });
+      status = false;
+    }
+
+    return status;
   }
 
   goToStep2() {
-    this.checkInputError();
-    if (this.state.withError) {
+    if (this.checkInputError()) {
       this.refs.input.focus();
       Keyboard.dismiss();
     } else {
-      this.props.navigation.navigate("Step2");
+      this.props.navigation.navigate("Step2", { name: this.state.value });
     }
   }
 
@@ -92,13 +99,17 @@ class Step1 extends Component {
   render() {
     return (
       <View style={styleBase.containerBase}>
-        <Image style={[styles.header]} source={backHeader} resizeMode="cover">
-          <View style={styleBase.centered}>
-            <Image source={mark} style={styles.markMini} />
-          </View>
-          <View style={styleBase.centered}>
+        <Image
+          style={[styles.header, { height: "15%" }]}
+          source={backHeader}
+          resizeMode="cover"
+        >
+          <View style={[styleBase.centered, { paddingTop: 20 }]}>
             <Text style={[styles.logoTextInline, styleBase.textWhiteCentered]}>
-              {" "}Ariary.net
+              Ariary.net
+            </Text>
+            <Text style={[styleBase.textWhiteCentered, { fontSize: 35 }]}>
+              Inscription
             </Text>
           </View>
         </Image>

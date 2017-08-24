@@ -88,7 +88,6 @@ export default {
     width: width - 50,
     height: height - height / 10,
     marginVertical: 50,
-    padding: 5,
     backgroundColor: "rgba(236, 240, 241,1.0)"
   },
 

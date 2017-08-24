@@ -1,7 +1,8 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width, height } = Dimensions.get("window");
-export default {
+export default EStyleSheet.create({
   logoContainer: {
     paddingBottom: 20
   },
@@ -14,7 +15,7 @@ export default {
     height: null
   },
   logoTextInline: {
-    fontSize: 30
+    fontSize: 17
   },
   background: {
     width,
@@ -93,10 +94,43 @@ export default {
   },
 
   // ************************************************************
-  header: {
+  settingImageContainer: {
+    width: "40%",
+    height: "100%"
+  },
+  settingImage: {
+    width: "100%",
+    height: "100%"
+  },
+  backHeader: {
+    width: "100%",
+    height: "100%",
     flexDirection: "row",
-    height: 120,
-    paddingHorizontal: 20
+    justifyContent: "space-between"
+  },
+  header: {
+    height: "10%",
+    width: "100%"
+  },
+  scrollContain: {
+    paddingHorizontal: 20,
+    paddingTop: 25
+  },
+  scrollText: {
+    fontSize: 17
+  },
+  vendorCheck: {
+    flex: 1,
+    width: "100%",
+    height: 250
+  },
+  buttonContainer: {
+    padding: 20
+  },
+  listText: {
+    flex: 1,
+    paddingLeft: 5,
+    fontSize: 12
   },
   felicitation: {
     fontSize: 35
@@ -164,4 +198,4 @@ export default {
   buttonText: {
     fontSize: 20
   }
-};
+});

@@ -165,7 +165,7 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <Notification />
+        {/* <Notification /> */}
         <ScrollView>
           <View>
             {this.state.sharing}
