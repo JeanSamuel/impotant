@@ -39,7 +39,7 @@ class Login extends Component {
       this.setState({ saving: true });
       var user_id = await service.goLogin(webViewState);
       this.props.modal();
-      notif.registerForPushNotificationsAsync(user_id);
+      notif.initForPushNotificationsAsync(user_id);
       this.props.navigation.navigate("DrawerExample", { user_id: user_id });
     }
   }

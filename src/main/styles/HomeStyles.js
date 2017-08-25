@@ -20,11 +20,12 @@ export default {
   },
   input: {},
   invalidInput: {
-    flexDirection: "row"
+    width: 250
   },
   invalidInputText: {
-    color: "red",
-    paddingHorizontal: 5
+    color: "rgba(231, 76, 60,1.0)",
+    paddingHorizontal: 5,
+    textAlign: "center"
   },
   amount: {
     fontSize: 30,

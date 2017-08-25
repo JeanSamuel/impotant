@@ -24,7 +24,7 @@ const MainStack = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Loader",
+    initialRouteName: "NewUser",
     navigationOptions: {
       header: null
     }

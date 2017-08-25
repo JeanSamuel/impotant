@@ -51,7 +51,6 @@ class Step2 extends Component {
   }
 
   createModal() {
-    console.log("mankato v");
     this.setState({
       modal: (
         <Modal
@@ -113,17 +112,19 @@ class Step2 extends Component {
             </View>
           </Image>
         </View>
-        <ScrollView contentContainerStyle={[styles.scrollContain]}>
+        <ScrollView
+          contentContainerStyle={[styles.scrollContain, styleBase.centered]}
+        >
           <View>
-            <Text style={styles.scrollText}>
+            <Text style={[styles.scrollText, styleBase.textCenter]}>
               Votre compte à été validé sous le nom de : {" "}
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 25 }}>
                 {this.props.navigation.state.params.name}
               </Text>
             </Text>
           </View>
           <View style={[styles.vendorCheck, styleBase.centered]}>
-            <View style={{ width: "100%", height: "50%" }}>
+            <View style={{ width: "100%", height: "40%" }}>
               <Image
                 source={vendorCheck}
                 style={{ width: "100%", height: "100%" }}
@@ -134,14 +135,26 @@ class Step2 extends Component {
             <Text />
             <Text style={styleBase.textCenter}>
               Nous vous conseillons de configurer proprement votre compte dès
-              maintenant mais vous pourriez le faire plus tard et passer{" "}
+              maintenant mais vous pourrez le faire plus tard et vous{" "}
               <Text style={{ fontWeight: "bold" }}>
-                tout de suite à l'accueil
+                connectez tout de suite
               </Text>
             </Text>
+            <View
+              style={{
+                marginTop: 20,
+                borderBottomColor: "black",
+                borderBottomWidth: 1
+              }}
+            >
+              <Text style={styleBase.textCenter}>
+                Votre mot de passe par défaut :{" "}
+              </Text>
+              <Text style={[styleBase.textCenter, { fontSize: 40 }]}>0000</Text>
+            </View>
           </View>
         </ScrollView>
-        <View style={{ marginBottom: 25 }}>
+        <View>
           <View style={styleBase.centered}>
             <Button
               large
@@ -161,7 +174,7 @@ class Step2 extends Component {
                 type: "font-awesome",
                 color: color
               }}
-              title="Je passe tout de suite à l'accueil"
+              title="Je finalise mon inscription"
               color={color}
               backgroundColor="rgba(236, 240, 241,0)"
               onPress={() => this.createModal()}

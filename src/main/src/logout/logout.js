@@ -38,10 +38,11 @@ class Logout extends Component {
 
   disconnect() {
     this.ChangeModalVisibility();
-    var services = new Services();
-    var notif = new NotifServices();
+    let user_id = this.props.navigation.state.params.user_id;
+    let services = new Services();
+    let notif = new NotifServices();
     services.logout().then(() => {
-      notif.stopNotification();
+      notif.stopNotification(user_id);
       this.props.navigation.navigate("Loader");
     });
   }

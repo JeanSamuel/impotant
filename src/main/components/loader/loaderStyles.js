@@ -1,8 +1,7 @@
-import { Dimensions } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
+import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
-export default EStyleSheet.create({
+export default {
   logoContainer: {
     paddingBottom: 20
   },
@@ -11,11 +10,11 @@ export default EStyleSheet.create({
     height: 100
   },
   markMini: {
-    width: null,
-    height: null
+    width: 60,
+    height: 60
   },
   logoTextInline: {
-    fontSize: 17
+    fontSize: 30
   },
   background: {
     width,
@@ -89,48 +88,14 @@ export default EStyleSheet.create({
     width: width - 50,
     height: height - height / 10,
     marginVertical: 50,
-    padding: 5,
     backgroundColor: "rgba(236, 240, 241,1.0)"
   },
 
   // ************************************************************
-  settingImageContainer: {
-    width: "40%",
-    height: "100%"
-  },
-  settingImage: {
-    width: "100%",
-    height: "100%"
-  },
-  backHeader: {
-    width: "100%",
-    height: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
   header: {
-    height: "10%",
-    width: "100%"
-  },
-  scrollContain: {
-    paddingHorizontal: 20,
-    paddingTop: 25
-  },
-  scrollText: {
-    fontSize: 17
-  },
-  vendorCheck: {
-    flex: 1,
-    width: "100%",
-    height: 300
-  },
-  buttonContainer: {
-    padding: 20
-  },
-  listText: {
-    flex: 1,
-    paddingLeft: 5,
-    fontSize: 12
+    flexDirection: "row",
+    height: 120,
+    paddingHorizontal: 20
   },
   felicitation: {
     fontSize: 35
@@ -179,8 +144,7 @@ export default EStyleSheet.create({
   // *****************************************************
   newUserButtonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20
+    justifyContent: "space-between"
   },
   newUserButton: {
     width: width / 2 - 40,
@@ -198,4 +162,4 @@ export default EStyleSheet.create({
   buttonText: {
     fontSize: 20
   }
-});
+};

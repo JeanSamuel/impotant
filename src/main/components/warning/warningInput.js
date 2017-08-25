@@ -14,7 +14,7 @@ class WarningInput extends Component {
     return (
       <View>
         <View style={styles.invalidInput}>
-          <Icon name="warning" size={15} color={"red"} />
+          <Icon name="warning" size={15} color={"rgba(231, 76, 60,1.0)"} />
           <Text style={styles.invalidInputText}>
             {this.props.warningText}
           </Text>

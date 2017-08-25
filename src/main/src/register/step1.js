@@ -7,13 +7,17 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import styles from "../../styles/StarterStyles";
 import styleBase from "../../styles/Styles";
 import Services from "../services/services";
+import RegisterServices from "../services/registerServices";
+import NotifServices from "../services/notificationServices";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Icon, Button } from "react-native-elements";
+import { Loader } from "../../components/loader";
 import data from "../../data/dataName";
 import { WarningInput } from "../../components/warning";
 const check = require("../../images/icons/Check.png");
@@ -30,15 +34,20 @@ class Step1 extends Component {
     this.state = {
       value: "",
       alreadyEdit: false,
-      warning: null,
-      withError: false
+      message: null,
+      withError: false,
+      modal: null,
+      modalData: null
     };
   }
 
   componentDidMount() {
     var type = Services.getRandomIntoArray(data.type);
     var name = Services.getRandomIntoArray(data.name);
-    this.setState({ value: type + " " + name });
+    this.setState({
+      value: type + " " + name,
+      message: this.readyMessage()
+    });
   }
 
   editFinished() {
@@ -47,36 +56,66 @@ class Step1 extends Component {
   }
 
   checkInputError() {
-    let status = true;
-    if (this.state.value == "") {
-      this.setState({
-        warning: <WarningInput warningText="Le nom ne doit pas être vide" />,
-        withError: true
-      });
-    } else {
-      this.setState({ warning: null });
-      status = false;
+    let regService = new RegisterServices();
+    try {
+      regService.checkInputError(this.state.value);
+      this.setMessage(this.readyMessage());
+      return true;
+    } catch (error) {
+      this.setMessage(<WarningInput warningText={error} />);
+      return false;
     }
+  }
 
-    return status;
+  createLoader(message) {
+    this.setState({
+      modal: <Loader visibility={true} message={message} />
+    });
+  }
+
+  removeLoader() {
+    this.setState({ modal: null });
   }
 
   goToStep2() {
-    if (this.checkInputError()) {
+    if (!this.checkInputError()) {
       this.refs.input.focus();
       Keyboard.dismiss();
     } else {
-      this.props.navigation.navigate("Step2", { name: this.state.value });
+      this.createLoader("Enregistrement en cours");
+      let notifService = new NotifServices();
+      notifService
+        .register(this.state.value)
+        .then(response => {
+          this.removeLoader();
+          this.props.navigation.navigate("Step2", { name: this.state.value });
+        })
+        .catch(error => {
+          this.removeLoader();
+          console.log("erreur am faran", error);
+          this.setMessage(<WarningInput warningText={error.message} />);
+        });
     }
   }
 
-  setValue(value) {
-    this.setState({ value });
+  readyMessage() {
+    return (
+      <View>
+        <Text>
+          Cliquez sur <Text style={{ fontWeight: "bold" }}>suivant</Text> pour
+          valider le compte
+        </Text>
+      </View>
+    );
   }
 
-  setWarning(warning) {
+  setValue(value) {
+    this.setState({ value: value.trim() });
+  }
+
+  setMessage(value) {
     this.setState({
-      warning
+      message: value
     });
   }
 
@@ -99,6 +138,9 @@ class Step1 extends Component {
   render() {
     return (
       <View style={styleBase.containerBase}>
+        <View>
+          {this.state.modal}
+        </View>
         <Image
           style={[styles.header, { height: "15%" }]}
           source={backHeader}
@@ -170,19 +212,10 @@ class Step1 extends Component {
               </TouchableOpacity>
             </View>
             <View style={styleBase.centered}>
-              {this.state.warning}
+              {this.state.message}
             </View>
             <KeyboardSpacer />
           </TouchableOpacity>
-
-          <View>
-            <Text>
-              Cliquez sur <Text style={{ fontWeight: "bold" }}>
-                suivant
-              </Text>{" "}
-              pour valider le compte
-            </Text>
-          </View>
         </ScrollView>
         <View style={[styleBase.alignCentered, styles.newUserButtonContainer]}>
           <Button
