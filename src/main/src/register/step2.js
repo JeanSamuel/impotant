@@ -17,8 +17,8 @@ import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Icon, Button } from "react-native-elements";
 import data from "../../data/stepText";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { WarningInput, SkipWarning } from "../../components/warning";
 import { Modal } from "../../components/modal";
+import Login from "../login/login";
 
 const vendorCheck = require("../../images/icons/vendorCheck.png");
 const backHeader = require("../../images/backHeaderSetting.jpg");
@@ -57,9 +57,9 @@ class Step2 extends Component {
           visibility={true}
           remove={this.removeModal.bind(this)}
           data={
-            <SkipWarning
+            <Login
               navigation={this.props.navigation}
-              action={this.removeModal.bind(this)}
+              modal={this.removeModal.bind(this)}
             />
           }
         />
@@ -135,7 +135,7 @@ class Step2 extends Component {
             <Text />
             <Text style={styleBase.textCenter}>
               Nous vous conseillons de configurer proprement votre compte dès
-              maintenant mais vous pourrez le faire plus tard et vous{" "}
+              maintenant mais vous pourrez aussi le faire plus tard et vous{" "}
               <Text style={{ fontWeight: "bold" }}>
                 connectez tout de suite
               </Text>
@@ -174,7 +174,7 @@ class Step2 extends Component {
                 type: "font-awesome",
                 color: color
               }}
-              title="Je finalise mon inscription"
+              title="Je finalise mon inscription et je me connecte"
               color={color}
               backgroundColor="rgba(236, 240, 241,0)"
               onPress={() => this.createModal()}

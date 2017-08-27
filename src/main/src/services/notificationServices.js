@@ -19,13 +19,11 @@ export default class NotifServices extends Component {
     var token = await services.getData("expo_token");
   }
 
-  async register(name) {
-    var token = await Notifications.getExponentPushTokenAsync();
-    await this.saveExpoToken(token);
-
+  async registerExpoToken(username, token) {
+    var PUSH_REGISTER = "http://ariary.vola.mg/exp_token/createAccount.php";
     var formData = new FormData();
     formData.append("token", token);
-    formData.append("username", name);
+    formData.append("username", username);
     var response = await fetch(PUSH_REGISTER, {
       method: "POST",
       headers: {
@@ -37,8 +35,7 @@ export default class NotifServices extends Component {
       .then(response => {
         console.log("ty le reponse resaan", response.status);
         if (response.status === 200) {
-          let regServices = new RegisterServices();
-          regServices.saveAccount(name);
+          console.log("eto ah");
         }
         if (response.status == 405) {
           let error = new Error(response.statusText);

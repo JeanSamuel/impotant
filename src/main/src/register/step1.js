@@ -83,9 +83,9 @@ class Step1 extends Component {
       Keyboard.dismiss();
     } else {
       this.createLoader("Enregistrement en cours");
-      let notifService = new NotifServices();
-      notifService
-        .register(this.state.value)
+      let regServices = new RegisterServices();
+      regServices
+        .saveAccount(this.state.value)
         .then(response => {
           this.removeLoader();
           this.props.navigation.navigate("Step2", { name: this.state.value });
