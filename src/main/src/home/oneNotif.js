@@ -4,6 +4,7 @@ import { View, Text, ScrollView, Image, Dimensions } from "react-native";
 import { width, height } from "Dimensions";
 import EStyleSheet from "react-native-extended-stylesheet";
 
+const mark = require("../../images/icons/logo-pro.png");
 // create a component
 class OneNotif extends Component {
   constructor(props) {
@@ -12,8 +13,8 @@ class OneNotif extends Component {
       image: (
         <Image
           source={this.props.imageSource}
-          resizeMode="center"
-          style={{ height: "60%", width: "100%" }}
+          resizeMode="contain"
+          style={{ height: "50%", width: "100%", marginTop: 10 }}
         />
       )
     };
@@ -24,6 +25,9 @@ class OneNotif extends Component {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
+            <View style={styles.markContainer}>
+              <Image source={mark} style={styles.mark} resizeMode="center" />
+            </View>
             <Text style={styles.titleText}>
               {this.props.title}
             </Text>
@@ -55,8 +59,8 @@ const styles = EStyleSheet.create({
   },
   titleContainer: {
     paddingHorizontal: 20,
-    marginTop: 40,
-    marginBottom: 20
+    marginTop: 10,
+    marginBottom: 10
   },
   titleText: {
     fontSize: 22,
@@ -65,12 +69,21 @@ const styles = EStyleSheet.create({
   bodyContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    paddingBottom: 20
   },
   bodyText: { textAlign: "center", paddingHorizontal: 20, fontSize: 15 },
   imageContainer: {
     width: "100%",
-    backgroundColor: "rgba(189, 195, 199,0.7)"
+    backgroundColor: "#FFF"
+  },
+  markContainer: {
+    width: "100%",
+    height: "50%"
+  },
+  mark: {
+    width: "100%",
+    height: "100%"
   }
 });
 

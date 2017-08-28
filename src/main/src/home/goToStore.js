@@ -29,7 +29,7 @@ class GoToStore extends Component {
       store = require("../../images/icons/playStore.jpg");
     }
     return (
-      <View style={[styleBase.centered, { paddingBottom: 50 }]}>
+      <View style={[styleBase.centered, { paddingBottom: 10 }]}>
         <Text style={{ color: "#7f8c8d" }}>Pour envoyer de l'argent</Text>
         <Text style={{ color: "#7f8c8d" }}>
           L'application{" "}

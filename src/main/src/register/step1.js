@@ -42,10 +42,10 @@ class Step1 extends Component {
   }
 
   componentDidMount() {
-    var type = Services.getRandomIntoArray(data.type);
     var name = Services.getRandomIntoArray(data.name);
+    var num = Services.getRandomNumber();
     this.setState({
-      value: type + " " + name,
+      value: name + num,
       message: this.readyMessage()
     });
   }
@@ -56,6 +56,12 @@ class Step1 extends Component {
   }
 
   checkInputError() {
+    if (this.state.value == "") {
+      this.setMessage(
+        <WarningInput warningText={"Le nom ne peut pas être vide"} />
+      );
+      return false;
+    }
     let regService = new RegisterServices();
     try {
       regService.checkInputError(this.state.value);
@@ -65,6 +71,12 @@ class Step1 extends Component {
       this.setMessage(<WarningInput warningText={error} />);
       return false;
     }
+  }
+
+  setValue(newValue) {
+    this.setState({
+      value: newValue.replace(/ /g, "")
+    });
   }
 
   createLoader(message) {
@@ -92,7 +104,6 @@ class Step1 extends Component {
         })
         .catch(error => {
           this.removeLoader();
-          console.log("erreur am faran", error);
           this.setMessage(<WarningInput warningText={error.message} />);
         });
     }
@@ -102,8 +113,8 @@ class Step1 extends Component {
     return (
       <View>
         <Text>
-          Cliquez sur <Text style={{ fontWeight: "bold" }}>suivant</Text> pour
-          valider le compte
+          Cliquez sur <Text style={{ fontWeight: "bold" }}>Suivant</Text> pour
+          enregistrer le compte
         </Text>
       </View>
     );
@@ -178,8 +189,8 @@ class Step1 extends Component {
               <Image source={check} style={styles.checkImage} />
               <View style={styles.checkTextContainer}>
                 <Text style={styles.checkText}>
-                  Nous avons aussi donné un nom à votre entreprise. Vous pouvez
-                  le modifier si vous le souhaiter
+                  Nous avons aussi donné un nom à ce compte. Vous pouvez le
+                  modifier si vous le souhaiter
                 </Text>
               </View>
             </View>
@@ -196,7 +207,7 @@ class Step1 extends Component {
             <View style={styles.inputWrap}>
               <TextInput
                 ref="input"
-                onChangeText={text => this.setState({ value: text })}
+                onChangeText={text => this.setValue(text)}
                 value={this.state.value}
                 style={styles.input}
                 underlineColorAndroid="transparent"

@@ -30,13 +30,13 @@ export default {
   amount: {
     fontSize: 30,
     textAlign: "center",
-    width: 200,
-    marginBottom: 10
+    width: 200
   },
   amountContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    paddingTop: 10
   },
   amountLabel: {
     fontSize: 25,

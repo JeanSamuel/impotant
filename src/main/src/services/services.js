@@ -151,6 +151,10 @@ class Services extends Component {
     return myArray[Math.floor(Math.random() * myArray.length)];
   }
 
+  static getRandomNumber() {
+    return Math.floor(Math.random() * 100 + 1);
+  }
+
   /**
      * 
      * @param {*} uri the url contains the Oauth Code 

@@ -4,15 +4,16 @@ import { View, Text, StyleSheet } from "react-native";
 import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import NotifServices from "./notificationServices";
+import Services from "./services";
 
-const regex = /^([a-zA-Z0-9_ -]){4,}$/;
+const regex = /^([a-zA-Z0-9_-]){4,}$/;
 // create a component
 class RegisterServices extends Component {
   checkInputError(value) {
     if (regex.test(value)) {
       return true;
     } else {
-      throw "Le nom doit comporter au minimum 4 caractères et sans caractères spéciaux";
+      throw "Le nom doit comporter au minimum 4 caractères, sans espace ou caractères spéciaux";
     }
   }
 
@@ -38,11 +39,16 @@ class RegisterServices extends Component {
       body: formData
     })
       .then(response => {
+        console.log("ty le response", response);
         if (response.status >= 200 && response.status < 300) {
-          console.log("eto ah");
+          console.log("tsis erreur ah");
         } else if (response.status == 405) {
+          let num = Services.getRandomNumber();
           let error = new Error(response.statusText);
-          error.message = "Ce nom est déjà utilisé, veuillez choisir un autre";
+          error.message =
+            "Ce nom est déjà utilisé, veuillez choisir un autre (essayez avec : " +
+            accountId +
+            num;
           error.response = response;
           throw error;
         } else {

@@ -41,11 +41,6 @@ class Step2 extends Component {
     };
   }
 
-  goToHome() {
-    console.log(this.props.navigation);
-    this.props.navigation.navigate("DrawerExample", { user_id: "toavina" });
-  }
-
   removeModal() {
     this.setState({ modal: null });
   }
@@ -60,6 +55,7 @@ class Step2 extends Component {
             <Login
               navigation={this.props.navigation}
               modal={this.removeModal.bind(this)}
+              newUser={true}
             />
           }
         />
@@ -117,7 +113,7 @@ class Step2 extends Component {
         >
           <View>
             <Text style={[styles.scrollText, styleBase.textCenter]}>
-              Votre compte à été validé sous le nom de : {" "}
+              Votre compte a été enregistré sous le nom de : {" "}
               <Text style={{ fontWeight: "bold", fontSize: 25 }}>
                 {this.props.navigation.state.params.name}
               </Text>

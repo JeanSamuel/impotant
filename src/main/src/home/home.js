@@ -48,7 +48,8 @@ class Home extends Component {
       isInvalidData: false,
       warning: null,
       actualText: null,
-      timer: null
+      timer: null,
+      notification: null
     };
   }
 
@@ -95,10 +96,20 @@ class Home extends Component {
     this.setJsonData(this.generateQrCodeText());
     this.addTextDefault();
     this.startTimer();
+    this.showNotification();
   }
 
   componentWillUnmount() {
     clearInterval(timer);
+  }
+
+  showNotification() {
+    // if (this.props.navigation.state.params.newUser) {
+    if (true) {
+      this.setState({
+        notification: <Notification />
+      });
+    }
   }
 
   addTextDefault() {
@@ -137,11 +148,8 @@ class Home extends Component {
 
   setUpdate(amount) {
     amount = amount.replace(/ /g, "");
-    if (isNaN(amount)) {
-      this.setState({
-        warning: <WarningInput warningText="Montant invalide" />
-      });
-    } else {
+    if (!isNaN(amount)) {
+      HomeServices.refactAmount(amount);
       amount = String(amount).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
       this.setState({
         amount: amount,
@@ -165,7 +173,9 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        {/* <Notification /> */}
+        <View>
+          {this.state.notification}
+        </View>
         <ScrollView>
           <View>
             {this.state.sharing}

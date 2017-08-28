@@ -16,12 +16,12 @@ class HeaderRight extends Component {
       <View
         style={[styleBase.alignCentered, { justifyContent: "space-between" }]}
       >
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => this.share()}
           style={{ marginHorizontal: 10 }}
         >
           <Icon name="file-download" size={30} color={"#FFF"} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => this.share()}
           style={{ marginHorizontal: 10 }}

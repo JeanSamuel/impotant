@@ -1,8 +1,10 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { Icon } from "react-native-elements";
 import styleBase from "../../styles/Styles";
+import { StackNavigator } from "react-navigation";
+import DrawerButton from "../navigation/drawerButton";
 
 // create a component
 class UserInfo extends Component {
@@ -35,5 +37,24 @@ const styles = StyleSheet.create({
   }
 });
 
+const navigationOptions = {
+  headerStyle: styleBase.header,
+  headerTitleStyle: styleBase.headerTitle
+};
+
+const stackUserInfo = new StackNavigator(
+  {
+    UserInfo: {
+      screen: UserInfo,
+      navigationOptions
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />
+    })
+  }
+);
+
 //make this component available to the app
-export default UserInfo;
+export default stackUserInfo;
