@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  ActivityIndicator,
-  Icon
+  ActivityIndicator
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { Constants, BarCodeScanner, Permissions } from "expo";
-import { Form, Input, Item, Label, Content, Button } from "native-base";
+import { Form, Input, Item, Label, Content, Button, Header } from "native-base";
 import { Container } from "../components/Container";
-import { InputWithButton, SimpleInput } from "../components/TextInput";
+import { InputWithButton, SimpleInput, MyInput } from "../components/TextInput";
 import QrServices from "../utils/qrservices";
 import { MyModal } from "../components/Modal";
 import { RoundedButton } from "../components/Buttons";
@@ -25,14 +25,15 @@ import Services from "../utils/services";
 import { Ionicons } from "@expo/vector-icons";
 
 const { height, width } = Dimensions.get("window");
+
 class Send extends Component {
   constructor(props) {
     super(props);
-    this.inputs = {};
+    self = this;
     this.state = {
-      user_id: "miorantsoa",
+      user_id: this.props.navigation.state.params.user_id,
       oauth_code: "",
-      amount: 0,
+      amount: "",
       currency: "MGA",
       user: "",
       type: "",
@@ -45,6 +46,42 @@ class Send extends Component {
       isEditable: true
     };
   }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Send",
+      headerLeft: (
+        <View
+          style={{
+            alignContent: "center",
+            marginHorizontal: 5
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
+            <Icon name="menu" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerRight: (
+        <View
+          style={{
+            alignContent: "center",
+            marginRight: 5
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate("History")}>
+            <Icon name="book" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerStyle: {
+        backgroundColor: "#1976D2"
+      },
+      headerTitleStyle: {
+        color: "#fff"
+      },
+      headerTintColor: { color: "#fff" }
+    };
+  };
 
   initState() {
     this.setState({
@@ -200,6 +237,22 @@ class Send extends Component {
     });
   }
 
+  promptInformation = () => {
+    this.setState({
+      modal: (
+        <MyModal
+          visibility={true}
+          remove={this.removeModal}
+          data={
+            <Container>
+              <Text>Information</Text>
+            </Container>
+          }
+        />
+      )
+    });
+  };
+
   promptPin() {
     this.setState({
       modal: (
@@ -270,7 +323,7 @@ class Send extends Component {
   };
 
   render() {
-    console.log(this.props.navigation);
+    console.log("navigation ", this.props.navigation);
     if (this.state.isLoading === true) {
       return (
         <View style={styles.container}>
@@ -279,7 +332,7 @@ class Send extends Component {
       );
     }
     return (
-      <View style={styles.container}>
+      <Container style={styles.container}>
         <Content>
           {this.state.hasCameraPermission === null
             ? <Text>Requesting for camera permission</Text>
@@ -289,7 +342,7 @@ class Send extends Component {
                   barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                   onBarCodeRead={this._handleBarCodeRead}
                   style={{
-                    height: height,
+                    height: height - 50,
                     width: width,
                     alignSelf: "center"
                   }}
@@ -300,85 +353,36 @@ class Send extends Component {
               top: 0,
               right: 0,
               left: 0,
-              backgroundColor: "rgba(120,144,156 ,0.5)"
+              backgroundColor: "#607D8B"
             }}
           >
-            <View
-              style={{
-                backgroundColor: "#fff",
-                width: "90%",
-                height: 40,
-                borderRadius: 3,
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 11,
-                alignSelf: "center"
-              }}
-            >
-              <TextInput
-                placeholder="Username"
-                onChangeText={user => this.setState({ user })}
-                underlineColorAndroid="transparent"
-                value={this.state.user}
-                style={{
-                  height: 40,
-                  flex: 1,
-                  fontSize: 16,
-                  paddingHorizontal: 8,
-                  color: "#797979",
-                  fontSize: 18,
-                  fontWeight: "500"
-                }}
-                returnKeyType="next"
-                blurOnSubmit={false}
-                onSubmitEditing={() => {
-                  this.refs.two.focus();
-                }}
-              />
-            </View>
-            <View
-              style={{
-                backgroundColor: "#fff",
-                width: "90%",
-                height: 40,
-                borderRadius: 3,
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 11,
-                alignSelf: "center"
-              }}
-            >
-              <TextInput
-                ref="two"
-                underlineColorAndroid="transparent"
-                placeholder="Amount"
-                style={{
-                  height: 40,
-                  flex: 1,
-                  fontSize: 16,
-                  paddingHorizontal: 8,
-                  fontSize: 24,
-                  color: "#797979"
-                }}
-                editable={this.state.isEditable}
-                value={"" + this.state.amount}
-                onChangeText={amount =>
-                  this.setState({ amount: Services.formatNumber(amount) })}
-                keyboardType="numeric"
-                returnKeyType="done"
-              />
-            </View>
+            <MyInput
+              placeholder="Username"
+              onChangeText={user => this.setState({ user })}
+              value={this.state.user}
+              returnKeyType="none"
+              blurOnSubmit={false}
+            />
+            <MyInput
+              value={"" + this.state.amount}
+              keyboardType="numeric"
+              returnKeyType="done"
+              editable={this.state.isEditable}
+              onChangeText={amount =>
+                this.setState({ amount: Services.formatNumber(amount) })}
+            />
           </View>
+
           <View
             style={{
               flex: 1,
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-around",
               position: "absolute",
               bottom: 0,
               left: 0,
               right: 0,
-              backgroundColor: "rgba(120,144,156 ,0.5)"
+              backgroundColor: "#607D8B"
             }}
           >
             <TouchableOpacity
@@ -388,15 +392,16 @@ class Send extends Component {
               }}
               onPress={this.onResetAction}
             >
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "600",
-                  color: "#fff"
-                }}
-              >
-                Reset
-              </Text>
+              <Icon name="clear-all" size={30} color="#fafafa" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginHorizontal: 50,
+                marginVertical: 30
+              }}
+              onPress={this.promptInformation}
+            >
+              <Icon name="info" size={30} color="#fafafa" />
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -405,15 +410,7 @@ class Send extends Component {
               }}
               onPress={this.onContinueAction}
             >
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "600",
-                  color: "#fff"
-                }}
-              >
-                Continue
-              </Text>
+              <Icon name="send" size={30} color="#fafafa" />
             </TouchableOpacity>
           </View>
           {this.state.modal}
@@ -426,7 +423,7 @@ class Send extends Component {
             opacity={0.8}
           />
         </Content>
-      </View>
+      </Container>
     );
   }
 }
@@ -442,7 +439,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
-    backgroundColor: "#1e88ff",
+    backgroundColor: "#FAFAFA",
     height: height / 2,
     width: width - 20
   },
@@ -451,6 +448,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingLeft: 0,
     fontSize: 18
+  },
+  headerStyle: {
+    backgroundColor: "#1e8887"
   }
 });
 

@@ -16,6 +16,23 @@ export default EStyleSheet.create({
     alignItems: "center",
     marginVertical: 11
   },
+  myInputContainer: {
+    backgroundColor: "$inputBG",
+    width: "90%",
+    height: 40,
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    alignSelf: "center"
+  },
+  myInput: {
+    height: 40,
+    flex: 1,
+    fontSize: 16,
+    paddingHorizontal: 8,
+    fontSize: 24,
+    color: "$inputText"
+  },
   containerDisabled: {
     backgroundColor: "#F0F0F0"
   },

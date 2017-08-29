@@ -47,39 +47,53 @@ var items = [
   }
 ];
 
-const History = () => {
-  return (
-    <Container>
-      <Content>
-        <ListItem itemDivider>
-          <Text>Today</Text>
-        </ListItem>
-        <List
-          dataArray={items}
-          renderRow={item =>
-            <ListItem noBorder icon>
-              <Left>
-                <Button style={{ backgroundColor: "#007AFF" }}>
-                  <Icon active name="arrow-up" />
-                </Button>
-              </Left>
-              <Body>
-                <Text>
-                  {item.sender}
-                </Text>
-                <Text note>Envoie</Text>
-              </Body>
-              <Right>
-                <Text>
-                  {item.amount + " " + item.currency}
-                </Text>
-              </Right>
-            </ListItem>}
-        />
-      </Content>
-    </Container>
-  );
-};
+class History extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "History",
+      headerStyle: {
+        backgroundColor: "#1976D2"
+      },
+      headerTitleStyle: {
+        color: "#fff"
+      },
+      headerTintColor: "#fff"
+    };
+  };
+  render() {
+    return (
+      <Container>
+        <Content>
+          <ListItem itemDivider>
+            <Text>Today</Text>
+          </ListItem>
+          <List
+            dataArray={items}
+            renderRow={item =>
+              <ListItem noBorder icon>
+                <Left>
+                  <Button style={{ backgroundColor: "#007AFF" }}>
+                    <Icon active name="arrow-up" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>
+                    {item.sender}
+                  </Text>
+                  <Text note>Envoie</Text>
+                </Body>
+                <Right>
+                  <Text>
+                    {item.amount + " " + item.currency}
+                  </Text>
+                </Right>
+              </ListItem>}
+          />
+        </Content>
+      </Container>
+    );
+  }
+}
 
 //make this component available to the app
 export default History;

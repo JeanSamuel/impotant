@@ -7,10 +7,14 @@ import Send from "./Send";
 
 // create a component
 class Main extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log("navigation props ", this.props.navigation.state.params);
     return (
       <View style={styles.container}>
-        <Send />
+        <Send navigation={this.props.navigation} />
       </View>
     );
   }

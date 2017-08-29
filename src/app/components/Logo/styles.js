@@ -3,7 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 
 const imageWidth = Dimensions.get("window").width / 2;
 export default EStyleSheet.create({
-  $largeContainerSize: imageWidth,
+  $largeContainerSize: imageWidth - 50,
   $largeImageSize: imageWidth / 2,
   markWrap: {
     alignItems: "center"
