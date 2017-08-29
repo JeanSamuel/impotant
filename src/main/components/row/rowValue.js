@@ -1,13 +1,11 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, TouchableHighlight, TouchableOpacity } from "react-native";
+import { View, Text, TouchableHighlight } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import styleBase from "../../styles/Styles";
 // create a component
-
-const textColor = "rgba(52, 73, 94,1.0)";
-class Row extends Component {
+class RowValue extends Component {
   action() {
     this.props.action();
   }
@@ -15,27 +13,37 @@ class Row extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
+        <TouchableHighlight
           style={[styleBase.centered, styles.row]}
           onPress={() => this.action()}
-          activeOpacity={0.8}
+          underlayColor="rgba(149, 165, 166,1.0)"
         >
           <View style={[styles.rowContainer]}>
             <View style={[styles.rowLeft, styleBase.alignCentered]}>
-              <Icon name={this.props.iconName} size={25} color={textColor} />
-              <View>
-                <Text style={styles.text}>
-                  {this.props.text}
+              {this.props.iconName != null
+                ? <Icon
+                    name={this.props.iconName}
+                    size={25}
+                    style={styles.iconStyle}
+                  />
+                : <View />}
+
+              <View style={styles.textContainer}>
+                <Text style={styles.menu}>
+                  {this.props.menu}
+                </Text>
+                <Text style={styles.value}>
+                  {this.props.value}
                 </Text>
               </View>
             </View>
             <View style={[styles.rowRight, styleBase.centered]}>
               {this.props.noNext == null
-                ? <Icon name="chevron-right" size={25} color={textColor} />
+                ? <Icon name="chevron-right" size={25} />
                 : <View />}
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -55,12 +63,24 @@ const styles = EStyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  text: {
-    paddingLeft: 20,
+  menu: {
     fontSize: 17,
-    color: textColor
+    fontWeight: "bold"
+  },
+  value: {
+    fontSize: 15,
+    color: "rgb(68, 72, 79)",
+    width: "100%",
+    textAlign: "left"
+  },
+  iconStyle: {
+    marginRight: 20,
+    marginLeft: 10
+  },
+  textContainer: {
+    width: "100%"
   }
 });
 
 //make this component available to the app
-export default Row;
+export default RowValue;

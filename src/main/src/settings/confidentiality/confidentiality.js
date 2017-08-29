@@ -7,7 +7,7 @@ import { Icon } from "react-native-elements";
 
 // create a component
 const self = null;
-class UserInfo extends Component {
+class Confidentiality extends Component {
   constructor(props) {
     super(props);
     self = this;
@@ -15,7 +15,7 @@ class UserInfo extends Component {
 
   static navigationOptions = navigation => {
     return {
-      title: "Mon compte",
+      title: "Connexion et Sécurité",
       drawerLabel: "Paramètres",
       drawerIcon: ({ tintColor }) => <Icon name="settings" size={25} />,
       titleStyle: styleBase.headerTitle,
@@ -31,40 +31,30 @@ class UserInfo extends Component {
   goBack() {
     this.props.navigation.navigate("Settings");
   }
-
   render() {
     return (
       <View style={styles.container}>
-        <RowTitle title="Profil d'utilisateur" />
+        <RowTitle
+          title="Conditions et confidentialités"
+          help={"Conditions d'utilisation et politiques de confidentialité"}
+        />
         <RowValue
-          menu="Pseudo"
-          value="toavina02"
+          menu="Droit et résponsabilité"
+          value="Condition que vous acceptez en utilisant l'application"
           action={() => console.log("zertyu")}
           noNext={true}
         />
-        <Separator />
         <RowValue
-          menu="Nom"
-          value="Toavina Ralambosoa"
+          menu="Politique d'utilisation des données"
+          value="Les informations que nous recevons et les utilisations"
           action={() => console.log("zertyu")}
+          noNext={true}
         />
-        <Separator />
         <RowValue
-          menu="Adresse e-mail"
-          value="toavina@nivo.mg"
+          menu="La loi malgache"
+          value="Les responsabilités de chacun vis à vis de la loi malgache"
           action={() => console.log("zertyu")}
-        />
-        <Separator />
-        <RowValue
-          menu="Téléphone"
-          value="+261346781828"
-          action={() => console.log("zertyu")}
-        />
-        <Separator />
-        <RowValue
-          menu="Date de naissance"
-          value="24 mai 1995"
-          action={() => console.log("zertyu")}
+          noNext={true}
         />
       </View>
     );
@@ -77,4 +67,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default UserInfo;
+export default Confidentiality;

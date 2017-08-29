@@ -104,8 +104,8 @@ class Home extends Component {
   }
 
   showNotification() {
-    // if (this.props.navigation.state.params.newUser) {
-    if (true) {
+    if (this.props.navigation.state.params.newUser) {
+      // if (true) {
       this.setState({
         notification: <Notification />
       });
@@ -149,8 +149,7 @@ class Home extends Component {
   setUpdate(amount) {
     amount = amount.replace(/ /g, "");
     if (!isNaN(amount)) {
-      HomeServices.refactAmount(amount);
-      amount = String(amount).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
+      amount = HomeServices.refactAmount(amount);
       this.setState({
         amount: amount,
         jsonData: this.generateQrCodeText(),

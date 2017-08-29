@@ -7,6 +7,7 @@ import { Icon } from "react-native-elements";
 import Services from "../services/services";
 
 const mark = require("../../images/icons/logo-pro.png");
+const back = require("../../images/backHeader.jpg");
 
 export default class DrawerContent extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ export default class DrawerContent extends Component {
     let reportFormated = Services.formatNumber(this.getReport());
     return (
       <View style={{ elevation: 10 }}>
-        <View style={styles.container}>
+        <Image style={styles.container} source={back} resizeMode="cover">
           <View>
             <View
               style={{
@@ -82,7 +83,7 @@ export default class DrawerContent extends Component {
               </View>
             </View>
           </View>
-        </View>
+        </Image>
       </View>
     );
   }
@@ -91,7 +92,7 @@ export default class DrawerContent extends Component {
 const styles = EStyleSheet.create({
   container: {
     height: 150,
-    backgroundColor: "rgba(41, 128, 185,1.0)",
+    width: "100%",
     padding: 20
   },
   textWhiteRight: { fontSize: 20, color: "#fff", textAlign: "right" }

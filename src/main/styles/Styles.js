@@ -43,12 +43,8 @@ export default {
     fontSize: 25
   },
   header: {
-    backgroundColor: "rgba(41, 128, 185,1.0)",
+    backgroundColor: "rgba(52, 73, 94,1.0)",
     justifyContent: "center",
-    paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2
+    paddingHorizontal: 15
   }
 };

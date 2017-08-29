@@ -1,45 +1,46 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, ScrollView, Image, Dimensions } from "react-native";
-import { width, height } from "Dimensions";
+import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
+import { height } from "Dimensions";
+import styleBase from "../../styles/Styles";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-const mark = require("../../images/icons/logo-pro.png");
 // create a component
+const textColor = "rgba(236, 240, 241,1.0)";
+const image = require("../../images/icons/bonus.png");
 class OneNotif extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: (
-        <Image
-          source={this.props.imageSource}
-          resizeMode="contain"
-          style={{ height: "50%", width: "100%", marginTop: 10 }}
-        />
-      )
-    };
+  action() {
+    this.props.remove();
   }
-
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <View style={styles.titleContainer}>
-            <View style={styles.markContainer}>
-              <Image source={mark} style={styles.mark} resizeMode="center" />
-            </View>
-            <Text style={styles.titleText}>
+        <View style={styles.closeContainer}>
+          <TouchableOpacity style={styles.close} onPress={() => this.action()}>
+            <Text style={[styleBase.textWhite, styles.closeText]}>IGNORER</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.body}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={this.props.imageSource}
+              resizeMode="center"
+              style={styles.imageStyle}
+            />
+          </View>
+          <View
+            style={[
+              styles.textContainer,
+              { flexDirection: "column", justifyContent: "flex-end" }
+            ]}
+          >
+            <Text style={styles.textTitle}>
               {this.props.title}
             </Text>
-          </View>
-          <View style={styles.bodyContainer}>
-            <Text style={styles.bodyText}>
+            <Text style={styles.textBody}>
               {this.props.body}
             </Text>
           </View>
-        </View>
-        <View style={styles.imageContainer}>
-          {this.state.image}
         </View>
       </View>
     );
@@ -50,40 +51,37 @@ class OneNotif extends Component {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF"
+    backgroundColor: "rgba(52, 73, 94,1.0)"
   },
-  textContainer: {
-    width: "100%",
-    height: 40,
-    flex: 1
-  },
-  titleContainer: {
-    paddingHorizontal: 20,
-    marginTop: 10,
-    marginBottom: 10
-  },
-  titleText: {
-    fontSize: 22,
-    textAlign: "center"
-  },
-  bodyContainer: {
+  body: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 20
+    alignItems: "center"
   },
-  bodyText: { textAlign: "center", paddingHorizontal: 20, fontSize: 15 },
+  closeContainer: { padding: 20 },
+  close: {},
+  closeText: { textAlign: "right", fontSize: 20 },
   imageContainer: {
+    flex: 1,
     width: "100%",
-    backgroundColor: "#FFF"
+    height: height * "20%"
   },
-  markContainer: {
+  imageStyle: {
+    marginTop: "20%",
     width: "100%",
-    height: "50%"
+    height: "80%"
   },
-  mark: {
-    width: "100%",
-    height: "100%"
+  textContainer: { flex: 1, paddingHorizontal: 20 },
+  textTitle: {
+    color: "#FFF",
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  textBody: {
+    color: "#FFF",
+    textAlign: "center",
+    paddingHorizontal: 30
   }
 });
 

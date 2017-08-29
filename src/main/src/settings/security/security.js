@@ -7,7 +7,7 @@ import { Icon } from "react-native-elements";
 
 // create a component
 const self = null;
-class UserInfo extends Component {
+class Security extends Component {
   constructor(props) {
     super(props);
     self = this;
@@ -15,7 +15,7 @@ class UserInfo extends Component {
 
   static navigationOptions = navigation => {
     return {
-      title: "Mon compte",
+      title: "Connexion et Sécurité",
       drawerLabel: "Paramètres",
       drawerIcon: ({ tintColor }) => <Icon name="settings" size={25} />,
       titleStyle: styleBase.headerTitle,
@@ -35,36 +35,40 @@ class UserInfo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RowTitle title="Profil d'utilisateur" />
+        <RowTitle
+          title="Liste des appareils connectés"
+          help={
+            "Les périphériques qui sont connéctés à votre compte et qui reçoivent des notifications à chaque transaction"
+          }
+        />
         <RowValue
-          menu="Pseudo"
-          value="toavina02"
+          menu="Sony XPERIA ZR"
+          value="Antananarivo, Madagascar"
           action={() => console.log("zertyu")}
+          iconName="phone-android"
           noNext={true}
         />
-        <Separator />
         <RowValue
-          menu="Nom"
-          value="Toavina Ralambosoa"
+          menu="ZTE Blade L110"
+          value="Antananarivo, Madagascar"
           action={() => console.log("zertyu")}
+          iconName="phone-android"
+          noNext={true}
         />
-        <Separator />
         <RowValue
-          menu="Adresse e-mail"
-          value="toavina@nivo.mg"
+          menu="PC Windows"
+          value="Antananarivo, Madagascar"
           action={() => console.log("zertyu")}
+          iconName="computer"
+          noNext={true}
         />
-        <Separator />
+
+        <RowTitle title="Connexion" />
         <RowValue
-          menu="Téléphone"
-          value="+261346781828"
+          menu="Changer mot de passe"
+          value="Tous les autres périphériques seront déconnectés"
           action={() => console.log("zertyu")}
-        />
-        <Separator />
-        <RowValue
-          menu="Date de naissance"
-          value="24 mai 1995"
-          action={() => console.log("zertyu")}
+          iconName="vpn-key"
         />
       </View>
     );
@@ -77,4 +81,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default UserInfo;
+export default Security;

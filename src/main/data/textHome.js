@@ -5,8 +5,7 @@ export default {
   message: [
     "Prenez en photo avec l'application ClientAriary pour recevoir de l'argent",
     "Ariary.net, la solution simple, rapide, efficace et sécurisée",
-    "Touchez l'image quelques secondes pour mettre en mode plein écran",
-    "Si votre compte n'est pas encore activé, votre solde sera limité à  5000ar",
+    "Si votre compte n'est pas configuré, votre solde sera limité à  5000ar",
     "Partager votre identifiant à vos proches via d'autres applications"
   ],
   BUTTONS: [

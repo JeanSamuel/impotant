@@ -21,8 +21,8 @@ import { Modal } from "../../components/modal";
 import Login from "../login/login";
 
 const vendorCheck = require("../../images/icons/vendorCheck.png");
-const backHeader = require("../../images/backHeaderSetting.jpg");
-const color = "rgba(22, 160, 133,1.0)";
+const backHeader = require("../../images/backHeader.jpg");
+const color = "rgba(52, 73, 94,1.0)";
 // create a component
 class Step2 extends Component {
   static navigationOptions = navigation => {
@@ -37,12 +37,23 @@ class Step2 extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2
       }).cloneWithRows(data.step2),
       modal: null,
-      modalData: null
+      modalData: null,
+      name: this.props.navigation.state.params.name
     };
   }
 
   removeModal() {
     this.setState({ modal: null });
+  }
+
+  goBack() {
+    this.props.navigation.navigate("Step2");
+  }
+
+  goToAssistant() {
+    this.props.navigation.navigate("Assistant", {
+      isNewUser: true
+    });
   }
 
   createModal() {
@@ -115,7 +126,7 @@ class Step2 extends Component {
             <Text style={[styles.scrollText, styleBase.textCenter]}>
               Votre compte a été enregistré sous le nom de : {" "}
               <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                {this.props.navigation.state.params.name}
+                {this.state.name}
               </Text>
             </Text>
           </View>
@@ -156,8 +167,8 @@ class Step2 extends Component {
               large
               icon={{ name: "cogs", type: "font-awesome" }}
               title="Je configure mon compte"
-              onPress={() => this.props.navigation.goBack()}
-              backgroundColor="#136541"
+              onPress={() => this.goToAssistant()}
+              backgroundColor="rgba(52, 73, 94,1.0)"
             />
           </View>
 
@@ -172,7 +183,7 @@ class Step2 extends Component {
               }}
               title="Je finalise mon inscription et je me connecte"
               color={color}
-              backgroundColor="rgba(236, 240, 241,0)"
+              backgroundColor="transparent"
               onPress={() => this.createModal()}
             />
           </View>

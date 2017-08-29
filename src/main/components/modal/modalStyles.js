@@ -90,6 +90,12 @@ export default {
     marginVertical: 50,
     backgroundColor: "rgba(236, 240, 241,1.0)"
   },
+  webViewFullContainer: {
+    flex: 1,
+    width: width,
+    height: height,
+    backgroundColor: "rgba(236, 240, 241,1.0)"
+  },
 
   // ************************************************************
   header: {

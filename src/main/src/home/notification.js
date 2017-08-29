@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Modal } from "../../components/modal";
+import { ModalFull } from "../../components/modal";
 import data from "../../data/textHome";
 import OneNotif from "./oneNotif";
 import Swiper from "react-native-swiper";
@@ -33,6 +33,7 @@ class Notification extends Component {
     const numbers = notifList.map(item => {
       let oneNotif = (
         <OneNotif
+          remove={() => this.removeModal()}
           key={item.title}
           title={
             <Text>
@@ -50,9 +51,11 @@ class Notification extends Component {
       listNotif.push(oneNotif);
     });
     let finalData = (
-      <Swiper>
-        {listNotif}
-      </Swiper>
+      <View style={{ flex: 1, backgroundColor: "rgba(52, 73, 94,1.0)" }}>
+        <Swiper style={{ marginBottom: 50 }}>
+          {listNotif}
+        </Swiper>
+      </View>
     );
     return finalData;
   }
@@ -61,7 +64,8 @@ class Notification extends Component {
     const mark = require("../../images/icons/logo-pro.png");
     this.setState({
       modal: (
-        <Modal
+        <ModalFull
+          backColor="rgba(52, 73, 94,1.0)"
           visibility={true}
           remove={this.removeModal.bind(this)}
           data={data}

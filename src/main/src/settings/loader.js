@@ -4,19 +4,18 @@ import {
   View,
   Text,
   StyleSheet,
-  Keyboard,
-  ListView,
-  ScrollView
+  ActivityIndicator,
+  Keyboard
 } from "react-native";
-import { Row, RowValue, Separator } from "../../components/row";
-import { UserInfo, Security, Confidentiality } from "./";
 import styleBase from "../../styles/Styles";
 import { StackNavigator } from "react-navigation";
 import DrawerButton from "../navigation/drawerButton";
 import { Icon } from "react-native-elements";
+import Settings from "./settings";
+import Assistant from "../assistance/assistant";
 
 // create a component
-class Settings extends Component {
+class LoaderSettings extends Component {
   static navigationOptions = navigation => {
     return {
       title: "Paramètres",
@@ -26,19 +25,20 @@ class Settings extends Component {
       headerRight: <Icon name="help" color="#ecf0f1" size={30} />
     };
   };
+  goBack() {
+    this.props.navigation.navigate("Settings");
+  }
 
-  navigate(route) {
-    this.props.navigation.navigate(route);
+  componentDidMount() {
+    this.props.navigation.navigate("Assistant", {
+      remove: this.goBack.bind(this)
+    });
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.container}>
-          <UserInfo />
-          <Security />
-          <Confidentiality />
-        </ScrollView>
+      <View style={styles.container}>
+        <ActivityIndicator size={"large"} />
       </View>
     );
   }
@@ -47,22 +47,36 @@ class Settings extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(236, 240, 241,1.0)",
-    paddingBottom: 20
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(236, 240, 241,1.0)"
   }
 });
 
-//make this component available to the app
 const navigationOptions = {
   headerStyle: styleBase.header,
   headerTitleStyle: styleBase.headerTitle
 };
 
-const stackSettings = new StackNavigator(
+const StackSettings = new StackNavigator(
   {
+    LoaderSettings: {
+      screen: LoaderSettings,
+      navigationOptions
+    },
+    Assistant: {
+      screen: Assistant,
+      navigationOptions: {
+        header: null
+      }
+    },
+
     Settings: {
       screen: Settings,
-      navigationOptions
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
@@ -71,4 +85,4 @@ const stackSettings = new StackNavigator(
     })
   }
 );
-export default stackSettings;
+export default StackSettings;
