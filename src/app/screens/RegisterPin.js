@@ -5,7 +5,9 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
-  Image
+  Image,
+  ToastAndroid,
+  Platform
 } from "react-native";
 import Toast, { DURATION } from "react-native-easy-toast";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -57,7 +59,12 @@ class RegisterPin extends Component {
         });
       } else {
         console.log("Tsy mitovy");
-        this.refs.toast.show("Pin non correspondant", 1000);
+        this.setState({ pin2: "" });
+        if (Platform.OS === "android") {
+          ToastAndroid.show("Pin non correspondant", ToastAndroid.SHORT);
+        } else {
+          this.refs.toast.show("Pin non correspondant", 1000);
+        }
       }
     }
   };
@@ -69,6 +76,15 @@ class RegisterPin extends Component {
           size="large"
           visible={this.state.isLoading}
         />
+        {Platform.OS === "ios"
+          ? <Toast
+              ref="toast"
+              position="top"
+              fadeInDuration={750}
+              fadeOutDuration={1000}
+              opacity={0.8}
+            />
+          : <Text>""</Text>}
         <KeyboardAvoidingView behavior="padding">
           <LogoMini
             style={{
@@ -103,12 +119,6 @@ class RegisterPin extends Component {
                 maxLength={4}
               />}
         </KeyboardAvoidingView>
-        <Toast
-          ref="toast"
-          fadeInDuration={750}
-          fadeOutDuration={1000}
-          opacity={0.8}
-        />
       </Container>
     );
   }
