@@ -46,13 +46,13 @@ class Step2 extends Component {
     this.setState({ modal: null });
   }
 
-  goBack() {
-    this.props.navigation.navigate("Step2");
+  closeAssistant() {
+    this.props.navigation.goBack();
   }
 
   goToAssistant() {
     this.props.navigation.navigate("Assistant", {
-      isNewUser: true
+      close: this.closeAssistant()
     });
   }
 
@@ -77,12 +77,8 @@ class Step2 extends Component {
   renderRow(data) {
     return (
       <View style={{ flexDirection: "row" }}>
-        <Text>
-          {"\u2022"}
-        </Text>
-        <Text style={styles.listText}>
-          {data}
-        </Text>
+        <Text>{"\u2022"}</Text>
+        <Text style={styles.listText}>{data}</Text>
       </View>
     );
   }
@@ -90,9 +86,7 @@ class Step2 extends Component {
   render() {
     return (
       <View style={styleBase.containerBase}>
-        <View>
-          {this.state.modal}
-        </View>
+        <View>{this.state.modal}</View>
         <View style={styles.header}>
           <Image
             style={[styles.backHeader]}

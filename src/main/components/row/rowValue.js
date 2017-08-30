@@ -75,7 +75,7 @@ const styles = EStyleSheet.create({
   },
   iconStyle: {
     marginRight: 20,
-    marginLeft: 10
+    marginLeft: 20
   },
   textContainer: {
     width: "100%"

@@ -6,6 +6,8 @@ import data from "../../data/textHome";
 import OneNotif from "./oneNotif";
 import Swiper from "react-native-swiper";
 import HomeServices from "../services/homeServices";
+import Services from "../services/services";
+import { NavigationActions } from "react-navigation";
 
 // create a component
 const notifList = data.notifications;
@@ -25,7 +27,10 @@ class Notification extends Component {
   }
 
   removeModal() {
-    this.setState({ modal: null });
+    let services = new Services();
+    services.removeData("newAtHome").then(() => {
+      this.setState({ modal: null });
+    });
   }
 
   createData() {

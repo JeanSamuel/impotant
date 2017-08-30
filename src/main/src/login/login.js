@@ -37,14 +37,22 @@ class Login extends Component {
     if (webViewState.url != uri && !this.state.saving) {
       this.changeSpinnerVisibility(true);
       this.setState({ saving: true });
-      var user_id = await service.goLogin(webViewState);
-      this.props.modal();
-      let data = {
-        user_id: user_id,
-        newUser: this.props.newUser
-      };
-      notif.initForPushNotificationsAsync(user_id);
-      this.props.navigation.navigate("DrawerExample", data);
+      service
+        .goLogin(webViewState)
+        .then(response => {
+          this.props.modal();
+          if (this.props.newUser) {
+            service.isNewUser();
+          }
+          let data = {
+            user_id: response
+          };
+          notif.initForPushNotificationsAsync(response);
+          this.props.navigation.navigate("DrawerExample", data);
+        })
+        .catch(error => {
+          console.log("error login", error);
+        });
     }
   }
 

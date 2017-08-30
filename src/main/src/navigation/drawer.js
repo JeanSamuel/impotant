@@ -8,7 +8,6 @@ import History from "../history/history";
 import Settings from "../settings/loader";
 import Logout from "../logout/logout";
 import About from "../about/about";
-import DrawerButton from "./drawerButton";
 import DrawerContent from "./drawerContent";
 
 // DrawerNavigator path
@@ -47,11 +46,12 @@ const drawerConfigs = {
     style: Style.drawerStyle
   },
   headerMode: "screen",
-  contentComponent: props =>
+  contentComponent: props => (
     <ScrollView>
       <DrawerContent />
       <DrawerItems {...props} />
     </ScrollView>
+  )
 
   // contentComponent:({navigation})=> <DrawerContent navigation={navigation} routes={drawerRoutes} />,
 };

@@ -41,7 +41,7 @@ class Step1 extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     var name = Services.getRandomIntoArray(data.name);
     var num = Services.getRandomNumber();
     this.setState({

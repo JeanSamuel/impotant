@@ -17,7 +17,7 @@ class OneNotif extends Component {
       <View style={styles.container}>
         <View style={styles.closeContainer}>
           <TouchableOpacity style={styles.close} onPress={() => this.action()}>
-            <Text style={[styleBase.textWhite, styles.closeText]}>IGNORER</Text>
+            <Text style={[styleBase.textWhite, styles.closeText]}>PASSER</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.body}>

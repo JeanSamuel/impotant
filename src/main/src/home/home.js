@@ -8,7 +8,6 @@ import {
   Image,
   Clipboard,
   Keyboard,
-  WebView,
   Share,
   KeyboardAvoidingView,
   ScrollView
@@ -23,7 +22,6 @@ import styleBase from "../../styles/Styles";
 import Toast from "react-native-easy-toast";
 import Services from "../services/services";
 import HomeServices from "../services/homeServices";
-import { WarningInput } from "../../components/warning";
 import TextArray from "../../data/textHome";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
@@ -52,20 +50,6 @@ class Home extends Component {
       notification: null
     };
   }
-
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.state.params.user_id,
-      drawerLabel: "Accueil",
-      headerRight: (
-        <HeaderRight
-          actionShare={() => Services._shareMessage(self.generateQrCodeText())}
-        />
-      ),
-      titleStyle: styleBase.headerTitle,
-      drawerIcon: ({ tintColor }) => <Icon name="home" size={30} />
-    };
-  };
 
   generateQrCodeText() {
     amount = "0";
@@ -104,12 +88,19 @@ class Home extends Component {
   }
 
   showNotification() {
-    if (this.props.navigation.state.params.newUser) {
-      // if (true) {
-      this.setState({
-        notification: <Notification />
+    let services = new Services();
+    service
+      .getData("newAtHome")
+      .then(response => {
+        if (response != null) {
+          this.setState({
+            notification: <Notification />
+          });
+        }
+      })
+      .then(error => {
+        console.log("ol efa membre hatry ny ela");
       });
-    }
   }
 
   addTextDefault() {
@@ -243,6 +234,15 @@ const stackHome = new StackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.user_id,
+      drawerLabel: "Accueil",
+      headerRight: (
+        <HeaderRight
+          actionShare={() => Services._shareMessage(self.generateQrCodeText())}
+        />
+      ),
+      titleStyle: styleBase.headerTitle,
+      drawerIcon: ({ tintColor }) => <Icon name="home" size={30} />,
       headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />
     })
   }

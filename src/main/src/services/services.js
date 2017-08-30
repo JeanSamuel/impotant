@@ -82,17 +82,17 @@ class Services extends Component {
     return (
       <View style={styleBase.error}>
         <Icon name="warning" size={15} color={styleBase.color} />
-        <Text style={styleBase.errorText}>
-          {text}
-        </Text>
+        <Text style={styleBase.errorText}>{text}</Text>
       </View>
     );
   }
 
   async saveData(key, value) {
+    console.log("ty le key", key);
     try {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
+      console.log("amty key ty", key);
       console.log("error", error);
       throw "something went wrong when saving data";
     }
@@ -135,6 +135,11 @@ class Services extends Component {
     } catch (error) {
       console.log("Erreur lors de la supression");
     }
+  }
+
+  async isNewUser() {
+    await this.saveData("newAtHome", "misy");
+    await this.saveData("newAtSettings", "misy");
   }
 
   /**

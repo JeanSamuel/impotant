@@ -23,7 +23,6 @@ import axios from "axios";
 class History extends Component {
   static navigationOptions = {
     title: "Historique",
-    drawerLabel: "Historique",
     drawerIcon: ({ tintColor }) => <Icon name="list" size={25} />,
     titleStyle: styleBase.headerTitle,
     headerRight: <Icon name="help" color="#ecf0f1" size={30} />
@@ -60,14 +59,6 @@ class History extends Component {
         });
         console.log(error);
       });
-    // fetch(url, {method : 'GET'})
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-    //      this.setState({data : this.refactHistory(responseJson)})
-    // })
-    // .catch((error) => {
-    //     console.log('error GetHistory :', error)
-    // });
   }
 
   _onRefresh() {

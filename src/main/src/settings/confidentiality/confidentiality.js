@@ -1,33 +1,9 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Row, RowValue, Separator, RowTitle } from "../../../components/row";
-import styleBase from "../../../styles/Styles";
-import { Icon } from "react-native-elements";
+import { View, Text, StyleSheet } from "react-native";
+import { RowValue, RowTitle } from "../../../components/row";
 
-// create a component
-const self = null;
 class Confidentiality extends Component {
-  constructor(props) {
-    super(props);
-    self = this;
-  }
-
-  static navigationOptions = navigation => {
-    return {
-      title: "Connexion et Sécurité",
-      drawerLabel: "Paramètres",
-      drawerIcon: ({ tintColor }) => <Icon name="settings" size={25} />,
-      titleStyle: styleBase.headerTitle,
-      headerRight: <Icon name="help" color="#ecf0f1" size={30} />,
-      headerLeft: (
-        <TouchableOpacity onPress={() => self.goBack()}>
-          <Icon name="arrow-back" color="#ecf0f1" size={30} />
-        </TouchableOpacity>
-      )
-    };
-  };
-
   goBack() {
     this.props.navigation.navigate("Settings");
   }

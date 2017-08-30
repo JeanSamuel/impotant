@@ -53,7 +53,7 @@ class RegisterServices extends Component {
           throw error;
         } else {
           let error = new Error(response.statusText);
-          error.message = "Verifier votre connexion";
+          error.message = "Une erreur est survenue lors de la connexion aux serveurs";
           error.response = response;
           throw error;
         }

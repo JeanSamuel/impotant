@@ -3,6 +3,10 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import OneNotif from "../home/oneNotif";
 import { Icon, Button } from "react-native-elements";
+import { NavigationActions } from "react-navigation";
+import Services from "../services/services";
+import { StackNavigator } from "react-navigation";
+import { Step1, Step2, Step3 } from "./";
 
 // create a component
 const imageSource = require("../../images/icons/settings2.png");
@@ -10,13 +14,16 @@ class Assistant extends Component {
   constructor(props) {
     super(props);
   }
+
   removeAssistant() {
-    console.log("props", this.props);
-    if (this.props.navigation.state.params.isNewUser) {
-      this.props.navigation.goBack();
-    } else {
-      this.props.navigation.state.params.remove();
-    }
+    console.log("navig", this.props.navig);
+    let services = new Services();
+    services.removeData("newAtSettings");
+    this.props.navigation.state.params.close();
+  }
+
+  goToStep1() {
+    this.props.navigation.navigate("Step1");
   }
 
   render() {
@@ -38,10 +45,11 @@ class Assistant extends Component {
             iconRight
             icon={{ name: "arrow-forward", size: 30 }}
             title="Continuer"
-            backgroundColor="transparent"
+            backgroundColor="rgba(236, 240, 241,0.05)"
             underlayColor="#FFF"
             large
             textStyle={styles.buttonText}
+            onPress={() => this.goToStep1()}
           />
         </View>
       </View>
@@ -56,7 +64,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(52, 73, 94,1.0)"
   },
   buttonContainer: {
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: 5
   },
   buttonText: {
     fontSize: 25,
@@ -64,5 +73,23 @@ const styles = StyleSheet.create({
   }
 });
 
-//make this component available to the app
-export default Assistant;
+const StackAssistance = new StackNavigator(
+  {
+    Assistant: {
+      screen: Assistant
+    },
+    Step1: {
+      screen: Step1
+    },
+    Step2: {
+      screen: Step2
+    },
+    Step3: {
+      screen: Step2
+    }
+  },
+  {
+    headerMode: "none"
+  }
+);
+export default StackAssistance;
