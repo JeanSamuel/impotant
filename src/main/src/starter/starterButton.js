@@ -24,33 +24,14 @@ class StarterButton extends Component {
     this.props.navigation.navigate("NewUser");
   }
 
-  removeModal() {
-    this.setState({ modal: null });
-  }
-
-  createModal() {
-    this.setState({
-      modal: (
-        <Modal
-          visibility={true}
-          remove={this.removeModal.bind(this)}
-          data={
-            <Login
-              navigation={this.props.navigation}
-              modal={this.removeModal.bind(this)}
-            />
-          }
-        />
-      )
-    });
+  goToLogin() {
+    this.props.navigation.navigate("Login");
   }
 
   render() {
     return (
       <View>
-        <View>
-          {this.state.modal}
-        </View>
+        <View>{this.state.modal}</View>
         <DoubleLineButton
           action={() => this.createNewUser()}
           firstLine="Je suis NOUVEAU"
@@ -59,7 +40,7 @@ class StarterButton extends Component {
           navigation={this.props.navigation}
         />
         <DoubleLineButton
-          action={() => this.createModal(uri)}
+          action={() => this.goToLogin(uri)}
           firstLine="J'ai déjà un compte"
           secondLine="Je me connecte sur Ariary.net"
           color="rgba(41, 128, 185,1.0)"

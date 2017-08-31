@@ -138,8 +138,8 @@ class Services extends Component {
   }
 
   async isNewUser() {
-    await this.saveData("newAtHome", "misy");
-    await this.saveData("newAtSettings", "misy");
+    await this.saveData("newAtHome", "yes");
+    await this.saveData("newAtSettings", "yes");
   }
 
   /**

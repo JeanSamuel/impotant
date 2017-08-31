@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "0.0.40",
+    "babel-eslint": "^7.2.3",
     "jest-expo": "~18.0.0",
+    "react-native-scripts": "0.0.40",
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "rnpm": {

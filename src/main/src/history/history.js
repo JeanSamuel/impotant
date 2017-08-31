@@ -3,18 +3,18 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ActivityIndicator,
   ListView,
   RefreshControl,
   Keyboard
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import { StackNavigator } from "react-navigation";
-import styles from "../../styles/MainStyles";
 import styleBase from "../../styles/Styles";
 import HistoryServices from "../services/historyServices";
 import Row from "./row";
+import HeaderHistory from "./header";
 import Error from "./errorHistory";
 import DrawerButton from "../navigation/drawerButton";
 import axios from "axios";
@@ -63,12 +63,14 @@ class History extends Component {
 
   _onRefresh() {
     this.setState({ refreshing: true });
-    this.getHistory().then(this.setState({ refreshing: false })).catch(
-      this.setState({
-        refreshing: false,
-        loadingError: true
-      })
-    );
+    this.getHistory()
+      .then(this.setState({ refreshing: false }))
+      .catch(
+        this.setState({
+          refreshing: false,
+          loadingError: true
+        })
+      );
   }
 
   refactHistory(data) {
@@ -78,7 +80,8 @@ class History extends Component {
 
   renderSectionHeader(sectionData, sectionID) {
     let service = new HistoryServices();
-    return service.renderSectionHeader(sectionData, sectionID);
+    // return service.renderSectionHeader(sectionData, sectionID);
+    return <HeaderHistory sectionData={sectionData} sectionID={sectionID} />;
   }
 
   render() {
@@ -101,10 +104,10 @@ class History extends Component {
       });
 
       return (
-        <View style={styles.listView}>
-          <View style={styles.headerList}>
-            <Text style={styles.greyText}>Nom | Type</Text>
-            <Text style={styles.greyText}>Amount</Text>
+        <View style={style.listView}>
+          <View style={style.headerList}>
+            <Text style={style.greyText}>Nom | Type</Text>
+            <Text style={style.greyText}>Montant</Text>
           </View>
           <ListView
             refreshControl={
@@ -115,18 +118,36 @@ class History extends Component {
             }
             dataSource={ds.cloneWithRowsAndSections(this.state.data)}
             renderSectionHeader={this.renderSectionHeader}
-            renderRow={(row, j, k) =>
+            renderRow={(row, j, k) => (
               <Row
                 info={row}
                 index={parseInt(k)}
                 navigation={this.props.navigation}
-              />}
+              />
+            )}
           />
         </View>
       );
     }
   }
 }
+
+const style = EStyleSheet.create({
+  headerList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    marginVertical: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "rgba(52, 73, 94,1.0)"
+  },
+  greyText: {
+    color: "rgba(52, 73, 94,1.0)"
+  },
+  listView: {
+    marginBottom: 20
+  }
+});
 
 const navigationOptions = {
   headerStyle: styleBase.header,

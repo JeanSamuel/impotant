@@ -12,7 +12,12 @@ import { StackNavigator } from "react-navigation";
 import DrawerButton from "../navigation/drawerButton";
 import { Icon } from "react-native-elements";
 import Settings from "./settings";
-import Assistant from "../assistance/assistant";
+import {
+  Assistant_Step1,
+  Assistant_Step2,
+  Assistant_Step3,
+  Assistant_Step0
+} from "../assistance";
 
 const navigationOptions = {
   headerStyle: styleBase.header,
@@ -25,8 +30,26 @@ const StackSettings = new StackNavigator(
       screen: Settings,
       navigationOptions
     },
-    Assistant: {
-      screen: Assistant,
+    AssistantSetting_Step0: {
+      screen: Assistant_Step0,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AssistantSetting_Step1: {
+      screen: Assistant_Step1,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AssistantSetting_Step2: {
+      screen: Assistant_Step2,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AssistantSetting_Step3: {
+      screen: Assistant_Step3,
       navigationOptions: {
         header: null
       }

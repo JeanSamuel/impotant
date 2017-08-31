@@ -9,10 +9,10 @@ class WarningConnexion extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Icon name="signal-wifi-off" size={40} />
+        <Icon name="signal-wifi-off" />
         <Text>Erreur lors de la connexion aux serveurs</Text>
-        <Text>Veuillez verifiez votre connexion</Text>
-        <Text>Ou réessayer un peu plus tard</Text>
+        <Text>Verifiez votre connexion ou</Text>
+        <Text>Réessayer un peu plus tard</Text>
       </View>
     );
   }

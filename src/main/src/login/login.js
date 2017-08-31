@@ -5,17 +5,17 @@ import {
   Text,
   StyleSheet,
   WebView,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
-import { Icon } from "react-native-elements";
 import Services from "../services/services";
 import styleBase from "../../styles/Styles";
 import NotifServices from "../services/notificationServices";
+import { WarningConnexion } from "../../components/warning";
+import { Button } from "react-native-elements";
 
-const { width, height } = Dimensions.get("window");
+// const { width, height } = Dimensions.get("window");
 const uri = Services.loginUrl();
 // create a component
 class Login extends Component {
@@ -40,13 +40,13 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
-          this.props.modal();
           if (this.props.newUser) {
             service.isNewUser();
           }
           let data = {
             user_id: response
           };
+          this.changeSpinnerVisibility(false);
           notif.initForPushNotificationsAsync(response);
           this.props.navigation.navigate("DrawerExample", data);
         })
@@ -60,10 +60,13 @@ class Login extends Component {
     console.log("nis erreur de connexion ");
   }
 
-  webviewRenderError = (errorDomain, errorCode, errorDesc) =>
-    <View>
-      <Text>No Internet Connection</Text>
-    </View>;
+  webviewRenderError = (errorDomain, errorCode, errorDesc) => (
+    <WarningConnexion />
+  );
+
+  return() {
+    this.props.navigation.goBack();
+  }
 
   render() {
     errorView = (
@@ -73,22 +76,34 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <View>
-          <Spinner
-            visible={this.state.spinnerVisibility}
-            textStyle={{ color: "#FFF" }}
+        <View style={{ flex: 1 }}>
+          <View>
+            <Spinner
+              visible={this.state.spinnerVisibility}
+              textStyle={{ color: "#FFF" }}
+            />
+          </View>
+          <WebView
+            ref="webview"
+            source={{ uri: uri }}
+            style={styles.webview}
+            onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+            renderLoading={this.renderLoading}
+            onError={this.onErrorLoading.bind(this)}
+            renderError={() => this.webviewRenderError()}
+            startInLoadingState
           />
         </View>
-        <WebView
-          ref="webview"
-          source={{ uri: uri }}
-          style={styles.webview}
-          onNavigationStateChange={this._onNavigationStateChange.bind(this)}
-          renderLoading={this.renderLoading}
-          onError={this.onErrorLoading.bind(this)}
-          renderError={() => this.webviewRenderError()}
-          startInLoadingState
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Retour"
+            backgroundColor="transparent"
+            underlayColor="#000"
+            large
+            textStyle={styles.buttonText}
+            onPress={() => this.return()}
+          />
+        </View>
       </View>
     );
   }
@@ -97,9 +112,15 @@ class Login extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white"
   },
-  webview: {}
+  webview: { flex: 1 },
+  buttonContainer: {},
+  buttonText: {
+    fontSize: 20,
+    color: "rgba(52, 73, 94,1.0)"
+  }
 });
 
 //make this component available to the app

@@ -1,16 +1,19 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import styles from "./buttonStyles";
+import {} from "react-native";
+import { Button } from "react-native-elements";
 import PropTypes from "prop-types";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 // create a component
-class Button extends Component {
+class MyButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
       color: this.props.color,
-      text: this.props.text
+      text: this.props.text,
+      disabled: false,
+      textLoading: this.props.textLoading
     };
   }
 
@@ -20,26 +23,32 @@ class Button extends Component {
 
   render() {
     return (
-      <TouchableOpacity
-        style={[styles.newUserButton, { backgroundColor: this.state.color }]}
-        activeOpacity={0.7}
+      <Button
+        title={this.state.text}
+        textStyle={style.nextButtontext}
+        backgroundColor={this.state.color}
         onPress={() => this.makeAction()}
-      >
-        <View style={[styles.buttonContent]}>
-          <Text style={[{ color: "white" }, styles.buttonText]}>
-            {this.state.text}
-          </Text>
-        </View>
-      </TouchableOpacity>
+        underlayColor="#FFF"
+        buttonStyle={{ borderRadius: 20 }}
+      />
     );
   }
 }
+const style = EStyleSheet.create({
+  nextButtontext: {
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  disabled: {
+    backgroundColor: "rgba(230, 126, 34,1.0)"
+  }
+});
 
-Button.propTypes = {
+MyButton.propTypes = {
   color: PropTypes.string,
   text: PropTypes.string,
   action: PropTypes.func
 };
 
 //make this component available to the app
-export default Button;
+export default MyButton;

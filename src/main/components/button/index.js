@@ -1,3 +1,3 @@
-import Button from "./Button";
+import MyButton from "./Button";
 import DoubleLineButton from "./doubleLineButton";
-export { Button, DoubleLineButton };
+export { MyButton, DoubleLineButton };

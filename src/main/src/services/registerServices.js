@@ -39,9 +39,7 @@ class RegisterServices extends Component {
       body: formData
     })
       .then(response => {
-        console.log("ty le response", response);
         if (response.status >= 200 && response.status < 300) {
-          console.log("tsis erreur ah");
         } else if (response.status == 405) {
           let num = Services.getRandomNumber();
           let error = new Error(response.statusText);
@@ -53,7 +51,8 @@ class RegisterServices extends Component {
           throw error;
         } else {
           let error = new Error(response.statusText);
-          error.message = "Une erreur est survenue lors de la connexion aux serveurs";
+          error.message =
+            "Une erreur est survenue lors de la connexion aux serveurs";
           error.response = response;
           throw error;
         }

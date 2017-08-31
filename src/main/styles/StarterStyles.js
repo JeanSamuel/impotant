@@ -178,8 +178,6 @@ export default EStyleSheet.create({
 
   // *****************************************************
   newUserButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     marginBottom: 20
   },
   newUserButton: {

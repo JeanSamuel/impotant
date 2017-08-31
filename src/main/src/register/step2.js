@@ -4,21 +4,18 @@ import {
   View,
   Text,
   Image,
-  TextInput,
-  Keyboard,
-  TouchableOpacity,
   ScrollView,
-  ListView
+  ListView,
+  TouchableOpacity
 } from "react-native";
 import styles from "../../styles/StarterStyles";
 import styleBase from "../../styles/Styles";
 import Services from "../services/services";
-import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Icon, Button } from "react-native-elements";
 import data from "../../data/stepText";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Modal } from "../../components/modal";
-import Login from "../login/login";
+import { NavigationActions } from "react-navigation";
+import { MyButton } from "../../components/button";
 
 const vendorCheck = require("../../images/icons/vendorCheck.png");
 const backHeader = require("../../images/backHeader.jpg");
@@ -36,42 +33,32 @@ class Step2 extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       }).cloneWithRows(data.step2),
-      modal: null,
-      modalData: null,
       name: this.props.navigation.state.params.name
     };
   }
 
-  removeModal() {
-    this.setState({ modal: null });
-  }
-
   closeAssistant() {
-    this.props.navigation.goBack();
+    // this.props.navigation.dispatch(backAction);
+    // this.props.navigation.goBack();
   }
 
   goToAssistant() {
-    this.props.navigation.navigate("Assistant", {
-      close: this.closeAssistant()
-    });
+    this.props.navigation.navigate("Assistant_Step0");
   }
 
-  createModal() {
-    this.setState({
-      modal: (
-        <Modal
-          visibility={true}
-          remove={this.removeModal.bind(this)}
-          data={
-            <Login
-              navigation={this.props.navigation}
-              modal={this.removeModal.bind(this)}
-              newUser={true}
-            />
-          }
-        />
-      )
-    });
+  goToHome() {
+    let data = {
+      user_id: this.state.name
+    };
+    let services = new Services();
+    services
+      .isNewUser()
+      .then(response => {
+        this.props.navigation.navigate("DrawerExample", data);
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
   }
 
   renderRow(data) {
@@ -86,7 +73,6 @@ class Step2 extends Component {
   render() {
     return (
       <View style={styleBase.containerBase}>
-        <View>{this.state.modal}</View>
         <View style={styles.header}>
           <Image
             style={[styles.backHeader]}
@@ -135,50 +121,27 @@ class Step2 extends Component {
             <Text>Vous êtes maintenant un marchand AriaryPro</Text>
             <Text />
             <Text style={styleBase.textCenter}>
-              Nous vous conseillons de configurer proprement votre compte dès
-              maintenant mais vous pourrez aussi le faire plus tard et vous{" "}
-              <Text style={{ fontWeight: "bold" }}>
-                connectez tout de suite
-              </Text>
+              Vous pouvez passer tout de suite à l'accueil et reçevoir de
+              l'argent mais vous pouvez aussi configurez votre compte dès
+              maintenant
             </Text>
-            <View
-              style={{
-                marginTop: 20,
-                borderBottomColor: "black",
-                borderBottomWidth: 1
-              }}
-            >
-              <Text style={styleBase.textCenter}>
-                Votre mot de passe par défaut :{" "}
-              </Text>
-              <Text style={[styleBase.textCenter, { fontSize: 40 }]}>0000</Text>
-            </View>
           </View>
         </ScrollView>
         <View>
-          <View style={styleBase.centered}>
-            <Button
-              large
-              icon={{ name: "cogs", type: "font-awesome" }}
-              title="Je configure mon compte"
-              onPress={() => this.goToAssistant()}
-              backgroundColor="rgba(52, 73, 94,1.0)"
+          <View style={[style.buttonContainer]}>
+            <MyButton
+              text="Je passe à l'accueil"
+              action={() => this.goToHome()}
+              color="rgba(230, 126, 34,1.0)"
             />
-          </View>
-
-          <View style={styleBase.centered}>
             <Button
-              large
-              iconRight
-              icon={{
-                name: "angle-double-right",
-                type: "font-awesome",
-                color: color
-              }}
-              title="Je finalise mon inscription et je me connecte"
-              color={color}
+              title="Je configure mon compte"
+              icon={{ name: "cogs", type: "font-awesome", color: "black" }}
               backgroundColor="transparent"
-              onPress={() => this.createModal()}
+              textStyle={style.retourButtonText}
+              onPress={() => this.goToAssistant()}
+              underlayColor="#FFF"
+              buttonStyle={{ marginTop: 10 }}
             />
           </View>
         </View>
@@ -186,6 +149,21 @@ class Step2 extends Component {
     );
   }
 }
+
+const style = EStyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white"
+  },
+  retourButtonText: {
+    color: "rgba(52, 73, 94,1.0)",
+    fontSize: 18
+  },
+  webview: { flex: 1 },
+  buttonContainer: {
+    marginBottom: 20
+  }
+});
 
 //make this component available to the app
 export default Step2;

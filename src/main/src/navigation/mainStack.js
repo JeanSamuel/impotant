@@ -5,6 +5,7 @@ import { StackNavigator } from "react-navigation";
 import DrawerExample from "./drawer";
 import Starter from "../starter/starter";
 import Loader from "../starter/loader";
+import Login from "../login/login";
 import NewUser from "../register/newUser";
 import Services from "../services/services";
 
@@ -21,6 +22,9 @@ const MainStack = new StackNavigator(
     },
     DrawerExample: {
       screen: DrawerExample
+    },
+    Login: {
+      screen: Login
     }
   },
   {

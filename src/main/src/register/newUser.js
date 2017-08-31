@@ -5,6 +5,12 @@ import { StackNavigator } from "react-navigation";
 import Step1 from "../register/step1";
 import Step2 from "../register/step2";
 import Assistant from "../assistance/assistant";
+import {
+  Assistant_Step1,
+  Assistant_Step2,
+  Assistant_Step3,
+  Assistant_Step0
+} from "../assistance";
 
 const NewUser = new StackNavigator(
   {
@@ -17,12 +23,20 @@ const NewUser = new StackNavigator(
     Step2: {
       screen: Step2
     },
-    Assistant: {
-      screen: Assistant
+    Assistant_Step0: {
+      screen: Assistant_Step0
+    },
+    Assistant_Step1: {
+      screen: Assistant_Step1
+    },
+    Assistant_Step2: {
+      screen: Assistant_Step2
+    },
+    Assistant_Step3: {
+      screen: Assistant_Step3
     }
   },
   {
-    initialRouteName: "Step1",
     headerMode: "none"
   }
 );

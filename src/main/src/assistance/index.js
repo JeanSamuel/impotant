@@ -1,5 +1,6 @@
-import Step1 from "./steps/assistant_step1";
-import Step2 from "./steps/assistant_step2";
-import Step3 from "./steps/assistant_step3";
+import Assistant_Step1 from "./steps/assistant_step1";
+import Assistant_Step2 from "./steps/assistant_step2";
+import Assistant_Step3 from "./steps/assistant_step3";
+import Assistant_Step0 from "./steps/assistant_step0";
 
-export { Step1, Step2, Step3 };
+export { Assistant_Step0, Assistant_Step1, Assistant_Step2, Assistant_Step3 };

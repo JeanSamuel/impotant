@@ -8,8 +8,10 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import styles from "../../styles/StarterStyles";
 import styleBase from "../../styles/Styles";
 import Services from "../services/services";
@@ -20,6 +22,7 @@ import { Icon, Button } from "react-native-elements";
 import { Loader } from "../../components/loader";
 import data from "../../data/dataName";
 import { WarningInput } from "../../components/warning";
+import { MyButton } from "../../components/button";
 const check = require("../../images/icons/Check.png");
 const mark = require("../../images/icons/login2_mark.png");
 const backHeader = require("../../images/backHeader.jpg");
@@ -89,24 +92,40 @@ class Step1 extends Component {
     this.setState({ modal: null });
   }
 
-  goToStep2() {
+  confirm() {
     if (!this.checkInputError()) {
       this.refs.input.focus();
       Keyboard.dismiss();
     } else {
-      this.createLoader("Enregistrement en cours");
-      let regServices = new RegisterServices();
-      regServices
-        .saveAccount(this.state.value)
-        .then(response => {
-          this.removeLoader();
-          this.props.navigation.navigate("Step2", { name: this.state.value });
-        })
-        .catch(error => {
-          this.removeLoader();
-          this.setMessage(<WarningInput warningText={error.message} />);
-        });
+      Alert.alert(
+        "Création de compte",
+        "Créer un compte sous le nom de " + this.state.value,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => this.goToStep2() }
+        ],
+        { cancelable: false }
+      );
     }
+  }
+
+  goToStep2() {
+    this.createLoader("Enregistrement en cours");
+    let regServices = new RegisterServices();
+    regServices
+      .saveAccount(this.state.value)
+      .then(response => {
+        this.removeLoader();
+        this.props.navigation.navigate("Step2", { name: this.state.value });
+      })
+      .catch(error => {
+        this.removeLoader();
+        this.setMessage(<WarningInput warningText={error.message} />);
+      });
   }
 
   readyMessage() {
@@ -149,9 +168,7 @@ class Step1 extends Component {
   render() {
     return (
       <View style={styleBase.containerBase}>
-        <View>
-          {this.state.modal}
-        </View>
+        <View>{this.state.modal}</View>
         <Image
           style={[styles.header, { height: "15%" }]}
           source={backHeader}
@@ -181,7 +198,7 @@ class Step1 extends Component {
               <Image source={check} style={styles.checkImage} />
               <View style={styles.checkTextContainer}>
                 <Text style={styles.checkText}>
-                  Nous venons de créer un compte pour vous
+                  Nous allons vous créer un compte Ariary
                 </Text>
               </View>
             </View>
@@ -189,7 +206,7 @@ class Step1 extends Component {
               <Image source={check} style={styles.checkImage} />
               <View style={styles.checkTextContainer}>
                 <Text style={styles.checkText}>
-                  Nous avons aussi donné un nom à ce compte. Vous pouvez le
+                  Nous avons déjà donné un nom à ce compte. Vous pouvez le
                   modifier si vous le souhaiter
                 </Text>
               </View>
@@ -222,26 +239,22 @@ class Step1 extends Component {
                 <Icon name="edit" size={30} />
               </TouchableOpacity>
             </View>
-            <View style={styleBase.centered}>
-              {this.state.message}
-            </View>
+            <View style={styleBase.centered}>{this.state.message}</View>
             <KeyboardSpacer />
           </TouchableOpacity>
         </ScrollView>
-        <View style={[styleBase.alignCentered, styles.newUserButtonContainer]}>
-          <Button
-            title="Précédent"
-            icon={{ name: "arrow-back" }}
-            backgroundColor="rgba(230, 126, 34,1.0)"
-            onPress={this.returnStarter.bind(this)}
-            underlayColor="#FFF"
+        <View>
+          <MyButton
+            text="J'enregistre mon compte"
+            action={this.confirm.bind(this)}
+            color="rgba(230, 126, 34,1.0)"
+            textLoading="Enregistrement..."
           />
           <Button
-            title="Suivant"
-            iconRight
-            icon={{ name: "arrow-forward" }}
-            backgroundColor="rgba(230, 126, 34,1.0)"
-            onPress={this.goToStep2.bind(this)}
+            title="Retour"
+            backgroundColor="transparent"
+            textStyle={style.retourButtonText}
+            onPress={this.returnStarter.bind(this)}
             underlayColor="#FFF"
           />
         </View>
@@ -249,6 +262,18 @@ class Step1 extends Component {
     );
   }
 }
+const style = EStyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white"
+  },
+  retourButtonText: {
+    color: "rgba(52, 73, 94,1.0)",
+    fontSize: 18
+  },
+  webview: { flex: 1 },
+  buttonContainer: {}
+});
 
 //make this component available to the app
 export default Step1;
