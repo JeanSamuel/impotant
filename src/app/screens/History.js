@@ -14,6 +14,7 @@ import {
   Button,
   Separator
 } from "native-base";
+import headStyle from "../styles/headerStyle";
 
 // create a component
 var items = [
@@ -51,12 +52,8 @@ class History extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "History",
-      headerStyle: {
-        backgroundColor: "#1976D2"
-      },
-      headerTitleStyle: {
-        color: "#fff"
-      },
+      headerStyle: headStyle.headerBackground,
+      headerTitleStyle: headStyle.headerText,
       headerTintColor: "#fff"
     };
   };

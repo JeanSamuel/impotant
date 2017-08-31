@@ -21,6 +21,7 @@ class Login extends Component {
     super(props);
     this.state = {
       spinnerVisibility: false,
+      isLoading: false,
       saving: false
     };
   }
@@ -33,6 +34,7 @@ class Login extends Component {
     services = new Services();
     notif = new NotifServices();
     if (webview.url != uri) {
+      this.setState({ isLoading: !this.state.isLoading });
       var user_id = await services.goLogin(webview);
       this.props.modal();
       notif.registerForPushNotificationsAsync(user_id);
@@ -51,6 +53,7 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Spinner size="large" visible={this.state.isLoading} />
         <WebView
           ref="webview"
           source={{ uri: uri }}

@@ -12,7 +12,7 @@ export default {
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    paddingTop: 10
+    paddingTop: 5
   },
   closeTextContainer: {
     height: 20
@@ -26,9 +26,9 @@ export default {
   },
   webViewContainer: {
     flex: 1,
-    width: width - 50,
-    height: height / 2,
-    marginVertical: 50,
+    width: width - 20,
+    height: height - 20,
+    marginVertical: 20,
     padding: 5
   }
 };

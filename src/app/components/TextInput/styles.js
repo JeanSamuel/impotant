@@ -2,11 +2,11 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { StyleSheet } from "react-native";
 
 const INPUT_HEIGHT = 40;
-const BORDER_RADIUS = 4;
+const BORDER_RADIUS = 3;
 export default EStyleSheet.create({
   $buttonBackroundColorBase: "$white",
   $buttonBackroundColorModifier: 0.1,
-
+  $iconColor: "$primaryBlue",
   container: {
     backgroundColor: "$white",
     width: "90%",
@@ -14,7 +14,8 @@ export default EStyleSheet.create({
     borderRadius: BORDER_RADIUS,
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 11
+    marginVertical: 11,
+    alignSelf: "center"
   },
   myInputContainer: {
     backgroundColor: "$inputBG",
@@ -41,13 +42,17 @@ export default EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "$white",
-    borderTopLeftRadius: BORDER_RADIUS,
-    borderBottomLeftRadius: BORDER_RADIUS
+    borderTopRightRadius: BORDER_RADIUS,
+    borderBottomRightRadius: BORDER_RADIUS
+  },
+  iconButton: {
+    height: INPUT_HEIGHT,
+    backgroundColor: "$white"
   },
   buttonText: {
     fontWeight: "600",
-    fontSize: 20,
-    paddingHorizontal: 16,
+    fontSize: 18,
+    paddingHorizontal: 10,
     color: "$primaryBlue"
   },
   input: {

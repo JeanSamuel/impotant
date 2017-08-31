@@ -11,7 +11,7 @@ import { StackNavigator, DrawerNavigator } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Main from "../screens/Main";
-import Send from "../screens/Send";
+import Send from "../screens/send/Send";
 import Receive from "../screens/Receive";
 import SideBar from "../components/Sidebar/SideBar";
 import Pins from "../screens/Pin";
@@ -21,10 +21,14 @@ import RegisterName from "../screens/RegisterName";
 import Logout from "../screens/Logout";
 import History from "../screens/History";
 import RegisterPin from "../screens/RegisterPin";
+import To from "../screens/send/to";
 
 const NestedSendStack = StackNavigator({
   Send: {
     screen: Send
+  },
+  To: {
+    screen: To
   },
   History: {
     screen: History
@@ -64,9 +68,7 @@ export default StackNavigator(
     Drawer: {
       screen: Drawer,
       navigationOptions: ({ navigation }) => ({
-        header: () => null,
-        // headerTitle: "Drawer",
-        tintColor: "red"
+        header: () => null
       })
     },
     RegisterPin: {
@@ -97,5 +99,5 @@ export default StackNavigator(
       })
     }
   },
-  { initialRouteName: "RegisterPin" }
+  { initialRouteName: "Handler" }
 );

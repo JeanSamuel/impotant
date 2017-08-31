@@ -19,47 +19,52 @@ import {
 } from "native-base";
 
 import styles from "./styles";
-// import I18n from "ex-react-native-i18n";
+import I18n from "ex-react-native-i18n";
+import translation from "./translation";
 
 // create a component
-const drawerCover = require("./images/cover.png");
+const drawerCover = require("../../images/4.jpg");
 const drawerImage = require("./images/logo-kitchen-sink.png");
+
+I18n.fallbacks = true;
+I18n.translations = translation;
 
 const datas = [
   {
-    name: "Activity",
+    name: I18n.t("activities"),
     route: "Home",
     icon: "book",
     bg: "#C5F442"
   },
   {
-    name: "Adress",
-    route: "Home",
+    name: I18n.t("address"),
+    route: "About",
     icon: "bookmarks",
     bg: "#477EEA"
   },
   {
-    name: "Merchant Map",
-    route: "Home",
+    name: I18n.t("map"),
+    route: "About",
     icon: "map",
     bg: "#477EEA"
   },
   {
-    name: "Settings",
-    route: "Home",
+    name: I18n.t("settings"),
+    route: "Options",
     icon: "settings",
     bg: "#C5F442"
   },
   {
-    name: "About",
-    route: "Home",
+    name: I18n.t("about"),
+    route: "About",
     icon: "information-circle",
     bg: "#477EEA"
   },
   {
-    name: "Logout",
+    name: I18n.t("logout"),
     route: "Logout",
-    icon: "log-out"
+    icon: "log-out",
+    bg: "#477EEA"
   }
 ];
 

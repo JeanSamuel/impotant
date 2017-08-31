@@ -10,19 +10,29 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform,
+  ToastAndroid
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { Constants, BarCodeScanner, Permissions } from "expo";
 import { Form, Input, Item, Label, Content, Button, Header } from "native-base";
-import { Container } from "../components/Container";
-import { InputWithButton, SimpleInput, MyInput } from "../components/TextInput";
-import QrServices from "../utils/qrservices";
-import { MyModal } from "../components/Modal";
-import { RoundedButton } from "../components/Buttons";
+import { Container } from "../../components/Container";
+import {
+  InputWithButton,
+  SimpleInput,
+  MyInput,
+  InputLeftButton,
+  InputLeftIcon
+} from "../../components/TextInput";
+import QrServices from "../../utils/qrservices";
+import { MyModal } from "../../components/Modal";
+import { RoundedButton } from "../../components/Buttons";
 import Toast, { DURATION } from "react-native-easy-toast";
-import Services from "../utils/services";
+import Services from "../../utils/services";
 import { Ionicons } from "@expo/vector-icons";
+import headStyle from "../../styles/headerStyle";
+import { LogoMini } from "../../components/Logo";
 
 const { height, width } = Dimensions.get("window");
 
@@ -31,6 +41,9 @@ class Send extends Component {
     super(props);
     self = this;
     this.state = {
+      flashOn: "off",
+      isFlashOn: false,
+      flashIcon: "flash-off",
       user_id: this.props.navigation.state.params.user_id,
       oauth_code: "",
       amount: "",
@@ -73,12 +86,8 @@ class Send extends Component {
           </TouchableOpacity>
         </View>
       ),
-      headerStyle: {
-        backgroundColor: "#1976D2"
-      },
-      headerTitleStyle: {
-        color: "#fff"
-      },
+      headerStyle: headStyle.headerBackground,
+      headerTitleStyle: headStyle.headerText,
       headerTintColor: { color: "#fff" }
     };
   };
@@ -118,17 +127,20 @@ class Send extends Component {
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
-    readData = JSON.parse(qdata);
-    this.setState({
-      amount: readData.a,
-      currency: readData.c,
-      user: readData.u,
-      type: readData.t
-    });
-    this.setState({ isEditable: false });
-    if (readData.a == 0) {
-      console.log(readData.a);
-      this.createModal();
+    console.log(qdata);
+    if (qdata.includes("vola")) {
+      readData = JSON.parse(qdata);
+      this.setState({
+        amount: readData.a,
+        currency: readData.c,
+        user: readData.u,
+        type: readData.t
+      });
+      this.setState({ isEditable: false });
+      if (readData.a == 0) {
+        console.log(readData.a);
+        this.createModal();
+      }
     }
   };
 
@@ -165,7 +177,9 @@ class Send extends Component {
         console.log(JSON.stringify(responseJson));
         this.initState();
         this.setState({ isLoading: false });
-        this.refs.toast.show("Transaction success", 1000);
+        Platform.OS == "android"
+          ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
+          : this.refs.toast.show("Transaction success", 1000);
       })
       .catch(error => {
         console.error(error);
@@ -175,6 +189,11 @@ class Send extends Component {
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
   }
+
+  onSelect = data => {
+    this.setState({ data });
+    console.log("ato izy zao");
+  };
 
   removeModal = () => {
     this.setState({ modal: null });
@@ -193,6 +212,18 @@ class Send extends Component {
     return number.replace(/[ ,]/g, "");
   }
 
+  toggleFlash = () => {
+    this.setState({ isFlashOn: !this.state.isFlashOn });
+    if (this.state.isFlashOn) {
+      this.setState({ flashOn: "on", flashIcon: "flash-on" });
+    } else {
+      this.setState({ flashOn: "off", flashIcon: "flash-off" });
+    }
+  };
+
+  isFieldEmpty = () => {
+    return this.state.user.trim() == "" && this.state.amount == "";
+  };
   acceptTransaction(text) {}
   createModal() {
     this.setState({
@@ -202,14 +233,11 @@ class Send extends Component {
           remove={this.removeModal}
           height={height - 50}
           data={
-            <View style={styles.modalContainer}>
+            <Container style={styles.modalContainer}>
+              <LogoMini />
               <Text
                 style={{
                   color: "#fff",
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  left: 0,
                   fontSize: 18,
                   fontWeight: "500",
                   marginVertical: 20,
@@ -230,7 +258,7 @@ class Send extends Component {
                   this.removeModal();
                 }}
               />
-            </View>
+            </Container>
           }
         />
       )
@@ -260,14 +288,17 @@ class Send extends Component {
           visibility={true}
           remove={this.removeModal}
           data={
-            <View style={styles.modalContainer}>
+            <Container>
+              <View>
+                <LogoMini />
+              </View>
               <Text
                 style={{
                   color: "#fff",
-                  position: "absolute",
+                  /*position: "absolute",
                   top: 0,
                   right: 0,
-                  left: 0,
+                  left: 0,*/
                   fontSize: 18,
                   fontWeight: "500",
                   marginVertical: 20,
@@ -304,14 +335,14 @@ class Send extends Component {
                     }
                   }
                 }}
-                style={styles.simpleInput}
+                style={[styles.simpleInput, { textAlign: "center" }]}
                 placeholder="Enter your PIN here"
                 autofocus={true}
                 keyboardType="numeric"
                 returnKeyType="done"
                 secureTextEntry={true}
               />
-            </View>
+            </Container>
           }
         />
       )
@@ -334,37 +365,52 @@ class Send extends Component {
     return (
       <Container style={styles.container}>
         <Content>
-          {this.state.hasCameraPermission === null
-            ? <Text>Requesting for camera permission</Text>
-            : this.state.hasCameraPermission === false
-              ? <Text>Camera permission is not granted</Text>
-              : <BarCodeScanner
-                  barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                  onBarCodeRead={this._handleBarCodeRead}
-                  style={{
-                    height: height - 50,
-                    width: width,
-                    alignSelf: "center"
-                  }}
-                />}
+          {this.state.hasCameraPermission === null ? (
+            <Text>Requesting for camera permission</Text>
+          ) : this.state.hasCameraPermission === false ? (
+            <Text>Camera permission is not granted</Text>
+          ) : (
+            <BarCodeScanner
+              torchMode={this.state.flashOn}
+              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+              onBarCodeRead={this._handleBarCodeRead}
+              style={{
+                height: height - 50,
+                width: width,
+                alignSelf: "center"
+              }}
+            />
+          )}
           <View
             style={{
               position: "absolute",
               top: 0,
               right: 0,
               left: 0,
-              backgroundColor: "#607D8B"
+              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
             }}
           >
-            <MyInput
+            <InputLeftIcon
+              iconName="expand-more"
+              onPress={() => {
+                console.log("Expand");
+                this.props.navigation.navigate("To", {
+                  onGoBack: data => {
+                    console.log(data);
+                    this.setState({ user: data });
+                  }
+                });
+              }}
               placeholder="Username"
               onChangeText={user => this.setState({ user })}
               value={this.state.user}
               returnKeyType="none"
               blurOnSubmit={false}
             />
-            <MyInput
+            <InputLeftButton
+              buttonText={this.state.currency}
               value={"" + this.state.amount}
+              placeholder="Amount"
               keyboardType="numeric"
               returnKeyType="done"
               editable={this.state.isEditable}
@@ -382,46 +428,49 @@ class Send extends Component {
               bottom: 0,
               left: 0,
               right: 0,
-              backgroundColor: "#607D8B"
+              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
             }}
           >
-            <TouchableOpacity
-              style={{
-                marginHorizontal: 50,
-                marginVertical: 30
-              }}
+            <Button
+              style={styles.controlButton}
+              color="#448aff"
               onPress={this.onResetAction}
             >
               <Icon name="clear-all" size={30} color="#fafafa" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginHorizontal: 50,
-                marginVertical: 30
-              }}
+            </Button>
+            <Button
+              style={styles.controlButton}
+              color="#448aff"
+              onPress={this.toggleFlash}
+            >
+              <Icon name={this.state.flashIcon} size={30} color="#fafafa" />
+            </Button>
+            <Button
+              style={styles.controlButton}
               onPress={this.promptInformation}
             >
               <Icon name="info" size={30} color="#fafafa" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginHorizontal: 50,
-                marginVertical: 30
-              }}
+            </Button>
+            <Button
+              style={styles.controlButton}
               onPress={this.onContinueAction}
             >
               <Icon name="send" size={30} color="#fafafa" />
-            </TouchableOpacity>
+            </Button>
           </View>
           {this.state.modal}
-          <Toast
-            ref="toast"
-            position="top"
-            positionValue={20}
-            fadeInDuration={750}
-            fadeOutDuration={1000}
-            opacity={0.8}
-          />
+          {Platform.OS == "ios" ? (
+            <Toast
+              ref="toast"
+              position="top"
+              positionValue={20}
+              fadeInDuration={750}
+              fadeOutDuration={1000}
+              opacity={0.8}
+            />
+          ) : (
+            <View />
+          )}
         </Content>
       </Container>
     );
@@ -447,10 +496,15 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     paddingLeft: 0,
-    fontSize: 18
+    fontSize: 24
   },
   headerStyle: {
     backgroundColor: "#1e8887"
+  },
+  controlButton: {
+    marginHorizontal: 50,
+    marginVertical: 30,
+    backgroundColor: "transparent" ///"rgba(52, 73, 94,1.0)" // "#448aff"
   }
 });
 

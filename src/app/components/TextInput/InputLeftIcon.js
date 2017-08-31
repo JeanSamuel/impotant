@@ -6,10 +6,12 @@ import {
   Text,
   Keyboard
 } from "react-native";
+import { Button } from "native-base";
+import { Icon } from "react-native-elements";
 import color from "color";
 import styles from "./styles";
 
-class InputWithButton extends React.Component {
+class InputLeftIcon extends React.Component {
   render() {
     const containerStyles = [styles.container];
 
@@ -32,17 +34,12 @@ class InputWithButton extends React.Component {
           placeholder={this.props.placeholder}
           editable={this.props.editable}
         />
+        <Button style={styles.iconButton} onPress={this.props.onPress}>
+          <Icon name={this.props.iconName} size={25} />
+        </Button>
       </View>
     );
   }
 }
 
-InputWithButton.propTypes = {
-  editable: PropTypes.bool,
-  keyboardType: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  secureTextEntry: PropTypes.bool,
-  maxLength: PropTypes.number
-};
-
-export default InputWithButton;
+export default InputLeftIcon;

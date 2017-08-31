@@ -7,7 +7,7 @@ import Navigator from "./config/routes";
 
 EStyleSheet.build({
   // outline: 1,
-  $primaryBlue: "#1e8887",
+  $primaryBlue: "#34495e",
   $white: "#FFFFFF",
   $lightGray: "#F0F0F0",
   $border: "#E2E2E2",
