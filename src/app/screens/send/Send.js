@@ -26,6 +26,7 @@ import {
   InputLeftIcon
 } from "../../components/TextInput";
 import QrServices from "../../utils/qrservices";
+import UserServices from "../../utils/userServices";
 import { MyModal } from "../../components/Modal";
 import { RoundedButton } from "../../components/Buttons";
 import Toast, { DURATION } from "react-native-easy-toast";
@@ -164,6 +165,7 @@ class Send extends Component {
     this.setState({ isLoading: true });
     console.log("process transaction");
     services = new QrServices();
+    userServices = new UserServices();
     services
       .performTransation(
         this.reformatNumber(this.state.amount),
@@ -176,10 +178,17 @@ class Send extends Component {
       .then(responseJson => {
         console.log(JSON.stringify(responseJson));
         this.initState();
-        this.setState({ isLoading: false });
-        Platform.OS == "android"
-          ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
-          : this.refs.toast.show("Transaction success", 1000);
+        userServices
+          .saveAdress(this.state.user_id, this.state.user)
+          .then(() => {
+            this.setState({ isLoading: false });
+            Platform.OS == "android"
+              ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
+              : this.refs.toast.show("Transaction success", 1000);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(error => {
         console.error(error);

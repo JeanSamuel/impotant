@@ -8,9 +8,11 @@ import {
   ListView,
   Dimensions
 } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 import { List, ListItem } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import headStyle from "../../styles/headerStyle";
+import UserServices from "../../utils/userServices";
 import Row from "./Row";
 // create a component
 
@@ -38,6 +40,26 @@ class To extends Component {
       headerTintColor: "#fff"
     };
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      loading: true
+    };
+  }
+
+  componentDidMount() {
+    userServices = new UserServices();
+    userServices
+      .getAdresses("A240")
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({ list: responseJson });
+        console.log(responseJson, list);
+        this.setState({ loading: false });
+      });
+  }
+
   renderSeparator = () => {
     return (
       <View
@@ -51,6 +73,7 @@ class To extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Spinner visible={this.state.loading} size="large" />
         <View
           style={{
             height: 80,
@@ -82,7 +105,7 @@ class To extends Component {
           }}
         >
           <FlatList
-            data={list}
+            data={this.state.list}
             style={{ margin: 0 }}
             //ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) => (
@@ -94,17 +117,16 @@ class To extends Component {
                   borderBottomWidth: 4,
                   borderBottomColor: "#fafafa"
                 }}
-                title={item.accountId}
+                title={item.account_id}
                 titleStyle={{ fontSize: 18 }}
                 hideChevron={true}
-                rightTitle={item.date}
                 onPress={() => {
-                  this.props.navigation.state.params.onGoBack(item.accountId);
+                  this.props.navigation.state.params.onGoBack(item.account_id);
                   this.props.navigation.goBack();
                 }}
               />
             )}
-            keyExtractor={item => item.accountId}
+            keyExtractor={item => item.account_id}
           />
         </List>
       </View>
