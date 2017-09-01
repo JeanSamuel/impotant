@@ -30,25 +30,39 @@ class Step2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user_id: "",
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      }).cloneWithRows(data.step2),
-      name: this.props.navigation.state.params.name
+      }).cloneWithRows(data.step2)
     };
   }
 
-  closeAssistant() {
-    // this.props.navigation.dispatch(backAction);
-    // this.props.navigation.goBack();
+  componentDidMount() {
+    this.getDataUser();
+  }
+
+  getDataUser() {
+    let services = new Services();
+    services
+      .getData("user_id")
+      .then(response => {
+        this.setState({
+          user_id: response
+        });
+      })
+      .catch(error => {
+        console.log("ty le error0", error);
+        this.props.navigation.goBack();
+      });
   }
 
   goToAssistant() {
-    this.props.navigation.navigate("Assistant_Step0");
+    this.props.navigation.navigate("Assistant", { return: "Step2" });
   }
 
   goToHome() {
     let data = {
-      user_id: this.state.name
+      user_id: this.state.user_id
     };
     let services = new Services();
     services
@@ -106,7 +120,7 @@ class Step2 extends Component {
             <Text style={[styles.scrollText, styleBase.textCenter]}>
               Votre compte a été enregistré sous le nom de : {" "}
               <Text style={{ fontWeight: "bold", fontSize: 25 }}>
-                {this.state.name}
+                {this.state.user_id}
               </Text>
             </Text>
           </View>

@@ -58,7 +58,7 @@ class Services extends Component {
     var dataformat = String(number).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
     dataformat = dataformat.replace("-", "");
     var value = parseFloat(number);
-    var sign = "+ ";
+    var sign = "";
     if (value < 0) {
       sign = "- ";
     }

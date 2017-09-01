@@ -120,7 +120,7 @@ class Step1 extends Component {
       .saveAccount(this.state.value)
       .then(response => {
         this.removeLoader();
-        this.props.navigation.navigate("Step2", { name: this.state.value });
+        this.props.navigation.navigate("Step2", { user_id: this.state.value });
       })
       .catch(error => {
         this.removeLoader();

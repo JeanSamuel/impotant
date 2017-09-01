@@ -8,7 +8,7 @@ import Loader from "../starter/loader";
 import Login from "../login/login";
 import NewUser from "../register/newUser";
 import Services from "../services/services";
-
+import Assistant from "../assistance/assistant";
 const MainStack = new StackNavigator(
   {
     Loader: {
@@ -25,6 +25,9 @@ const MainStack = new StackNavigator(
     },
     Login: {
       screen: Login
+    },
+    Assistant: {
+      screen: Assistant
     }
   },
   {

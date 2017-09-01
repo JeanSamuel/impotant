@@ -13,44 +13,57 @@ class Row extends Component {
     index: React.PropTypes.number
   };
 
-  render() {
-    let reportFormated = Services.formatNumber(this.props.info.amount);
-    let currency = (
+  getCurrencyAndAmount(amount, currency) {
+    let styleNegative = null;
+    if (amount < 0) {
+      styleNegative = styles.currencyNegative;
+    }
+    return (
       <View style={styles.amountContainer}>
-        <Text style={styles.amount}>
-          {reportFormated}{" "}
-        </Text>
-        <Text style={styles.currency}>
-          {this.props.info.currency}
-        </Text>
-      </View>
-    );
-    let hour = this.props.info.date.split(" ")[1];
-    let iconName = "file-download";
-    let iconColor = "rgba(22, 160, 133,1.0)";
-    let type = "Récéption d'argent";
-    if (parseInt(this.props.info.amount) < 0) {
-      currency = (
-        <View style={styles.amountContainer}>
-          <Text style={[styles.amount, styles.currencyNegative]}>
-            {reportFormated}{" "}
-          </Text>
-          <Text style={[styles.currency, styles.currencyNegative]}>
-            {this.props.info.currency}
+        <View style={styles.currencyContainer}>
+          <Text style={[styles.amount, styleNegative]}>
+            {Services.formatNumber(amount)}{" "}
           </Text>
         </View>
-      );
+        <View style={styles.currencyContainer}>
+          <Text style={[styles.currency, styleNegative]}>{currency}</Text>
+        </View>
+      </View>
+    );
+  }
 
-      iconName = "shopping-cart";
+  getTypeOfTransaction(amount) {
+    let type = "Récéption d'argent";
+    if (amount < 0) {
       type = "Envoi d'argent";
-      iconColor = "rgba(211, 84, 0,1.0)";
-      if (parseInt(this.props.info.amount) < -1000) {
-        iconName = "file-upload";
-        type = "Achat";
+      if (amount < -1000) type = "Achat";
+    }
+    return type;
+  }
+
+  getIcon(amount) {
+    let iconName = "file-download";
+    let iconColor = "rgba(230, 126, 34,1.0)";
+    if (amount < 0) {
+      iconName = "file-upload";
+      iconColor = "rgba(52, 73, 94,1.0)";
+      if (amount < -1000) {
+        iconName = "file-uploadshopping-cart";
         iconColor = "#517fa4";
       }
     }
-    let icon = <Icon reverse name={iconName} color={iconColor} />;
+    return <Icon name={iconName} color={iconColor} />;
+  }
+
+  render() {
+    let reportFormated = Services.formatNumber(this.props.info.amount);
+    let currency = this.getCurrencyAndAmount(
+      this.props.info.amount,
+      this.props.info.currency
+    );
+    let type = this.getTypeOfTransaction(this.props.info.amount);
+    let icon = this.getIcon(this.props.info.amount);
+    let hour = this.props.info.date.split(" ")[1];
 
     return (
       <View style={styles.container}>
@@ -60,20 +73,12 @@ class Row extends Component {
               {icon}
             </View>
             <View style={styles.userInfoContainer}>
-              <Text style={styles.user}>
-                {this.props.info.name}
-              </Text>
-              <Text style={styles.date}>
-                {type}
-              </Text>
-              <Text style={styles.date}>
-                {hour}
-              </Text>
+              <Text style={styles.otherUser}>{this.props.info.senderId}</Text>
+              <Text style={styles.type}>{type}</Text>
+              <Text style={styles.date}>{hour}</Text>
             </View>
           </View>
-          <View>
-            {currency}
-          </View>
+          <View>{currency}</View>
         </View>
       </View>
     );

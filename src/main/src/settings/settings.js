@@ -39,7 +39,7 @@ class Settings extends Component {
       .then(response => {
         if (response != null) {
           let navigation = this.props.navigation;
-          navigation.navigate("AssistantSetting_Step0");
+          navigation.navigate("Assistant", { return: "Fifth" });
         }
       })
       .catch(error => {

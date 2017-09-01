@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import styles from "../../styles/MainStyles";
+import Services from "./services";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
@@ -17,6 +17,40 @@ class HistorySevices extends Component {
     return moment(actualDate, "YYYY-MM-DD").format("YYYY-MM-DD");
   };
 
+  async getHistory(user_id) {
+    let url = "http://ariary.vola.mg/transaction/" + user_id;
+    return fetch(url)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.saveHistory(JSON.stringify(responseJson));
+        return responseJson;
+      })
+      .catch(error => {
+        console.log("erreur aty aloha", error);
+        throw error;
+      });
+  }
+
+  async getOldHistory() {
+    let services = new Services();
+    try {
+      let data = await services.getData("history");
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async saveHistory(history) {
+    let services = new Services();
+    try {
+      services.saveData("history", history);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /**
      *@description transformer une date sous un autre format
      *@type string de fromat 'YYYY-MM-DD' 
@@ -28,60 +62,27 @@ class HistorySevices extends Component {
   };
 
   /**
-     *@description mmise en forme de chaque section(jour)
-     *@type sectionTitle
-     *@argument sectionData : c'est l'ensemble des données dans la section (tableau)
-     *@argument sectionID : le numero de la section
-     *@return le titre avec mis en forme
-     *@example dimanche 9 juillet 2017
-     */
-  renderSectionHeader(sectionData, sectionID) {
-    let actualDate = sectionData[0].date.split(" ")[0];
-    let section = this.getMomentFormat1(actualDate);
-
-    let today = "Aujourd'hui";
-    if (moment().isSame(section, "d")) {
-      section = (
-        <View style={styles.sectionHeaderNow}>
-          <Text
-            style={[styles.sectionHeaderTitle, styles.sectionHeaderTitleNow]}
-          >
-            {today}
-          </Text>
-        </View>
-      );
-    } else {
-      section = (
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionHeaderTitle}>
-            {this.getMomentFormat2(section)}
-          </Text>
-        </View>
-      );
-    }
-    return <View>{section}</View>;
-  }
-
-  /**
      *@description transforme une tableau de données en une tableau 2 dimensions groupée par date
      *@argument data : le table de départ
      */
   refactHistory(data) {
-    console.log("data", data);
-    var actualDate = data[0].date.split(" ")[0];
-    var dataRefactored = [[data[0]]];
-    var actualLigne = 0;
+    let dataRefactored = [];
+    if (data.length != 0) {
+      let actualDate = data[0].date.split(" ")[0];
+      dataRefactored = [[data[0]]];
+      let actualLigne = 0;
 
-    for (var index = 1; index < data.length; index++) {
-      var transac = data[index];
-      var date = transac.date.split(" ")[0];
-      if (date == actualDate) {
-        dataRefactored[actualLigne].push(transac);
-      } else {
-        actualDate = date;
-        actualLigne++;
-        dataRefactored[actualLigne] = [];
-        dataRefactored[actualLigne][0] = transac;
+      for (var index = 1; index < data.length; index++) {
+        let transac = data[index];
+        let date = transac.date.split(" ")[0];
+        if (date == actualDate) {
+          dataRefactored[actualLigne].push(transac);
+        } else {
+          actualDate = date;
+          actualLigne++;
+          dataRefactored[actualLigne] = [];
+          dataRefactored[actualLigne][0] = transac;
+        }
       }
     }
     return dataRefactored;

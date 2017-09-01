@@ -23,8 +23,8 @@ class Assistant extends Component {
   removeAssistant() {
     let services = new Services();
     services.removeData("newAtSettings");
-
-    this.props.navigation.goBack();
+    let returnKey = this.props.navigation.state.params.return;
+    this.props.navigation.navigate(returnKey);
     // this.props.navigation.state.params.close();
   }
 

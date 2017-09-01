@@ -39,6 +39,7 @@
     "react-native-modal-dropdown": "^0.4.4",
     "react-native-popup": "^0.6.1",
     "react-native-qrcode-svg": "5.0.0",
+    "react-native-searchbar": "^1.11.0",
     "react-native-step-indicator": "0.0.6",
     "react-native-svg": "5.2.0",
     "react-native-swiper": "^1.5.10",

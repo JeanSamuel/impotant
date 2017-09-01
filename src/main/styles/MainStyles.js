@@ -53,25 +53,7 @@ export default {
   greyText: {
     color: "rgba(149, 165, 166,1.0)"
   },
-  sectionHeader: {
-    marginTop: 10,
-    paddingVertical: 5,
-    backgroundColor: "rgba(127, 140, 141,0.2)"
-  },
-  sectionHeaderTitle: {
-    textAlign: "center",
-    fontSize: 15
-  },
-  sectionHeaderTitleNow: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#FFF"
-  },
-  sectionHeaderNow: {
-    paddingTop: 5,
-    paddingBottom: 5,
-    backgroundColor: "rgba(127, 140, 141,0.8)"
-  },
+
   listView: {
     marginBottom: 20
   }

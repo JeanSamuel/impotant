@@ -40,6 +40,14 @@ class RegisterServices extends Component {
     })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
+          try {
+            let services = new Services();
+            services.saveData("user_id", accountId);
+          } catch (error) {
+            let error = new Error(error);
+            error.message = "Une erreur est survenue veuillez réessayer";
+            throw error;
+          }
         } else if (response.status == 405) {
           let num = Services.getRandomNumber();
           let error = new Error(response.statusText);

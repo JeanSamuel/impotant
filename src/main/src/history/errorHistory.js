@@ -1,32 +1,42 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text } from "react-native";
 import styles from "../../styles/StarterStyles";
+import { Icon } from "react-native-elements";
 import styleBase from "../../styles/Styles";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const errorIcon = require("../../images/icons/no-conection-256.png");
 // create a component
 class Error extends Component {
   render() {
+    let syncStyle = null;
+    if (this.props.isSynchronised)
+      syncStyle = { backgroundColor: "rgba(230, 126, 34,1.0)" };
     return (
-      <View style={styles.container}>
-        <View style={{ marginVertical: 25 }}>
-          <View style={[styleBase.centered, { marginBottom: 10 }]}>
-            <Image source={errorIcon} style={styles.mark} />
-          </View>
-          <View style={styleBase.centered}>
-            <Text style={{ color: "rgba(127, 140, 141,1.0)" }}>
-              Connection failed
-            </Text>
-            <Text style={{ color: "rgba(127, 140, 141,1.0)" }}>
-              Please, Try again later
-            </Text>
-          </View>
-        </View>
+      <View style={[style.connexionError, styleBase.centered, syncStyle]}>
+        {!this.props.isSynchronised ? (
+          <Icon name="warning" color="white" size={15} />
+        ) : (
+          <View />
+        )}
+        <Text style={style.connexionErrorText}> {this.props.text}</Text>
       </View>
     );
   }
 }
+
+const style = EStyleSheet.create({
+  connexionError: {
+    flexDirection: "row",
+    backgroundColor: "rgba(231, 76, 60,1.0)",
+    paddingVertical: 3
+  },
+  connexionErrorText: {
+    color: "white",
+    textAlign: "center"
+  }
+});
 
 //make this component available to the app
 export default Error;
