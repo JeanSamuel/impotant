@@ -38,7 +38,7 @@ const datas = [
   },
   {
     name: I18n.t("address"),
-    route: "About",
+    route: "Adresses",
     icon: "bookmarks",
     bg: "#477EEA"
   },
@@ -90,7 +90,7 @@ export default class SideBar extends Component {
           </Image>
           <List
             dataArray={datas}
-            renderRow={data =>
+            renderRow={data => (
               <ListItem
                 button
                 noBorder
@@ -102,11 +102,10 @@ export default class SideBar extends Component {
                     name={data.icon}
                     style={{ color: "#777", fontSize: 26, width: 30 }}
                   />
-                  <Text style={styles.text}>
-                    {data.name}
-                  </Text>
+                  <Text style={styles.text}>{data.name}</Text>
                 </Left>
-              </ListItem>}
+              </ListItem>
+            )}
           />
         </Content>
       </Container>

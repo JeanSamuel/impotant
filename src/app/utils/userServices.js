@@ -11,11 +11,7 @@ class UserServices extends Component {
     formData.append("adress_account_id", addressAccountId);
     var data = {
       method: "POST",
-      data: formData,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data"
-      }
+      body: formData
     };
     return fetch(URL, data);
   }

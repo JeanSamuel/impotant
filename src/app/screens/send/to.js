@@ -49,9 +49,10 @@ class To extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.navigation.state.params.user_id);
     userServices = new UserServices();
     userServices
-      .getAdresses("A240")
+      .getAdresses(this.props.navigation.state.params.user_id)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ list: responseJson });
@@ -117,16 +118,18 @@ class To extends Component {
                   borderBottomWidth: 4,
                   borderBottomColor: "#fafafa"
                 }}
-                title={item.account_id}
+                title={item.adress_account_id}
                 titleStyle={{ fontSize: 18 }}
                 hideChevron={true}
                 onPress={() => {
-                  this.props.navigation.state.params.onGoBack(item.account_id);
+                  this.props.navigation.state.params.onGoBack(
+                    item.adress_account_id
+                  );
                   this.props.navigation.goBack();
                 }}
               />
             )}
-            keyExtractor={item => item.account_id}
+            keyExtractor={item => item.adress_account_id}
           />
         </List>
       </View>

@@ -21,6 +21,7 @@ import RegisterName from "../screens/RegisterName";
 import Logout from "../screens/Logout";
 import History from "../screens/History";
 import RegisterPin from "../screens/RegisterPin";
+import Adresses from "../screens/adresses/Adresses";
 import To from "../screens/send/to";
 
 const NestedSendStack = StackNavigator({
@@ -40,6 +41,9 @@ const Drawer = DrawerNavigator(
     Home: {
       screen: NestedSendStack,
       header: () => null
+    },
+    Adresses: {
+      screen: Adresses
     },
     Options: { screen: Main },
     About: { screen: Main },

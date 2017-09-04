@@ -177,14 +177,16 @@ class Send extends Component {
       .then(response => response.json())
       .then(responseJson => {
         console.log(JSON.stringify(responseJson));
-        this.initState();
+        console.log(this.state.user_id, this.state.user);
         userServices
           .saveAdress(this.state.user_id, this.state.user)
-          .then(() => {
+          .then(response => {
+            console.log(response);
             this.setState({ isLoading: false });
             Platform.OS == "android"
               ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
               : this.refs.toast.show("Transaction success", 1000);
+            this.initState();
           })
           .catch(err => {
             console.log(err);
@@ -407,7 +409,8 @@ class Send extends Component {
                   onGoBack: data => {
                     console.log(data);
                     this.setState({ user: data });
-                  }
+                  },
+                  user_id: this.state.user_id
                 });
               }}
               placeholder="Username"
