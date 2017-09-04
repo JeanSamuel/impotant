@@ -20,38 +20,7 @@ import DrawerButton from "../navigation/drawerButton";
 import axios from "axios";
 import SearchBar from "react-native-searchbar";
 
-const items = [
-  {
-    id: "676",
-    date: "2017-08-31 17:44:42",
-    senderId: "miorantsoa",
-    recipientId: "manitra",
-    amount: "6000",
-    currency: "MGA",
-    comment: "Transfert",
-    name: "USERmiorantsoa"
-  },
-  {
-    id: "488",
-    date: "2017-08-30 17:59:26",
-    senderId: "miorantsoa",
-    recipientId: "manitra",
-    amount: "135",
-    currency: "MGA",
-    comment: "Transfert",
-    name: "USERmiorantsoa"
-  },
-  {
-    id: "97",
-    date: "2017-08-06 17:56:09",
-    senderId: "1",
-    recipientId: "manitra",
-    amount: "-79",
-    currency: "USD",
-    comment: "Nivo.mg online payment",
-    name: "USER1"
-  }
-];
+
 // create a component
 const self = null;
 
@@ -195,6 +164,7 @@ class History extends Component {
               handleResults={this._handleResults}
               onX={() => this.hideSearchBar()}
               hideBack
+              allDataOnEmptySearch
             />
           </View>
           <View>{this.state.error}</View>
