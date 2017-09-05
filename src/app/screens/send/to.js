@@ -13,6 +13,7 @@ import { List, ListItem } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import headStyle from "../../styles/headerStyle";
 import UserServices from "../../utils/userServices";
+import Services from "../../utils/services";
 import Row from "./Row";
 // create a component
 
@@ -50,13 +51,12 @@ class To extends Component {
 
   componentDidMount() {
     console.log(this.props.navigation.state.params.user_id);
-    userServices = new UserServices();
-    userServices
-      .getAdresses(this.props.navigation.state.params.user_id)
-      .then(response => response.json())
+    services = new Services();
+    services
+      .getData2("adress")
+      .then(response => JSON.parse(response))
       .then(responseJson => {
         this.setState({ list: responseJson });
-        console.log(responseJson, list);
         this.setState({ loading: false });
       });
   }

@@ -7,7 +7,9 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
-  Modal
+  Modal,
+  Platform,
+  ToastAndroid
 } from "react-native";
 import {
   Header,
@@ -25,8 +27,10 @@ import { BarCodeScanner } from "expo";
 import Spinner from "react-native-loading-spinner-overlay";
 import { List, ListItem } from "react-native-elements";
 import { RoundedButton } from "../../components/Buttons/RoundedButton";
+import Toast, { DURATION } from "react-native-easy-toast";
 import headStyle from "../../styles/headerStyle";
 import UserServices from "../../utils/userServices";
+import Services from "../../utils/services";
 
 const { width, height } = Dimensions.get("window");
 // create a component
@@ -44,12 +48,29 @@ class Adresses extends Component {
   componentDidMount() {
     console.log(this.props.navigation.state.params.user_id);
     userServices = new UserServices();
+    services = new Services();
+    services
+      .getData2("adress")
+      .then(response => JSON.parse(response))
+      .then(responseJson => {
+        this.setState({ list: responseJson });
+        this.setState({ loading: false });
+      });
     userServices
       .getAdresses(this.props.navigation.state.params.user_id)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({ list: responseJson });
-        this.setState({ loading: false });
+        try {
+          services
+            .saveData2("adress", JSON.stringify(this.state.list))
+            .then(respose => {
+              console.log("Nety le izy");
+            });
+        } catch (error) {
+          console.log(error);
+          throw "something went wrong when saving data";
+        }
       });
   }
 
@@ -66,21 +87,38 @@ class Adresses extends Component {
     this.setState({ modalVisible: visible });
   }
 
+  listContainObject(newAdress) {
+    let jsonList = JSON.stringify(this.state.list);
+    return jsonList.includes(newAdress);
+  }
+
   _handleBarCodeRead = data => {
     console.log(JSON.stringify(data));
+    userServices = new UserServices();
     qdata = data.data;
     if (qdata.includes("vola")) {
       readData = JSON.parse(qdata);
       if (readData.u === "") {
         console.log("Adresse invalide");
       } else {
-        this.setState({ loading: true });
-        tempList = this.state.list;
-        tempList.push({
-          account_id: this.props.navigation.state.params.user_id,
-          adress_account_id: readData.u
-        });
-        this.setState({ list: tempList });
+        if (this.listContainObject(readData.u.trim())) {
+          console.log("Efa misy io");
+          Platform.OS == "android"
+            ? ToastAndroid.show("Adress already exist", ToastAndroid.SHORT)
+            : this.refs.toast.show("Adress already exist", 1000);
+        } else {
+          this.setState({ loading: true });
+          tempList = this.state.list;
+          tempList.push({
+            account_id: this.props.navigation.state.params.user_id,
+            adress_account_id: readData.u
+          });
+          this.setState({ list: tempList });
+          userServices.saveAdress(
+            this.state.navigation.state.params.user_id,
+            readData.u
+          );
+        }
         this.setState({ loading: false });
         this.changeModalVisibility(false);
       }
@@ -88,6 +126,7 @@ class Adresses extends Component {
   };
 
   render() {
+    console.log(this.listContainObject("toavina"));
     return (
       <Container>
         <Header style={headStyle.headerBackground}>
@@ -196,6 +235,16 @@ class Adresses extends Component {
             />
           </View>
         </Modal>
+        {Platform.OS == "ios" ? (
+          <Toast
+            ref="toast"
+            fadeInDuration={750}
+            fadeOutDuration={1000}
+            opacity={0.8}
+          />
+        ) : (
+          <View />
+        )}
       </Container>
     );
   }

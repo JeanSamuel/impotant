@@ -49,6 +49,14 @@ class Services extends Component {
     }
   }
 
+  saveData2(key, value) {
+    return AsyncStorage.setItem(key, value);
+  }
+
+  getData2(key) {
+    return AsyncStorage.getItem(key);
+  }
+
   async getData(key) {
     try {
       return await AsyncStorage.getItem(key);
