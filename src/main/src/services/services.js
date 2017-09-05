@@ -111,14 +111,9 @@ class Services extends Component {
      * @param {*} key : la clé du donnée à supprimer
      */
   async logout() {
-    let keys = ["token", "oauthCode", "user_id"];
-    try {
-      await AsyncStorage.multiRemove(keys, err => {
-        console.log("misy tsy nety");
-      });
-    } catch (error) {
-      console.log("la clé n'existe plus");
-    }
+    await AsyncStorage.clear(err => {
+      console.log("misy tsy nety");
+    });
   }
 
   async removeAll() {
@@ -209,6 +204,28 @@ class Services extends Component {
       throw "user_id null";
     }
     return userInfo;
+  }
+
+  async checkSolde(user_id) {
+    var url = "http://ariary.vola.mg/balance/" + user_id;
+    try {
+      var response = await fetch(url, { method: "GET" });
+      var json = await response.json();
+      if (json.accountId != null) {
+        await this.saveData("solde", JSON.stringify(json));
+        return json;
+      } else {
+        let error = new Error(response.statusText);
+        error.message = json.error;
+        error.response = response;
+        throw error;
+      }
+    } catch (error) {
+      let error = new Error(response.statusText);
+      error.message = json.error;
+      error.response = response;
+      throw error;
+    }
   }
 }
 

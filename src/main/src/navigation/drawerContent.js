@@ -4,13 +4,17 @@ import {
   Text,
   ActivityIndicator,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated,
+  Easing
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import styleBase from "../../styles/Styles";
 import axios from "axios";
 import { Icon } from "react-native-elements";
 import Services from "../services/services";
+import Spinner from "react-native-spinkit";
+import * as Animatable from "react-native-animatable";
 
 const mark = require("../../images/icons/logo-pro.png");
 const back = require("../../images/backHeader.jpg");
@@ -18,12 +22,14 @@ const back = require("../../images/backHeader.jpg");
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
+    this.spinValue = new Animated.Value(0);
     this.state = {
       solde: "",
       ownerId: 0,
       ownerName: "",
       date: "",
-      date: ""
+      animation: "",
+      isrefreshing: false
     };
     this.checkSolde();
   }
@@ -36,24 +42,47 @@ export default class DrawerContent extends Component {
     var user_id = await new Services().getData("user_id");
     this.setState({
       ownerId: user_id,
-      ownerName: user_id
+      ownerName: user_id,
+      isrefreshing: true
     });
-    var url = "http://ariary.vola.mg/balance/" + this.state.ownerId;
-    axios
-      .get(url)
+    let services = new Services();
+    services
+      .checkSolde(user_id)
       .then(response => {
-        console.log("userSolde", response.data);
         this.setState({
-          solde: response.data.value,
-          date: response.data.date
+          solde: response.value,
+          date: response.date,
+          isrefreshing: false
         });
       })
       .catch(error => {
-        console.log(error);
+        this.checkOldSolde();
       });
   }
 
-  refresh() {}
+  checkOldSolde() {
+    let services = new Services();
+    services
+      .checkOldSolde()
+      .then(response => {
+        this.setState({
+          solde: response.value,
+          date: response.date,
+          isrefreshing: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          solde: "N/A",
+          date: "N/A",
+          isrefreshing: false
+        });
+      });
+  }
+
+  refresh() {
+    this.checkSolde();
+  }
 
   render() {
     let logoFromFile = require("../../images/icons/user.png");
@@ -65,44 +94,57 @@ export default class DrawerContent extends Component {
             style={[
               styles.logoContainer,
               {
-                flexDirection: "row",
-                justifyContent: "space-between"
+                flexDirection: "row"
               }
             ]}
           >
             <Icon
               name="account-circle"
-              size={50}
+              size={70}
               color="rgba(26, 188, 156,1.0)"
             />
-            <View />
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={styleBase.textWhiteBold}>
+              <Text style={[styleBase.textWhiteBold, { fontSize: 25 }]}>
                 {this.state.ownerName}
               </Text>
-              <Text style={styleBase.textWhiteBold}>
-                Solde : <Text style={{ fontSize: 18 }}>{soldeFormated} Ar</Text>
-              </Text>
+              <View
+                style={{
+                  flexDirection: "row"
+                }}
+              >
+                <Text style={styleBase.textWhiteBold}>
+                  Solde :{" "}
+                  <Text style={{ fontSize: 18 }}>{soldeFormated} Ar</Text>
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    styleBase.centered,
+                    styles.refreshContainer,
+                    { alignContent: "flex-end" }
+                  ]}
+                  activeOpacity={0.4}
+                  onPress={this.refresh.bind(this)}
+                >
+                  <Animatable.View
+                    ref="spinner"
+                    animation={this.state.isrefreshing ? "rotate" : ""}
+                    iterationCount={"infinite"}
+                    Easing={"linear"}
+                  >
+                    <Icon
+                      name="refresh"
+                      size={23}
+                      color="#FFF"
+                      containerStyle={styleBase.centered}
+                    />
+                  </Animatable.View>
+                </TouchableOpacity>
+              </View>
+
               <Text style={styleBase.textWhiteBold}>du {this.state.date}</Text>
             </View>
-            <TouchableOpacity
-              style={[
-                styleBase.centered,
-                styles.refreshContainer,
-                { alignContent: "flex-end" },
-                { transform: [{ rotate: "10 deg" }] }
-              ]}
-            >
-              <Icon
-                name="refresh"
-                size={30}
-                color="#FFF"
-                containerStyle={styleBase.centered}
-                onPress={() => this.refresh()}
-              />
-            </TouchableOpacity>
           </View>
         </Image>
       </View>
@@ -121,10 +163,12 @@ const styles = EStyleSheet.create({
     height: undefined,
     backgroundColor: "transparent",
     paddingHorizontal: 15,
-    paddingTop: 10
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   logoContainer: {
-    height: "50%"
+    height: "100%"
   },
   logo: {
     height: "100%"
@@ -133,10 +177,11 @@ const styles = EStyleSheet.create({
   dataContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    marginLeft: 20
   },
   textContainer: {
-    width: "70%"
+    width: "80%"
   },
   refreshContainer: {
     width: "20%"

@@ -20,7 +20,6 @@ import DrawerButton from "../navigation/drawerButton";
 import axios from "axios";
 import SearchBar from "react-native-searchbar";
 
-
 // create a component
 const self = null;
 
@@ -130,13 +129,7 @@ class History extends Component {
   }
 
   _handleResults(results) {
-    if (results.length != 0) {
-      this.setState({ data: this.refactHistory(results) });
-    } else {
-      this.setState({
-        data: this.refactHistory(this.state.dataBrute)
-      });
-    }
+    this.setState({ data: this.refactHistory(results) });
   }
 
   render() {
@@ -161,10 +154,10 @@ class History extends Component {
             <SearchBar
               ref={ref => (this.searchBar = ref)}
               data={this.state.dataBrute}
+              placeholder="Rechercher"
               handleResults={this._handleResults}
-              onX={() => this.hideSearchBar()}
-              hideBack
               allDataOnEmptySearch
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
           </View>
           <View>{this.state.error}</View>

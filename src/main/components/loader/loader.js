@@ -32,9 +32,7 @@ class Loader extends Component {
         <View style={styles.modalContainer}>
           <View>
             <ActivityIndicator size={"large"} />
-            <Text style={{ color: "#FFF" }}>
-              {this.props.message}
-            </Text>
+            <Text style={{ color: "#FFF" }}>{this.props.message}</Text>
           </View>
         </View>
       </Modal>
