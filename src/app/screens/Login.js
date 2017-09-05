@@ -37,7 +37,7 @@ class Login extends Component {
       this.setState({ isLoading: !this.state.isLoading });
       var user_id = await services.goLogin(webview);
       this.props.modal();
-      notif.registerForPushNotificationsAsync(user_id);
+      notif.initForPushNotificationsAsync(user_id);
       this.props.navigation.navigate("Drawer", { user_id: user_id });
     }
   }
@@ -45,10 +45,11 @@ class Login extends Component {
     console.log("nis erreur de connexion ");
   }
 
-  webviewRenderError = (errorDomain, errorCode, errorDesc) =>
+  webviewRenderError = (errorDomain, errorCode, errorDesc) => (
     <View>
       <Text>No Internet Connection</Text>
-    </View>;
+    </View>
+  );
 
   render() {
     return (

@@ -1,16 +1,24 @@
 //import liraries
 import React, { Component } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, View, Text } from "react-native";
 import numeral from "numeral";
 // create a component
 class Services extends Component {
+  renderPlaceholderPage() {
+    return (
+      <View>
+        <Text>Vous n'avez pas encore de contact enregistrer</Text>
+      </View>
+    );
+  }
+
   async goLogin(webViewState) {
     var OauthCode = await this.extractOauthCode(webViewState.url);
     var token = await this.getToken(OauthCode);
     return await this.getUserInfo(token);
   }
   async logout() {
-    let keys = ["token", "oauthCode", "user_id"];
+    let keys = ["token", "oauthCode", "user_id", "adress"];
     try {
       await AsyncStorage.multiRemove(keys, err => {
         console.log("misy tsy nety");
@@ -62,6 +70,21 @@ class Services extends Component {
       return await AsyncStorage.getItem(key);
     } catch (error) {
       return null;
+    }
+  }
+  async removeAll() {
+    try {
+      await AsyncStorage.removeAll();
+    } catch (error) {
+      console.log("Erreur lors de la supression");
+    }
+  }
+
+  async removeData(key) {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.log("Erreur lors de la supression");
     }
   }
 

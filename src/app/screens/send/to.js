@@ -45,6 +45,7 @@ class To extends Component {
     super(props);
     this.state = {
       list: [],
+      placeholder: null,
       loading: true
     };
   }
@@ -52,13 +53,46 @@ class To extends Component {
   componentDidMount() {
     console.log(this.props.navigation.state.params.user_id);
     services = new Services();
-    services
-      .getData2("adress")
-      .then(response => JSON.parse(response))
-      .then(responseJson => {
-        this.setState({ list: responseJson });
-        this.setState({ loading: false });
+    userServices = new UserServices();
+    try {
+      services.getData("adress").then(response => {
+        console.log("jsonData", response);
+        if (response == null) {
+          userServices
+            .getAdresses(this.props.navigation.state.params.user_id)
+            .then(response => {
+              if (response.status === 200) {
+                console.log("Ato izyzyzyzyzyzy");
+                response.json().then(responseJson => {
+                  this.setState({ list: responseJson });
+                  try {
+                    services
+                      .saveData("adress", JSON.stringify(this.state.list))
+                      .then(respose => {
+                        console.log("Nety le izy");
+                      });
+                  } catch (error) {
+                    console.log(error);
+                    throw "something went wrong when saving data";
+                  }
+                });
+              }
+              if (response.status === 405) {
+                console.log("erreur", response.status);
+                this.setState({
+                  loading: false,
+                  placeholder: services.renderPlaceholderPage
+                });
+              }
+            });
+        } else {
+          this.setState({ list: JSON.parse(response) });
+          this.setState({ loading: false });
+        }
       });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   renderSeparator = () => {
@@ -94,6 +128,7 @@ class To extends Component {
           >
             Comptes enregistrés
           </Text>
+          {this.state.placeholder}
         </View>
         <List
           containerStyle={{

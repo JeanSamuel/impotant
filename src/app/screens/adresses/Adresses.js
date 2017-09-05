@@ -50,7 +50,7 @@ class Adresses extends Component {
     userServices = new UserServices();
     services = new Services();
     services
-      .getData2("adress")
+      .getData("adress")
       .then(response => JSON.parse(response))
       .then(responseJson => {
         this.setState({ list: responseJson });
@@ -58,18 +58,28 @@ class Adresses extends Component {
       });
     userServices
       .getAdresses(this.props.navigation.state.params.user_id)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({ list: responseJson });
-        try {
-          services
-            .saveData2("adress", JSON.stringify(this.state.list))
-            .then(respose => {
-              console.log("Nety le izy");
-            });
-        } catch (error) {
-          console.log(error);
-          throw "something went wrong when saving data";
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          response.json().then(responseJson => {
+            this.setState({ list: responseJson });
+            try {
+              services
+                .saveData("adress", JSON.stringify(this.state.list))
+                .then(respose => {
+                  console.log("Nety le izy");
+                });
+            } catch (error) {
+              console.log(error);
+              throw "something went wrong when saving data";
+            }
+          });
+        }
+        if (response.status === 405) {
+          console.log("erreur", response.status);
+          this.setState({
+            loading: false
+          });
         }
       });
   }
@@ -108,7 +118,8 @@ class Adresses extends Component {
             : this.refs.toast.show("Adress already exist", 1000);
         } else {
           this.setState({ loading: true });
-          tempList = this.state.list;
+          console.log(this.state.list);
+          tempList = [];
           tempList.push({
             account_id: this.props.navigation.state.params.user_id,
             adress_account_id: readData.u
