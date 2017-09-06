@@ -33,7 +33,6 @@ export default class NotifServices extends Component {
       body: formData
     })
       .then(response => {
-        console.log("ty le reponse resaan", response.status);
         if (response.status === 200) {
           console.log("eto ah");
         }
@@ -55,6 +54,8 @@ export default class NotifServices extends Component {
   }
 
   async initForPushNotificationsAsync(username) {
+    var token = await Notifications.getExponentPushTokenAsync();
+    this.saveExpoToken(token);
     const { existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
@@ -68,7 +69,6 @@ export default class NotifServices extends Component {
       return;
     }
     var services = new Services();
-    var token = await services.getData("expo_token");
     var formData = new FormData();
     formData.append("token", token);
     formData.append("username", username);

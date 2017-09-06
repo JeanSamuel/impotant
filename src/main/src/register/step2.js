@@ -51,7 +51,6 @@ class Step2 extends Component {
         });
       })
       .catch(error => {
-        console.log("ty le error0", error);
         this.props.navigation.goBack();
       });
   }
@@ -66,7 +65,7 @@ class Step2 extends Component {
     };
     let services = new Services();
     services
-      .isNewUser()
+      .isNewUser(this.state.user_id)
       .then(response => {
         this.props.navigation.navigate("DrawerExample", data);
       })

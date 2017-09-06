@@ -4,6 +4,7 @@ import {} from "react-native";
 import { StackNavigator } from "react-navigation";
 import Step1 from "../register/step1";
 import Step2 from "../register/step2";
+import Assistant from "../assistance/assistant";
 
 const NewUser = new StackNavigator(
   {
@@ -15,6 +16,9 @@ const NewUser = new StackNavigator(
     },
     Step2: {
       screen: Step2
+    },
+    Assistant: {
+      screen: Assistant
     }
   },
   {

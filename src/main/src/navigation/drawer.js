@@ -5,7 +5,7 @@ import { DrawerNavigator, DrawerItems } from "react-navigation";
 import Home from "../home/home";
 import Style from "../../styles/MainStyles";
 import History from "../history/history";
-import Settings from "../settings/loader";
+import Settings from "../settings/settings";
 import Logout from "../logout/logout";
 import About from "../about/about";
 import DrawerContent from "./drawerContent";
@@ -38,7 +38,7 @@ const drawerRoutes = {
 // DrawerNavigator configuration
 
 const drawerConfigs = {
-  initialRouteName: "Third",
+  initialRouteName: "First",
   drawerPosition: "left",
   contentOptions: {
     activeBackgroundColor: "#bdc3c7",

@@ -40,9 +40,6 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
-          if (this.props.newUser) {
-            service.isNewUser();
-          }
           let data = {
             user_id: response
           };

@@ -21,8 +21,9 @@ const { width, height } = Dimensions.get("window");
 class Logout extends Component {
   static navigationOptions = {
     title: "Déconnexion",
-    drawerIcon: ({ tintColor }) =>
+    drawerIcon: ({ tintColor }) => (
       <Icon name="logout" size={25} type={"material-community"} />
+    )
   };
 
   constructor(props) {
@@ -41,10 +42,18 @@ class Logout extends Component {
     let user_id = this.props.navigation.state.params.user_id;
     let services = new Services();
     let notif = new NotifServices();
-    services.logout().then(() => {
-      notif.stopNotification(user_id);
-      this.props.navigation.navigate("Loader");
-    });
+
+    notif.stopNotification(user_id);
+    services
+      .logout()
+      .then(() => {
+        this.props.navigation.navigate("Loader");
+      })
+      .catch(error => {
+        console.log("====================================");
+        console.log("erruer ato disconnect", erreur);
+        console.log("====================================");
+      });
   }
 
   cancel() {

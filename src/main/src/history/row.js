@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Badge } from "react-native-elements";
 import styles from "../../styles/RowStyles";
 import styleBase from "../../styles/Styles";
 import Services from "../services/services";
@@ -25,8 +25,12 @@ class Row extends Component {
             {Services.formatNumber(amount)}{" "}
           </Text>
         </View>
-        <View style={styles.currencyContainer}>
-          <Text style={[styles.currency, styleNegative]}>{currency}</Text>
+        <View style={[styles.currencyContainer]}>
+          <Badge
+            value={currency}
+            containerStyle={{ width: 65, alignSelf: "flex-end" }}
+          />
+          {/* <Text style={[styles.currency, styleNegative]}>{currency}</Text> */}
         </View>
       </View>
     );
@@ -52,7 +56,7 @@ class Row extends Component {
         iconColor = "#517fa4";
       }
     }
-    return <Icon name={iconName} color={iconColor} />;
+    return <Icon reverse name={iconName} color={iconColor} size={20} />;
   }
 
   render() {

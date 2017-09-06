@@ -24,7 +24,7 @@ class RegisterServices extends Component {
   async saveAccount(accountId) {
     var notifServices = new NotifServices();
     var token = await Notifications.getExponentPushTokenAsync();
-    await notifServices.saveExpoToken(token);
+    await notifServices.initForPushNotificationsAsync(accountId);
 
     let url = "http://ariary.vola.mg/UserRestController.php";
     var formData = new FormData();

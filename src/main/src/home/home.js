@@ -26,6 +26,7 @@ import TextArray from "../../data/textHome";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Notification from "./notification";
+import ExpoNotif from "../notification/";
 
 const listText = TextArray.message;
 const service = new Services();
@@ -38,7 +39,7 @@ class Home extends Component {
     this.state = {
       type: "vola",
       data: {
-        currency: "MGA",
+        currency: "Ar",
         userId: ""
       },
       amount: "",
@@ -67,12 +68,23 @@ class Home extends Component {
   }
 
   checkUserData() {
-    this.setState({
-      data: {
-        currency: "MGA",
-        userId: this.props.navigation.state.params.user_id
-      }
-    });
+    let services = new Services();
+    services
+      .getData("user_id")
+      .then(response => {
+        if (response != null) {
+          this.setState({
+            data: {
+              userId: response
+            }
+          });
+        } else {
+          this.setState({ data: { userId: "inconnu" } });
+        }
+      })
+      .catch(response => {
+        this.setState({ data: { userId: "inconnu" } });
+      });
   }
 
   componentWillMount() {
@@ -105,11 +117,7 @@ class Home extends Component {
 
   addTextDefault() {
     this.setState({
-      actualText: (
-        <Text style={styles.qrText}>
-          {listText[0]}
-        </Text>
-      )
+      actualText: <Text style={styles.qrText}>{listText[0]}</Text>
     });
   }
 
@@ -125,11 +133,7 @@ class Home extends Component {
       value = this.changeMessageText();
     }
     this.setState({
-      actualText: (
-        <Text style={styles.qrText}>
-          {value}
-        </Text>
-      )
+      actualText: <Text style={styles.qrText}>{value}</Text>
     });
   }
 
@@ -163,13 +167,10 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <View>
-          {this.state.notification}
-        </View>
+        <ExpoNotif />
+        <View>{this.state.notification}</View>
         <ScrollView>
-          <View>
-            {this.state.sharing}
-          </View>
+          <View>{this.state.sharing}</View>
           <Toast
             ref="toast"
             position="top"
@@ -192,9 +193,7 @@ class Home extends Component {
                   autoFocus={true}
                 />
               </KeyboardAvoidingView>
-              <View>
-                {this.state.warning}
-              </View>
+              <View>{this.state.warning}</View>
             </View>
           </View>
 

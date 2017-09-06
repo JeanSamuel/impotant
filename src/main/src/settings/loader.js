@@ -29,30 +29,6 @@ const StackSettings = new StackNavigator(
     Settings: {
       screen: Settings,
       navigationOptions
-    },
-    AssistantSetting_Step0: {
-      screen: Assistant_Step0,
-      navigationOptions: {
-        header: null
-      }
-    },
-    AssistantSetting_Step1: {
-      screen: Assistant_Step1,
-      navigationOptions: {
-        header: null
-      }
-    },
-    AssistantSetting_Step2: {
-      screen: Assistant_Step2,
-      navigationOptions: {
-        header: null
-      }
-    },
-    AssistantSetting_Step3: {
-      screen: Assistant_Step3,
-      navigationOptions: {
-        header: null
-      }
     }
   },
   {

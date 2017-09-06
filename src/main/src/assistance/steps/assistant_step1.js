@@ -7,12 +7,24 @@ import { Input } from "../../../components/input";
 import {
   FormLabel,
   FormInput,
-  FormValidationMessage
+  FormValidationMessage,
+  Button
 } from "react-native-elements";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 // create a component
 class Step1 extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  goReturn() {
+    console.log("====================================");
+    console.log(this.props);
+    console.log("====================================");
+    this.props.navigation.navigate("Fifth");
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -40,6 +52,7 @@ class Step1 extends Component {
               placeholder="jj/mm/yyyy"
             />
           </View>
+          <Button title="BUTTON" onPress={this.goReturn.bind(this)} />
         </View>
       </View>
     );

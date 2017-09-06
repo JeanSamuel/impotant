@@ -5,6 +5,7 @@ import Services from "./services";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
+import _ from "lodash";
 
 moment.locale("fr");
 // create a component
@@ -66,26 +67,9 @@ class HistorySevices extends Component {
      *@argument data : le table de départ
      */
   refactHistory(data) {
-    let dataRefactored = [];
-    if (data.length != 0) {
-      let actualDate = data[0].date.split(" ")[0];
-      dataRefactored = [[data[0]]];
-      let actualLigne = 0;
-
-      for (var index = 1; index < data.length; index++) {
-        let transac = data[index];
-        let date = transac.date.split(" ")[0];
-        if (date == actualDate) {
-          dataRefactored[actualLigne].push(transac);
-        } else {
-          actualDate = date;
-          actualLigne++;
-          dataRefactored[actualLigne] = [];
-          dataRefactored[actualLigne][0] = transac;
-        }
-      }
-    }
-    return dataRefactored;
+    return _.groupBy(data, h =>
+      moment(h.date, "YYYY-MM-DD").format("YYYY-MM-DD")
+    );
   }
 }
 

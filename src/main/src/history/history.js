@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   ListView,
   RefreshControl,
-  Keyboard
+  Keyboard,
+  TouchableOpacity
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
@@ -33,9 +34,10 @@ class History extends Component {
       data: null,
       dataBrute: null,
       refreshing: false,
-      error: null
+      error: null,
+      extraMargin: null
     };
-    this.getHistory(this);
+    this.getOldHistory(this);
     this._handleResults = this._handleResults.bind(this);
   }
 
@@ -44,23 +46,19 @@ class History extends Component {
     drawerIcon: ({ tintColor }) => <Icon name="list" size={25} />,
     titleStyle: styleBase.headerTitle,
     headerRight: (
-      <Icon
-        name="search"
-        color="#ecf0f1"
-        size={30}
+      <TouchableOpacity
         onPress={() => self.showSearchBar()}
-      />
+        activeOpacity={0.3}
+      >
+        <Icon name="search" color="#ecf0f1" size={30} />
+      </TouchableOpacity>
     )
   };
 
   showSearchBar() {
     this.searchBar.show();
-  }
-
-  hideSearchBar() {
-    this.searchBar.hide();
     this.setState({
-      data: this.refactHistory(this.state.dataBrute)
+      extraMargin: { marginTop: 60 }
     });
   }
 
@@ -70,25 +68,35 @@ class History extends Component {
     });
   }
 
-  async isSyncError() {
+  isSynchronised() {
+    this.setState({
+      error: <Error isSynchronised={true} text="Synchronisation..." />
+    });
+  }
+
+  stopSynchronised() {
+    this.setState({ error: null });
+  }
+
+  async getOldHistory() {
     let services = new HistoryServices();
     services
       .getOldHistory()
       .then(response => {
         this.setState({
           dataBrute: JSON.parse(response),
-          data: this.refactHistory(JSON.parse(response)),
-          error: (
-            <Error isSynchronised={false} text="Erreur de synchronisation" />
-          )
+          data: this.refactHistory(JSON.parse(response))
         });
+        this.getHistory();
       })
       .catch(error => {
+        this.getHistory();
         console.log("error fanindroany", error);
       });
   }
 
   async getHistory() {
+    this.isSynchronised();
     let services = new HistoryServices();
     services
       .getHistory(this.state.accountId)
@@ -97,25 +105,20 @@ class History extends Component {
           dataBrute: response,
           data: this.refactHistory(response)
         });
+        this.stopSynchronised();
       })
       .catch(error => {
-        this.isSyncError();
+        this.setState({
+          error: (
+            <Error isSynchronised={false} text="Erreur de synchronisation" />
+          )
+        });
       });
   }
 
   _onRefresh() {
-    this.setState({
-      refreshing: true,
-      data: null,
-      error: null
-    });
-    this.getHistory()
-      .then(this.setState({ refreshing: false }))
-      .catch(
-        this.setState({
-          refreshing: false
-        })
-      );
+    this.isSynchronised();
+    this.getHistory();
   }
 
   refactHistory(data) {
@@ -132,16 +135,17 @@ class History extends Component {
     this.setState({ data: this.refactHistory(results) });
   }
 
+  reinitialiseData() {
+    this.setState({
+      data: this.refactHistory(this.state.dataBrute),
+      extraMargin: null
+    });
+    this.searchBar.hide();
+  }
+
   render() {
-    if (this.state.data === null) {
-      return (
-        <View style={styleBase.containerBase}>
-          <View>
-            <Error isSynchronised={true} text="Synchronisation ..." />
-          </View>
-          <ActivityIndicator />
-        </View>
-      );
+    if (this.state.data == null) {
+      return <View />;
     } else {
       const ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
@@ -158,13 +162,20 @@ class History extends Component {
               handleResults={this._handleResults}
               allDataOnEmptySearch
               onSubmitEditing={() => Keyboard.dismiss()}
+              onBack={() => this.reinitialiseData()}
+              backButton={<Icon name="keyboard-arrow-up" size={30} />}
             />
           </View>
           <View>{this.state.error}</View>
-          <View style={style.headerList}>
+          <View style={[style.headerList, this.state.extraMargin]}>
             <Text style={style.greyText}>Nom | Type</Text>
             <Text style={style.greyText}>Montant</Text>
           </View>
+          {this.state.data.length == 0 ? (
+            <Text style={{ fontSize: 30 }}>Pas de résultat</Text>
+          ) : (
+            <View />
+          )}
           <ListView
             refreshControl={
               <RefreshControl

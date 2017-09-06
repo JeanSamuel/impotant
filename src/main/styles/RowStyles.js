@@ -20,7 +20,7 @@ export default {
     fontWeight: "bold",
     fontSize: 25,
     textAlign: "right",
-    color: "rgba(230, 126, 34,1.0)"
+    color: "rgba(44, 62, 80,1.0)"
   },
   amountContainer: {
     justifyContent: "center",
@@ -31,7 +31,6 @@ export default {
   },
   userInfoContainer: {},
   iconContainer: {
-    padding: 5,
     justifyContent: "center"
   },
   date: {

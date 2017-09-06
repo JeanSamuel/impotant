@@ -11,6 +11,10 @@ import {
 import { RowValue } from "../../components/row";
 import { UserInfo, Security, Confidentiality } from "./";
 import Services from "../services/services";
+import Assistant from "../assistance/assistant";
+import styleBase from "../../styles/Styles";
+import { StackNavigator } from "react-navigation";
+import DrawerButton from "../navigation/drawerButton";
 import { Icon } from "react-native-elements";
 
 // create a component
@@ -19,17 +23,9 @@ class Settings extends Component {
     super(props);
     this.state = {
       data: null,
-      user_id: this.props.navigation.state.params.user_id
+      user_id: ""
     };
     this.manageData();
-  }
-
-  static navigationOptions = {
-    headerRight: <Icon name="help" color="#ecf0f1" size={25} />
-  };
-
-  goBack() {
-    this.props.navigation.navigate("Settings");
   }
 
   componentWillMount() {
@@ -38,13 +34,18 @@ class Settings extends Component {
       .getData("newAtSettings")
       .then(response => {
         if (response != null) {
-          let navigation = this.props.navigation;
-          navigation.navigate("Assistant", { return: "Fifth" });
+          this.goToAssistant();
         }
       })
       .catch(error => {
         console.log("ol efa membre hatry ny ela");
       });
+  }
+
+  goToAssistant() {
+    this.props.navigation.navigate("Myassistant", {
+      return: "Settings"
+    });
   }
 
   async manageData() {
@@ -59,10 +60,6 @@ class Settings extends Component {
       });
   }
 
-  navigate(route) {
-    this.props.navigation.navigate(route);
-  }
-
   createData(response) {
     this.setState({
       data: (
@@ -73,7 +70,7 @@ class Settings extends Component {
               noNext={true}
               menu="Lancer l'assistance de Configuration"
               value="Aide rapide à la configuration de compte"
-              action={() => this.navigate("Assistant")}
+              action={() => this.goToAssistant()}
             />
             <UserInfo user_id={this.state.user_id} />
             <Security />
@@ -110,5 +107,29 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   }
 });
+const navigationOptions = {
+  headerStyle: styleBase.header,
+  headerTitleStyle: styleBase.headerTitle
+};
 
-export default Settings;
+const StackSettings = new StackNavigator(
+  {
+    Settings: {
+      screen: Settings,
+      navigationOptions
+    },
+    Myassistant: {
+      screen: Assistant,
+      navigationOptions
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />,
+      title: "Paramètres",
+      drawerIcon: ({ tintColor }) => <Icon name="settings" size={25} />,
+      titleStyle: styleBase.headerTitle
+    })
+  }
+);
+export default StackSettings;

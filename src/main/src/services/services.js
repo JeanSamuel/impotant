@@ -15,6 +15,7 @@ import { FormValidationMessage } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import FormData from "FormData";
 import Toast from "react-native-easy-toast";
+import Register from "./registerServices";
 
 // create a component
 class Services extends Component {
@@ -107,12 +108,11 @@ class Services extends Component {
   }
 
   /**
-     * Supprimer des données de connexion
-     * @param {*} key : la clé du donnée à supprimer
+     * Vider des données
      */
   async logout() {
     await AsyncStorage.clear(err => {
-      console.log("misy tsy nety");
+      console.log("misy tsy nety", err);
     });
   }
 
@@ -132,7 +132,7 @@ class Services extends Component {
     }
   }
 
-  async isNewUser() {
+  async isNewUser(user_id) {
     await this.saveData("newAtHome", "yes");
     await this.saveData("newAtSettings", "yes");
   }

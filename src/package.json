@@ -27,10 +27,12 @@
   "dependencies": {
     "axios": "^0.16.2",
     "expo": "18.0.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "react": "16.0.0-alpha.12",
     "react-native": "0.45.0",
     "react-native-app-link": "^0.4.0",
+    "react-native-dropdownalert": "^2.11.0",
     "react-native-easy-toast": "^1.0.6",
     "react-native-elements": "0.14.0",
     "react-native-extended-stylesheet": "^0.6.0",

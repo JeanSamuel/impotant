@@ -11,6 +11,9 @@ import { Assistant_Step1, Assistant_Step2, Assistant_Step3 } from "./";
 // create a component
 const imageSource = require("../../images/icons/settings2.png");
 class Assistant extends Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -22,10 +25,11 @@ class Assistant extends Component {
 
   removeAssistant() {
     let services = new Services();
-    services.removeData("newAtSettings");
     let returnKey = this.props.navigation.state.params.return;
+    let user_id = "inconnu";
+    services.removeData("newAtSettings");
+
     this.props.navigation.navigate(returnKey);
-    // this.props.navigation.state.params.close();
   }
 
   goToStep1() {
