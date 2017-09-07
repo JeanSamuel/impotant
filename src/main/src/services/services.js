@@ -135,6 +135,7 @@ class Services extends Component {
   async isNewUser(user_id) {
     await this.saveData("newAtHome", "yes");
     await this.saveData("newAtSettings", "yes");
+    await this.saveData("numberBadge", "1");
   }
 
   /**
@@ -212,15 +213,9 @@ class Services extends Component {
       var response = await fetch(url, { method: "GET" });
       var json = await response.json();
       if (json.accountId != null) {
-        console.log("====================================");
-        console.log("ty le solde en ligne", json);
-        console.log("====================================");
         await this.saveData("solde", JSON.stringify(json));
         return json;
       } else {
-        console.log("====================================");
-        console.log("ty le erreur sode en ligne", json);
-        console.log("====================================");
         let error = new Error(response.statusText);
         error.message = json.error;
         error.response = response;
@@ -230,9 +225,6 @@ class Services extends Component {
       let error = new Error(response.statusText);
       error.message = json.error;
       error.response = response;
-      console.log("====================================");
-      console.log("ty le anaty catch solde en ligne", error);
-      console.log("====================================");
       throw error;
     }
   }

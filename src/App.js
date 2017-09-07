@@ -31,6 +31,7 @@ class Index extends Component {
   }
 
   componentWillUnmount() {
+    this.dismissAlert();
     this._notificationSubscription.remove();
   }
 
@@ -44,7 +45,7 @@ class Index extends Component {
     const amount = notification.data.amount;
     const sender = notification.data.from;
     const message =
-      "Vous venez de recevoir " + amount + "de la part de" + sender;
+      "Vous venez de recevoir " + amount + " Ar de la part de " + sender;
     this.dropdown.alertWithType(data.type, title, message);
   }
   dismissAlert = () => {
