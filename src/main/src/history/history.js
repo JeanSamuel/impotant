@@ -145,7 +145,7 @@ class History extends Component {
 
   render() {
     if (this.state.data == null) {
-      return <View />;
+      return <Error isSynchronised={true} text="Synchronisation..." />;
     } else {
       const ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
@@ -168,8 +168,8 @@ class History extends Component {
           </View>
           <View>{this.state.error}</View>
           <View style={[style.headerList, this.state.extraMargin]}>
-            <Text style={style.greyText}>Nom | Type</Text>
-            <Text style={style.greyText}>Montant</Text>
+            {/* <Text style={style.greyText}>Nom | Type</Text>
+            <Text style={style.greyText}>Montant</Text> */}
           </View>
           {this.state.data.length == 0 ? (
             <Text style={{ fontSize: 30 }}>Pas de résultat</Text>
@@ -203,9 +203,9 @@ const style = EStyleSheet.create({
   headerList: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 20,
-    marginVertical: 10,
-    borderBottomWidth: 2,
+    paddingTop: 10,
+    backgroundColor: "#FFF",
+    // borderBottomWidth: 2,
     borderBottomColor: "rgba(52, 73, 94,1.0)"
   },
   greyText: {

@@ -1,6 +1,6 @@
 import EStyleSheet from "react-native-extended-stylesheet";
 
-export default {
+export default (styles = EStyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     paddingHorizontal: 5
@@ -14,10 +14,11 @@ export default {
   },
   otherUser: {
     fontSize: 15,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "rgba(44, 62, 80,1.0)",
+    textAlign: "left"
   },
   amount: {
-    fontWeight: "bold",
     fontSize: 25,
     textAlign: "right",
     color: "rgba(44, 62, 80,1.0)"
@@ -29,7 +30,9 @@ export default {
   userContainer: {
     flexDirection: "row"
   },
-  userInfoContainer: {},
+  userInfoContainer: {
+    justifyContent: "center"
+  },
   iconContainer: {
     justifyContent: "center"
   },
@@ -39,7 +42,8 @@ export default {
   },
   type: {
     fontSize: 15,
-    color: "rgba(149, 165, 166,1.0)"
+    color: "rgba(149, 165, 166,1.0)",
+    textAlign: "left"
   },
   currency: {
     fontSize: 15,
@@ -50,10 +54,10 @@ export default {
     width: "100%"
   },
   currencyContainer: {
-    width: "100%",
-    justifyContent: "flex-end"
+    flexDirection: "row",
+    width: "100%"
   },
   currencyNegative: {
     color: "rgba(44, 62, 80,1.0)"
   }
-};
+}));

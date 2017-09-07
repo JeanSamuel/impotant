@@ -13,8 +13,9 @@ class Row extends Component {
     index: React.PropTypes.number
   };
 
-  getCurrencyAndAmount(amount, currency) {
+  getCurrencyAndAmount(amount, currency, date) {
     let styleNegative = null;
+    let hour = date.split(" ")[1];
     if (amount < 0) {
       styleNegative = styles.currencyNegative;
     }
@@ -23,51 +24,65 @@ class Row extends Component {
         <View style={styles.currencyContainer}>
           <Text style={[styles.amount, styleNegative]}>
             {Services.formatNumber(amount)}{" "}
+            <Text
+              style={{
+                color: "rgba(44, 62, 80,1.0)",
+                textAlign: "right",
+                fontSize: 14
+              }}
+            >
+              {currency}
+            </Text>
           </Text>
         </View>
         <View style={[styles.currencyContainer]}>
-          <Badge
-            value={currency}
-            containerStyle={{ width: 65, alignSelf: "flex-end" }}
-          />
-          {/* <Text style={[styles.currency, styleNegative]}>{currency}</Text> */}
+          <Text style={styles.date}>{hour}</Text>
         </View>
       </View>
     );
   }
 
-  getTypeOfTransaction(amount) {
-    let type = "Récéption d'argent";
-    if (amount < 0) {
-      type = "Envoi d'argent";
-      if (amount < -1000) type = "Achat";
-    }
-    return type;
-  }
+  // getTypeOfTransaction(amount) {
+  //   let type = "Récéption d'argent";
+  //   if (amount < 0) {
+  //     type = "Envoi d'argent";
+  //     if (amount < -1000) type = "Achat";
+  //   }
+  //   return type;
+  // }
 
   getIcon(amount) {
-    let iconName = "file-download";
-    let iconColor = "rgba(230, 126, 34,1.0)";
-    if (amount < 0) {
-      iconName = "file-upload";
-      iconColor = "rgba(52, 73, 94,1.0)";
-      if (amount < -1000) {
-        iconName = "file-uploadshopping-cart";
-        iconColor = "#517fa4";
-      }
-    }
-    return <Icon reverse name={iconName} color={iconColor} size={20} />;
+    let iconName = "directions";
+    let iconColor = "rgba(211, 84, 0,1.0)";
+    // if (amount < 0) {
+    //   iconName = "ion-paper-airplane";
+    //   iconColor = "rgba(52, 73, 94,1.0)";
+    //   if (amount < -1000) {
+    //     iconName = "ion-paper-airplane";
+    //     iconColor = "#517fa4";
+    //   }
+    // }
+    return (
+      <Icon
+        reverse
+        name={iconName}
+        color={iconColor}
+        type={"simple-line-icon"}
+        size={20}
+      />
+    );
   }
 
   render() {
     let reportFormated = Services.formatNumber(this.props.info.amount);
     let currency = this.getCurrencyAndAmount(
       this.props.info.amount,
-      this.props.info.currency
+      this.props.info.currency,
+      this.props.info.date
     );
-    let type = this.getTypeOfTransaction(this.props.info.amount);
+    // let type = this.getTypeOfTransaction(this.props.info.amount);
+    let type = this.props.info.comment;
     let icon = this.getIcon(this.props.info.amount);
-    let hour = this.props.info.date.split(" ")[1];
 
     return (
       <View style={styles.container}>
@@ -79,7 +94,6 @@ class Row extends Component {
             <View style={styles.userInfoContainer}>
               <Text style={styles.otherUser}>{this.props.info.senderId}</Text>
               <Text style={styles.type}>{type}</Text>
-              <Text style={styles.date}>{hour}</Text>
             </View>
           </View>
           <View>{currency}</View>

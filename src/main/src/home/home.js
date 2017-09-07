@@ -26,7 +26,6 @@ import TextArray from "../../data/textHome";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Notification from "./notification";
-import ExpoNotif from "../notification/";
 
 const listText = TextArray.message;
 const service = new Services();
@@ -167,7 +166,6 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <ExpoNotif />
         <View>{this.state.notification}</View>
         <ScrollView>
           <View>{this.state.sharing}</View>

@@ -1,126 +1,99 @@
+//import liraries
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Keyboard } from "react-native";
-import SearchBar from "react-native-searchbar";
-import DrawerButton from "../navigation/drawerButton";
+import { View, Text, StyleSheet } from "react-native";
+import DropdownAlert from "react-native-dropdownalert";
+import { Button } from "react-native-elements";
+import ExpoNotif from "../notification/";
 import styleBase from "../../styles/Styles";
-import { Icon } from "react-native-elements";
 import { StackNavigator } from "react-navigation";
 
-const items = [
-  {
-    id: "676",
-    date: "2017-08-31 17:44:42",
-    senderId: "miorantsoa",
-    recipientId: "manitra",
-    amount: "6000",
-    currency: "MGA",
-    comment: "Transfert",
-    name: "USERmiorantsoa"
-  },
-  {
-    id: "488",
-    date: "2017-08-30 17:59:26",
-    senderId: "miorantsoa",
-    recipientId: "manitra",
-    amount: "135",
-    currency: "MGA",
-    comment: "Transfert",
-    name: "USERmiorantsoa"
-  },
-  {
-    id: "97",
-    date: "2017-08-06 17:56:09",
-    senderId: "1",
-    recipientId: "manitra",
-    amount: "-79",
-    currency: "USD",
-    comment: "Nivo.mg online payment",
-    name: "USER1"
-  }
-];
+// create a component
 
-const self = null;
+const MAIN_INFO_COLOR = "rgba(236, 240, 241,1.0)";
+const data = {
+  backgroundColor: MAIN_INFO_COLOR,
+  type: "info",
+  title: "Info",
+  message:
+    "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
+};
 
-class SearchContainer extends Component {
-  constructor(props) {
-    super(props);
-    self = this;
-    this.state = {
-      items,
-      results: []
-    };
-    this._handleResults = this._handleResults.bind(this);
+class About extends Component {
+  handleRequestCallback(err, response) {
+    if (err != null) {
+      this.dropdown.alertWithType("error", "Error", err);
+    }
   }
 
-  static navigationOptions = {
-    title: "Search",
-    drawerIcon: ({ tintColor }) => <Icon name="search" size={25} />,
-    titleStyle: styleBase.headerTitle,
-    headerRight: (
-      <Icon
-        name="search"
-        color="#ecf0f1"
-        size={30}
-        onPress={() => self.showSearchBar()}
-      />
-    )
+  componentDidMount() {
+    // this.showAlert();
+  }
+
+  onClose(data) {
+    console.log("====================================");
+    console.log("data", data);
+    console.log("====================================");
+    // data = {type, title, message, action}
+    // action means how the alert was dismissed. returns: automatic, programmatic, tap, pan or cancel
+  }
+
+  showAlert() {
+    const random = Math.floor(10000);
+    const title = data.title + " #" + random;
+    this.dropdown.alertWithType(data.type, title, data.message);
+  }
+  dismissAlert = () => {
+    this.dropdown.onClose();
   };
-
-  _handleResults(results) {
-    console.log("====================================");
-    console.log("result", results);
-    console.log("====================================");
-    this.setState({ results });
-  }
-
-  showSearchBar() {
-    this.searchBar.show();
+  onClose(data) {
+    console.log(data);
   }
 
   render() {
     return (
-      <View>
-        <View style={{ marginTop: 110 }}>
-          {this.state.results.map((result, i) => {
-            return (
-              <Text key={i}>
-                {typeof result === "object" && !(result instanceof Array) ? (
-                  result.name
-                ) : (
-                  result.toString()
-                )}
-              </Text>
-            );
-          })}
-        </View>
-        <SearchBar
-          ref={ref => (this.searchBar = ref)}
-          data={items}
-          handleResults={this._handleResults}
+      <View style={styles.container}>
+        <Text>About</Text>
+        <Button title="click me" onPress={() => this.showAlert()} />
+        <DropdownAlert
+          ref={ref => (this.dropdown = ref)}
+          onClose={data => this.onClose(data)}
+          containerStyle={{ marginTop: 20 }}
         />
       </View>
     );
   }
 }
 
+// define your styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2c3e50"
+  }
+});
+
 const navigationOptions = {
   headerStyle: styleBase.header,
   headerTitleStyle: styleBase.headerTitle
 };
 
-const stackSearch = new StackNavigator(
+const stackHome = new StackNavigator(
   {
-    SearchContainer: {
-      screen: SearchContainer,
+    About: {
+      screen: About,
       navigationOptions
     }
   },
   {
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />
+      title: "test",
+      drawerLabel: "About",
+      headerRight: <Text>B</Text>,
+      titleStyle: styleBase.headerTitle
     })
   }
 );
 
-//make this component available to the app
-export default stackSearch;
+export default stackHome;

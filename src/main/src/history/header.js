@@ -59,8 +59,9 @@ const styles = EStyleSheet.create({
     backgroundColor: "#2c3e50"
   },
   sectionHeaderTitle: {
-    textAlign: "center",
-    fontSize: 15
+    textAlign: "left",
+    fontSize: 15,
+    paddingLeft: 20
   },
   sectionHeader: {
     paddingTop: 10,
@@ -70,13 +71,12 @@ const styles = EStyleSheet.create({
 
   sectionHeaderTitleNow: {
     fontSize: 22,
-    fontWeight: "bold",
-    color: "#FFF"
+    color: "rgba(52, 73, 94,1.0)"
   },
   sectionHeaderNow: {
     paddingTop: 5,
     paddingBottom: 5,
-    backgroundColor: "rgba(127, 140, 141,0.8)"
+    backgroundColor: "#FFF"
   }
 });
 

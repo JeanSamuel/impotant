@@ -15,6 +15,7 @@ import { Icon } from "react-native-elements";
 import Services from "../services/services";
 import Spinner from "react-native-spinkit";
 import * as Animatable from "react-native-animatable";
+import ExpoNotif from "../notification/";
 
 const mark = require("../../images/icons/logo-pro.png");
 const back = require("../../images/backHeader.jpg");
@@ -63,13 +64,21 @@ export default class DrawerContent extends Component {
   checkOldSolde() {
     let services = new Services();
     services
-      .checkOldSolde()
+      .getData("history")
       .then(response => {
-        this.setState({
-          solde: response.value,
-          date: response.date,
-          isrefreshing: false
-        });
+        if (response.value != null) {
+          this.setState({
+            solde: response.value,
+            date: response.date,
+            isrefreshing: false
+          });
+        } else {
+          this.setState({
+            solde: "N/A",
+            date: "N/A",
+            isrefreshing: false
+          });
+        }
       })
       .catch(error => {
         this.setState({
@@ -147,6 +156,7 @@ export default class DrawerContent extends Component {
             </View>
           </View>
         </Image>
+        <ExpoNotif />
       </View>
     );
   }
