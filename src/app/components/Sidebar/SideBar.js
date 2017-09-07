@@ -82,6 +82,8 @@ export default class SideBar extends Component {
     return (
       <Container>
         <Content
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >

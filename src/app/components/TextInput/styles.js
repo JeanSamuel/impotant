@@ -39,6 +39,7 @@ export default EStyleSheet.create({
   },
   button: {
     height: INPUT_HEIGHT,
+    width: INPUT_HEIGHT + 20,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "$white",
@@ -47,6 +48,7 @@ export default EStyleSheet.create({
   },
   iconButton: {
     height: INPUT_HEIGHT,
+    width: INPUT_HEIGHT + 20,
     backgroundColor: "$white"
   },
   buttonText: {

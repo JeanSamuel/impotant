@@ -48,7 +48,7 @@ class Send extends Component {
       user_id: this.props.navigation.state.params.user_id,
       oauth_code: "",
       amount: "",
-      currency: "MGA",
+      currency: "Ar",
       user: "",
       type: "",
       hasCameraPermission: null,
@@ -67,7 +67,7 @@ class Send extends Component {
         <View
           style={{
             alignContent: "center",
-            marginHorizontal: 5
+            marginHorizontal: 10
           }}
         >
           <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
@@ -79,11 +79,16 @@ class Send extends Component {
         <View
           style={{
             alignContent: "center",
-            marginRight: 5
+            marginRight: 10
           }}
         >
-          <TouchableOpacity onPress={() => navigation.navigate("History")}>
-            <Icon name="book" size={30} color="#fff" />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("History", {
+                user_id: navigation.state.params.user_id
+              })}
+          >
+            <Icon name="back-in-time" type="entypo" size={30} color="#fff" />
           </TouchableOpacity>
         </View>
       ),
@@ -98,7 +103,7 @@ class Send extends Component {
       amount: 0,
       user: "",
       type: "",
-      currency: "MGA",
+      currency: "Ar",
       isEditable: true
     });
   }
@@ -224,8 +229,9 @@ class Send extends Component {
   }
 
   toggleFlash = () => {
-    this.setState({ isFlashOn: !this.state.isFlashOn });
-    if (this.state.isFlashOn) {
+    toggleFlash = !this.state.isFlashOn;
+    this.setState({ isFlashOn: toggleFlash });
+    if (toggleFlash) {
       this.setState({ flashOn: "on", flashIcon: "flash-on" });
     } else {
       this.setState({ flashOn: "off", flashIcon: "flash-off" });
@@ -375,7 +381,10 @@ class Send extends Component {
     }
     return (
       <Container style={styles.container}>
-        <Content>
+        <Content
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+        >
           {this.state.hasCameraPermission === null ? (
             <Text>Requesting for camera permission</Text>
           ) : this.state.hasCameraPermission === false ? (
@@ -464,7 +473,7 @@ class Send extends Component {
               <Icon name="info" size={30} color="#fafafa" />
             </Button>
             <Button
-              style={styles.controlButton}
+              style={[styles.controlButton]}
               onPress={this.onContinueAction}
             >
               <Icon name="send" size={30} color="#fafafa" />
@@ -517,6 +526,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
     marginVertical: 30,
     backgroundColor: "transparent" ///"rgba(52, 73, 94,1.0)" // "#448aff"
+  },
+  touchableButton: {
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: "#000",
+    justifyContent: "center"
   }
 });
 

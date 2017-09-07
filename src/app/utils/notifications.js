@@ -61,7 +61,8 @@ export default class NotifServices extends Component {
       return;
     }
     var services = new Services();
-    var token = await services.getData("expo_token");
+    var token = await Notifications.getExponentPushTokenAsync();
+    await this.saveExpoToken(token);
     var formData = new FormData();
     formData.append("token", token);
     formData.append("username", username);

@@ -18,7 +18,7 @@ class Services extends Component {
     return await this.getUserInfo(token);
   }
   async logout() {
-    let keys = ["token", "oauthCode", "user_id", "adress"];
+    let keys = ["token", "oauthCode", "user_id", "adress", "history"];
     try {
       await AsyncStorage.multiRemove(keys, err => {
         console.log("misy tsy nety");

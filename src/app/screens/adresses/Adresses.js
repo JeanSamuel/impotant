@@ -9,7 +9,9 @@ import {
   ActivityIndicator,
   Modal,
   Platform,
-  ToastAndroid
+  RefreshControl,
+  ToastAndroid,
+  NetInfo
 } from "react-native";
 import {
   Header,
@@ -31,6 +33,7 @@ import Toast, { DURATION } from "react-native-easy-toast";
 import headStyle from "../../styles/headerStyle";
 import UserServices from "../../utils/userServices";
 import Services from "../../utils/services";
+import timer from "react-native-timer";
 
 const { width, height } = Dimensions.get("window");
 // create a component
@@ -40,53 +43,86 @@ class Adresses extends Component {
     this.state = {
       list: [],
       flashOn: "off",
+      refreshing: false,
       modalVisible: false,
+      syncing: true,
+      online: true,
+      hideSuccess: false,
       loading: true
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.navigation.state.params.user_id);
-    userServices = new UserServices();
+  fetchLocalAdress() {
     services = new Services();
-    services
-      .getData("adress")
-      .then(response => JSON.parse(response))
-      .then(responseJson => {
+    services.getData("adress").then(response => {
+      if (response !== null) {
+        responseJson = JSON.parse(response);
         this.setState({ list: responseJson });
-        this.setState({ loading: false });
-      });
-    userServices
-      .getAdresses(this.props.navigation.state.params.user_id)
-      .then(response => {
-        console.log(response);
-        if (response.status === 200) {
-          response.json().then(responseJson => {
-            this.setState({ list: responseJson });
-            try {
-              services
-                .saveData("adress", JSON.stringify(this.state.list))
-                .then(respose => {
-                  console.log("Nety le izy");
+      }
+    });
+  }
+
+  fetchAdress() {
+    userServices = new UserServices();
+    NetInfo.isConnected.fetch().then(isConnected => {
+      console.log("First, is " + (isConnected ? "online" : "offline"));
+      isConnected
+        ? this.setState({ online: true })
+        : this.setState({ online: false, syncing: false });
+      if (isConnected) {
+        userServices
+          .getAdresses(this.props.navigation.state.params.user_id)
+          .then(response => {
+            console.log(response);
+            if (response.status === 200) {
+              response.json().then(responseJson => {
+                this.setState({
+                  list: responseJson,
+                  refreshing: false,
+                  loading: false
                 });
-            } catch (error) {
-              console.log(error);
-              throw "something went wrong when saving data";
+                try {
+                  services
+                    .saveData("adress", JSON.stringify(this.state.list))
+                    .then(respose => {
+                      console.log("Nety le izy");
+                    });
+                } catch (error) {
+                  console.log(error);
+                  throw "something went wrong when saving data";
+                }
+              });
+            }
+            if (response.status === 405) {
+              console.log("erreur", response.status);
+              this.setState({
+                loading: false,
+                refreshing: false
+              });
             }
           });
-        }
-        if (response.status === 405) {
-          console.log("erreur", response.status);
-          this.setState({
-            loading: false
-          });
-        }
-      });
+      }
+    });
+  }
+
+  componentDidMount() {
+    console.log(this.props.navigation.state.params.user_id);
+    services = new Services();
+    services.getData("adress").then(response => {
+      if (response !== null) {
+        this.setState({ list: JSON.parse(response) });
+        this.setState({ loading: false });
+      } else {
+        console.log("Empty adress from local storage");
+      }
+    });
+    this.fetchAdress();
   }
 
   toggleFlash = () => {
-    this.setState({ isFlashOn: !this.state.isFlashOn });
-    if (this.state.isFlashOn) {
+    toggleFlash = !this.state.isFlashOn;
+    this.setState({ isFlashOn: toggleFlash });
+    if (toggleFlash) {
       this.setState({ flashOn: "on", flashIcon: "flash-on" });
     } else {
       this.setState({ flashOn: "off", flashIcon: "flash-off" });
@@ -136,8 +172,49 @@ class Adresses extends Component {
     }
   };
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.fetchAdress();
+  };
+
+  renderLoadingMessage() {
+    return (
+      <View style={{ backgroundColor: "#FFCC00", paddingVertical: 5 }}>
+        <Text style={{ textAlign: "center", color: "#fff" }}>
+          En attente de syncronisation
+        </Text>
+      </View>
+    );
+  }
+
+  renderErrorMessage() {
+    return <Text>Vous êtes hors connection</Text>;
+  }
+
+  renderConnectedMessage() {
+    let component = null;
+    timer.setTimeout(
+      this,
+      "hideSuccess",
+      () => this.setState({ hideSuccess: true }),
+      600
+    );
+    {
+      this.state.hideSuccess
+        ? (component = null)
+        : (component = (
+            <View style={{ backgroundColor: "#00cc00", paddingVertical: 5 }}>
+              <Text style={{ textAlign: "center", color: "#fff" }}>
+                Syncronisation terminé
+              </Text>
+            </View>
+          ));
+    }
+
+    return component;
+  }
+
   render() {
-    console.log(this.listContainObject("toavina"));
     return (
       <Container>
         <Header style={headStyle.headerBackground}>
@@ -156,7 +233,13 @@ class Adresses extends Component {
             <Title>{this.props.navigation.state.routeName}</Title>
           </Body>
         </Header>
-        <Spinner visible={this.state.loading} size="large" />
+        {this.state.online && this.state.loading ? (
+          this.renderLoadingMessage()
+        ) : null}
+        {!this.state.online ? this.renderErrorMessage() : null}
+        {this.state.online && !this.state.loading ? (
+          this.renderConnectedMessage()
+        ) : null}
         <Button
           rounded
           style={{
@@ -176,7 +259,11 @@ class Adresses extends Component {
           </Text>
           <Icon name="add" />
         </Button>
-        <Content contentContainerStyle={{ width: width, paddingHorizontal: 5 }}>
+        <Content
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+          contentContainerStyle={{ width: width, paddingHorizontal: 5 }}
+        >
           <List
             containerStyle={{
               marginTop: 0,
@@ -190,6 +277,12 @@ class Adresses extends Component {
             <FlatList
               data={this.state.list}
               style={{ margin: 0 }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}
+                />
+              }
               //ItemSeparatorComponent={this.renderSeparator}
               renderItem={({ item }) => (
                 <ListItem

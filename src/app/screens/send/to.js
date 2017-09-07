@@ -64,11 +64,11 @@ class To extends Component {
               if (response.status === 200) {
                 console.log("Ato izyzyzyzyzyzy");
                 response.json().then(responseJson => {
-                  this.setState({ list: responseJson });
                   try {
                     services
                       .saveData("adress", JSON.stringify(this.state.list))
                       .then(respose => {
+                        this.setState({ list: responseJson, loading: false });
                         console.log("Nety le izy");
                       });
                   } catch (error) {
