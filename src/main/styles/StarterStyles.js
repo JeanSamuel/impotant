@@ -15,20 +15,23 @@ export default EStyleSheet.create({
     height: null
   },
   logoTextInline: {
-    fontSize: 17
+    fontSize: 17,
+    backgroundColor: "transparent"
   },
   background: {
     width,
     height
   },
   logoText: {
-    fontSize: 25
+    fontSize: 25,
+    backgroundColor: "transparent"
   },
   copyright: {
     marginBottom: 10
   },
   copyrightText: {
-    color: "#FFF"
+    color: "#FFF",
+    backgroundColor: "transparent"
   },
 
   // ***********************************************************

@@ -44,6 +44,7 @@ export default {
     color: "rgba(142, 68, 173,1.0)"
   },
   inputWarp: {
+    flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "rgba(44, 62, 80,1.0)"
   }

@@ -166,6 +166,7 @@ class History extends Component {
               backButton={<Icon name="keyboard-arrow-up" size={30} />}
             />
           </View>
+
           <View>{this.state.error}</View>
           <View style={[style.headerList, this.state.extraMargin]}>
             {/* <Text style={style.greyText}>Nom | Type</Text>

@@ -74,6 +74,7 @@ class Home extends Component {
         if (response != null) {
           this.setState({
             data: {
+              currency: "Ar",
               userId: response
             }
           });
@@ -179,7 +180,6 @@ class Home extends Component {
           />
           <View>
             <View style={styles.amountContainer}>
-              <Text style={styles.amountLabel}>Montant (Ar)</Text>
               <KeyboardAvoidingView style={styles.inputWarp}>
                 <TextInput
                   ref="input"
@@ -190,6 +190,16 @@ class Home extends Component {
                   onChangeText={text => this.setUpdate(text)}
                   autoFocus={true}
                 />
+                <Text
+                  style={{
+                    textAlignVertical: "center",
+                    textAlign: "left",
+                    fontSize: 30
+                  }}
+                >
+                  {" "}
+                  Ar
+                </Text>
               </KeyboardAvoidingView>
               <View>{this.state.warning}</View>
             </View>

@@ -103,7 +103,11 @@ class Step2 extends Component {
               </TouchableOpacity>
               <Text
                 style={[
-                  { fontSize: 25, paddingLeft: 15 },
+                  {
+                    fontSize: 25,
+                    paddingLeft: 15,
+                    backgroundColor: "transparent"
+                  },
                   styleBase.textWhiteCentered
                 ]}
               >

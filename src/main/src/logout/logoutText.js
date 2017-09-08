@@ -26,18 +26,11 @@ class LogoutText extends Component {
       <View>
         <ScrollView contentContainerStyle={[styleBase.centered]}>
           <View style={styles.title}>
-            <Text style={styles.titleText}>
-              Déconnecter votre compte de ce mobile
-            </Text>
+            <Text style={styles.titleText}>Déconnexion</Text>
           </View>
           <View style={[styles.content]}>
             <Text style={styles.contentText}>
-              Une perte pourrait survenir si votre compte n'est pas encore
-              complet
-            </Text>
-
-            <Text style={styles.contentText}>
-              Voulez vous vraiment vous déconnecter?
+              Voulez vous vraiment vous déconnecter de ce mobile?
             </Text>
           </View>
         </ScrollView>
@@ -64,11 +57,13 @@ class LogoutText extends Component {
 const styles = StyleSheet.create({
   title: {},
   titleText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold"
   },
   content: {
-    flex: 1
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   },
   contentText: {
     textAlign: "left",

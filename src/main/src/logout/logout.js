@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   webViewContainer: {
     width: width - 50,
-    height: 180,
+    height: 120,
     paddingHorizontal: 20,
     paddingTop: 10,
     backgroundColor: "#FFF"

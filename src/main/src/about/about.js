@@ -11,6 +11,18 @@ class MyClass extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <View
+          style={{
+            elevation: 1000,
+            backgroundColor: "red",
+            height: 150,
+            position: "absolute",
+            top: -20,
+            left: 0
+          }}
+        >
+          <Text style={{ fontSize: 40 }}>Toavina</Text>
+        </View>
         <Text>MyClass</Text>
       </View>
     );

@@ -124,8 +124,7 @@ export default class DrawerContent extends Component {
                 }}
               >
                 <Text style={styleBase.textWhiteBold}>
-                  Solde :{" "}
-                  <Text style={{ fontSize: 18 }}>{soldeFormated} Ar</Text>
+                  <Text style={{ fontSize: 30 }}>{soldeFormated} Ar</Text>
                 </Text>
                 <TouchableOpacity
                   style={[
@@ -151,8 +150,6 @@ export default class DrawerContent extends Component {
                   </Animatable.View>
                 </TouchableOpacity>
               </View>
-
-              <Text style={styleBase.textWhiteBold}>du {this.state.date}</Text>
             </View>
           </View>
         </Image>

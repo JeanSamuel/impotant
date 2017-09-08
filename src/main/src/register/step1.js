@@ -178,7 +178,12 @@ class Step1 extends Component {
             <Text style={[styles.logoTextInline, styleBase.textWhiteCentered]}>
               Ariary.net
             </Text>
-            <Text style={[styleBase.textWhiteCentered, { fontSize: 35 }]}>
+            <Text
+              style={[
+                styleBase.textWhiteCentered,
+                { fontSize: 35, backgroundColor: "transparent" }
+              ]}
+            >
               Inscription
             </Text>
           </View>
