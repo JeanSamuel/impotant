@@ -50,9 +50,15 @@ class Launcher extends Component {
   showAlert(notification) {
     const title = data.title;
     const amount = notification.data.amount;
-    const sender = notification.data.from;
-    const message =
-      "Vous venez de recevoir " + amount + " Ar de la part de " + sender;
+    const sender = notification.data.otherUser;
+    let debutMessage = "Vous venez de recevoir ";
+    let finMessage = " Ar de la part de ";
+
+    if (notification.data.title == "Envoi d'argent") {
+      debutMessage = "Vous venez d'envoyer ";
+      finMessage = " Ar à ";
+    }
+    const message = debutMessage + amount + finMessage + sender;
     this.dropdown.alertWithType(data.type, title, message);
   }
   dismissAlert = () => {
