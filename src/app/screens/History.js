@@ -96,7 +96,10 @@ class History extends React.Component {
           .then(response => {
             services.saveData("history", JSON.stringify(response));
             history = this.parseHistoryData(response);
-            console.log(history);
+            console.log(
+              "History GG ===" + JSON.stringify(history),
+              history[0].amount
+            );
             this.setState({
               history: history,
               loading: false,
@@ -130,8 +133,8 @@ class History extends React.Component {
     if (amount < 0) {
       sign = "-";
     }
-    let desired = amount.replace(/[^\w\s]/gi, "");
-    return sign + " " + desired + " " + currency;
+    // let desired = amount.replace(/[^\w\s]/gi, "");
+    return sign + " " + amount + " " + currency;
   }
 
   getColor(amount) {

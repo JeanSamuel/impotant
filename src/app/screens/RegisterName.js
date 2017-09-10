@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
-
+import { Button } from "native-base";
 import { Container } from "../components/Container";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
@@ -13,7 +13,7 @@ import { InputWithButton } from "../components/TextInput";
 class RegisterName extends Component {
   render() {
     return (
-      <Container style={styles.container}>
+      <View style={[styles.container, { backgroundColor: "#E2E2E2" }]}>
         <Header headerText="Bienvenue sur Ariary.net" />
         <KeyboardAvoidingView
           behavior="padding"
@@ -27,19 +27,24 @@ class RegisterName extends Component {
           <InputWithButton buttonText="" />
         </KeyboardAvoidingView>
         <Footer>
-          <View style={styles.inline}>
-            <MyButton
-              text="Retour"
-              style={{ width: 120 }}
-              onPress={() => {
-                console.log(this.props);
-                this.props.navigation.goBack;
-              }}
-            />
-            <MyButton text="Continuer" style={{ width: 120 }} />
+          <View style={[styles.inline, { alignContent: "space-between" }]}>
+            <Button
+              rounded
+              block
+              style={{ marginBottom: 10, backgroundColor: "#e4795f" }}
+            >
+              <Text style={[styles.text, { fontSize: 18 }]}>
+                Enregistrer et continuer
+              </Text>
+            </Button>
+            <Button rounded block style={{ backgroundColor: "transparent" }}>
+              <Text style={[styles.text, { fontSize: 18, color: "#000" }]}>
+                Revenir en arrière
+              </Text>
+            </Button>
           </View>
         </Footer>
-      </Container>
+      </View>
     );
   }
 }

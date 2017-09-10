@@ -2,6 +2,8 @@
 import React, { Component } from "react";
 import { AsyncStorage, View, Text } from "react-native";
 import numeral from "numeral";
+
+import config from "../config/config";
 // create a component
 class Services extends Component {
   renderPlaceholderPage() {
@@ -17,6 +19,19 @@ class Services extends Component {
     var token = await this.getToken(OauthCode);
     return await this.getUserInfo(token);
   }
+
+  login(username, password) {
+    formdata = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    data = {
+      method: "POST",
+      body: formData
+    };
+    return fetch();
+  }
+
   async logout() {
     let keys = ["token", "oauthCode", "user_id", "adress", "history"];
     try {
@@ -92,12 +107,12 @@ class Services extends Component {
          * get token using Oauth code stored into AsynStorage
          */
   async getToken(oauthCode) {
-    var url = "http://auth.vola.mg/oauth2/token";
+    var url = config.OAUTH_BASE_URL + "token";
     var formData = new FormData();
     formData.append("code", oauthCode);
     formData.append("client_id", "ariarynet");
     formData.append("client_secret", "ariarynetpass");
-    formData.append("redirect_uri", "http://auth.vola.mg/index.php/");
+    formData.append("redirect_uri", config.OAUTH_RET_URL);
     formData.append("grant_type", "authorization_code");
     formData.append("scope", "userinfo");
     var data = {
@@ -110,7 +125,7 @@ class Services extends Component {
     return json.access_token;
   }
   async getUserInfo(token) {
-    var url = "http://auth.vola.mg/oauth2/userinfo?access_token=" + token;
+    var url = config.OAUTH_BASE_URL + "userinfo?access_token=" + token;
     var response = await fetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";

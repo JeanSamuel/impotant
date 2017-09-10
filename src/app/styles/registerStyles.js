@@ -25,7 +25,8 @@ export default EStyleSheet.create({
     width: imageWidth
   },
   inline: {
-    flexDirection: "row",
+    flexDirection: "column",
+    justifyContent: "space-around",
     marginHorizontal: 15,
     marginBottom: 15,
     alignItems: "center",

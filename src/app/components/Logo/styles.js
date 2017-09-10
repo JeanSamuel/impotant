@@ -19,6 +19,7 @@ export default EStyleSheet.create({
   },
   logoText: {
     color: "#fff",
+    backgroundColor: "transparent",
     fontSize: 20,
     fontWeight: "400",
     textAlign: "center"

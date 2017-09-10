@@ -5,6 +5,7 @@ import Services from "./services";
 import moment from "moment";
 import "moment/locale/fr";
 import _ from "lodash";
+import config from "../config/config";
 
 moment.locale("fr");
 // create a component
@@ -18,7 +19,8 @@ class HistorySevices extends Component {
   };
 
   async getHistory(user_id) {
-    let url = "http://ariary.vola.mg/transaction/" + user_id;
+    let url = config.BASE_URL + "transaction/aa031";
+    console.log(url);
     return fetch(url)
       .then(response => response.json())
       .then(responseJson => {

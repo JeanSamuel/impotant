@@ -33,6 +33,7 @@ class InputLeftIcon extends React.Component {
           underlineColorAndroid="transparent"
           placeholder={this.props.placeholder}
           editable={this.props.editable}
+          onEndEditing={this.props.onEndEditing}
         />
         <Button style={styles.iconButton} onPress={this.props.onPress}>
           <Icon name={this.props.iconName} size={25} />

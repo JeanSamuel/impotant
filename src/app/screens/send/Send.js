@@ -34,7 +34,7 @@ import Services from "../../utils/services";
 import { Ionicons } from "@expo/vector-icons";
 import headStyle from "../../styles/headerStyle";
 import { LogoMini } from "../../components/Logo";
-
+import config from "../../config/config";
 const { height, width } = Dimensions.get("window");
 
 class Send extends Component {
@@ -45,10 +45,12 @@ class Send extends Component {
       flashOn: "off",
       isFlashOn: false,
       flashIcon: "flash-off",
-      user_id: this.props.navigation.state.params.user_id,
+      // let senderId = "aa031";
+      //let recipientId = "aa063";
+      user_id: "aa031", //this.props.navigation.state.params.user_id,
       oauth_code: "",
       amount: "",
-      currency: "Ar",
+      currency: "Voucher",
       user: "",
       type: "",
       hasCameraPermission: null,
@@ -111,6 +113,7 @@ class Send extends Component {
     this._requestCameraPermission();
     this.setState({ isLoading: false });
     console.log("Props view ######", this.props);
+    console.log(config.CUSTOM_BASE_URL);
   }
 
   _requestCameraPermission = async () => {
@@ -147,6 +150,9 @@ class Send extends Component {
         console.log(readData.a);
         this.createModal();
       }
+      if (readData.a !== 0 && readData.u) {
+        this.createModal();
+      }
     }
   };
 
@@ -156,7 +162,10 @@ class Send extends Component {
   //3: Perform transaction -> performTransaction
   onContinueAction = () => {
     if (this.state.amount == 0 || this.state.user === "") {
-      $message = "";
+      Alert.alert(
+        "An error happened",
+        "Vérifier les données que vous avez entrez"
+      );
     } else {
       this.promptPin();
     }
@@ -179,23 +188,25 @@ class Send extends Component {
         this.state.user,
         this.state.oauth_code
       )
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(JSON.stringify(responseJson));
-        console.log(this.state.user_id, this.state.user);
-        userServices
-          .saveAdress(this.state.user_id, this.state.user)
-          .then(response => {
-            console.log(response);
-            this.setState({ isLoading: false });
-            Platform.OS == "android"
-              ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
-              : this.refs.toast.show("Transaction success", 1000);
-            this.initState();
-          })
-          .catch(err => {
-            console.log(err);
-          });
+      .then(response => {
+        console.log(response);
+        response.json().then(responseJson => {
+          console.log(JSON.stringify(responseJson));
+          console.log(this.state.user_id, this.state.user);
+          userServices
+            .saveAdress(this.state.user_id, this.state.user)
+            .then(response => {
+              console.log(response);
+              this.setState({ isLoading: false });
+              Platform.OS == "android"
+                ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
+                : this.refs.toast.show("Transaction success", 1000);
+              this.initState();
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
       })
       .catch(error => {
         console.error(error);

@@ -1,10 +1,11 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import config from "../config/config";
 import moment from "moment";
 
 // create a component
-const transaction_url = "http://ariary.vola.mg/transaction";
+const transaction_url = config.BASE_URL + "transaction";
 class QrServices extends Component {
   /**
    * 
@@ -46,17 +47,20 @@ class QrServices extends Component {
   }
 
   performTransation(amount, sender_id, currency, user_id, access_token) {
-    var url = transaction_url + "/" + sender_id;
+    var url = transaction_url; //+ "/" + sender_id;
     var formData = new FormData();
     formData.append("amount", amount);
     formData.append("senderId", sender_id);
     formData.append("recipientId", user_id);
-    formData.append("currency", currency);
+    // formData.append("currency", currency);
     formData.append("comment", "Transfert");
-    formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
+    // formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
     let data = {
       method: "POST",
-      headers: { Authorization: "Bearer " + access_token },
+      headers: {
+        //Authorization: "Bearer " + access_token
+        // '-origin':
+      },
       body: formData
     };
     console.log("waiting for transactions", url);

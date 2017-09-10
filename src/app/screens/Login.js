@@ -11,11 +11,13 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Container } from "../components/Container";
 import Services from "../utils/services";
 import NotifServices from "../utils/notifications";
+import config from "../config/config";
 
 // create a component
+//param envoyer au login : username, password
 const uri =
-  "http://auth.vola.mg/oauth2/authorize?response_type=code&state=pending&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo";
-const return_url = "http://auth.vola.mg/index.php/";
+  "http://auth.vola.mg/oauth2/authorize?response_type=code&state=xyz&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo";
+const return_url = config.OAUTH_RET_URL;
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -46,8 +48,11 @@ class Login extends Component {
   }
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) => (
-    <View>
-      <Text>No Internet Connection</Text>
+    <View style={styles.container}>
+      <Icon name="signal-wifi-off" />
+      <Text>Erreur lors de la connexion aux serveurs</Text>
+      <Text>Verifiez votre connexion ou</Text>
+      <Text>Réessayer un peu plus tard</Text>
     </View>
   );
 

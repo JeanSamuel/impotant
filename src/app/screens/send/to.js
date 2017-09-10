@@ -6,7 +6,8 @@ import {
   StyleSheet,
   FlatList,
   ListView,
-  Dimensions
+  Dimensions,
+  NetInfo
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { List, ListItem } from "react-native-elements";
@@ -18,20 +19,7 @@ import Row from "./Row";
 // create a component
 
 const { width } = Dimensions.get("window");
-const list = [
-  {
-    accountId: "Miorantsoa",
-    date: "2017-08-21"
-  },
-  {
-    accountId: "Solo",
-    date: "2017-08-24"
-  },
-  {
-    accountId: "Toavina",
-    date: "2017-08-22"
-  }
-];
+
 class To extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -50,49 +38,71 @@ class To extends Component {
     };
   }
 
+  fetchLocalAdress() {
+    services = new Services();
+    services.getData("adress").then(response => {
+      if (response !== null) {
+        responseJson = JSON.parse(response);
+        this.setState({ list: responseJson });
+      }
+    });
+  }
+
+  fetchAdress() {
+    userServices = new UserServices();
+    NetInfo.isConnected.fetch().then(isConnected => {
+      console.log("First, is " + (isConnected ? "online" : "offline"));
+      isConnected
+        ? this.setState({ online: true })
+        : this.setState({ online: false, syncing: false });
+      if (isConnected) {
+        userServices
+          .getAdresses(this.props.navigation.state.params.user_id)
+          .then(response => {
+            console.log(response);
+            if (response.status === 200) {
+              response.json().then(responseJson => {
+                this.setState({
+                  list: responseJson,
+                  refreshing: false,
+                  loading: false
+                });
+                try {
+                  services
+                    .saveData("adress", JSON.stringify(this.state.list))
+                    .then(respose => {
+                      console.log("Nety le izy");
+                    });
+                } catch (error) {
+                  console.log(error);
+                  throw "something went wrong when saving data";
+                }
+              });
+            }
+            if (response.status === 405) {
+              console.log("erreur", response.status);
+              this.setState({
+                loading: false,
+                refreshing: false
+              });
+            }
+          });
+      }
+    });
+  }
+
   componentDidMount() {
     console.log(this.props.navigation.state.params.user_id);
     services = new Services();
-    userServices = new UserServices();
-    try {
-      services.getData("adress").then(response => {
-        console.log("jsonData", response);
-        if (response == null) {
-          userServices
-            .getAdresses(this.props.navigation.state.params.user_id)
-            .then(response => {
-              if (response.status === 200) {
-                console.log("Ato izyzyzyzyzyzy");
-                response.json().then(responseJson => {
-                  try {
-                    services
-                      .saveData("adress", JSON.stringify(this.state.list))
-                      .then(respose => {
-                        this.setState({ list: responseJson, loading: false });
-                        console.log("Nety le izy");
-                      });
-                  } catch (error) {
-                    console.log(error);
-                    throw "something went wrong when saving data";
-                  }
-                });
-              }
-              if (response.status === 405) {
-                console.log("erreur", response.status);
-                this.setState({
-                  loading: false,
-                  placeholder: services.renderPlaceholderPage
-                });
-              }
-            });
-        } else {
-          this.setState({ list: JSON.parse(response) });
-          this.setState({ loading: false });
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    services.getData("adress").then(response => {
+      if (response !== null) {
+        this.setState({ list: JSON.parse(response) });
+        this.setState({ loading: false });
+      } else {
+        console.log("Empty adress from local storage");
+      }
+    });
+    this.fetchAdress();
   }
 
   renderSeparator = () => {
