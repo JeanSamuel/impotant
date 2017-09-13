@@ -60,7 +60,8 @@ const Drawer = DrawerNavigator(
 export default StackNavigator(
   {
     Handler: {
-      screen: Handler
+      screen: Handler,
+      header: () => null
     },
     Landing: {
       screen: Home,
