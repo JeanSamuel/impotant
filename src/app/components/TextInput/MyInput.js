@@ -23,6 +23,7 @@ class MyInput extends Component {
           keyboardType={this.props.keyboardType}
           returnKeyType={this.props.returnKeyType}
           secureTextEntry={this.props.secureTextEntry}
+          onEndEditing={this.props.onEndEditing}
           maxLength={this.props.maxLength}
         />
       </View>

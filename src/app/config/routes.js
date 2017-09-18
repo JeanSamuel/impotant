@@ -16,13 +16,15 @@ import Receive from "../screens/Receive";
 import SideBar from "../components/Sidebar/SideBar";
 import Pins from "../screens/Pin";
 import Handler from "../screens/Handler";
-import Register from "../screens/Register";
-import RegisterName from "../screens/RegisterName";
+import Register from "../screens/register/Register";
+import RegisterName from "../screens/register/RegisterName";
 import Logout from "../screens/Logout";
 import History from "../screens/History";
-import RegisterPin from "../screens/RegisterPin";
+import RegisterPin from "../screens/register/RegisterPin";
+import RegisterPwd from "../screens/register/RegisterPwd";
 import Adresses from "../screens/adresses/Adresses";
 import To from "../screens/send/to";
+import AppStarter from "../screens/appStarter/AppStarter";
 
 const NestedSendStack = StackNavigator({
   Send: {
@@ -46,7 +48,7 @@ const Drawer = DrawerNavigator(
       screen: Adresses
     },
     Options: { screen: Main },
-    About: { screen: Main },
+    About: { screen: AppStarter },
     Logout: { screen: Logout }
   },
   {
@@ -61,7 +63,9 @@ export default StackNavigator(
   {
     Handler: {
       screen: Handler,
-      header: () => null
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
     },
     Landing: {
       screen: Home,
@@ -77,10 +81,7 @@ export default StackNavigator(
       })
     },
     RegisterPin: {
-      screen: RegisterPin,
-      navigationOptions: ({ navigation }) => ({
-        header: () => null
-      })
+      screen: RegisterPin
     },
     Register: {
       screen: Register,
@@ -90,18 +91,10 @@ export default StackNavigator(
       })
     },
     RegisterName: {
-      screen: RegisterName,
-      navigationOptions: ({ navigation }) => ({
-        header: () => null,
-        headerTitle: "Register"
-      })
+      screen: RegisterName
     },
-    Pin: {
-      screen: Pins,
-      navigationOptions: ({ navigation }) => ({
-        header: () => null,
-        headerTitle: "Pin"
-      })
+    RegisterPwd: {
+      screen: RegisterPwd
     }
   },
   { initialRouteName: "Handler" }

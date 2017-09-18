@@ -19,7 +19,8 @@ export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      fontLoaded: false
     };
   }
   async componentDidMount() {

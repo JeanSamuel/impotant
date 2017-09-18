@@ -36,9 +36,7 @@ const InputWithButton = props => {
         onPress={onPress}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>
-          {buttonText}
-        </Text>
+        <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableHighlight>
       <View style={styles.border} />
       <TextInput
@@ -47,6 +45,7 @@ const InputWithButton = props => {
         autoFocus={autoFocus}
         secureTextEntry={secureTextEntry}
         underlineColorAndroid="transparent"
+        onEndEditing={this.props.onEndEditing}
         {...props}
         maxLength={maxLength}
       />

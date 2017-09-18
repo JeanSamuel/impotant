@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   WebView
 } from "react-native";
+import { AppLoading } from "expo";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Container } from "../components/Container";
 import Services from "../utils/services";

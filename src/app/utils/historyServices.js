@@ -19,7 +19,7 @@ class HistorySevices extends Component {
   };
 
   async getHistory(user_id) {
-    let url = config.BASE_URL + "transaction/aa031";
+    let url = config.CUSTOM_BASE_URL + "transaction/" + user_id;
     console.log(url);
     return fetch(url)
       .then(response => response.json())

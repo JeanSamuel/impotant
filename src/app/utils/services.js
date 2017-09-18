@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { AsyncStorage, View, Text } from "react-native";
 import numeral from "numeral";
+import fr from "numeral/locales";
 
 import config from "../config/config";
 // create a component
@@ -33,7 +34,7 @@ class Services extends Component {
   }
 
   async logout() {
-    let keys = ["token", "oauthCode", "user_id", "adress", "history"];
+    let keys = ["token", "oauthCode", "user_id", "adress", "history", "pin"];
     try {
       await AsyncStorage.multiRemove(keys, err => {
         console.log("misy tsy nety");
@@ -138,6 +139,7 @@ class Services extends Component {
     return userInfo;
   }
   static formatNumber(number) {
+    numeral.locale("fr");
     dataformat = numeral(number).format();
     return dataformat;
   }

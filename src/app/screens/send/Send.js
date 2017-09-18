@@ -12,7 +12,8 @@ import {
   TextInput,
   ActivityIndicator,
   Platform,
-  ToastAndroid
+  ToastAndroid,
+  BackHandler
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { Constants, BarCodeScanner, Permissions } from "expo";
@@ -47,10 +48,10 @@ class Send extends Component {
       flashIcon: "flash-off",
       // let senderId = "aa031";
       //let recipientId = "aa063";
-      user_id: "aa031", //this.props.navigation.state.params.user_id,
+      user_id: this.props.navigation.state.params.user_id,
       oauth_code: "",
       amount: "",
-      currency: "Voucher",
+      currency: "Ar",
       user: "",
       type: "",
       hasCameraPermission: null,
@@ -58,7 +59,9 @@ class Send extends Component {
       modal: null,
       modalData: null,
       isLoading: true,
+      hasPin: false,
       pin: "",
+      savedPin: "",
       isEditable: true
     };
   }
@@ -102,15 +105,41 @@ class Send extends Component {
 
   initState() {
     this.setState({
-      amount: 0,
+      amount: "",
       user: "",
       type: "",
       currency: "Ar",
       isEditable: true
     });
   }
+
+  handlePinVerification = async () => {
+    services = new Services();
+    pin = await services.getData("pin");
+    console.log(" ty le navigation", this.props);
+    if (pin === null) {
+      console.log("pin vide");
+      this.props.navigation.navigate("RegisterPin");
+    } else {
+      this.setState({ hasPin: true, savedPin: pin });
+    }
+  };
+
+  componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return false;
+    });
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", () => {
+      return false;
+    });
+  }
+
   componentDidMount() {
     this._requestCameraPermission();
+    this.handlePinVerification();
     this.setState({ isLoading: false });
     console.log("Props view ######", this.props);
     console.log(config.CUSTOM_BASE_URL);
@@ -122,7 +151,6 @@ class Send extends Component {
       hasCameraPermission: status === "granted"
     });
   };
-
   deepAccessUsingString(obj, key) {
     return key.split(".").reduce((nestedObject, key) => {
       if (nestedObject && key in nestedObject) {
@@ -341,7 +369,8 @@ class Send extends Component {
                   this.setState({ pin: text });
                   if (text.length === 4) {
                     console.log(text);
-                    if (text === "2240") {
+                    console.log("pin local ", this.state.savedPin);
+                    if (text === this.state.savedPin) {
                       this.performTransaction();
                       this.removeModal();
                     } else {
@@ -366,6 +395,8 @@ class Send extends Component {
                 style={[styles.simpleInput, { textAlign: "center" }]}
                 placeholder="Enter your PIN here"
                 autofocus={true}
+                maxLength={4}
+                value={this.state.pin}
                 keyboardType="numeric"
                 returnKeyType="done"
                 secureTextEntry={true}
@@ -381,6 +412,17 @@ class Send extends Component {
     this.inputs[id].focus();
   };
 
+  handleDoneEditing() {
+    if (this.state.amount > 0 && this.state.user.length != 0) {
+      console.log("End Entering amount", this.state.user);
+      this.promptPin();
+    }
+  }
+
+  handleBackHardwareButton() {
+    console.log("Hardware back button");
+  }
+
   render() {
     console.log("navigation ", this.props.navigation);
     if (this.state.isLoading === true) {
@@ -390,122 +432,128 @@ class Send extends Component {
         </View>
       );
     }
-    return (
-      <Container style={styles.container}>
-        <Content
-          keyboardShouldPersistTaps="always"
-          keyboardDismissMode="on-drag"
-        >
-          {this.state.hasCameraPermission === null ? (
-            <Text>Requesting for camera permission</Text>
-          ) : this.state.hasCameraPermission === false ? (
-            <Text>Camera permission is not granted</Text>
-          ) : (
-            <BarCodeScanner
-              torchMode={this.state.flashOn}
-              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-              onBarCodeRead={this._handleBarCodeRead}
+    if (this.state.hasPin) {
+      return (
+        <Container style={styles.container}>
+          <Content
+            keyboardShouldPersistTaps="always"
+            keyboardDismissMode="on-drag"
+          >
+            {this.state.hasCameraPermission === null ? (
+              <Text>Requesting for camera permission</Text>
+            ) : this.state.hasCameraPermission === false ? (
+              <Text>Camera permission is not granted</Text>
+            ) : (
+              <BarCodeScanner
+                torchMode={this.state.flashOn}
+                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                onBarCodeRead={this._handleBarCodeRead}
+                style={{
+                  height: height - 50,
+                  width: width,
+                  alignSelf: "center"
+                }}
+              />
+            )}
+            <View
               style={{
-                height: height - 50,
-                width: width,
-                alignSelf: "center"
+                position: "absolute",
+                top: 0,
+                right: 0,
+                left: 0,
+                backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
               }}
-            />
-          )}
-          <View
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              left: 0,
-              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
-            }}
-          >
-            <InputLeftIcon
-              iconName="expand-more"
-              onPress={() => {
-                console.log("Expand");
-                this.props.navigation.navigate("To", {
-                  onGoBack: data => {
-                    console.log(data);
-                    this.setState({ user: data });
-                  },
-                  user_id: this.state.user_id
-                });
-              }}
-              placeholder="Username"
-              onChangeText={user => this.setState({ user })}
-              value={this.state.user}
-              returnKeyType="none"
-              blurOnSubmit={false}
-            />
-            <InputLeftButton
-              buttonText={this.state.currency}
-              value={"" + this.state.amount}
-              placeholder="Amount"
-              keyboardType="numeric"
-              returnKeyType="done"
-              editable={this.state.isEditable}
-              onChangeText={amount =>
-                this.setState({ amount: Services.formatNumber(amount) })}
-            />
-          </View>
+            >
+              <InputLeftIcon
+                iconName="expand-more"
+                onPress={() => {
+                  console.log("Expand");
+                  this.props.navigation.navigate("To", {
+                    onGoBack: data => {
+                      console.log(data);
+                      this.setState({ user: data });
+                    },
+                    user_id: this.state.user_id
+                  });
+                }}
+                placeholder="Username"
+                onChangeText={user => this.setState({ user })}
+                value={this.state.user}
+                returnKeyType="none"
+                blurOnSubmit={false}
+              />
+              <InputLeftButton
+                buttonText={this.state.currency}
+                value={"" + this.state.amount}
+                placeholder="Amount"
+                keyboardType="numeric"
+                returnKeyType="done"
+                editable={this.state.isEditable}
+                onChangeText={amount =>
+                  this.setState({ amount: Services.formatNumber(amount) })}
+                onEndEditing={() => {
+                  this.handleDoneEditing();
+                }}
+              />
+            </View>
 
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-around",
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
-            }}
-          >
-            <Button
-              style={styles.controlButton}
-              color="#448aff"
-              onPress={this.onResetAction}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-around",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
+              }}
             >
-              <Icon name="clear-all" size={30} color="#fafafa" />
-            </Button>
-            <Button
-              style={styles.controlButton}
-              color="#448aff"
-              onPress={this.toggleFlash}
-            >
-              <Icon name={this.state.flashIcon} size={30} color="#fafafa" />
-            </Button>
-            <Button
-              style={styles.controlButton}
-              onPress={this.promptInformation}
-            >
-              <Icon name="info" size={30} color="#fafafa" />
-            </Button>
-            <Button
-              style={[styles.controlButton]}
-              onPress={this.onContinueAction}
-            >
-              <Icon name="send" size={30} color="#fafafa" />
-            </Button>
-          </View>
-          {this.state.modal}
-          {Platform.OS == "ios" ? (
-            <Toast
-              ref="toast"
-              position="top"
-              positionValue={20}
-              fadeInDuration={750}
-              fadeOutDuration={1000}
-              opacity={0.8}
-            />
-          ) : (
-            <View />
-          )}
-        </Content>
-      </Container>
-    );
+              <Button
+                style={styles.controlButton}
+                color="#448aff"
+                onPress={this.onResetAction}
+              >
+                <Icon name="clear-all" size={30} color="#fafafa" />
+              </Button>
+              <Button
+                style={styles.controlButton}
+                color="#448aff"
+                onPress={this.toggleFlash}
+              >
+                <Icon name={this.state.flashIcon} size={30} color="#fafafa" />
+              </Button>
+              <Button
+                style={styles.controlButton}
+                onPress={this.promptInformation}
+              >
+                <Icon name="info" size={30} color="#fafafa" />
+              </Button>
+              <Button
+                style={[styles.controlButton]}
+                onPress={this.onContinueAction}
+              >
+                <Icon name="send" size={30} color="#fafafa" />
+              </Button>
+            </View>
+            {this.state.modal}
+            {Platform.OS == "ios" ? (
+              <Toast
+                ref="toast"
+                position="top"
+                positionValue={20}
+                fadeInDuration={750}
+                fadeOutDuration={1000}
+                opacity={0.8}
+              />
+            ) : (
+              <View />
+            )}
+          </Content>
+        </Container>
+      );
+    }
+    return null;
   }
 }
 

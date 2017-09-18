@@ -3,7 +3,9 @@ import {
   View,
   KeyboardAvoidingView,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
+  Dimensions
 } from "react-native";
 import { Content, Button, Form, Input } from "native-base";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -11,16 +13,27 @@ import { Logo, LogoMini } from "../components/Logo";
 import { InputWithButton, SimpleInput } from "../components/TextInput";
 import { Container } from "../components/Container";
 import Services from "../utils/services";
+import styles from "../styles/registerStyles";
 
+const { width } = Dimensions.get("window");
 class Pins extends React.Component {
   constructor(props) {
     super(props),
       (this.state = {
-        isLoading: false,
+        isLoading: true,
         pin: "",
-        userPin: "2240"
+        userPin: ""
       });
   }
+
+  async componentDidMount() {
+    services = new Services();
+    pin = await services.getData("pin");
+    if (pin !== null) {
+      this.setState({ userPin: pin, isLoading: false });
+    }
+  }
+
   handlePinInput = text => {
     this.setState({ pin: text });
     if (text.length === 4) {
@@ -43,7 +56,7 @@ class Pins extends React.Component {
   render() {
     let MainComponent = null;
     return (
-      <Container>
+      <View style={[styles.container, { backgroundColor: "#fff" }]}>
         <Spinner
           size="large"
           textContent="En attente de chargement..."
@@ -52,38 +65,58 @@ class Pins extends React.Component {
           textStyle={{ color: "#fafafa", fontWeight: "300" }}
         />
         <KeyboardAvoidingView behavior="padding">
-          <LogoMini
-            style={{
-              marginBottom: 50
-            }}
-          />
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 20,
-              color: "#fff",
-              fontWeight: "600"
-            }}
-          >
-            Enter your PIN here
-          </Text>
-          <SimpleInput
-            buttonText="$"
-            keyboardType="numeric"
-            autoFocus={true}
-            onChangeText={this.handlePinInput}
-            secureTextEntry={true}
-            value={this.state.pin}
-            maxLength={4}
-            style={{
-              flex: 1,
-              textAlign: "center",
-              paddingLeft: 0,
-              fontSize: 24
-            }}
-          />
+          <View>
+            <View style={{ flex: 0.8 }} />
+            <LogoMini
+              style={{
+                marginBottom: 20
+              }}
+            />
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+                color: "#aaa",
+                fontWeight: "500"
+              }}
+            >
+              Enter your PIN here
+            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#aaa",
+                borderRadius: 40,
+                height: 50,
+                width: width - 50,
+                paddingVertical: 10,
+                alignSelf: "center"
+              }}
+            >
+              <TextInput
+                keyboardType="numeric"
+                underlineColorAndroid="transparent"
+                autoFocus={true}
+                onChangeText={this.handlePinInput}
+                secureTextEntry={true}
+                value={this.state.pin}
+                maxLength={4}
+                style={{
+                  fontSize: 20,
+                  textAlign: "center",
+                  paddingHorizontal: 5
+                }}
+                /*style={{
+                /flex: 1,
+                textAlign: "center",
+                paddingLeft: 0,
+                fontSize: 24
+              }}*/
+              />
+            </View>
+          </View>
         </KeyboardAvoidingView>
-      </Container>
+      </View>
     );
   }
 }

@@ -33,6 +33,7 @@ class InputLeftButton extends React.Component {
           secureTextEntry={this.props.secureTextEntry}
           maxLength={this.props.maxLength}
           underlineColorAndroid="transparent"
+          onEndEditing={this.props.onEndEditing}
           placeholder={this.props.placeholder}
         />
         <View style={styles.border} />
