@@ -5,6 +5,7 @@ import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import NotifServices from "./notificationServices";
 import Services from "./services";
+import loginData from "../../data/loginData";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;
 // create a component
@@ -26,7 +27,7 @@ class RegisterServices extends Component {
     var token = await Notifications.getExponentPushTokenAsync();
     await notifServices.initForPushNotificationsAsync(accountId);
 
-    let url = "http://ariary.vola.mg/UserRestController.php";
+    let url = loginData.BASE_URL + "UserRestController.php";
     var formData = new FormData();
     formData.append("accountId", accountId);
     formData.append("expo_token", token);

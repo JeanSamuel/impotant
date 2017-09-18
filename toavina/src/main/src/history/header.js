@@ -20,32 +20,45 @@ class HeaderHistory extends Component {
 
   render() {
     let sectionData = this.props.sectionData;
+    console.log("====================================");
+    console.log("ty le sectionData", sectionData);
+    console.log("====================================");
     if (sectionData.length == 0) return <View />;
     else {
-      let dateOfSection = sectionData[0].date.split(" ")[0];
-      let section = this.getMomentFormat1(dateOfSection);
-      let response = null;
-      let today = "Aujourd'hui";
-      if (moment().isSame(section, "d")) {
-        response = (
-          <View style={styles.sectionHeaderNow}>
-            <Text
-              style={[styles.sectionHeaderTitle, styles.sectionHeaderTitleNow]}
-            >
-              {today}
-            </Text>
-          </View>
-        );
-      } else {
-        response = (
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderTitle}>
-              {this.getMomentFormat2(section)}
-            </Text>
-          </View>
-        );
+      try {
+        let dateOfSection = sectionData[0].date.split(" ")[0];
+        let section = this.getMomentFormat1(dateOfSection);
+        let response = null;
+        let today = "Aujourd'hui";
+        if (moment().isSame(section, "d")) {
+          response = (
+            <View style={styles.sectionHeaderNow}>
+              <Text
+                style={[
+                  styles.sectionHeaderTitle,
+                  styles.sectionHeaderTitleNow
+                ]}
+              >
+                {today}
+              </Text>
+            </View>
+          );
+        } else {
+          response = (
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderTitle}>
+                {this.getMomentFormat2(section)}
+              </Text>
+            </View>
+          );
+        }
+        return <View>{response}</View>;
+      } catch (error) {
+        console.log("====================================");
+        console.log("erreur dans header", error);
+        console.log("====================================");
+        return <View>Erreur dans header</View>;
       }
-      return <View>{response}</View>;
     }
   }
 }

@@ -83,6 +83,9 @@ class History extends Component {
     services
       .getOldHistory()
       .then(response => {
+        console.log("====================================");
+        console.log("old history", response);
+        console.log("====================================");
         this.setState({
           dataBrute: JSON.parse(response),
           data: this.refactHistory(JSON.parse(response))
@@ -101,10 +104,10 @@ class History extends Component {
     services
       .getHistory(this.state.accountId)
       .then(response => {
-        this.setState({
-          dataBrute: response,
-          data: this.refactHistory(response)
-        });
+        console.log("====================================");
+        console.log("ty le response history", response);
+        console.log("====================================");
+        this.setData(response);
         this.stopSynchronised();
       })
       .catch(error => {
@@ -114,6 +117,16 @@ class History extends Component {
           )
         });
       });
+  }
+
+  setData(response) {
+    console.log("====================================");
+    console.log("ty ref ampiditr anaz", response);
+    console.log("====================================");
+    this.setState({
+      dataBrute: response,
+      data: this.refactHistory(response)
+    });
   }
 
   _onRefresh() {

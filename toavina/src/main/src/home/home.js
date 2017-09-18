@@ -63,6 +63,9 @@ class Home extends Component {
       a: amount
     };
     var dataJSON = JSON.stringify(myData);
+    console.log("====================================");
+    console.log("le json data", dataJSON);
+    console.log("====================================");
     return dataJSON;
   }
 
@@ -124,7 +127,7 @@ class Home extends Component {
   startTimer() {
     timer = setInterval(() => {
       this.changeMessageText();
-    }, 10000);
+    }, 7000);
   }
 
   changeMessageText() {

@@ -75,10 +75,6 @@ class Services extends Component {
     );
   }
 
-  static loginUrl() {
-    return loginData.uri;
-  }
-
   static createError(text) {
     return (
       <View style={styleBase.error}>
@@ -172,12 +168,15 @@ class Services extends Component {
      * get token using Oauth code stored into AsynStorage
      */
   async getToken(oauthCode) {
-    var url = "http://auth.vola.mg/oauth2/token";
+    console.log("====================================");
+    console.log("Base_url", loginData.BASE_URL_Oauth);
+    console.log("====================================");
+    var url = loginData.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
     formData.append("client_id", "ariarynet");
     formData.append("client_secret", "ariarynetpass");
-    formData.append("redirect_uri", "http://auth.vola.mg/index.php/");
+    formData.append("redirect_uri", loginData.BASE_URL_Oauth + "index.php/");
     formData.append("grant_type", "authorization_code");
     formData.append("scope", "userinfo");
     var data = {
@@ -194,7 +193,8 @@ class Services extends Component {
      * Take data user with token
      */
   async getUserInfo(token) {
-    var url = "http://auth.vola.mg/oauth2/userinfo?access_token=" + token;
+    var url =
+      loginData.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
     var response = await fetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";
@@ -208,7 +208,8 @@ class Services extends Component {
   }
 
   async checkSolde(user_id) {
-    var url = "http://ariary.vola.mg/balance/" + user_id;
+    // var url = loginData.BASE_URL + "balance/aa031";
+    var url = loginData.BASE_URL + "balance/" + user_id;
     try {
       var response = await fetch(url, { method: "GET" });
       var json = await response.json();

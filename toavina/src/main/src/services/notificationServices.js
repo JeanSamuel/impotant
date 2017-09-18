@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
-import Services from "../services/services";
-import RegisterServices from "../services/registerServices";
+import Services from "./services";
+import RegisterServices from "./registerServices";
+import loginData from "../../data/loginData";
 
-const PUSH_INIT = "http://ariary.vola.mg/exp_token/init.php";
-const PUSH_STOP = "http://ariary.vola.mg/exp_token/disconnect.php";
-const PUSH_REGISTER = "http://ariary.vola.mg/exp_token/createAccount.php";
+const PUSH_INIT = loginData.BASE_URL + "exp_token/init.php";
+const PUSH_STOP = loginData.BASE_URL + "exp_token/disconnect.php";
+const PUSH_REGISTER = loginData.BASE_URL + "exp_token/createAccount.php";
 
 export default class NotifServices extends Component {
   ExceptionUtilisateur(message) {
@@ -20,7 +21,6 @@ export default class NotifServices extends Component {
   }
 
   async registerExpoToken(username, token) {
-    var PUSH_REGISTER = "http://ariary.vola.mg/exp_token/createAccount.php";
     var formData = new FormData();
     formData.append("token", token);
     formData.append("username", username);
@@ -80,7 +80,9 @@ export default class NotifServices extends Component {
       },
       body: formData
     }).catch(error => {
-      console.log("error", error);
+      let erreur = new Error(response.statusText);
+      erreur.response = response;
+      console.log("error initialisation Push", erreur);
     });
   }
 

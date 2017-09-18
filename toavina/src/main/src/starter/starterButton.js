@@ -8,9 +8,10 @@ import Login from "../login/login";
 import { DoubleLineButton } from "../../components/button";
 import { Modal } from "../../components/modal";
 import services from "../services/services";
+import loginData from "../../data/loginData";
 
 // create a component
-const uri = services.loginUrl();
+const uri = loginData.BASE_URL;
 class StarterButton extends Component {
   constructor(props) {
     super(props);

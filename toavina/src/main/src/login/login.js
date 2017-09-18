@@ -14,9 +14,10 @@ import styleBase from "../../styles/Styles";
 import NotifServices from "../services/notificationServices";
 import { WarningConnexion } from "../../components/warning";
 import { Button } from "react-native-elements";
+import loginData from "../../data/loginData";
 
 // const { width, height } = Dimensions.get("window");
-const uri = Services.loginUrl();
+const uri = loginData.uri;
 // create a component
 class Login extends Component {
   constructor(props) {
@@ -40,6 +41,9 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
+          console.log("====================================");
+          console.log("response apres login", response);
+          console.log("====================================");
           let data = {
             user_id: response
           };

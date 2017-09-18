@@ -6,6 +6,7 @@ import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
 import _ from "lodash";
+import loginData from "../../data/loginData";
 
 moment.locale("fr");
 // create a component
@@ -19,24 +20,30 @@ class HistorySevices extends Component {
   };
 
   async getHistory(user_id) {
-    let url = "http://ariary.vola.mg/transaction/" + user_id;
-    return fetch(url)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.saveHistory(JSON.stringify(responseJson));
-        return responseJson;
-      })
-      .catch(error => {
-        console.log("erreur aty aloha", error);
-        throw error;
-      });
+    // let url = loginData.BASE_URL + "transaction/aa031";
+    let url = loginData.BASE_URL + "transaction/" + user_id;
+
+    try {
+      var response = await fetch(url, { method: "GET" });
+      var responseJson = await response.json();
+      this.saveHistory(JSON.stringify(responseJson));
+      console.log("====================================");
+      console.log("ty le response History", responseJson);
+      console.log("====================================");
+      return responseJson;
+    } catch (error) {
+      console.log("erreur getHistory", error);
+      throw error;
+    }
   }
 
   async getOldHistory() {
     let services = new Services();
     try {
       let data = await services.getData("history");
-
+      console.log("====================================");
+      console.log("depuis la base oldHistory", data);
+      console.log("====================================");
       return data;
     } catch (error) {
       throw error;
