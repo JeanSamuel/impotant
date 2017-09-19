@@ -88,7 +88,32 @@ export default class SideBar extends Component {
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
           <Image source={drawerCover} style={styles.drawerCover}>
-            <Image square style={styles.drawerImage} source={drawerImage} />
+            {/* <Image square style={styles.drawerImage} source={drawerImage} /> */}
+            <Icon
+              name="contact"
+              style={{ color: "#fff", fontSize: 100, margin: 30 }}
+              color="#fff"
+            />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                right: 0,
+                marginTop: 60,
+                marginRight: 30
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  backgroundColor: "transparent",
+                  fontSize: 30
+                }}
+              >
+                {this.props.navigation.state.params.user_id}
+              </Text>
+            </View>
           </Image>
           <List
             dataArray={datas}

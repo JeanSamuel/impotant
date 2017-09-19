@@ -19,6 +19,7 @@ import { Icon } from "react-native-elements";
 import { Constants, BarCodeScanner, Permissions } from "expo";
 import { Form, Input, Item, Label, Content, Button, Header } from "native-base";
 import { Container } from "../../components/Container";
+import regStyles from "../../styles/registerStyles";
 import {
   InputWithButton,
   SimpleInput,
@@ -284,27 +285,17 @@ class Send extends Component {
   createModal() {
     this.setState({
       modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          height={height - 50}
-          data={
-            <Container style={styles.modalContainer}>
-              <LogoMini />
-              <Text
-                style={{
-                  color: "#fff",
-                  fontSize: 18,
-                  fontWeight: "500",
-                  marginVertical: 20,
-                  textAlign: "center",
-                  marginHorizontal: 50
-                }}
-              >
-                Enter the amount you want to send
-              </Text>
-              <SimpleInput
-                style={styles.simpleInput}
+        <Modal visible={true} onRequestClose={() => this.removeModal()}>
+          {/* <View
+            style={{
+              alignItems: "center"
+            }}
+          >
+            <Text style={regStyles.text}>
+              Entrer le montant que vous voullez envoyer
+            </Text>
+            <View>
+              <TextInput
                 keyboardType="numeric"
                 returnKeyType="done"
                 onChangeText={amount =>
@@ -314,9 +305,61 @@ class Send extends Component {
                   this.removeModal();
                 }}
               />
-            </Container>
-          }
-        />
+            </View>
+          </View> */}
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.2 }} />
+            <View>
+              <LogoMini />
+            </View>
+            <View style={{ flex: 0.3 }} />
+            <Text
+              style={[
+                styles.text,
+                regStyles.textWidth,
+                {
+                  textAlign: "center",
+                  alignSelf: "center",
+                  fontSize: 20,
+                  color: "#aaa"
+                }
+              ]}
+            >
+              Entrer le montant que vous voullez envoyer
+            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#aaa",
+                borderRadius: 40,
+                height: 50,
+                width: width - 50,
+                paddingVertical: 10,
+                alignSelf: "center",
+                marginTop: 20
+              }}
+            >
+              <TextInput
+                underlineColorAndroid="transparent"
+                style={[
+                  {
+                    fontSize: 20,
+                    textAlign: "center",
+                    paddingHorizontal: 5
+                  }
+                ]}
+                keyboardType="numeric"
+                returnKeyType="done"
+                onChangeText={amount =>
+                  this.setState({ amount: Services.formatNumber(amount) })}
+                onEndEditing={() => {
+                  console.log(this.state.amount);
+                  this.removeModal();}}
+              />
+            </View>
+          </View>
+
+        </Modal>
       )
     });
   }
@@ -324,75 +367,93 @@ class Send extends Component {
   promptInformation = () => {
     this.setState({
       modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          data={
-            <Container>
-              <Text>Information</Text>
-            </Container>
-          }
-        />
+        <Modal visible={true} onRequestClose={() => this.removeModal()}>
+          <View style={styles.container}>
+            <Text>Info</Text>
+          </View>
+        </Modal>
       )
     });
   };
 
+  handlePinInput = text => {
+    this.setState({ pin: text });
+    if (text.length === 4) {
+      console.log(text);
+      console.log("pin local ", this.state.savedPin);
+      if (text === this.state.savedPin) {
+        this.performTransaction();
+        this.removeModal();
+      } else {
+        Alert.alert(
+          "Credential error",
+          "The pin you have entered is not valid",
+          [
+            {
+              text: "Try again",
+              onPress: () => this.setState({ pin: "" })
+            },
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            }
+          ]
+        );
+      }
+    }
+  };
   promptPin() {
     this.setState({
       modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          data={
-            <Container>
-              <View>
-                <LogoMini />
-              </View>
-              <Text
-                style={{
-                  color: "#fff",
-                  /*position: "absolute",
-                  top: 0,
-                  right: 0,
-                  left: 0,*/
-                  fontSize: 18,
-                  fontWeight: "500",
-                  marginVertical: 20,
+        <Modal
+          visible={true}
+          onRequestClose={() => this.removeModal()}
+          animationType="slide"
+        >
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.2 }} />
+            <View>
+              <LogoMini />
+            </View>
+            <View style={{ flex: 0.3 }} />
+            <Text
+              style={[
+                styles.text,
+                regStyles.textWidth,
+                {
                   textAlign: "center",
-                  marginHorizontal: 50
-                }}
-              >
-                Enter your PIN to confirm the transaction
-              </Text>
-              <SimpleInput
-                onChangeText={text => {
-                  this.setState({ pin: text });
-                  if (text.length === 4) {
-                    console.log(text);
-                    console.log("pin local ", this.state.savedPin);
-                    if (text === this.state.savedPin) {
-                      this.performTransaction();
-                      this.removeModal();
-                    } else {
-                      Alert.alert(
-                        "Credential error",
-                        "The pin you have entered is not valid",
-                        [
-                          {
-                            text: "Try again",
-                            onPress: () => this.setState({ pin: "" })
-                          },
-                          {
-                            text: "Cancel",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          }
-                        ]
-                      );
-                    }
+                  alignSelf: "center",
+                  fontSize: 20,
+                  color: "#aaa"
+                }
+              ]}
+            >
+              Entrer votre PIN pour confirmer le transfert de{" "}
+              {this.state.amount} {this.state.currency} à {this.state.user}
+            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#aaa",
+                borderRadius: 40,
+                height: 50,
+                width: width - 50,
+                paddingVertical: 10,
+                alignSelf: "center",
+                marginTop: 20
+              }}
+            >
+              <TextInput
+                onChangeText={this.handlePinInput}
+                underlineColorAndroid="transparent"
+                style={[
+                  {
+                    fontSize: 20,
+                    textAlign: "center",
+                    paddingHorizontal: 5
                   }
-                }}
-                style={[styles.simpleInput, { textAlign: "center" }]}
+                ]}
                 placeholder="Enter your PIN here"
                 autofocus={true}
                 maxLength={4}
@@ -401,9 +462,9 @@ class Send extends Component {
                 returnKeyType="done"
                 secureTextEntry={true}
               />
-            </Container>
-          }
-        />
+            </View>
+          </View>
+        </Modal>
       )
     });
   }
