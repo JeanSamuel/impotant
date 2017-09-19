@@ -127,7 +127,11 @@ export default class SideBar extends Component {
                   <Icon
                     active
                     name={data.icon}
-                    style={{ color: "#777", fontSize: 26, width: 30 }}
+                    style={{
+                      fontSize: 26,
+                      width: 30,
+                      color: data.bg
+                    }}
                   />
                   <Text style={styles.text}>{data.name}</Text>
                 </Left>
