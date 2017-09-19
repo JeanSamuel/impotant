@@ -179,7 +179,7 @@ class Send extends Component {
         this.createModal();
       }
       if (readData.a !== 0 && readData.u) {
-        this.createModal();
+        this.promptPin();
       }
     }
   };
@@ -282,131 +282,12 @@ class Send extends Component {
   };
   acceptTransaction(text) {}
   createModal() {
-    this.setState({
-      modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          height={height - 50}
-          data={
-            <Container style={styles.modalContainer}>
-              <LogoMini />
-              <Text
-                style={{
-                  color: "#fff",
-                  fontSize: 18,
-                  fontWeight: "500",
-                  marginVertical: 20,
-                  textAlign: "center",
-                  marginHorizontal: 50
-                }}
-              >
-                Enter the amount you want to send
-              </Text>
-              <SimpleInput
-                style={styles.simpleInput}
-                keyboardType="numeric"
-                returnKeyType="done"
-                onChangeText={amount =>
-                  this.setState({ amount: Services.formatNumber(amount) })}
-                onEndEditing={() => {
-                  console.log(this.state.amount);
-                  this.removeModal();
-                }}
-              />
-            </Container>
-          }
-        />
-      )
-    });
+    this.setModalVisible(true);
   }
 
-  promptInformation = () => {
-    this.setState({
-      modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          data={
-            <Container>
-              <Text>Information</Text>
-            </Container>
-          }
-        />
-      )
-    });
-  };
+  promptInformation = () => {};
 
-  promptPin() {
-    this.setState({
-      modal: (
-        <MyModal
-          visibility={true}
-          remove={this.removeModal}
-          data={
-            <Container>
-              <View>
-                <LogoMini />
-              </View>
-              <Text
-                style={{
-                  color: "#fff",
-                  /*position: "absolute",
-                  top: 0,
-                  right: 0,
-                  left: 0,*/
-                  fontSize: 18,
-                  fontWeight: "500",
-                  marginVertical: 20,
-                  textAlign: "center",
-                  marginHorizontal: 50
-                }}
-              >
-                Enter your PIN to confirm the transaction
-              </Text>
-              <SimpleInput
-                onChangeText={text => {
-                  this.setState({ pin: text });
-                  if (text.length === 4) {
-                    console.log(text);
-                    console.log("pin local ", this.state.savedPin);
-                    if (text === this.state.savedPin) {
-                      this.performTransaction();
-                      this.removeModal();
-                    } else {
-                      Alert.alert(
-                        "Credential error",
-                        "The pin you have entered is not valid",
-                        [
-                          {
-                            text: "Try again",
-                            onPress: () => this.setState({ pin: "" })
-                          },
-                          {
-                            text: "Cancel",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          }
-                        ]
-                      );
-                    }
-                  }
-                }}
-                style={[styles.simpleInput, { textAlign: "center" }]}
-                placeholder="Enter your PIN here"
-                autofocus={true}
-                maxLength={4}
-                value={this.state.pin}
-                keyboardType="numeric"
-                returnKeyType="done"
-                secureTextEntry={true}
-              />
-            </Container>
-          }
-        />
-      )
-    });
-  }
+  promptPin() {}
 
   focusNextField = id => {
     this.inputs[id].focus();
@@ -424,6 +305,91 @@ class Send extends Component {
   }
 
   render() {
+    const PinModal = (
+      <Modal
+        animationType={"slide"}
+        visible={this.state.modalVisible}
+        onRequestClose={this.setModalVisible(false)}
+      >
+        <View>
+          <LogoMini />
+          <Text>
+            Entrer votre Pin pour confirmer l'envoie de {this.state.amount}{" "}
+            {this.state.currency} à {this.state.user}
+          </Text>
+          <View>
+            <SimpleInput
+              onChangeText={text => {
+                this.setState({ pin: text });
+                if (text.length === 4) {
+                  console.log(text);
+                  console.log("pin local ", this.state.savedPin);
+                  if (text === this.state.savedPin) {
+                    this.performTransaction();
+                    this.removeModal();
+                  } else {
+                    Alert.alert(
+                      "Credential error",
+                      "The pin you have entered is not valid",
+                      [
+                        {
+                          text: "Try again",
+                          onPress: () => this.setState({ pin: "" })
+                        },
+                        {
+                          text: "Cancel",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        }
+                      ]
+                    );
+                  }
+                }
+              }}
+              style={[styles.simpleInput, { textAlign: "center" }]}
+              placeholder="Enter your PIN here"
+              autofocus={true}
+              maxLength={4}
+              value={this.state.pin}
+              keyboardType="numeric"
+              returnKeyType="done"
+              secureTextEntry={true}
+            />
+          </View>
+        </View>
+      </Modal>
+    );
+
+    const AmountModal = (
+      <Modal>
+        <Container style={styles.modalContainer}>
+          <LogoMini />
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 18,
+              fontWeight: "500",
+              marginVertical: 20,
+              textAlign: "center",
+              marginHorizontal: 50
+            }}
+          >
+            Enter the amount you want to send
+          </Text>
+          <SimpleInput
+            style={styles.simpleInput}
+            keyboardType="numeric"
+            returnKeyType="done"
+            onChangeText={amount =>
+              this.setState({ amount: Services.formatNumber(amount) })}
+            onEndEditing={() => {
+              console.log(this.state.amount);
+              this.removeModal();
+            }}
+          />
+        </Container>
+      </Modal>
+    );
     console.log("navigation ", this.props.navigation);
     if (this.state.isLoading === true) {
       return (
