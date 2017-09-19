@@ -131,14 +131,12 @@ class History extends React.Component {
   formatCurrencyAndAmount(currency, amount) {
     //#4caf50
     let sign = "+";
-    amount = amount.replace(/[ ,]/g, "");
     console.log("ty le amount", amount);
     if (amount < 0) {
       sign = "-";
       amount = amount.replace("-", "");
     }
     let desired = amount.replace(/[^\w\s]/gi, "");
-    desired = Services.formatNumber(desired);
     return sign + " " + desired + " " + currency;
   }
 
