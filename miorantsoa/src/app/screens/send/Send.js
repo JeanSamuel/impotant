@@ -152,14 +152,6 @@ class Send extends Component {
       hasCameraPermission: status === "granted"
     });
   };
-  deepAccessUsingString(obj, key) {
-    return key.split(".").reduce((nestedObject, key) => {
-      if (nestedObject && key in nestedObject) {
-        return nestedObject[key];
-      }
-      return undefined;
-    }, obj);
-  }
 
   _handleBarCodeRead = data => {
     services = new QrServices();
@@ -286,27 +278,6 @@ class Send extends Component {
     this.setState({
       modal: (
         <Modal visible={true} onRequestClose={() => this.removeModal()}>
-          {/* <View
-            style={{
-              alignItems: "center"
-            }}
-          >
-            <Text style={regStyles.text}>
-              Entrer le montant que vous voullez envoyer
-            </Text>
-            <View>
-              <TextInput
-                keyboardType="numeric"
-                returnKeyType="done"
-                onChangeText={amount =>
-                  this.setState({ amount: Services.formatNumber(amount) })}
-                onEndEditing={() => {
-                  console.log(this.state.amount);
-                  this.removeModal();
-                }}
-              />
-            </View>
-          </View> */}
           <View style={{ flex: 1 }}>
             <View style={{ flex: 0.2 }} />
             <View>
@@ -354,11 +325,11 @@ class Send extends Component {
                   this.setState({ amount: Services.formatNumber(amount) })}
                 onEndEditing={() => {
                   console.log(this.state.amount);
-                  this.removeModal();}}
+                  this.removeModal();
+                }}
               />
             </View>
           </View>
-
         </Modal>
       )
     });

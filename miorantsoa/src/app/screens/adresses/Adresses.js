@@ -119,6 +119,10 @@ class Adresses extends Component {
     this.fetchAdress();
   }
 
+  componentWillUnmount() {
+    timer.clearTimeout(this);
+  }
+
   toggleFlash = () => {
     toggleFlash = !this.state.isFlashOn;
     this.setState({ isFlashOn: toggleFlash });

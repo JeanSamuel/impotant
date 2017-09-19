@@ -143,5 +143,27 @@ class Services extends Component {
     dataformat = numeral(number).format();
     return dataformat;
   }
+  async checkSolde(user_id) {
+    // var url = loginData.BASE_URL + "balance/aa031";
+    var url = loginData.BASE_URL + "balance/" + user_id;
+    try {
+      var response = await fetch(url, { method: "GET" });
+      var json = await response.json();
+      if (json.accountId != null) {
+        await this.saveData("solde", JSON.stringify(json));
+        return json;
+      } else {
+        let error = new Error(response.statusText);
+        error.message = json.error;
+        error.response = response;
+        throw error;
+      }
+    } catch (error) {
+      let error = new Error(response.statusText);
+      error.message = json.error;
+      error.response = response;
+      throw error;
+    }
+  }
 }
 export default Services;

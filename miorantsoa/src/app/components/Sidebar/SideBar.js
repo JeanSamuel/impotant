@@ -21,6 +21,7 @@ import {
 import styles from "./styles";
 import I18n from "ex-react-native-i18n";
 import translation from "./translation";
+import Services from "../../utils/services";
 
 // create a component
 const drawerCover = require("../../images/4.jpg");
@@ -75,9 +76,33 @@ export default class SideBar extends Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
       isReady: false,
+      solde: "N/A",
+      date: "N/A",
+      loading: false,
       datas: null
     };
   }
+
+  componentDidMount() {
+    this.getSoldes();
+  }
+  getSoldes() {
+    let services = new Services();
+    this.setState({ loading: true });
+    services
+      .checkSolde(this.props.navigation.state.params.user_id)
+      .then(response => {
+        this.setState({
+          solde: response.value,
+          date: response.date,
+          loading: false
+        });
+      })
+      .catch(error => {
+        this.checkOldSolde();
+      });
+  }
+
   render() {
     return (
       <Container>
@@ -113,6 +138,7 @@ export default class SideBar extends Component {
               >
                 {this.props.navigation.state.params.user_id}
               </Text>
+              <Text>{this.state.solde}</Text>
             </View>
           </Image>
           <List
