@@ -6,10 +6,6 @@ import styles from "../../styles/HomeStyles";
 
 // create a component
 class WarningInput extends Component {
-  static propTypes = {
-    warningText: React.PropTypes.string
-  };
-
   render() {
     return (
       <View>

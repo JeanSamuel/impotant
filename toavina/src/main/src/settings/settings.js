@@ -127,7 +127,9 @@ const StackSettings = new StackNavigator(
     navigationOptions: ({ navigation }) => ({
       headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />,
       title: "Paramètres",
-      drawerIcon: ({ tintColor }) => <Icon name="settings" size={25} />,
+      drawerIcon: ({ tintColor }) => (
+        <Icon name="ios-settings-outline" size={25} type="ionicon" />
+      ),
       titleStyle: styleBase.headerTitle
     })
   }

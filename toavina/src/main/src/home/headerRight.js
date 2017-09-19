@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import Services from "../services/services";
 import styleBase from "../../styles/Styles";
+import IconBadge from "../../components/icon/iconBadge";
 
 // create a component
 class HeaderRight extends Component {
@@ -16,17 +17,12 @@ class HeaderRight extends Component {
       <View
         style={[styleBase.alignCentered, { justifyContent: "space-between" }]}
       >
-        {/* <TouchableOpacity
-          onPress={() => this.share()}
-          style={{ marginHorizontal: 10 }}
-        >
-          <Icon name="file-download" size={30} color={"#FFF"} />
-        </TouchableOpacity> */}
+        <IconBadge navigation={this.props.navigation} />
         <TouchableOpacity
           onPress={() => this.share()}
-          style={{ marginHorizontal: 10 }}
+          style={{ marginLeft: 20 }}
         >
-          <Icon name="share" size={30} color={"#FFF"} />
+          <Icon name="share-google" size={30} color={"#FFF"} type="evilicon" />
         </TouchableOpacity>
       </View>
     );

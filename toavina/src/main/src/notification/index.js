@@ -1,9 +1,9 @@
-import React from "react";
+import React, {Component} from "react";
 import { Notifications } from "expo";
 import { Text, View } from "react-native";
 import DropdownAlert from "react-native-dropdownalert";
 
-export default class AppContainer extends React.Component {
+export default class AppContainer extends Component {
   state = {
     notification: {},
     title: "transaction",

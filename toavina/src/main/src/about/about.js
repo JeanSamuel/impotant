@@ -56,7 +56,9 @@ const StackSettings = new StackNavigator(
     navigationOptions: ({ navigation }) => ({
       headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />,
       title: "About",
-      drawerIcon: ({ tintColor }) => <Icon name="search" size={25} />,
+      drawerIcon: ({ tintColor }) => (
+        <Icon name="ios-information-circle-outline" size={25} type="ionicon" />
+      ),
       titleStyle: styleBase.headerTitle
     })
   }

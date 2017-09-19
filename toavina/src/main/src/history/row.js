@@ -8,10 +8,7 @@ import Services from "../services/services";
 
 // create a component
 class Row extends Component {
-  static propTypes = {
-    info: React.PropTypes.object,
-    index: React.PropTypes.number
-  };
+
 
   getCurrencyAndAmount(amount, currency, date) {
     let styleNegative = null;

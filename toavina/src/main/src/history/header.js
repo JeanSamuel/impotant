@@ -20,9 +20,6 @@ class HeaderHistory extends Component {
 
   render() {
     let sectionData = this.props.sectionData;
-    console.log("====================================");
-    console.log("ty le sectionData", sectionData);
-    console.log("====================================");
     if (sectionData.length == 0) return <View />;
     else {
       try {
@@ -54,9 +51,6 @@ class HeaderHistory extends Component {
         }
         return <View>{response}</View>;
       } catch (error) {
-        console.log("====================================");
-        console.log("erreur dans header", error);
-        console.log("====================================");
         return <View>Erreur dans header</View>;
       }
     }

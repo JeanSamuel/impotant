@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Icon } from "react-native-elements";
+import { Icon, List } from "react-native-elements";
 import { StackNavigator } from "react-navigation";
 import styleBase from "../../styles/Styles";
 import HistoryServices from "../services/historyServices";
@@ -18,7 +18,6 @@ import Row from "./row";
 import HeaderHistory from "./header";
 import Error from "./errorHistory";
 import DrawerButton from "../navigation/drawerButton";
-import axios from "axios";
 import SearchBar from "react-native-searchbar";
 
 // create a component
@@ -43,14 +42,21 @@ class History extends Component {
 
   static navigationOptions = {
     title: "Historique",
-    drawerIcon: ({ tintColor }) => <Icon name="list" size={25} />,
+    drawerIcon: ({ tintColor }) => (
+      <Icon name="ios-paper-outline" size={25} type="ionicon" />
+    ),
     titleStyle: styleBase.headerTitle,
     headerRight: (
       <TouchableOpacity
         onPress={() => self.showSearchBar()}
         activeOpacity={0.3}
       >
-        <Icon name="search" color="#ecf0f1" size={30} />
+        <Icon
+          name="ios-search-outline"
+          color="#ecf0f1"
+          size={30}
+          type="ionicon"
+        />
       </TouchableOpacity>
     )
   };
@@ -83,9 +89,6 @@ class History extends Component {
     services
       .getOldHistory()
       .then(response => {
-        console.log("====================================");
-        console.log("old history", response);
-        console.log("====================================");
         this.setState({
           dataBrute: JSON.parse(response),
           data: this.refactHistory(JSON.parse(response))
@@ -104,9 +107,6 @@ class History extends Component {
     services
       .getHistory(this.state.accountId)
       .then(response => {
-        console.log("====================================");
-        console.log("ty le response history", response);
-        console.log("====================================");
         this.setData(response);
         this.stopSynchronised();
       })
@@ -120,9 +120,6 @@ class History extends Component {
   }
 
   setData(response) {
-    console.log("====================================");
-    console.log("ty ref ampiditr anaz", response);
-    console.log("====================================");
     this.setState({
       dataBrute: response,
       data: this.refactHistory(response)
@@ -181,10 +178,7 @@ class History extends Component {
           </View>
 
           <View>{this.state.error}</View>
-          <View style={[style.headerList, this.state.extraMargin]}>
-            {/* <Text style={style.greyText}>Nom | Type</Text>
-            <Text style={style.greyText}>Montant</Text> */}
-          </View>
+          <View style={[style.headerList, this.state.extraMargin]} />
           {this.state.data.length == 0 ? (
             <Text style={{ fontSize: 30 }}>Pas de résultat</Text>
           ) : (
@@ -214,19 +208,12 @@ class History extends Component {
 }
 
 const style = EStyleSheet.create({
-  headerList: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 10,
-    backgroundColor: "#FFF",
-    // borderBottomWidth: 2,
-    borderBottomColor: "rgba(52, 73, 94,1.0)"
-  },
+  headerList: {},
   greyText: {
     color: "rgba(52, 73, 94,1.0)"
   },
   listView: {
-    marginBottom: 20
+    // marginBottom: 20
   },
   connexionError: {
     flexDirection: "row",

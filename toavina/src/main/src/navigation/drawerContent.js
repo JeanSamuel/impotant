@@ -10,14 +10,11 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import styleBase from "../../styles/Styles";
-import axios from "axios";
 import { Icon } from "react-native-elements";
 import Services from "../services/services";
-import Spinner from "react-native-spinkit";
 import * as Animatable from "react-native-animatable";
-import ExpoNotif from "../notification/";
+import { Notifications } from "expo";
 
-const mark = require("../../images/icons/logo-pro.png");
 const back = require("../../images/backHeader.jpg");
 
 export default class DrawerContent extends Component {
@@ -30,10 +27,25 @@ export default class DrawerContent extends Component {
       ownerName: "",
       date: "",
       animation: "",
-      isrefreshing: false
+      isrefreshing: false,
+      notification: {}
     };
     this.checkSolde();
   }
+
+  componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
+  }
+
+  componentWillUnmount() {
+    this._notificationSubscription.remove();
+  }
+
+  _handleNotification = notification => {
+    this.checkSolde();
+  };
 
   getSolde() {
     return this.state.solde;
@@ -153,7 +165,6 @@ export default class DrawerContent extends Component {
             </View>
           </View>
         </Image>
-        <ExpoNotif />
       </View>
     );
   }

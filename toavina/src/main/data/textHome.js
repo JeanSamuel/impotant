@@ -15,41 +15,49 @@ export default {
     { text: "Gmail", icon: "mail", iconColor: "#fa213b" },
     { text: "Copier dans le presse-Papier", icon: "copy", iconColor: "#25de5b" }
   ],
-  notifications: [
+  intro: [
     {
       title: "Bonjour et bienvenue sur AriaryPro",
-      bodyText:
-        "Nous vous remercions d'avoir utiliser notre application. On a versé 500ar à votre compte pour commencer",
-      imageSource: require("../images/icons/bonus.png")
+      Description:
+        "Nous vous remercions",
+      img: require("../images/icons/bonus.png"),
+      imgStyle: {
+        height: 80 * 2.5,
+        width: 109 * 2.5,
+        marginTop : 20
+      },
+      fontColor: '#fff',
+      textAlign : 'center',
+      level: 10,
+      backgroundColor: '#34495e',
     },
     {
       title: "Recevez de l'argent de vos proches",
-      bodyText:
+      Description:
         "En utilisant l'application AriaryClient, prenez le code en photo. Et hop! Il ne vous rete plus qu'à attendre",
-      imageSource: require("../images/icons/logo.png")
+        img: require("../images/icons/logo.png"),
+        imgStyle: {
+          height: 80 * 2.5,
+          width: 109 * 2.5,
+          marginTop : 20
+        },
+        fontColor: '#fff',
+        level: 10,
+        backgroundColor: '#34495e',
     },
-    // {
-    //   title: "Editez la somme à recevoir",
-    //   bodyText:
-    //     "vous avez la possibilitez de spécifier vous-même le montant de la transaction",
-    //   imageSource: require("../images/icons/logo.png")
-    // },
-    // {
-    //   title: "Toutes les informations en un point",
-    //   bodyText: "Acceder à votre solde et à toutes les menus rapidement",
-    //   imageSource: require("../images/icons/logo.png")
-    // },
     {
       title: "Recevez de l'argent même de loin",
-      bodyText:
+      Description:
         "Partagez votre identifiant par e-mail, reseaux sociaux et même plus pour recevoir encore plus d'argent",
-      imageSource: require("../images/icons/logo.png")
+      img: require("../images/icons/logo.png"),
+      imgStyle: {
+        height: 80 * 2.5,
+        width: 109 * 2.5,
+        marginTop : 20
+      },
+      fontColor: '#fff',
+      level: 10,
+      backgroundColor: '#34495e',
     }
-    // {
-    //   title: "Il est temps de commencer",
-    //   bodyText:
-    //     "Nous espérons que vous serez satisfait de votre expérience avec AriaryPro. Bonne chance",
-    //   imageSource: require("../images/icons/logo.png")
-    // }
   ]
 };

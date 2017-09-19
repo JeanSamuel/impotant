@@ -17,7 +17,6 @@ import styleBase from "../../styles/Styles";
 import Services from "../services/services";
 import RegisterServices from "../services/registerServices";
 import NotifServices from "../services/notificationServices";
-import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Icon, Button } from "react-native-elements";
 import { Loader } from "../../components/loader";
 import data from "../../data/dataName";
@@ -245,7 +244,6 @@ class Step1 extends Component {
               </TouchableOpacity>
             </View>
             <View style={styleBase.centered}>{this.state.message}</View>
-            <KeyboardSpacer />
           </TouchableOpacity>
         </ScrollView>
         <View>

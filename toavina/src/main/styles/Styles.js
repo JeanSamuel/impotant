@@ -40,7 +40,8 @@ export default {
   },
   headerTitle: {
     color: "#ecf0f1",
-    fontSize: 25
+    fontSize: 25,
+    fontWeight: "100"
   },
   header: {
     backgroundColor: "rgba(52, 73, 94,1.0)",

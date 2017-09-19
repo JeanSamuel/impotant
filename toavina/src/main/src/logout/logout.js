@@ -22,7 +22,7 @@ class Logout extends Component {
   static navigationOptions = {
     title: "Déconnexion",
     drawerIcon: ({ tintColor }) => (
-      <Icon name="logout" size={25} type={"material-community"} />
+      <Icon name="ios-log-out-outline" size={25} type="ionicon" />
     )
   };
 

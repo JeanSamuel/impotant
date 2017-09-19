@@ -15,7 +15,6 @@ import {
 import { StackNavigator } from "react-navigation";
 import QRCode from "react-native-qrcode-svg";
 import { Icon } from "react-native-elements";
-import KeyboardSpacer from "react-native-keyboard-spacer";
 import DrawerButton from "../navigation/drawerButton";
 import styles from "../../styles/HomeStyles";
 import styleBase from "../../styles/Styles";
@@ -25,7 +24,7 @@ import HomeServices from "../services/homeServices";
 import TextArray from "../../data/textHome";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
-import Notification from "./notification";
+import Intro from "./intro";
 
 const listText = TextArray.message;
 const service = new Services();
@@ -42,14 +41,22 @@ class Home extends Component {
         userId: ""
       },
       amount: "",
-      jsonData: "0",
       isInvalidData: false,
       warning: null,
       actualText: null,
-      timer: null,
-      notification: null
+      timer: null
     };
   }
+
+  static navigationOptions = {
+    headerStyle: styleBase.header,
+    headerTitleStyle: styleBase.headerTitle,
+    drawerLabel: "Accueil",
+    titleStyle: styleBase.headerTitle,
+    drawerIcon: ({ tintColor }) => (
+      <Icon name="home" size={25} type="simpleLineIcon" />
+    )
+  };
 
   generateQrCodeText() {
     amount = "0";
@@ -63,9 +70,6 @@ class Home extends Component {
       a: amount
     };
     var dataJSON = JSON.stringify(myData);
-    console.log("====================================");
-    console.log("le json data", dataJSON);
-    console.log("====================================");
     return dataJSON;
   }
 
@@ -92,29 +96,28 @@ class Home extends Component {
 
   componentWillMount() {
     this.checkUserData();
-    this.setJsonData(this.generateQrCodeText());
     this.addTextDefault();
+    this.showIntro();
     this.startTimer();
-    this.showNotification();
   }
 
   componentWillUnmount() {
     clearInterval(timer);
   }
 
-  showNotification() {
+  showIntro() {
     let services = new Services();
     service
       .getData("newAtHome")
       .then(response => {
         if (response != null) {
-          this.setState({
-            notification: <Notification />
-          });
+          this.props.navigation.navigate("Intro");
+        } else {
+          console.log("ol efa membre hatry ny ela");
         }
       })
-      .then(error => {
-        console.log("ol efa membre hatry ny ela");
+      .catch(error => {
+        console.log("error maka anle iz ao");
       });
   }
 
@@ -140,24 +143,15 @@ class Home extends Component {
     });
   }
 
-  setJsonData(jsonData) {
-    this.setState({ jsonData });
-  }
-
   setUpdate(amount) {
     amount = amount.replace(/ /g, "");
     if (!isNaN(amount)) {
       amount = HomeServices.refactAmount(amount);
       this.setState({
         amount: amount,
-        jsonData: this.generateQrCodeText(),
         warning: null
       });
     }
-  }
-
-  getJsonData() {
-    return this.state.jsonData;
   }
 
   copyToClipBoard() {
@@ -170,7 +164,6 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <View>{this.state.notification}</View>
         <ScrollView>
           <View>{this.state.sharing}</View>
           <Toast
@@ -184,25 +177,28 @@ class Home extends Component {
           <View>
             <View style={styles.amountContainer}>
               <KeyboardAvoidingView style={styles.inputWarp}>
-                <TextInput
-                  ref="input"
-                  value={this.state.amount}
-                  style={styles.amount}
-                  keyboardType="numeric"
-                  underlineColorAndroid="transparent"
-                  onChangeText={text => this.setUpdate(text)}
-                  autoFocus={true}
-                />
-                <Text
-                  style={{
-                    textAlignVertical: "center",
-                    textAlign: "left",
-                    fontSize: 30
-                  }}
-                >
-                  {" "}
-                  Ar
-                </Text>
+                <View style={styles.amountCurrency}>
+                  <Text
+                    style={{
+                      textAlignVertical: "center",
+                      textAlign: "left",
+                      fontSize: 30
+                    }}
+                  >
+                    {this.state.data.currency}
+                  </Text>
+                </View>
+                <View style={styles.amountBody}>
+                  <TextInput
+                    ref="input"
+                    value={this.state.amount}
+                    style={styles.amount}
+                    keyboardType="numeric"
+                    underlineColorAndroid="transparent"
+                    onChangeText={text => this.setUpdate(text)}
+                    autoFocus={true}
+                  />
+                </View>
               </KeyboardAvoidingView>
               <View>{this.state.warning}</View>
             </View>
@@ -230,33 +226,30 @@ class Home extends Component {
   }
 }
 
-const navigationOptions = {
-  headerStyle: styleBase.header,
-  headerTitleStyle: styleBase.headerTitle
-};
-
-const stackHome = new StackNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions
-    }
-  },
-  {
+const stackHome = new StackNavigator({
+  Home: {
+    screen: Home,
     navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.user_id,
-      drawerLabel: "Accueil",
+      headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
-        <HeaderRight
-          actionShare={() => Services._shareMessage(self.generateQrCodeText())}
-        />
-      ),
-      titleStyle: styleBase.headerTitle,
-      drawerIcon: ({ tintColor }) => <Icon name="home" size={30} />,
-      headerLeft: <DrawerButton navigation={navigation} keyboard={Keyboard} />
+        <View style={{ flexDirection: "row" }}>
+          <HeaderRight
+            actionShare={() =>
+              Services._shareMessage(self.generateQrCodeText())}
+            navigation={navigation}
+          />
+        </View>
+      )
     })
+  },
+  Intro: {
+    screen: Intro,
+    navigationOptions: {
+      headerMode: "none"
+    }
   }
-);
+});
 
 //make this component available to the app
 export default stackHome;

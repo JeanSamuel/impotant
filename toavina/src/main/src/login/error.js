@@ -7,9 +7,6 @@ import {FormValidationMessage } from 'react-native-elements'
 // create a component
 class Error extends Component {
 
-    static propTypes = {
-        text : React.PropTypes.string
-    }
 
     constructor(props){
         super(props)

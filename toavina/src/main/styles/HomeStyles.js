@@ -32,6 +32,14 @@ export default {
     textAlign: "center",
     width: 200
   },
+  amountBody: {
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(44, 62, 80,1.0)",
+    paddingBottom: 5
+  },
+  amountCurrency: {
+    paddingBottom: 5
+  },
   amountContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -44,8 +52,6 @@ export default {
     color: "rgba(142, 68, 173,1.0)"
   },
   inputWarp: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(44, 62, 80,1.0)"
+    flexDirection: "row"
   }
 };

@@ -1,26 +1,12 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import styles from "../../styles/StarterStyles";
-import styleBase from "../../styles/Styles";
-import { Icon } from "react-native-elements";
-import Login from "../login/login";
 import { DoubleLineButton } from "../../components/button";
-import { Modal } from "../../components/modal";
-import services from "../services/services";
 import loginData from "../../data/loginData";
 
 // create a component
 const uri = loginData.BASE_URL;
 class StarterButton extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: null,
-      modalData: null
-    };
-  }
-
   createNewUser() {
     this.props.navigation.navigate("NewUser");
   }
@@ -32,7 +18,6 @@ class StarterButton extends Component {
   render() {
     return (
       <View>
-        <View>{this.state.modal}</View>
         <DoubleLineButton
           action={() => this.createNewUser()}
           firstLine="Je suis NOUVEAU"

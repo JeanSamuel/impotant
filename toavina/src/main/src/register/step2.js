@@ -20,6 +20,7 @@ import { MyButton } from "../../components/button";
 const vendorCheck = require("../../images/icons/vendorCheck.png");
 const backHeader = require("../../images/backHeader.jpg");
 const color = "rgba(52, 73, 94,1.0)";
+
 // create a component
 class Step2 extends Component {
   static navigationOptions = navigation => {

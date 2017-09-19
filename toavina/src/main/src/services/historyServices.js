@@ -27,9 +27,6 @@ class HistorySevices extends Component {
       var response = await fetch(url, { method: "GET" });
       var responseJson = await response.json();
       this.saveHistory(JSON.stringify(responseJson));
-      console.log("====================================");
-      console.log("ty le response History", responseJson);
-      console.log("====================================");
       return responseJson;
     } catch (error) {
       console.log("erreur getHistory", error);
@@ -41,9 +38,6 @@ class HistorySevices extends Component {
     let services = new Services();
     try {
       let data = await services.getData("history");
-      console.log("====================================");
-      console.log("depuis la base oldHistory", data);
-      console.log("====================================");
       return data;
     } catch (error) {
       throw error;
@@ -54,6 +48,11 @@ class HistorySevices extends Component {
     let services = new Services();
     try {
       services.saveData("history", history);
+      try {
+        services.removeData("numberBadge");
+      } catch (error) {
+        console.log("il n'y a pas de nouveau transaction");
+      }
     } catch (error) {
       throw error;
     }
