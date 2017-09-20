@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Notifications } from "expo";
 import { Text, View } from "react-native";
 import DropdownAlert from "react-native-dropdownalert";
@@ -24,9 +24,6 @@ export default class AppContainer extends Component {
     this.setState({ notification: notification });
     this.createTextNotif();
     // this.showAlert();
-    console.log("====================================");
-    console.log("notif", this.state.notification);
-    console.log("====================================");
   };
 
   createTextNotif() {}
