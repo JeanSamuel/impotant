@@ -2,11 +2,10 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Services from "./services";
-import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
 import _ from "lodash";
-import loginData from "../../data/loginData";
+import data from "../configs/data/dataM";
 
 moment.locale("fr");
 // create a component
@@ -21,7 +20,7 @@ class HistorySevices extends Component {
 
   async getHistory(user_id) {
     // let url = loginData.BASE_URL + "transaction/aa031";
-    let url = loginData.BASE_URL + "transaction/" + user_id;
+    let url = data.BASE_URL + "transaction/" + user_id;
 
     try {
       var response = await fetch(url, { method: "GET" });

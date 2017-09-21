@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Icon } from "react-native-elements";
-import styles from "../../styles/HomeStyles";
+import { styleBase } from "../../styles";
 
 // create a component
 class WarningInput extends Component {
@@ -11,9 +11,7 @@ class WarningInput extends Component {
       <View>
         <View style={styles.invalidInput}>
           <Icon name="warning" size={15} color={"rgba(231, 76, 60,1.0)"} />
-          <Text style={styles.invalidInputText}>
-            {this.props.warningText}
-          </Text>
+          <Text style={styles.invalidInputText}>{this.props.warningText}</Text>
         </View>
       </View>
     );

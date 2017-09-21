@@ -8,9 +8,9 @@ import {
   AsyncStorage,
   Share
 } from "react-native";
-import styleBase from "../../styles/Styles";
-import data from "../../data/dataName";
-import loginData from "../../data/loginData";
+// import styleBase from "../../styles/Styles";
+import data from "../configs/data/dataM";
+
 import { FormValidationMessage } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import FormData from "FormData";
@@ -67,22 +67,22 @@ class Services extends Component {
     return dataformat;
   }
 
-  static waiting() {
-    return (
-      <View style={styleBase.error}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+  // static waiting() {
+  //   return (
+  //     <View style={styleBase.error}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
 
-  static createError(text) {
-    return (
-      <View style={styleBase.error}>
-        <Icon name="warning" size={15} color={styleBase.color} />
-        <Text style={styleBase.errorText}>{text}</Text>
-      </View>
-    );
-  }
+  // static createError(text) {
+  //   return (
+  //     <View style={styleBase.error}>
+  //       <Icon name="warning" size={15} color={styleBase.color} />
+  //       <Text style={styleBase.errorText}>{text}</Text>
+  //     </View>
+  //   );
+  // }
 
   async saveData(key, value) {
     console.log("ty le key", key);
@@ -158,8 +158,8 @@ class Services extends Component {
      * then save this into storage
      */
   async extractOauthCode(uri) {
-    var data = uri.replace("=", " ").replace("&", " ");
-    var dataArray = data.split(" ");
+    var myData = uri.replace("=", " ").replace("&", " ");
+    var dataArray = myData.split(" ");
     await this.saveData("oauthCode", dataArray[1]);
     return dataArray[1];
   }
@@ -169,14 +169,14 @@ class Services extends Component {
      */
   async getToken(oauthCode) {
     console.log("====================================");
-    console.log("Base_url", loginData.BASE_URL_Oauth);
+    console.log("Base_url", data.BASE_URL_Oauth);
     console.log("====================================");
-    var url = loginData.BASE_URL_Oauth + "oauth2/token";
+    var url = data.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
     formData.append("client_id", "ariarynet");
     formData.append("client_secret", "ariarynetpass");
-    formData.append("redirect_uri", loginData.BASE_URL_Oauth + "index.php/");
+    formData.append("redirect_uri", data.BASE_URL_Oauth + "index.php/");
     formData.append("grant_type", "authorization_code");
     formData.append("scope", "userinfo");
     var data = {

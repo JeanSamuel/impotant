@@ -3,11 +3,11 @@ import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import Services from "./services";
 import RegisterServices from "./registerServices";
-import loginData from "../../data/loginData";
+import data from "../configs/data/dataM";
 
-const PUSH_INIT = loginData.BASE_URL + "exp_token/init.php";
-const PUSH_STOP = loginData.BASE_URL + "exp_token/disconnect.php";
-const PUSH_REGISTER = loginData.BASE_URL + "exp_token/createAccount.php";
+const PUSH_INIT = data.BASE_URL + "exp_token/init.php";
+const PUSH_STOP = data.BASE_URL + "exp_token/disconnect.php";
+const PUSH_REGISTER = data.BASE_URL + "exp_token/createAccount.php";
 
 export default class NotifServices extends Component {
   ExceptionUtilisateur(message) {
@@ -54,7 +54,7 @@ export default class NotifServices extends Component {
   }
 
   async initForPushNotificationsAsync(username) {
-    var token = await Notifications.getExponentPushTokenAsync();
+    var token = await Notifications.getExpoPushTokenAsync();
     this.saveExpoToken(token);
     const { existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS

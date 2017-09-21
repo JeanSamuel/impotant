@@ -1,27 +1,39 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StatusBar, ActivityIndicator } from "react-native";
+import MainStack from "./app/configs/navigation/navigationM/mainStack";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { Font } from "expo";
 
+EStyleSheet.build({ outline: 0 });
 // create a component
-class MyClass extends Component {
+
+class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false
+    };
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      Arial: require("./app/font/arial.ttf")
+    });
+    this.setState({ isLoaded: true });
+  }
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Client</Text>
-      </View>
-    );
+    if (this.state.isLoaded) {
+      return (
+        <View style={{ flex: 1 }}>
+          <StatusBar hidden={true} />
+          <MainStack />
+        </View>
+      );
+    } else {
+      return <ActivityIndicator />;
+    }
   }
 }
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50"
-  }
-});
-
 //make this component available to the app
-export default MyClass;
+export default Index;
