@@ -20,6 +20,7 @@ import {
 
 import styles from "./styles";
 import I18n from "ex-react-native-i18n";
+import { Notifications } from "expo";
 import translation from "./translation";
 import Services from "../../utils/services";
 
@@ -68,33 +69,71 @@ const datas = [
     bg: "#477EEA"
   }
 ];
-
 export default class SideBar extends Component {
   constructor(props) {
     super(props);
+    self = this;
     this.state = {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
       isReady: false,
       solde: "N/A",
       date: "N/A",
+      currency: "Ar",
       loading: false,
       datas: null
     };
   }
 
+  componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
+  }
+
   componentDidMount() {
     this.getSoldes();
   }
-  getSoldes() {
+
+  _handleNotification = notification => {
+    this.getSoldes();
+  };
+
+  checkOldSolde() {
+    let services = new Services();
+    services
+      .getData("solde")
+      .then(response => {
+        if (response.value != null) {
+          this.setState({
+            solde: response.value,
+            loading: false
+          });
+        } else {
+          this.setState({
+            solde: "N/A",
+            loading: false
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          solde: "N/A",
+          loading: false
+        });
+      });
+  }
+  async getSoldes() {
     let services = new Services();
     this.setState({ loading: true });
+    console.log(this.props.navigation.state.params.user_id);
     services
       .checkSolde(this.props.navigation.state.params.user_id)
       .then(response => {
         this.setState({
           solde: response.value,
           date: response.date,
+          currency: "Ar",
           loading: false
         });
       })
@@ -125,7 +164,7 @@ export default class SideBar extends Component {
                 top: 0,
                 bottom: 0,
                 right: 0,
-                marginTop: 60,
+                marginTop: 50,
                 marginRight: 30
               }}
             >
@@ -138,7 +177,15 @@ export default class SideBar extends Component {
               >
                 {this.props.navigation.state.params.user_id}
               </Text>
-              <Text>{this.state.solde}</Text>
+              <Text
+                style={{
+                  color: "#fff",
+                  backgroundColor: "transparent",
+                  fontSize: 20
+                }}
+              >
+                {Services.formatNumber(this.state.solde)} {this.state.currency}
+              </Text>
             </View>
           </Image>
           <List

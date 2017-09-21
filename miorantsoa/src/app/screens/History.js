@@ -32,14 +32,17 @@ import timer from "react-native-timer";
 class History extends React.Component {
   constructor(props) {
     super(props);
+    self = this;
     this.state = {
       loading: true,
       refreshing: false,
       syncing: true,
       online: true,
       hideSuccess: false,
+      user_id: this.props.navigation.state.params.user_id,
       history: []
     };
+    this.getLocalHistory(this);
   }
 
   checkConnection() {
@@ -51,21 +54,8 @@ class History extends React.Component {
     });
   }
 
-  fetchHistoryFromLocalStorage() {
-    console.log("Fetching from local storage");
-    services = new Services();
-    services.getData("history").then(response => {
-      if (response !== null) {
-        responseJson = JSON.parse(response);
-        data = this.parseHistoryData(responseJson);
-        this.setState({ history: data });
-      } else {
-        console.log("Empty data from local storage");
-      }
-    });
-  }
-
   parseHistoryData(historyData) {
+    const historyServices = new HistoiryServices();
     history = historyServices.groupHistory(historyData);
     history = _.reduce(
       history,
@@ -81,38 +71,46 @@ class History extends React.Component {
     return history;
   }
 
-  fetchHistory() {
-    services = new Services();
-    historyServices = new HistoiryServices();
-    this.fetchHistoryFromLocalStorage();
-    //check internet connection
-    NetInfo.isConnected.fetch().then(isConnected => {
-      console.log("First, is " + (isConnected ? "online" : "offline"));
-      isConnected
-        ? this.setState({ online: true })
-        : this.setState({ online: false, syncing: false });
-      if (isConnected) {
-        historyServices
-          .getHistory(this.props.navigation.state.params.user_id)
-          .then(response => {
-            services.saveData("history", JSON.stringify(response));
-            history = this.parseHistoryData(response);
-            console.log(
-              "History GG ===" + JSON.stringify(history),
-              history[0].amount
-            );
-            this.setState({
-              history: history,
-              loading: false,
-              refreshing: false,
-              syncing: false
-            });
-          });
-      }
-    });
+  async getLocalHistory() {
+    const services = new HistoiryServices();
+    services
+      .getOldHistory()
+      .then(response => {
+        try {
+          let history = this.parseHistoryData(JSON.parse(response));
+          this.setState({ history: history });
+          this.getHistory();
+        } catch (error) {
+          console.log("Error when parsing history data");
+          throw error;
+        }
+      })
+      .catch(error => {
+        this.getHistory();
+        console.log("error fanindroany", error);
+      });
   }
-  componentDidMount() {
-    this.fetchHistory();
+
+  async getHistory() {
+    let historyServices = new HistoiryServices();
+    historyServices
+      .getHistory(this.state.user_id)
+      .then(response => {
+        let history = this.parseHistoryData(response);
+        this.setState({
+          history: history,
+          syncing: false,
+          loading: false,
+          refreshing: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          online: false,
+          syncing: false,
+          loading: false
+        });
+      });
   }
 
   componentWillUnmount() {
@@ -221,7 +219,7 @@ class History extends React.Component {
 
   _onRefresh = () => {
     this.setState({ refreshing: true, loading: true });
-    this.fetchHistory();
+    this.getHistory();
   };
 
   renderLoadingMessage() {
@@ -235,7 +233,13 @@ class History extends React.Component {
   }
 
   renderErrorMessage() {
-    return <Text>Vous êtes hors connection</Text>;
+    return (
+      <View style={{ backgroundColor: "red", paddingVertical: 5 }}>
+        <Text style={{ textAlign: "center", color: "#fff" }}>
+          Vous êtes hors connection
+        </Text>
+      </View>
+    );
   }
 
   renderConnectedMessage() {

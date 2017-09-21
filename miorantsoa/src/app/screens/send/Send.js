@@ -196,42 +196,35 @@ class Send extends Component {
     this.initState();
   };
 
-  performTransaction = () => {
+  performTransaction = async () => {
     this.setState({ isLoading: true });
     console.log("process transaction");
     services = new QrServices();
     userServices = new UserServices();
-    services
-      .performTransation(
-        this.reformatNumber(this.state.amount),
-        this.state.user_id,
-        this.state.currency,
-        this.state.user,
-        this.state.oauth_code
-      )
-      .then(response => {
-        console.log(response);
-        response.json().then(responseJson => {
-          console.log(JSON.stringify(responseJson));
-          console.log(this.state.user_id, this.state.user);
-          userServices
-            .saveAdress(this.state.user_id, this.state.user)
-            .then(response => {
-              console.log(response);
-              this.setState({ isLoading: false });
-              Platform.OS == "android"
-                ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
-                : this.refs.toast.show("Transaction success", 1000);
-              this.initState();
-            })
-            .catch(err => {
-              console.log(err);
-            });
+    rep = await services.performTransation(
+      this.reformatNumber(this.state.amount),
+      this.state.user_id,
+      this.state.currency,
+      this.state.user,
+      this.state.oauth_code
+    );
+
+    repString = JSON.stringify(rep);
+    console.log(repString);
+    if (repString.includes("success")) {
+      userServices
+        .saveAdress(this.state.user_id, this.state.user)
+        .then(response => {
+          console.log(response);
+          this.setState({ isLoading: false });
+          Platform.OS == "android"
+            ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
+            : this.refs.toast.show("Transaction success", 1000);
+          this.initState();
         });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    } else {
+      Alert.alert("Erreur de transaction", "Votre transaction n'a pas abouti");
+    }
   };
 
   setModalVisible(visible) {
@@ -428,7 +421,7 @@ class Send extends Component {
                 placeholder="Enter your PIN here"
                 autofocus={true}
                 maxLength={4}
-                value={this.state.pin}
+                //value={this.state.pin}
                 keyboardType="numeric"
                 returnKeyType="done"
                 secureTextEntry={true}

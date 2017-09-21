@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import config from "../config/config";
 import moment from "moment";
 
@@ -46,9 +46,9 @@ class QrServices extends Component {
     }
   }
 
-  performTransation(amount, sender_id, currency, user_id, access_token) {
-    var url = transaction_url + "/" + sender_id;
-    var formData = new FormData();
+  async performTransation(amount, sender_id, currency, user_id, access_token) {
+    const url = transaction_url + "/" + sender_id;
+    let formData = new FormData();
     formData.append("amount", amount);
     formData.append("senderId", sender_id);
     formData.append("recipientId", user_id);
@@ -57,14 +57,23 @@ class QrServices extends Component {
     formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
     let data = {
       method: "POST",
-      headers: {
-        Authorization: "Bearer " + access_token
-        // '-origin':
-      },
+      // headers: {
+      //   // Authorization: "Bearer " + access_token
+      //   // '-origin':
+      // },
       body: formData
     };
-    console.log("waiting for transactions", url);
-    return fetch(url, data);
+    // console.log("waiting for transactions", url);
+    // response = await fetch(url, data);
+    return await fetch(url, data)
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
+      })
+      .catch(error => {
+        console.log("erreur aty aloha", error);
+        throw error;
+      });
   }
 
   async handleTransactionResponse(responseJson) {

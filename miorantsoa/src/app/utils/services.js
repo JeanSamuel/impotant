@@ -145,7 +145,7 @@ class Services extends Component {
   }
   async checkSolde(user_id) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = loginData.BASE_URL + "balance/" + user_id;
+    var url = config.CUSTOM_BASE_URL + "balance/" + user_id;
     try {
       var response = await fetch(url, { method: "GET" });
       var json = await response.json();
