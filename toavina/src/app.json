@@ -11,6 +11,11 @@
     "android": {
       "package": "com.ariarynet.ariaryPro"
     },
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "isDetached": true,
+    "detach": {
+      "scheme": "expa15a5a99ef2b445ba71f845515784fd6",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v1.17.0-sdk18.0.0-4680412d-04c4-47ed-9161-88e01d76be96.tar.gz"
+    }
   }
 }

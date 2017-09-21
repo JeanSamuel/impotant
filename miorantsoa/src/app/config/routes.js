@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Main from "../screens/Main";
 import Send from "../screens/send/Send";
-import Receive from "../screens/Receive";
+import Receive from "../screens/receive/Receive";
 import SideBar from "../components/Sidebar/SideBar";
 import Pins from "../screens/Pin";
 import Handler from "../screens/Handler";
