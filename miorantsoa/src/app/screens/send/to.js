@@ -16,6 +16,7 @@ import headStyle from "../../styles/headerStyle";
 import UserServices from "../../utils/userServices";
 import Services from "../../utils/services";
 import Row from "./Row";
+import timer from "react-native-timer";
 // create a component
 
 const { width } = Dimensions.get("window");
@@ -105,6 +106,10 @@ class To extends Component {
     this.fetchAdress();
   }
 
+  componentWillUnmount() {
+    timer.clearTimeout(this);
+  }
+
   renderSeparator = () => {
     return (
       <View
@@ -115,10 +120,54 @@ class To extends Component {
       />
     );
   };
+
+  renderLoadingMessage() {
+    return (
+      <View style={{ backgroundColor: "#FFCC00", paddingVertical: 5 }}>
+        <Text style={{ textAlign: "center", color: "#fff" }}>
+          En attente de syncronisation
+        </Text>
+      </View>
+    );
+  }
+
+  renderErrorMessage() {
+    return <Text>Vous êtes hors connection</Text>;
+  }
+
+  renderConnectedMessage() {
+    let component = null;
+    timer.setTimeout(
+      this,
+      "hideSuccess",
+      () => this.setState({ hideSuccess: true }),
+      600
+    );
+    {
+      this.state.hideSuccess
+        ? (component = null)
+        : (component = (
+            <View style={{ backgroundColor: "#00cc00", paddingVertical: 5 }}>
+              <Text style={{ textAlign: "center", color: "#fff" }}>
+                Syncronisation terminé
+              </Text>
+            </View>
+          ));
+    }
+
+    return component;
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Spinner visible={this.state.loading} size="large" />
+        {this.state.online && this.state.loading ? (
+          this.renderLoadingMessage()
+        ) : null}
+        {!this.state.online ? this.renderErrorMessage() : null}
+        {this.state.online && !this.state.loading ? (
+          this.renderConnectedMessage()
+        ) : null}
         <View
           style={{
             height: 80,

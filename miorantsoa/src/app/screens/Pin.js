@@ -39,8 +39,8 @@ class Pins extends React.Component {
     if (text.length === 4) {
       this.setState({ isLoading: true });
       services = new Services();
-      console.log("========Pin entered=========", this.state.userPin);
       if (text === this.state.userPin) {
+        console.log(text,"========Pin entered is equal=========", this.state.userPin);
         this.setState({ pin: text });
         services.getData("user_id").then(user_id => {
           console.log(user_id);
@@ -48,6 +48,7 @@ class Pins extends React.Component {
           this.setState({ isLoading: false });
         });
       } else {
+        console.log(text,"========Pin entered is not equal=========", this.state.userPin);
         this.setState({ isLoading: false, pin: "" });
       }
     }
