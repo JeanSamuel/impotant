@@ -1,6 +1,5 @@
 //import liraries
 import React, { Component } from "react";
-import { AsyncStorage, View, Text } from "react-native";
 import numeral from "numeral";
 import fr from "numeral/locales";
 import {
@@ -64,7 +63,7 @@ class Services extends Component {
      * Mise en forme d'un nombre (sous format string)
      * @param {*} number 
      */
-  static formatNumber(number) {
+  static formatNumberM(number) {
     var dataformat = String(number).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
     dataformat = dataformat.replace("-", "");
     var value = parseFloat(number);
@@ -75,23 +74,6 @@ class Services extends Component {
     dataformat = sign + dataformat;
     return dataformat;
   }
-
-  // static waiting() {
-  //   return (
-  //     <View style={styleBase.error}>
-  //       <ActivityIndicator size="large" />
-  //     </View>
-  //   );
-  // }
-
-  // static createError(text) {
-  //   return (
-  //     <View style={styleBase.error}>
-  //       <Icon name="warning" size={15} color={styleBase.color} />
-  //       <Text style={styleBase.errorText}>{text}</Text>
-  //     </View>
-  //   );
-  // }
 
   async saveData(key, value) {
     try {
