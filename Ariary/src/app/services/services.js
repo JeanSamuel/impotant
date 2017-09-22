@@ -22,6 +22,13 @@ import { RegisterServices } from "./";
 import config from "../configs/data/config";
 // create a component
 class Services extends Component {
+
+  static _shareMessage(value) {
+    Share.share({
+      message: value
+    }).then(this._showResult);
+  }
+
   renderPlaceholderPage() {
     return (
       <View>

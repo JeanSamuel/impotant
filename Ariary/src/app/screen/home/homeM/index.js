@@ -109,6 +109,7 @@ class Home extends Component {
     services
       .getData("newAtHome")
       .then(response => {
+        // this.props.navigation.navigate("Intro");
         if (response != null) {
           this.props.navigation.navigate("Intro");
         } else {

@@ -42,10 +42,14 @@ class MyClass extends Component {
         onDoneBtnClick={this.doneBtnHandle}
         onSkipBtnClick={this.onSkipBtnHandle}
         onSlideChange={this.onSlideChangeHandle}
-        doneBtnLabel="Terminer"
-        skipBtnLabel="Passer"
+        skipBtnLabel={
+          <Text style={{ textAlign: "left", marginRight: 20 }}>Passer</Text>
+        }
+        doneBtnLabel={
+          <Text style={{ textAlign: "right", paddingLeft: 20 }}>Terminer</Text>
+        }
       >
-        <View style={[styles.slide, { backgroundColor: "#fa931d" }]}>
+        <View style={[styles.slide, { backgroundColor: "#34495e" }]}>
           <View style={[styles.logoContainer]}>
             <Image source={image1} style={styles.mark} resizeMode="center" />
           </View>
@@ -60,7 +64,7 @@ class MyClass extends Component {
             </Text>
           </View>
         </View>
-        <View style={[styles.slide, { backgroundColor: "#fa931d" }]}>
+        <View style={[styles.slide, { backgroundColor: "#34495e" }]}>
           <View style={[styles.logoContainer]}>
             <Image source={image1} style={styles.mark} resizeMode="center" />
           </View>
@@ -79,7 +83,7 @@ class MyClass extends Component {
             </Text>
           </View>
         </View>
-        <View style={[styles.slide, { backgroundColor: "#fa931d" }]}>
+        <View style={[styles.slide, { backgroundColor: "#34495e" }]}>
           <View style={[styles.logoContainer]}>
             <Image source={image1} style={styles.mark} resizeMode="center" />
           </View>
