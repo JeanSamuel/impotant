@@ -55,8 +55,6 @@ class Assistant extends Component {
         />
         <View style={styles.buttonContainer}>
           <Button
-            iconRight
-            icon={{ name: "arrow-forward", size: 30 }}
             title="Continuer"
             backgroundColor="rgba(236, 240, 241,0.05)"
             underlayColor="#FFF"
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const StackAssistance = new StackNavigator(
+export default StackNavigator(
   {
     Assistant: {
       screen: Assistant
@@ -105,4 +103,3 @@ const StackAssistance = new StackNavigator(
     headerMode: "none"
   }
 );
-export default StackAssistance;

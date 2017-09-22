@@ -10,7 +10,7 @@ import {
 import { Icon } from "react-native-elements";
 import IconBadge from "react-native-icon-badge"; // 1.1.3
 import { Notifications } from "expo";
-import { services } from "../../services";
+import { Services } from "../../services";
 
 // create a component
 class MyClass extends Component {
@@ -76,12 +76,17 @@ class MyClass extends Component {
       >
         <IconBadge
           MainElement={
-            <Icon
-              name="ios-paper-outline"
-              color="white"
-              size={35}
-              type="ionicon"
-            />
+            <View>
+              <Icon
+                name="ios-paper-outline"
+                color="white"
+                size={35}
+                type="ionicon"
+                style={{
+                  paddingRight: 10
+                }}
+              />
+            </View>
           }
           BadgeElement={
             <Text style={{ color: "#FFF", fontSize: 12 }}>

@@ -14,7 +14,7 @@ import { Services } from "../../services";
 import { Assistant } from "../assistance";
 import { styleBase } from "../../styles";
 import { StackNavigator } from "react-navigation";
-import DrawerMenu from "../../components/drawerMenu";
+import { DrawerMenu } from "../../components/drawerMenu";
 import { Icon } from "react-native-elements";
 
 // create a component

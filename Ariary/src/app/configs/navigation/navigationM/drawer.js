@@ -1,8 +1,10 @@
 //import liraries
 import React, { Component } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { DrawerNavigator, DrawerItems } from "react-navigation";
 import DrawerContent from "./drawerContent";
+// import About from "../../../screen/about";
+// import Home from "../../../screen/home/homeM";
 import {
   Home,
   History,
@@ -10,6 +12,7 @@ import {
   Logout,
   About
 } from "../../../screen/listScreenM";
+// import About from "../../../screen/about";
 
 // DrawerNavigator path
 
@@ -57,6 +60,4 @@ const drawerConfigs = {
   // contentComponent:({navigation})=> <DrawerContent navigation={navigation} routes={drawerRoutes} />,
 };
 
-const DrawerExample = DrawerNavigator(drawerRoutes, drawerConfigs);
-
-export default DrawerExample;
+export default DrawerNavigator(drawerRoutes, drawerConfigs);

@@ -20,13 +20,11 @@ class Loader extends Component {
 
   componentWillMount() {
     var services = new Services();
-    var notif = new NotificationServices();
 
     services.getData("user_id").then(user_id => {
       if (user_id === null) {
         this.props.navigation.navigate("Starter");
       } else {
-        notif.imBackNotification();
         this.props.navigation.navigate("Drawer", (user_id = { user_id }));
       }
     });

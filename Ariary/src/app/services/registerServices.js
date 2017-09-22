@@ -4,8 +4,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import NotifServices from "./notificationServices";
-import Services from "./services";
-import data from "../configs/data/dataM";
+import { Services } from "./";
+import configs from "../configs/data/dataM";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;
 // create a component
@@ -27,7 +27,7 @@ class RegisterServices extends Component {
     var token = await Notifications.getExpoPushTokenAsync();
     await notifServices.initForPushNotificationsAsync(accountId);
 
-    let url = data.BASE_URL + "UserRestController.php";
+    let url = configs.BASE_URL + "UserRestController.php";
     var formData = new FormData();
     formData.append("accountId", accountId);
     formData.append("expo_token", token);
@@ -45,9 +45,9 @@ class RegisterServices extends Component {
             let services = new Services();
             services.saveData("user_id", accountId);
           } catch (error) {
-            let error = new Error(error);
-            error.message = "Une erreur est survenue veuillez réessayer";
-            throw error;
+            let myerror = new Error(error);
+            myerror.message = "Une erreur est survenue veuillez réessayer";
+            throw myerror;
           }
         } else if (response.status == 405) {
           let num = Services.getRandomNumber();
@@ -57,12 +57,14 @@ class RegisterServices extends Component {
             accountId +
             num;
           error.response = response;
+
           throw error;
         } else {
           let error = new Error(response.statusText);
           error.message =
             "Une erreur est survenue lors de la connexion aux serveurs";
           error.response = response;
+
           throw error;
         }
       })

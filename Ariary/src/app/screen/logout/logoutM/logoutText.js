@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
-import { styleBase } from "../../../styles/styles";
+import { styleBase } from "../../../styles";
 const { width, height } = Dimensions.get("window");
 
 // create a component

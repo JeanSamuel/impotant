@@ -36,7 +36,6 @@ class MyClass extends Component {
     console.log(index, total);
   };
   render() {
-    const pageArray = data.intro;
     return (
       <AppIntro
         onNextBtnClick={this.nextBtnHandle}

@@ -45,6 +45,9 @@ class Login extends Component {
           };
           this.changeSpinnerVisibility(false);
           notif.initForPushNotificationsAsync(response);
+          console.log("====================================");
+          console.log("tong hatreto", response);
+          console.log("====================================");
           this.props.navigation.navigate("Drawer", data);
         })
         .catch(error => {

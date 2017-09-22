@@ -6,6 +6,7 @@ import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
 import { Services } from "../../../services";
 import { Starter, Login, NewUser, Loader } from "../../../screen/listScreenM";
+// import Starter from "../../../screen/starter";
 
 // create a component
 const MAIN_INFO_COLOR = "rgba(236, 240, 241,1.0)";
@@ -16,7 +17,7 @@ const data = {
   message:
     "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
 };
-class Launcher extends Component {
+class Launcher extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

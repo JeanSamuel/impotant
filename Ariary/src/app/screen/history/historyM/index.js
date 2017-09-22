@@ -17,7 +17,7 @@ import { HistoryServices } from "../../../services";
 import Row from "./row";
 import HeaderHistory from "./header";
 import Error from "./errorHistory";
-import DrawerMenu from "../../../components/drawerMenu";
+import { DrawerMenu } from "../../../components/drawerMenu";
 import SearchBar from "react-native-searchbar";
 
 // create a component

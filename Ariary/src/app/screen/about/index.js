@@ -3,11 +3,11 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { styleBase } from "../../styles";
 import { StackNavigator } from "react-navigation";
-import DrawerMenu from "../../components/drawerMenu";
+import { DrawerMenu } from "../../components/drawerMenu/";
 import { Icon } from "react-native-elements";
 
 // create a component
-class MyClass extends Component {
+class About extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -47,8 +47,8 @@ const navigationOptions = {
 
 const StackSettings = new StackNavigator(
   {
-    MyClass: {
-      screen: MyClass,
+    About: {
+      screen: About,
       navigationOptions
     }
   },

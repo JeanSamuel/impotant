@@ -15,7 +15,7 @@ import {
 import { StackNavigator } from "react-navigation";
 import QRCode from "react-native-qrcode-svg";
 import { Icon } from "react-native-elements";
-import DrawerMenu from "../../../components/drawerMenu";
+import { DrawerMenu } from "../../../components/drawerMenu";
 import { styleBase } from "../../../styles";
 import styles from "./homeStyles";
 import Toast from "react-native-easy-toast";
@@ -69,9 +69,6 @@ class Home extends Component {
       a: amount
     };
     var dataJSON = JSON.stringify(myData);
-    console.log("====================================");
-    console.log(dataJSON);
-    console.log("====================================");
     return dataJSON;
   }
 
@@ -109,7 +106,7 @@ class Home extends Component {
 
   showIntro() {
     let services = new Services();
-    service
+    services
       .getData("newAtHome")
       .then(response => {
         if (response != null) {
@@ -226,7 +223,7 @@ class Home extends Component {
   }
 }
 
-const stackHome = new StackNavigator({
+export default new StackNavigator({
   Home: {
     screen: Home,
     navigationOptions: ({ navigation }) => ({
@@ -250,6 +247,3 @@ const stackHome = new StackNavigator({
     }
   }
 });
-
-//make this component available to the app
-export default stackHome;

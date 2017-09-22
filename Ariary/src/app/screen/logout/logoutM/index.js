@@ -12,7 +12,7 @@ import { Icon } from "react-native-elements";
 import { Services, NotificationServices } from "../../../services";
 import { styleBase } from "../../../styles";
 import { StackNavigator } from "react-navigation";
-import DrawerMenu from "../../../components/drawerMenu";
+import { DrawerMenu } from "../../../components/drawerMenu";
 import LogoutText from "./logoutText";
 const { width, height } = Dimensions.get("window");
 // 0.6.1

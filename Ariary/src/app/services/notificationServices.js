@@ -3,11 +3,11 @@ import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import Services from "./services";
 import RegisterServices from "./registerServices";
-import data from "../configs/data/dataM";
+import configs from "../configs/data/dataM";
 
-const PUSH_INIT = data.BASE_URL + "exp_token/init.php";
-const PUSH_STOP = data.BASE_URL + "exp_token/disconnect.php";
-const PUSH_REGISTER = data.BASE_URL + "exp_token/createAccount.php";
+const PUSH_INIT = configs.BASE_URL + "exp_token/init.php";
+const PUSH_STOP = configs.BASE_URL + "exp_token/disconnect.php";
+const PUSH_REGISTER = configs.BASE_URL + "exp_token/createAccount.php";
 
 export default class NotifServices extends Component {
   ExceptionUtilisateur(message) {

@@ -9,12 +9,11 @@ import {
   TouchableOpacity
 } from "react-native";
 import styles from "./registerStyles";
-import { styleBase } from "../../../styles/styles";
+import { styleBase } from "../../../styles";
 import { Services, RegisterServices } from "../../../services";
 import { Icon, Button } from "react-native-elements";
 import data from "../../../configs/data/dataM";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { NavigationActions } from "react-navigation";
 import { MyButton } from "../../../components/button";
 
 const vendorCheck = require("../../../images/icons/vendorCheck.png");
@@ -31,12 +30,14 @@ class Step2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_id: "",
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
-      }).cloneWithRows(data.step2)
+      user_id: ""
+      // dataSource: new ListView.DataSource({
+      //   rowHasChanged: (row1, row2) => row1 !== row2
+      // }).cloneWithRows(data.step2)
     };
   }
+
+  componentWillMount() {}
 
   componentDidMount() {
     this.getDataUser();
@@ -68,7 +69,7 @@ class Step2 extends Component {
     services
       .isNewUser(this.state.user_id)
       .then(response => {
-        this.props.navigation.navigate("DrawerExample", data);
+        this.props.navigation.navigate("Drawer", data);
       })
       .catch(error => {
         console.log("error", error);

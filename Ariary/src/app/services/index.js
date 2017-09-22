@@ -1,9 +1,9 @@
 import Services from "./services";
-import HomeServices from "./services";
-import LoginServices from "./services";
-import NotificationServices from "./services";
-import RegisterServices from "./services";
-import HistoryServices from "./services";
+import HomeServices from "./homeServices";
+import LoginServices from "./loginServices";
+import NotificationServices from "./notificationServices";
+import RegisterServices from "./registerServices";
+import HistoryServices from "./historyServices";
 
 export {
   Services,

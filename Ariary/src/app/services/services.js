@@ -9,13 +9,13 @@ import {
   Share
 } from "react-native";
 // import styleBase from "../../styles/Styles";
-import data from "../configs/data/dataM";
+import configs from "../configs/data/dataM";
 
 import { FormValidationMessage } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import FormData from "FormData";
 import Toast from "react-native-easy-toast";
-import Register from "./registerServices";
+import { RegisterServices } from "./";
 
 // create a component
 class Services extends Component {
@@ -169,14 +169,14 @@ class Services extends Component {
      */
   async getToken(oauthCode) {
     console.log("====================================");
-    console.log("Base_url", data.BASE_URL_Oauth);
+    console.log("Base_url", configs.BASE_URL_Oauth);
     console.log("====================================");
-    var url = data.BASE_URL_Oauth + "oauth2/token";
+    var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
     formData.append("client_id", "ariarynet");
     formData.append("client_secret", "ariarynetpass");
-    formData.append("redirect_uri", data.BASE_URL_Oauth + "index.php/");
+    formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
     formData.append("grant_type", "authorization_code");
     formData.append("scope", "userinfo");
     var data = {
@@ -193,8 +193,7 @@ class Services extends Component {
      * Take data user with token
      */
   async getUserInfo(token) {
-    var url =
-      loginData.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
+    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
     var response = await fetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";
@@ -209,7 +208,7 @@ class Services extends Component {
 
   async checkSolde(user_id) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = loginData.BASE_URL + "balance/" + user_id;
+    var url = configs.BASE_URL + "balance/" + user_id;
     try {
       var response = await fetch(url, { method: "GET" });
       var json = await response.json();
