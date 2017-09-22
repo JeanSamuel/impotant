@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, ScrollView } from "react-native";
-import styleBase from "../../styles/Styles";
+import { styleBase } from "../../styles";
 import { Icon, Button } from "react-native-elements";
 import EStyleSheet from "react-native-extended-stylesheet";
 
@@ -21,9 +21,7 @@ class SkipWarning extends Component {
       <View style={styles.container}>
         <View style={[styles.title, styleBase.centered]}>
           <Icon name="warning" size={30} color="rgba(241, 196, 15,1.0)" />
-          <Text style={styles.titleText}>
-            {"  "}Il ne faut pas oublier
-          </Text>
+          <Text style={styles.titleText}>{"  "}Il ne faut pas oublier</Text>
         </View>
         <ScrollView contentContainerStyle={styles.body}>
           <Text style={styles.bodyTitle}>
@@ -31,17 +29,13 @@ class SkipWarning extends Component {
           </Text>
           <View style={styles.listWarning}>
             <View style={{ flexDirection: "row" }}>
-              <Text>
-                {"\u2022"}
-              </Text>
+              <Text>{"\u2022"}</Text>
               <Text style={styles.listText}>
                 Le solde sera limité à 5000 ar
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <Text>
-                {"\u2022"}
-              </Text>
+              <Text>{"\u2022"}</Text>
               <Text style={styles.listText}>
                 Vous perdrez votre compte si vous perdez ce mobile ou les
                 données de l'application.

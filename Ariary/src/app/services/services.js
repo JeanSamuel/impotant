@@ -3,6 +3,22 @@ import React, { Component } from "react";
 import { AsyncStorage, View, Text } from "react-native";
 import numeral from "numeral";
 import fr from "numeral/locales";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  AsyncStorage,
+  Share
+} from "react-native";
+// import styleBase from "../../styles/Styles";
+import configs from "../configs/data/dataM";
+
+import { FormValidationMessage } from "react-native-elements";
+import { Icon } from "react-native-elements";
+import FormData from "FormData";
+import Toast from "react-native-easy-toast";
+import { RegisterServices } from "./";
 
 import config from "../configs/data/config";
 // create a component
@@ -45,24 +61,37 @@ class Services extends Component {
   }
 
   /**
-         * 
-         * @param {*} uri the url contains the Oauth Code 
-         * then save this into storage
-         */
-  async extractOauthCode(uri) {
-    oauthCode = this.get(uri, "code");
-    await this.saveData("oauthCode", oauthCode);
-    return oauthCode;
+     * Mise en forme d'un nombre (sous format string)
+     * @param {*} number 
+     */
+  static formatNumber(number) {
+    var dataformat = String(number).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
+    dataformat = dataformat.replace("-", "");
+    var value = parseFloat(number);
+    var sign = "";
+    if (value < 0) {
+      sign = "- ";
+    }
+    dataformat = sign + dataformat;
+    return dataformat;
   }
 
-  get(url, name) {
-    name = name.replace(/[[]/, "[").replace(/[]]/, "]");
-    var regexS = "[?&]" + name + "=([^&#]*)";
-    var regex = new RegExp(regexS);
-    var results = regex.exec(url);
-    if (results == null) return "";
-    else return results[1];
-  }
+  // static waiting() {
+  //   return (
+  //     <View style={styleBase.error}>
+  //       <ActivityIndicator size="large" />
+  //     </View>
+  //   );
+  // }
+
+  // static createError(text) {
+  //   return (
+  //     <View style={styleBase.error}>
+  //       <Icon name="warning" size={15} color={styleBase.color} />
+  //       <Text style={styleBase.errorText}>{text}</Text>
+  //     </View>
+  //   );
+  // }
 
   async saveData(key, value) {
     try {
@@ -104,16 +133,55 @@ class Services extends Component {
     }
   }
 
+  async isNewUser(user_id) {
+    await this.saveData("newAtHome", "yes");
+    await this.saveData("newAtSettings", "yes");
+    await this.saveData("numberBadge", "1");
+  }
+
+  /**
+     * liste  des webservices à faire et les données à stocké lors d'une connexion
+     * @param {*} webViewState : l'etat actuel dela fenetre de login (Webview)
+     */
+  async goLogin(webViewState) {
+    var OauthCode = await this.extractOauthCode(webViewState.url);
+    var token = await this.getToken(OauthCode);
+    return await this.getUserInfo(token);
+  }
+
+  static getRandomIntoArray(myArray) {
+    return myArray[Math.floor(Math.random() * myArray.length)];
+  }
+
+  static getRandomNumber() {
+    return Math.floor(Math.random() * 100 + 1);
+  }
+
+  /**
+     * 
+     * @param {*} uri the url contains the Oauth Code 
+     * then save this into storage
+     */
+  async extractOauthCode(uri) {
+    var myData = uri.replace("=", " ").replace("&", " ");
+    var dataArray = myData.split(" ");
+    await this.saveData("oauthCode", dataArray[1]);
+    return dataArray[1];
+  }
+
   /**
          * get token using Oauth code stored into AsynStorage
          */
   async getToken(oauthCode) {
-    var url = config.OAUTH_BASE_URL + "token";
+    console.log("====================================");
+    console.log("Base_url", configs.BASE_URL_Oauth);
+    console.log("====================================");
+    var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
     formData.append("client_id", "ariarynet");
     formData.append("client_secret", "ariarynetpass");
-    formData.append("redirect_uri", config.OAUTH_RET_URL);
+    formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
     formData.append("grant_type", "authorization_code");
     formData.append("scope", "userinfo");
     var data = {
@@ -126,7 +194,7 @@ class Services extends Component {
     return json.access_token;
   }
   async getUserInfo(token) {
-    var url = config.OAUTH_BASE_URL + "userinfo?access_token=" + token;
+    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
     var response = await fetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";
@@ -145,7 +213,7 @@ class Services extends Component {
   }
   async checkSolde(user_id) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = config.CUSTOM_BASE_URL + "balance/" + user_id;
+    var url = configs.BASE_URL + "balance/" + user_id;
     try {
       var response = await fetch(url, { method: "GET" });
       var json = await response.json();

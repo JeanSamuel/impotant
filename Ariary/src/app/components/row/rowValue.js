@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableHighlight } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
-import styleBase from "../../styles/Styles";
+import { styleBase } from "../../styles";
 // create a component
 class RowValue extends Component {
   action() {
@@ -20,27 +20,27 @@ class RowValue extends Component {
         >
           <View style={[styles.rowContainer]}>
             <View style={[styles.rowLeft, styleBase.alignCentered]}>
-              {this.props.iconName != null
-                ? <Icon
-                    name={this.props.iconName}
-                    size={25}
-                    style={styles.iconStyle}
-                  />
-                : <View />}
+              {this.props.iconName != null ? (
+                <Icon
+                  name={this.props.iconName}
+                  size={25}
+                  style={styles.iconStyle}
+                />
+              ) : (
+                <View />
+              )}
 
               <View style={styles.textContainer}>
-                <Text style={styles.menu}>
-                  {this.props.menu}
-                </Text>
-                <Text style={styles.value}>
-                  {this.props.value}
-                </Text>
+                <Text style={styles.menu}>{this.props.menu}</Text>
+                <Text style={styles.value}>{this.props.value}</Text>
               </View>
             </View>
             <View style={[styles.rowRight, styleBase.centered]}>
-              {this.props.noNext == null
-                ? <Icon name="chevron-right" size={25} />
-                : <View />}
+              {this.props.noNext == null ? (
+                <Icon name="chevron-right" size={25} />
+              ) : (
+                <View />
+              )}
             </View>
           </View>
         </TouchableHighlight>
