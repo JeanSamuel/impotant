@@ -1,29 +1,201 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Platform
+} from "react-native";
 import { StackNavigator } from "react-navigation";
-import { Icon } from "react-native-elements";
+import { Icon, Button } from "react-native-elements";
 import History from "../history/historyM";
 import headStyle from "../../styles/stylesC/headerStyle";
+import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
+import { BarCodeScanner, Permissions } from "expo";
 import To from "./To";
 // create a component
+const { height, width } = Dimensions.get("window");
 class Send extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasCameraPermission: false,
+      amount: "",
+      user: "",
+      flashIcon: "flash-off",
+      flashOn: "off",
+      user_id: this.props.navigation.state.params.user_id,
+      currency: "Ar"
+    };
+  }
+
+  async componentWillMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === "granted" });
+  }
+
+  toggleFlash = () => {
+    toggleFlash = !this.state.isFlashOn;
+    this.setState({ isFlashOn: toggleFlash });
+    if (toggleFlash) {
+      this.setState({ flashOn: "on", flashIcon: "flash-on" });
+    } else {
+      this.setState({ flashOn: "off", flashIcon: "flash-off" });
+    }
+  };
+
+  handleDoneEditing() {
+    console.log("Done editing");
+  }
+
+  onResetAction() {
+    console.log("Reset");
+  }
+  promptInformation() {
+    console.log("show info");
+  }
+  onContinueAction() {
+    console.log("continue");
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Send</Text>
-      </View>
-    );
+    const { hasCameraPermission } = this.state;
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    } else if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    } else {
+      return (
+        <View style={styles.container}>
+          <BarCodeScanner
+            onBarCodeRead={this._handleBarCodeRead}
+            style={StyleSheet.absoluteFill}
+          />
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              left: 0,
+              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
+            }}
+          >
+            <InputLeftIcon
+              iconName="expand-more"
+              onPress={() => {
+                console.log("Expand");
+                this.props.navigation.navigate("To", {
+                  onGoBack: data => {
+                    console.log(data);
+                    this.setState({ user: data });
+                  },
+                  user_id: this.state.user_id
+                });
+              }}
+              placeholder="Username"
+              onChangeText={user => this.setState({ user })}
+              value={this.state.user}
+              returnKeyType="none"
+              blurOnSubmit={false}
+            />
+            <InputLeftButton
+              buttonText={this.state.currency}
+              value={"" + this.state.amount}
+              placeholder="Amount"
+              keyboardType="numeric"
+              returnKeyType="done"
+              editable={this.state.isEditable}
+              onChangeText={amount =>
+                this.setState({ amount: Services.formatNumber(amount) })}
+              onEndEditing={() => {
+                this.handleDoneEditing();
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-around",
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
+            }}
+          >
+            <Button
+              buttonStyle={styles.controlButton}
+              icon={{ name: "clear-all", size: 25 }}
+              onPress={this.onResetAction}
+            >
+              <Icon name="clear-all" size={25} color="#fafafa" />
+            </Button>
+            <Button
+              buttonStyle={styles.controlButton}
+              icon={{ name: this.state.flashIcon, size: 25 }}
+              onPress={this.toggleFlash}
+            >
+              <Icon name={this.state.flashIcon} size={25} color="#fafafa" />
+            </Button>
+            <Button
+              buttonStyle={styles.controlButton}
+              onPress={this.promptInformation}
+              icon={{ name: "info", size: 25 }}
+            >
+              <Icon name="info" size={25} color="#fafafa" />
+            </Button>
+            <Button
+              buttonStyle={styles.controlButton}
+              icon={{ name: "send", size: 25 }}
+              onPress={this.onContinueAction}
+            >
+              <Icon name="send" size={25} color="#fafafa" />
+            </Button>
+          </View>
+        </View>
+      );
+    }
   }
 }
 
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
+    flex: 1,
+    alignContent: "center"
+  },
+  modalContainer: {
+    alignContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    alignSelf: "center",
+    justifyContent: "center",
+    backgroundColor: "#FAFAFA",
+    height: height / 2,
+    width: width - 20
+  },
+  simpleInput: {
+    flex: 1,
+    textAlign: "center",
+    paddingLeft: 0,
+    fontSize: 24
+  },
+  headerStyle: {
+    backgroundColor: "#1e8887"
+  },
+  controlButton: {
+    marginHorizontal: 50,
+    marginVertical: 5,
+    backgroundColor: "transparent" ///"rgba(52, 73, 94,1.0)" // "#448aff"
+  },
+  touchableButton: {
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: "#000",
+    justifyContent: "center"
   }
 });
 
