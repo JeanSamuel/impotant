@@ -22,7 +22,7 @@ export default DrawerNavigator(
       screen: Send,
       navigationOptions: ({ navigation }) => ({
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-exit-outline" size={25} type="ionicon" />
+          <Icon name="ios-home-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })
@@ -31,7 +31,7 @@ export default DrawerNavigator(
       screen: Adresses,
       navigationOptions: ({ navigation }) => ({
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-exit-outline" size={25} type="ionicon" />
+          <Icon name="ios-book-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })
@@ -40,7 +40,7 @@ export default DrawerNavigator(
       screen: Settings,
       navigationOptions: ({ navigation }) => ({
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-exit-outline" size={25} type="ionicon" />
+          <Icon name="ios-settings-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })

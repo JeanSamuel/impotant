@@ -17,11 +17,13 @@ class Handler extends Component {
 
   componentDidMount() {
     services = new Services();
+    console.log("Tonga ato izy o");
     services.getData("user_id").then(user_id => {
-      console.log(user_id);
-      this.setState({ isLoading: false, newUser: true });
-      if (user_id != null) {
+      console.log("ato tsika zao", user_id);
+      if (user_id !== null) {
         this.setState({ newUser: false, isLoading: false });
+      } else {
+        this.setState({ newUser: true, isLoading: false });
       }
     });
   }
