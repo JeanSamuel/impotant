@@ -12,8 +12,11 @@ import { StackNavigator } from "react-navigation";
 import { Icon, Button } from "react-native-elements";
 import History from "../history/historyM";
 import headStyle from "../../styles/stylesC/headerStyle";
+import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
+import { PinModal, AmountModal } from "../../components/modal";
 import { BarCodeScanner, Permissions } from "expo";
+import Services from "../../services/services";
 import To from "./To";
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -27,7 +30,9 @@ class Send extends Component {
       flashIcon: "flash-off",
       flashOn: "off",
       user_id: this.props.navigation.state.params.user_id,
-      currency: "Ar"
+      currency: "Ar",
+      modal: null,
+      isEditable: true
     };
   }
 
@@ -50,15 +55,88 @@ class Send extends Component {
     console.log("Done editing");
   }
 
-  onResetAction() {
-    console.log("Reset");
+  removeModal() {
+    this.setState({ modal: null });
   }
+
+  handleAmountInput = text => {
+    this.setState({ amount: Services.formatNumber(text) });
+  };
+
+  promptPin() {
+    this.setState({
+      modal: (
+        <PinModal
+          amount={this.state.amount}
+          user={this.state.user}
+          currency={this.state.currency}
+          onChangeText={text => {
+            console.log(text);
+          }}
+          onRequestClose={() => {
+            this.removeModal();
+          }}
+        />
+      )
+    });
+  }
+
+  prompAmount() {
+    this.setState({
+      modal: (
+        <AmountModal
+          onRequestClose={() => {
+            this.removeModal();
+          }}
+          onChangeText={this.handleAmountInput}
+          onEndEditing={() => {
+            this.removeModal();
+          }}
+        />
+      )
+    });
+  }
+
+  onResetAction = () => {
+    this.setState({
+      amount: "",
+      user: "",
+      type: "",
+      currency: "Ar",
+      isEditable: true
+    });
+  };
   promptInformation() {
     console.log("show info");
   }
-  onContinueAction() {
+  onContinueAction = () => {
     console.log("continue");
-  }
+  };
+
+  _handleBarCodeRead = data => {
+    services = new QrServices();
+    let qdata = Object();
+    qdata = data.data;
+    console.log(qdata);
+    if (qdata.includes("vola")) {
+      readData = JSON.parse(qdata);
+      this.setState({
+        amount: readData.a,
+        currency: readData.c,
+        user: readData.u,
+        type: readData.t
+      });
+      this.setState({ isEditable: false });
+      if (readData.a == 0) {
+        console.log(readData.a);
+        this.prompAmount();
+      }
+      if (readData.a != 0 && readData.u) {
+        console.log(readData.a);
+        this.promptPin();
+      }
+    }
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
@@ -71,6 +149,8 @@ class Send extends Component {
         <View style={styles.container}>
           <BarCodeScanner
             onBarCodeRead={this._handleBarCodeRead}
+            torchMode={this.state.flashOn}
+            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
             style={StyleSheet.absoluteFill}
           />
           <View
@@ -140,13 +220,13 @@ class Send extends Component {
             >
               <Icon name={this.state.flashIcon} size={25} color="#fafafa" />
             </Button>
-            <Button
+            {/* <Button
               buttonStyle={styles.controlButton}
               onPress={this.promptInformation}
               icon={{ name: "info", size: 25 }}
             >
               <Icon name="info" size={25} color="#fafafa" />
-            </Button>
+            </Button> */}
             <Button
               buttonStyle={styles.controlButton}
               icon={{ name: "send", size: 25 }}
@@ -155,6 +235,7 @@ class Send extends Component {
               <Icon name="send" size={25} color="#fafafa" />
             </Button>
           </View>
+          {this.state.modal}
         </View>
       );
     }
