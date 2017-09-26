@@ -17,7 +17,6 @@ class Handler extends Component {
 
   componentDidMount() {
     services = new Services();
-    console.log("Tonga ato izy o");
     services.getData("user_id").then(user_id => {
       console.log("ato tsika zao", user_id);
       if (user_id !== null) {

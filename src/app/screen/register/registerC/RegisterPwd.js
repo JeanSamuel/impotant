@@ -38,7 +38,7 @@ class RegisterPwd extends Component {
   handleContinue() {
     let services = new Services();
     services.saveData("user_id", this.state.username).then(() => {
-      this.props.navigation.navigate("RegisterPin");
+      this.props.navigation.navigate("RegisterPin", { user_id: username });
     });
   }
   handleEndEditing() {

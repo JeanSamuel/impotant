@@ -13,6 +13,7 @@ import {
 import { Container } from "../../../components/ContainerC";
 import { Logo } from "../../../components/Logo";
 import { RoundedButton } from "../../../components/Buttons";
+import { DoubleLineButton } from "../../../components/button";
 import { Icon } from "react-native-elements";
 import { Login } from "../../login/loginC";
 
@@ -53,37 +54,18 @@ export default class Landing extends React.Component {
             contentContainerStyle={[{ flexGrow: 1 }, styleBase.centered]}
           >
             <Logo />
-            <RoundedButton
-              text="Je n'ai pas encore de compte"
-              backgroundColor="#1e88ff"
-              buttonStyle={{
-                paddingHorizontal: 20,
-                height: 45,
-                marginVertical: 15
-              }}
-              style={{
-                backgroundColor: "#1e88ff",
-                paddingHorizontal: 20,
-                marginVertical: 10,
-                height: 45
-              }}
-              onPress={() => {
-                this.props.navigation.navigate("Register");
-              }}
+            <DoubleLineButton
+              action={() => this.props.navigation.navigate("Register")}
+              firstLine="Je suis NOUVEAU"
+              secondLine="Je n'ai pas encore de compte"
+              color="rgba(22, 160, 133,1.0)"
+              navigation={this.props.navigation}
             />
-            <RoundedButton
-              text="Je possède déjà un compte"
-              backgroundColor="#1e9228"
-              buttonStyle={{ paddingHorizontal: 20, height: 45 }}
-              style={{
-                backgroundColor: "#1e9228",
-                paddingHorizontal: 20,
-                marginVertical: 10,
-                height: 45
-              }}
-              onPress={() => {
-                this.ChangeModalVisibility();
-              }}
+            <DoubleLineButton
+              action={() => this.props.navigation.navigate("Login")}
+              firstLine="J'ai déjà un compte"
+              secondLine="Je me connecte sur Ariary.net"
+              color="rgba(41, 128, 185,1.0)"
             />
           </ScrollView>
         </Image>
@@ -104,12 +86,3 @@ export default class Landing extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center"
-//   }
-// });

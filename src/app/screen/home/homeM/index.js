@@ -19,7 +19,8 @@ import { DrawerMenu } from "../../../components/drawerMenu";
 import { styleBase } from "../../../styles";
 import styles from "./homeStyles";
 import Toast from "react-native-easy-toast";
-import { Services, HomeServices } from "../../../services";
+import Services from "../../../services/services";
+import HomeServices from "../../../services/homeServices";
 import data from "../../../configs/data/dataM";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
@@ -50,7 +51,7 @@ class Home extends Component {
   static navigationOptions = {
     headerStyle: styleBase.header,
     headerTitleStyle: styleBase.headerTitle,
-    drawerLabel: "Accueil",
+    drawerLabel: "Receive",
     titleStyle: styleBase.headerTitle,
     drawerIcon: ({ tintColor }) => (
       <Icon name="home" size={25} type="simpleLineIcon" />
@@ -225,10 +226,10 @@ class Home extends Component {
 }
 
 export default new StackNavigator({
-  Home: {
+  HomeM: {
     screen: Home,
     navigationOptions: ({ navigation }) => ({
-      title: navigation.state.params.user_id,
+      title: "My wallet",
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
         <View style={{ flexDirection: "row" }}>

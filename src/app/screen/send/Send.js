@@ -8,6 +8,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Platform,
+  Alert,
   ToastAndroid
 } from "react-native";
 import { StackNavigator } from "react-navigation";
@@ -34,6 +35,7 @@ class Send extends Component {
       flashOn: "off",
       user_id: this.props.navigation.state.params.user_id,
       currency: "Ar",
+      errorMessage: null,
       modal: null,
       loading: true,
       isEditable: true
@@ -43,8 +45,14 @@ class Send extends Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
-      hasCameraPermission: status === "granted",
-      loading: false
+      hasCameraPermission: status === "granted"
+    });
+    let services = new Services();
+    services.getData("user_id").then(user_id => {
+      if (user_id === null) {
+        this.props.navigation.navigate("Handler");
+      }
+      this.setState({ loading: false });
     });
   }
 
@@ -95,7 +103,18 @@ class Send extends Component {
       });
   }
 
+  renderErrorMessage() {
+    return (
+      <View style={{ justifyContent: "center" }}>
+        <Text style={{ textAlign: "center" }}>
+          Le Pin que vous avez entrer n'est pas valide
+        </Text>
+      </View>
+    );
+  }
+
   handlePinInput = text => {
+    this.setState({ errorMessage: null });
     if (text.length === 4) {
       console.log(text);
       let services = new Services();
@@ -103,6 +122,8 @@ class Send extends Component {
         if (pin === text) {
           console.log("Ataovy le transaction");
           this.performTransaction();
+        } else {
+          this.setState({ errorMessage: this.renderErrorMessage() });
         }
       });
     }
@@ -116,6 +137,7 @@ class Send extends Component {
           user={this.state.user}
           currency={this.state.currency}
           onChangeText={this.handlePinInput}
+          errorMessage={this.state.errorMessage}
           onRequestClose={() => {
             this.removeModal();
           }}
@@ -134,6 +156,7 @@ class Send extends Component {
           onChangeText={this.handleAmountInput}
           onEndEditing={() => {
             this.removeModal();
+            this.promptPin();
           }}
         />
       )
@@ -156,8 +179,16 @@ class Send extends Component {
   promptInformation() {
     console.log("show info");
   }
+
   onContinueAction = () => {
-    console.log("continue");
+    if (this.state.amount == 0 || this.state.user === "") {
+      Alert.alert(
+        "An error happened",
+        "Vérifier les données que vous avez entrez"
+      );
+    } else {
+      this.promptPin();
+    }
   };
 
   _handleBarCodeRead = data => {

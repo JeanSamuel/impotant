@@ -72,6 +72,7 @@ class PinModal extends Component {
               returnKeyType="done"
               secureTextEntry={true}
             />
+            {this.props.errorMessage}
           </View>
         </View>
       </Modal>

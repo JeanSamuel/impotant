@@ -70,6 +70,13 @@ export default StackNavigator(
     },
     RegisterPwd: {
       screen: RegisterPwd
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null,
+        headerTitle: "Register"
+      })
     }
   },
   { initialRouteName: "Handler" }

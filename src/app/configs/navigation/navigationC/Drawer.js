@@ -10,7 +10,7 @@ import {
   Logout
 } from "../../../screen/indexScreen";
 import { Icon } from "react-native-elements";
-import { History, Settings } from "../../../screen/listScreenM";
+import { History, Settings, Home } from "../../../screen/listScreenM";
 import SideBar from "../../../components/Sidebar/SideBar";
 import DrawerContent from "../navigationM/drawerContent";
 
@@ -23,6 +23,15 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         drawerIcon: ({ tintColor }) => (
           <Icon name="ios-home-outline" size={25} type="ionicon" />
+        ),
+        header: () => null
+      })
+    },
+    Wallet: {
+      screen: Home,
+      navigationOptions: ({ navigation }) => ({
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="ios-cash-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })
@@ -58,6 +67,7 @@ export default DrawerNavigator(
         header: () => null
       })
     },
+
     Logout: {
       screen: Logout,
       navigationOptions: ({ navigation }) => ({
