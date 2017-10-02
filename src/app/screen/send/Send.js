@@ -24,7 +24,7 @@ import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
-import To from "./To";
+import To from "./to";
 // create a component
 const { height, width } = Dimensions.get("window");
 class Send extends Component {

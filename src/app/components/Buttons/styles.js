@@ -8,10 +8,7 @@ export default EStyleSheet.create({
     height: 50
   },
   text: {
-<<<<<<< HEAD
     fontFamily: "Arial",
-=======
->>>>>>> 47f74c47e7b6d8b565d5b7732edc5586dabec80a
     fontWeight: "600",
     color: "#fff",
     fontSize: 18,
