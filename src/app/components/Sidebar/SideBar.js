@@ -127,6 +127,80 @@ export default class SideBar extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     return <View />;
+=======
+    return (
+      <Container>
+        <Content
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="on-drag"
+          bounces={false}
+          style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
+        >
+          <Image source={drawerCover} style={styles.drawerCover}>
+            {/* <Image square style={styles.drawerImage} source={drawerImage} /> */}
+            <Icon
+              name="contact"
+              style={{ color: "#fff", fontSize: 100, margin: 30 }}
+              color="#fff"
+            />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                right: 0,
+                marginTop: 50,
+                marginRight: 30
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  backgroundColor: "transparent",
+                  fontSize: 30
+                }}
+              >
+                {this.props.navigation.state.params.user_id}
+              </Text>
+              <Text
+                style={{
+                  color: "#fff",
+                  backgroundColor: "transparent",
+                  fontSize: 20
+                }}
+              >
+                {Services.formatNumber(this.state.solde)} {this.state.currency}
+              </Text>
+            </View>
+          </Image>
+          <List
+            dataArray={datas}
+            renderRow={data => (
+              <ListItem
+                button
+                noBorder
+                onPress={() => this.props.navigation.navigate(data.route)}
+              >
+                <Left>
+                  <Icon
+                    active
+                    name={data.icon}
+                    style={{
+                      fontSize: 26,
+                      width: 30,
+                      color: data.bg
+                    }}
+                  />
+                  <Text style={styles.text}>{data.name}</Text>
+                </Left>
+              </ListItem>
+            )}
+          />
+        </Content>
+      </Container>
+    );
+>>>>>>> 47f74c47e7b6d8b565d5b7732edc5586dabec80a
   }
 }

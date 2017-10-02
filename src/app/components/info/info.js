@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 // create a component
-class RowTitle extends Component {
+class Info extends Component {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{this.props.title}</Text>
-        <Text style={styles.help}>{this.props.help}</Text>
+        <Text style={styles.value}>{this.props.value}</Text>
       </View>
     );
   }
@@ -17,18 +17,20 @@ class RowTitle extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 5,
-    marginTop: 15
+    justifyContent: "flex-start",
+    backgroundColor: "#2c3e50"
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "rgb(68, 72, 79)"
+    textAlign: "left",
+    color: "#95a5a6",
+    fontSize: 20
   },
-  help: {
-    color: "rgba(149, 165, 166,1.0)"
+  value: {
+    textAlign: "left",
+    color: "white",
+    fontSize: 30
   }
 });
 
 //make this component available to the app
-export default RowTitle;
+export default Info;

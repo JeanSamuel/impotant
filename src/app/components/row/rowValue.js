@@ -23,7 +23,7 @@ class RowValue extends Component {
               {this.props.iconName != null ? (
                 <Icon
                   name={this.props.iconName}
-                  size={25}
+                  size={20}
                   style={styles.iconStyle}
                 />
               ) : (
@@ -37,7 +37,7 @@ class RowValue extends Component {
             </View>
             <View style={[styles.rowRight, styleBase.centered]}>
               {this.props.noNext == null ? (
-                <Icon name="chevron-right" size={25} />
+                <Icon name="chevron-right" size={20} />
               ) : (
                 <View />
               )}
@@ -64,11 +64,11 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between"
   },
   menu: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold"
   },
   value: {
-    fontSize: 14,
+    fontSize: 15,
     color: "rgb(68, 72, 79)",
     width: "100%",
     textAlign: "left"

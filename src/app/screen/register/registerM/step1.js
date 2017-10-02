@@ -247,7 +247,7 @@ class Step1 extends Component {
         <View>
           <MyButton
             text="J'enregistre mon compte"
-            action={this.confirm.bind(this)}
+            action={this.goToStep2.bind(this)}
             color="rgba(230, 126, 34,1.0)"
             textLoading="Enregistrement..."
           />

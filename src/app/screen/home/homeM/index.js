@@ -51,7 +51,7 @@ class Home extends Component {
   static navigationOptions = {
     headerStyle: styleBase.header,
     headerTitleStyle: styleBase.headerTitle,
-    drawerLabel: "Recevoir",
+    drawerLabel: "Accueil",
     titleStyle: styleBase.headerTitle,
     drawerIcon: ({ tintColor }) => (
       <Icon name="home" size={25} type="simpleLineIcon" />
@@ -155,10 +155,7 @@ class Home extends Component {
     }
   }
 
-  copyToClipBoard() {
-    Clipboard.setString(this.generateQrCodeText());
-    this.refs.toast.show("Copié dans le presse-papier!!");
-  }
+  copyToClipBoard() {}
 
   render() {
     return (
@@ -206,14 +203,14 @@ class Home extends Component {
           {/* QR Code   */}
           <View style={styles.row}>
             <TouchableOpacity
-              activeOpacity={0.8}
+              activeOpacity={1}
               onLongPress={() => this.copyToClipBoard()}
             >
               <QRCode
                 value={this.generateQrCodeText()}
                 logo={logoFromFile}
                 size={160}
-                logoSize={40}
+                logoSize={35}
               />
             </TouchableOpacity>
             {this.state.actualText}
@@ -229,7 +226,7 @@ export default new StackNavigator({
   HomeM: {
     screen: Home,
     navigationOptions: ({ navigation }) => ({
-      title: "Recevoir",
+      title: navigation.state.params.user_id,
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
         <View style={{ flexDirection: "row" }}>

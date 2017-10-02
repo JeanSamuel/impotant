@@ -16,6 +16,7 @@ import { styleBase } from "../../styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu";
 import { Icon } from "react-native-elements";
+import { IconBadge } from "../../components/icon";
 
 // create a component
 class Settings extends Component {
@@ -53,7 +54,10 @@ class Settings extends Component {
     services
       .getData("user_id")
       .then(response => {
-        this.createData(response);
+        if (response != null) {
+          this.setState({ user_id: response });
+          this.createData(response);
+        }
       })
       .catch(error => {
         console.log("error", error);
@@ -126,6 +130,7 @@ const StackSettings = new StackNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
+      headerRight: <IconBadge navigation={navigation} />,
       title: "Paramètres",
       drawerIcon: ({ tintColor }) => (
         <Icon name="ios-settings-outline" size={25} type="ionicon" />

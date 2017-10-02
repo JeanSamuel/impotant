@@ -19,6 +19,7 @@ import HeaderHistory from "./header";
 import Error from "./errorHistory";
 import { DrawerMenu } from "../../../components/drawerMenu";
 import SearchBar from "react-native-searchbar";
+import { Notifications } from "expo";
 
 // create a component
 const self = null;
@@ -59,6 +60,20 @@ class History extends Component {
         />
       </TouchableOpacity>
     )
+  };
+
+  componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
+  }
+
+  componentWillUnmount() {
+    this._notificationSubscription.remove();
+  }
+
+  _handleNotification = notification => {
+    this._onRefresh();
   };
 
   showSearchBar() {

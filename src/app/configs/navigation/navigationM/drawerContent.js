@@ -11,7 +11,7 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import { styleBase } from "../../../styles";
 import { Icon } from "react-native-elements";
-import Services  from "../../../services/services";
+import Services from "../../../services/services";
 import * as Animatable from "react-native-animatable";
 import { Notifications } from "expo";
 

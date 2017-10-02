@@ -28,7 +28,7 @@ class UserInfo extends Component {
         />
         <Separator />
         <RowValue
-          menu="Nom"
+          menu="Nom et Prénoms"
           value="non défini"
           action={() => console.log("zertyu")}
         />

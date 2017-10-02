@@ -31,18 +31,6 @@ class Register extends Component {
               </View>
             </TouchableOpacity>
             <RoundedButton
-              /* text="Accepter et Continuer"
-              backgroundColor="#1e9228"
-              buttonStyle={{ height: 40, marginVertical: 15 }}
-              style={{
-                marginHorizontal: 15,
-                marginBottom: 15,
-                backgroundColor: "#1e9228"
-              }}
-              onPress={() => {
-                console.log("Mandeha register NAme");
-                this.props.navigation.navigate("RegisterName");
-              }} */
               text="Accepter et Continuer"
               buttonStyle={{ height: 40 }}
               color="#1e9228"

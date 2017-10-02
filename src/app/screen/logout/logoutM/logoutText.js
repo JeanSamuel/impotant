@@ -24,7 +24,7 @@ class LogoutText extends Component {
   render() {
     return (
       <View>
-        <View contentContainerStyle={[styleBase.centered]}>
+        <ScrollView contentContainerStyle={[styleBase.centered]}>
           <View style={styles.title}>
             <Text style={styles.titleText}>Déconnexion</Text>
           </View>
@@ -33,7 +33,7 @@ class LogoutText extends Component {
               Voulez vous vraiment vous déconnecter de ce mobile?
             </Text>
           </View>
-        </View>
+        </ScrollView>
         <View style={[{ flexDirection: "row" }, styleBase.centered]}>
           <TouchableOpacity
             onPress={() => this.cancel()}

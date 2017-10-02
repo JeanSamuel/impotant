@@ -54,7 +54,6 @@ class RegisterName extends Component {
       errorMessage = "Doit comporter au moins 4 caractères";
     }
   }
-
   render() {
     const inputStyle = [
       {

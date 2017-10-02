@@ -29,11 +29,12 @@ class HeaderHistory extends Component {
         let today = "Aujourd'hui";
         if (moment().isSame(section, "d")) {
           response = (
-            <View style={styles.sectionHeaderNow}>
+            <View style={[styles.sectionHeaderNow]}>
               <Text
                 style={[
                   styles.sectionHeaderTitle,
-                  styles.sectionHeaderTitleNow
+                  styles.sectionHeaderTitleNow,
+                  { borderBottomColor: "black", borderBottomWidth: 0.5 }
                 ]}
               >
                 {today}
@@ -68,7 +69,7 @@ const styles = EStyleSheet.create({
   sectionHeaderTitle: {
     textAlign: "left",
     fontSize: 15,
-    paddingLeft: 20
+    marginHorizontal: "4%"
   },
   sectionHeader: {
     paddingTop: 10,

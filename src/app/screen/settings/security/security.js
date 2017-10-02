@@ -2,12 +2,19 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RowValue, RowTitle } from "../../../components/row";
+import { Constants } from "expo";
 
 // create a component
 const self = null;
 class Security extends Component {
   goBack() {
     this.props.navigation.navigate("Settings");
+  }
+
+  componentDidMount() {
+    console.log("====================================");
+    console.log("deveice info", Expo.Constants);
+    console.log("====================================");
   }
 
   render() {

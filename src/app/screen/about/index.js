@@ -5,37 +5,47 @@ import { styleBase } from "../../styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import { Icon } from "react-native-elements";
+import { Info } from "../../components/info";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { IconBadge } from "../../components/icon";
 
 // create a component
 class About extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            elevation: 1000,
-            backgroundColor: "red",
-            height: 150,
-            position: "absolute",
-            top: -20,
-            left: 0
-          }}
-        >
-          <Text style={{ fontSize: 40 }}>Toavina</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>AriaryPro</Text>
+          <Text style={styles.titlePlus}>
+            L'application Ariary.net spécialisée pour les sociétés et les
+            marchands
+          </Text>
         </View>
-        <Text>MyClass</Text>
+        <View style={styles.bodyContainer}>
+          <Info title="Version" value="1.0.0.2" />
+        </View>
       </View>
     );
   }
 }
 
 // define your styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#2c3e50",
+    paddingHorizontal: "5%"
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "100",
+    color: "white"
+  },
+  titlePlus: {
+    color: "white"
+  },
+  titleContainer: {
+    marginVertical: 20
   }
 });
 
@@ -55,7 +65,8 @@ const StackSettings = new StackNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
-      title: "About",
+      headerRight: <IconBadge navigation={navigation} />,
+      title: "A propos",
       drawerIcon: ({ tintColor }) => (
         <Icon name="ios-information-circle-outline" size={25} type="ionicon" />
       ),
