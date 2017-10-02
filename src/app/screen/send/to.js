@@ -15,7 +15,6 @@ import { NavigationActions } from "react-navigation";
 import headStyle from "../../styles/stylesC/headerStyle";
 import UserServices from "../../services/userServices";
 import Services from "../../services/services";
-import Row from "./Row";
 import timer from "react-native-timer";
 // create a component
 
