@@ -1,8 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
-=======
-import { Root } from "native-base";
->>>>>>> 47f74c47e7b6d8b565d5b7732edc5586dabec80a
 import {
   StatusBar,
   ActivityIndicator,
@@ -62,12 +58,7 @@ export default class Apk extends React.Component {
   }
   async componentDidMount() {
     await Expo.Font.loadAsync({
-<<<<<<< HEAD
       Arial: require("./app/font/arial.ttf")
-=======
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
->>>>>>> 47f74c47e7b6d8b565d5b7732edc5586dabec80a
     });
     this.setState({ fontLoaded: true });
   }
