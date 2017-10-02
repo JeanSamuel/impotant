@@ -90,7 +90,10 @@ export default StackNavigator(
       screen: Assistant
     },
     Assistant_Step1: {
-      screen: Assistant_Step1
+      screen: Assistant_Step1,
+      navigationOptions: {
+        header: null
+      }
     },
     Assistant_Step2: {
       screen: Assistant_Step2

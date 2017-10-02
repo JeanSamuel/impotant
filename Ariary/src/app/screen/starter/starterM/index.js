@@ -5,7 +5,9 @@ import {
   Text,
   View,
   Image,
-  ScrollView
+  ScrollView,
+  BackHandler,
+  Alert
 } from "react-native";
 import styles from "./starterStyles";
 import styleBase from "../../../styles/styles";
@@ -13,12 +15,42 @@ import StarterButton from "./starterButton";
 import moment from "moment";
 
 const background = require("../../../images/back3.jpg");
-const mark = require("../../../images/icons/logo-pro.png");
+const mark = require("../../../images/icons/logo.png");
 
 const actualDate = moment().get("year");
 
 // create a component
 class Starter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      number: 0
+    };
+    this._checkBackAndroid = this._checkBackAndroid.bind(this);
+  }
+
+  componentWillMount() {
+    let navigation = this.props.navigation;
+    BackHandler.addEventListener("hardwareBackPress", this._checkBackAndroid);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this._checkBackAndroid
+    );
+  }
+
+  _checkBackAndroid() {
+    let routName = this.props.navigation.state.routeName;
+    if (routName == "Starter" || routName == "First") {
+      return true;
+    } else {
+      // this.props.navigation.goBack();
+      return false;
+    }
+  }
+
   render() {
     return (
       <View>
@@ -34,7 +66,7 @@ class Starter extends Component {
               <Image source={mark} style={styles.mark} resizeMode="contain" />
               <View style={styles.logoTextContainer}>
                 <Text style={[styleBase.textWhiteCentered, styles.logoText]}>
-                  Ariary.net
+                  Ariary.net Marchand
                 </Text>
               </View>
             </View>

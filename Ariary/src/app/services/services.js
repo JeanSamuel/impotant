@@ -22,10 +22,13 @@ import { RegisterServices } from "./";
 import config from "../configs/data/config";
 // create a component
 class Services extends Component {
-
-  static _shareMessage(value) {
+  static _shareMessage(valueBrute) {
+    let value = JSON.parse(valueBrute);
+    let message = "ariary://" + value.u + ":" + value.a + value.c;
     Share.share({
-      message: value
+      title: "Information de transaction",
+      message: message,
+      url: "www.facebook.com"
     }).then(this._showResult);
   }
 
@@ -162,9 +165,6 @@ class Services extends Component {
          * get token using Oauth code stored into AsynStorage
          */
   async getToken(oauthCode) {
-    console.log("====================================");
-    console.log("Base_url", configs.BASE_URL_Oauth);
-    console.log("====================================");
     var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);

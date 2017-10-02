@@ -155,8 +155,8 @@ class Home extends Component {
   }
 
   copyToClipBoard() {
-    Clipboard.setString(this.generateQrCodeText());
-    this.refs.toast.show("Copié dans le presse-papier!!");
+    // Clipboard.setString(this.generateQrCodeText());
+    // this.refs.toast.show("Copié dans le presse-papier!!");
   }
 
   render() {
@@ -205,14 +205,14 @@ class Home extends Component {
           {/* QR Code   */}
           <View style={styles.row}>
             <TouchableOpacity
-              activeOpacity={0.8}
+              activeOpacity={1}
               onLongPress={() => this.copyToClipBoard()}
             >
               <QRCode
                 value={this.generateQrCodeText()}
                 logo={logoFromFile}
                 size={160}
-                logoSize={40}
+                logoSize={35}
               />
             </TouchableOpacity>
             {this.state.actualText}

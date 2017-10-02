@@ -23,7 +23,7 @@ class RowValue extends Component {
               {this.props.iconName != null ? (
                 <Icon
                   name={this.props.iconName}
-                  size={25}
+                  size={20}
                   style={styles.iconStyle}
                 />
               ) : (
@@ -37,7 +37,7 @@ class RowValue extends Component {
             </View>
             <View style={[styles.rowRight, styleBase.centered]}>
               {this.props.noNext == null ? (
-                <Icon name="chevron-right" size={25} />
+                <Icon name="chevron-right" size={20} />
               ) : (
                 <View />
               )}

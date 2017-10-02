@@ -40,7 +40,7 @@ export default {
   },
   headerTitle: {
     color: "#ecf0f1",
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "100"
   },
   header: {
