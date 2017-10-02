@@ -51,7 +51,7 @@ class Home extends Component {
   static navigationOptions = {
     headerStyle: styleBase.header,
     headerTitleStyle: styleBase.headerTitle,
-    drawerLabel: "Receive",
+    drawerLabel: "Recevoir",
     titleStyle: styleBase.headerTitle,
     drawerIcon: ({ tintColor }) => (
       <Icon name="home" size={25} type="simpleLineIcon" />
@@ -229,7 +229,7 @@ export default new StackNavigator({
   HomeM: {
     screen: Home,
     navigationOptions: ({ navigation }) => ({
-      title: "My wallet",
+      title: "Recevoir",
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
         <View style={{ flexDirection: "row" }}>

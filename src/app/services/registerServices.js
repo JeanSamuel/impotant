@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import NotifServices from "./notificationServices";
-import { Services } from "./";
+import Services from "./services";
 import configs from "../configs/data/dataM";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;

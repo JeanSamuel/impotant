@@ -227,13 +227,10 @@ class Adresses extends Component {
           ) : null}
           <RoundedButton
             text="Importer une nouvelle adresse"
-            textStyle={{ fontSize: 14, fontWeight: "300" }}
             buttonStyle={{ height: 40 }}
-            backgroundColor="#2980b9"
-            iconRight={{ name: "add" }}
+            color="#2980b9"
+            icon="add"
             buttonStyle={{
-              paddingHorizontal: 20,
-              height: 45,
               marginVertical: 15
             }}
             onPress={() => {

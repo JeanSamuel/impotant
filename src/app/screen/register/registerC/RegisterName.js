@@ -141,11 +141,14 @@ class RegisterName extends Component {
           <View style={[styles.containerWidth, { alignSelf: "center" }]}>
             <RoundedButton
               text=" Enregistrer et continuer"
-              backgroundColor="#1e9228"
               onPress={() => {
                 this.handleContinue();
               }}
               disabled={this.state.hasError}
+              color="#1e9228"
+              buttonStyle={{
+                marginVertical: 15
+              }}
             />
           </View>
         </Footer>

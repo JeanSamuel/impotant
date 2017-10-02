@@ -21,30 +21,38 @@ export default DrawerNavigator(
     Home: {
       screen: Send,
       navigationOptions: ({ navigation }) => ({
+        title: "Envoyer",
         drawerIcon: ({ tintColor }) => (
           <Icon name="ios-home-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })
     },
+    History: {
+      screen: History,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
     Wallet: {
       screen: Home,
       navigationOptions: ({ navigation }) => ({
+        title: "Recevoir",
         drawerIcon: ({ tintColor }) => (
           <Icon name="ios-cash-outline" size={25} type="ionicon" />
         ),
         header: () => null
       })
     },
-    Adresses: {
-      screen: Adresses,
-      navigationOptions: ({ navigation }) => ({
-        drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-book-outline" size={25} type="ionicon" />
-        ),
-        header: () => null
-      })
-    },
+    // Adresses: {
+    //   screen: Adresses,
+    //   navigationOptions: ({ navigation }) => ({
+    //     drawerIcon: ({ tintColor }) => (
+    //       <Icon name="ios-book-outline" size={25} type="ionicon" />
+    //     ),
+    //     header: () => null
+    //   })
+    // },
     Options: {
       screen: Settings,
       navigationOptions: ({ navigation }) => ({
@@ -54,23 +62,25 @@ export default DrawerNavigator(
         header: () => null
       })
     },
-    About: {
-      screen: AppStarter,
-      navigationOptions: ({ navigation }) => ({
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="ios-information-circle-outline"
-            size={25}
-            type="ionicon"
-          />
-        ),
-        header: () => null
-      })
-    },
+    // About: {
+    //   screen: AppStarter,
+    //   navigationOptions: ({ navigation }) => ({
+    //     title: "A propos",
+    //     drawerIcon: ({ tintColor }) => (
+    //       <Icon
+    //         name="ios-information-circle-outline"
+    //         size={25}
+    //         type="ionicon"
+    //       />
+    //     ),
+    //     header: () => null
+    //   })
+    // },
 
     Logout: {
       screen: Logout,
       navigationOptions: ({ navigation }) => ({
+        title: "Déconnexion",
         drawerIcon: ({ tintColor }) => (
           <Icon name="ios-exit-outline" size={25} type="ionicon" />
         ),

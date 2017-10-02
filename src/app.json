@@ -2,6 +2,7 @@
   "expo": {
     "name": "Ariary.net Beta",
     "sdkVersion": "20.0.0",
+    "slug": "ariarynet-beta",
     "orientation": "portrait"
   }
 }

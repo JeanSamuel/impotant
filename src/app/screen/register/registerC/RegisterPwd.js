@@ -13,8 +13,10 @@ import { Container } from "../../../components/ContainerC";
 import { RoundedButton } from "../../../components/Buttons";
 import { Icon } from "react-native-elements";
 import { Footer } from "../../../components/Footer";
-import styles from "../../../styles/stylesC/registerStyles";
 import Services from "../../../services/services";
+import RegisterServices from "../../../services/registerServices";
+import { Loader } from "../../../components/loader";
+import styles from "../../../styles/stylesC/registerStyles";
 
 // create a component
 const { width } = Dimensions.get("window");
@@ -26,6 +28,7 @@ class RegisterPwd extends Component {
       password: "",
       hasError: false,
       username: this.props.navigation.state.params.username,
+      modal: null,
       hidePwd: true
     };
   }
@@ -34,12 +37,43 @@ class RegisterPwd extends Component {
     this.setState({ hidePwd: !this.state.hidePwd });
   }
 
+  createLoader(message) {
+    this.setState({
+      modal: <Loader visibility={true} message={message} />
+    });
+  }
+
+  removeLoader() {
+    this.setState({ modal: null });
+  }
+
   registerNewAccount() {}
   handleContinue() {
-    let services = new Services();
-    services.saveData("user_id", this.state.username).then(() => {
-      this.props.navigation.navigate("RegisterPin", { user_id: username });
-    });
+    if (this.state.password.length === 0) {
+      this.setState({ hasError: true });
+      errorMessage = "Ne laisser pas le champ vide";
+    } else if (this.state.password.length < 4) {
+      this.setState({ hasError: true });
+      errorMessage = "Doit comporter au moins 4 caractères";
+    } else {
+      console.log("continue");
+      this.createLoader("Enregistrement en cours");
+      let regServices = new RegisterServices();
+      regServices
+        .saveAccount(this.state.username)
+        .then(response => {
+          console.log(response);
+          this.removeLoader();
+          this.props.navigation.navigate("RegisterPin", {
+            user_id: this.state.username
+          });
+        })
+        .catch(error => {
+          console.log(error, "Ato tsika zao");
+          this.removeLoader();
+          this.setState({ errorMessage: error.message });
+        });
+    }
   }
   handleEndEditing() {
     if (this.state.password.length === 0) {
@@ -65,6 +99,7 @@ class RegisterPwd extends Component {
     }
     return (
       <View style={[styles.container, { backgroundColor: "#fff" }]}>
+        <View>{this.state.modal}</View>
         <KeyboardAvoidingView behavior="padding">
           <View>
             <View style={{ flex: 0.7 }} />
@@ -137,12 +172,15 @@ class RegisterPwd extends Component {
         <Footer>
           <View style={[styles.containerWidth, { alignSelf: "center" }]}>
             <RoundedButton
-              style={{ paddingHorizontal: 20 }}
-              text="Continuer"
-              backgroundColor="#1e9228"
               onPress={() => {
                 this.handleContinue();
               }}
+              disabled={this.state.hasError}
+              color="#1e9228"
+              buttonStyle={{
+                marginVertical: 15
+              }}
+              text="Continuer"
             />
           </View>
         </Footer>

@@ -1,9 +1,11 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Notifications } from "expo";
 import Landing from "./Landing";
 import { Pin } from "../../login/loginC";
 import Services from "../../../services/services";
+import DropdownAlert from "react-native-dropdownalert";
 
 // create a component
 class Handler extends Component {
@@ -26,6 +28,7 @@ class Handler extends Component {
       }
     });
   }
+
   render() {
     return (
       <View style={{ flex: 1 }}>

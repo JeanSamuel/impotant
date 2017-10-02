@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Modal,
   TextInput,
+  TouchableOpacity,
   Dimensions
 } from "react-native";
 import { LogoMini } from "../Logo";
@@ -15,67 +16,58 @@ const { height, width } = Dimensions.get("window");
 class PinModal extends Component {
   render() {
     return (
-      <Modal
-        visible={true}
-        onRequestClose={this.props.onRequestClose}
-        animationType="slide"
-      >
-        <View style={{ flex: 1 }}>
-          <View style={{ flex: 0.2 }} />
-          <View>
-            <LogoMini />
+      <View style={styles.container}>
+        <Modal
+          visible={true}
+          onRequestClose={this.props.onRequestClose}
+          animationType="slide"
+          transparent={true}
+          onShow={() => {
+            this.textInput.focus();
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.webViewContainer}>
+              <Text style={[styles.text, regStyles.textWidth]}>
+                Vous allez envoyer {this.props.amount} {this.props.currency}
+              </Text>
+              <Text style={[styles.text, regStyles.textWidth]}>
+                à {this.props.user}
+              </Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  onChangeText={this.props.onChangeText}
+                  ref={input => {
+                    this.textInput = input;
+                  }}
+                  underlineColorAndroid="transparent"
+                  style={[
+                    {
+                      fontSize: 16,
+                      textAlign: "center",
+                      paddingHorizontal: 5
+                    }
+                  ]}
+                  placeholder="Entrer votre code PIN"
+                  autofocus={true}
+                  maxLength={4}
+                  value={this.props.value}
+                  //value={this.state.pin}
+                  keyboardType="numeric"
+                  returnKeyType="done"
+                  secureTextEntry={true}
+                />
+                {this.props.errorMessage}
+              </View>
+              <View style={styles.bottom}>
+                <TouchableOpacity onPress={this.props.onRequestClose}>
+                  <Text style={styles.bottomText}>Annuler</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-          <View style={{ flex: 0.3 }} />
-          <Text
-            style={[
-              styles.text,
-              regStyles.textWidth,
-              {
-                textAlign: "center",
-                alignSelf: "center",
-                fontSize: 20,
-                color: "#aaa"
-              }
-            ]}
-          >
-            Entrer votre PIN pour confirmer le transfert de {this.props.amount}{" "}
-            {this.props.currency} à {this.props.user}
-          </Text>
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: "#aaa",
-              borderRadius: 40,
-              height: 50,
-              width: width - 50,
-              paddingVertical: 10,
-              alignSelf: "center",
-              marginTop: 20
-            }}
-          >
-            <TextInput
-              onChangeText={this.props.onChangeText}
-              underlineColorAndroid="transparent"
-              style={[
-                {
-                  fontSize: 20,
-                  textAlign: "center",
-                  paddingHorizontal: 5
-                }
-              ]}
-              placeholder="Enter your PIN here"
-              autofocus={true}
-              maxLength={4}
-              value={this.props.value}
-              //value={this.state.pin}
-              keyboardType="numeric"
-              returnKeyType="done"
-              secureTextEntry={true}
-            />
-            {this.props.errorMessage}
-          </View>
-        </View>
-      </Modal>
+        </Modal>
+      </View>
     );
   }
 }
@@ -86,7 +78,54 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#FFF"
+  },
+  modalContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(52, 73, 94,0.9)"
+  },
+  webViewContainer: {
+    width: width - 50,
+    height: 200,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    paddingTop: 10,
+    backgroundColor: "#FFF"
+  },
+  text: {
+    textAlign: "center",
+    alignSelf: "center",
+    fontSize: 20,
+    color: "#000"
+  },
+  bottom: {
+    position: "absolute",
+    bottom: 0,
+    width: width - 50,
+    height: 50,
+    borderTopWidth: 1,
+    borderTopColor: "#e2e2e2",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    padding: 10
+  },
+  bottomText: {
+    fontSize: 18,
+    color: "#409bff"
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: "#e2e2e2",
+    /*borderRadius: 40,*/
+    height: 40,
+    width: width - 100,
+    paddingVertical: 10,
+    alignSelf: "center",
+    marginTop: 20
   }
 });
 

@@ -8,7 +8,9 @@ import {
   Dimensions,
   ActivityIndicator,
   Platform,
+  Modal,
   Alert,
+  Keyboard,
   ToastAndroid
 } from "react-native";
 import { StackNavigator } from "react-navigation";
@@ -16,6 +18,7 @@ import { Icon, Button } from "react-native-elements";
 import Toast, { DURATION } from "react-native-easy-toast";
 import History from "../history/historyM";
 import headStyle from "../../styles/stylesC/headerStyle";
+import regStyles from "../../styles/stylesC/registerStyles";
 import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
@@ -38,11 +41,13 @@ class Send extends Component {
       errorMessage: null,
       modal: null,
       loading: true,
+      solde: 0,
       isEditable: true
     };
   }
 
   async componentWillMount() {
+    Keyboard.dismiss();
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === "granted"
@@ -81,13 +86,17 @@ class Send extends Component {
     this.setState({ amount: Services.formatNumber(text) });
   };
 
+  reformatNumber(number) {
+    return number.replace(/[ ,]/g, "");
+  }
+
   performTransaction() {
     this.setState({ loading: true });
     this.removeModal();
     let services = new QrServices();
     services
       .performTransation(
-        this.state.amount,
+        this.reformatNumber(this.state.amount),
         this.state.user_id,
         this.state.currency,
         this.state.user,
@@ -95,11 +104,23 @@ class Send extends Component {
       )
       .then(rep => {
         console.log(JSON.stringify(rep));
-        Platform.OS == "android"
-          ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
-          : this.refs.toast.show("Transaction success", 1000);
-        this.setState({ loading: false });
-        this.initState();
+        let fservices = new Services();
+        fservices
+          .checkSolde(this.state.user_id)
+          .then(response => {
+            this.setState({
+              solde: response.value,
+              loading: false
+            });
+            Platform.OS == "android"
+              ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
+              : this.refs.toast.show("Transaction success", 1000);
+            // this.promptConfirmationModal();
+            this.initState();
+          })
+          .catch(error => {
+            console.log("error");
+          });
       });
   }
 
@@ -191,6 +212,38 @@ class Send extends Component {
     }
   };
 
+  promptConfirmationModal() {
+    this.setState({
+      modal: (
+        <Modal
+          visible={true}
+          transparent={true}
+          onRequestClose={() => {
+            this.removeModal();
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.webViewContainer}>
+              <Text style={[styles.text, regStyles.textWidth]}>
+                Vous avez transferer {this.state.amount} {this.state.currency} à{" "}
+                {this.state.user}. Votre soldes disponible est de{" "}
+                {Services.formatNumber(this.state.solde)} {this.state.currency}.
+              </Text>
+              <View style={styles.bottom}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.removeModal();
+                  }}
+                >
+                  <Text style={styles.bottomText}>Fermer</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )
+    });
+  }
   _handleBarCodeRead = data => {
     services = new QrServices();
     let qdata = Object();
@@ -248,15 +301,15 @@ class Send extends Component {
                   iconName="expand-more"
                   onPress={() => {
                     console.log("Expand");
-                    this.props.navigation.navigate("To", {
+                    /* this.props.navigation.navigate("To", {
                       onGoBack: data => {
                         console.log(data);
                         this.setState({ user: data });
                       },
                       user_id: this.state.user_id
-                    });
+                    }); */
                   }}
-                  placeholder="Username"
+                  placeholder="Envoyer à: Tel , Adresse ..."
                   onChangeText={user => this.setState({ user })}
                   value={this.state.user}
                   returnKeyType="none"
@@ -264,8 +317,8 @@ class Send extends Component {
                 />
                 <InputLeftButton
                   buttonText={this.state.currency}
-                  value={"" + this.state.amount}
-                  placeholder="Amount"
+                  value={"" + Services.formatNumber(this.state.amount)}
+                  placeholder="Montant"
                   keyboardType="numeric"
                   returnKeyType="done"
                   editable={this.state.isEditable}
@@ -341,15 +394,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center"
   },
-  modalContainer: {
-    alignContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-    backgroundColor: "#FAFAFA",
-    height: height / 2,
-    width: width - 20
-  },
+  // modalContainer: {
+  //   alignContent: "center",
+  //   alignItems: "center",
+  //   alignSelf: "center",
+  //   justifyContent: "center",
+  //   backgroundColor: "#FAFAFA",
+  //   height: height / 2,
+  //   width: width - 20
+  // },
   simpleInput: {
     flex: 1,
     textAlign: "center",
@@ -369,6 +422,54 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     justifyContent: "center"
+  },
+  modalContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(52, 73, 94,0.9)"
+  },
+  webViewContainer: {
+    width: width - 50,
+    height: 200,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    paddingTop: 50,
+    backgroundColor: "#FFF"
+  },
+  text: {
+    // textAlign: "center",
+    alignSelf: "center",
+    fontSize: 18,
+    marginHorizontal: 5,
+    color: "#000"
+  },
+  bottom: {
+    position: "absolute",
+    bottom: 0,
+    width: width - 50,
+    height: 50,
+    borderTopWidth: 1,
+    borderTopColor: "#e2e2e2",
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    padding: 10
+  },
+  bottomText: {
+    fontSize: 18,
+    color: "#409bff"
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: "#e2e2e2",
+    /*borderRadius: 40,*/
+    height: 40,
+    width: width - 100,
+    paddingVertical: 10,
+    alignSelf: "center",
+    marginTop: 20
   }
 });
 
@@ -379,7 +480,7 @@ const NestedSendStack = StackNavigator({
       drawerIcon: ({ tintColor }) => (
         <Icon name="ios-home-outline" size={25} type="ionicon" />
       ),
-      title: "Home",
+      title: "Envoyer",
       headerStyle: headStyle.headerBackground,
       headerTitleStyle: headStyle.headerText,
       headerTintColor: { color: "#fff" },
@@ -416,12 +517,12 @@ const NestedSendStack = StackNavigator({
   },
   To: {
     screen: To
-  },
-  History: {
-    screen: History,
-    navigationOptions: ({ navigation }) => ({
-      header: () => null
-    })
   }
+  // History: {
+  //   screen: History,
+  //   navigationOptions: ({ navigation }) => ({
+  //     header: () => null
+  //   })
+  // }
 });
 export default NestedSendStack;
