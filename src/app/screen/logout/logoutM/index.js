@@ -9,7 +9,8 @@ import {
   Dimensions
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { Services, NotificationServices } from "../../../services";
+import { NotificationServices } from "../../../services";
+import Services from "../../../services/services";
 import { styleBase } from "../../../styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../../components/drawerMenu";
