@@ -1,5 +1,9 @@
 cd ../../switch
-./switchToMarchand.sh && npm install -g exp
-exp login -u toavina -p poiuytre123456
+./switchToMarchand.sh
+exp login -u nivo_dev -p poiuytre123456
 
+exp publish
 exp build:android
+
+
+exit -1             
