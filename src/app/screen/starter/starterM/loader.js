@@ -7,7 +7,8 @@ import {
   AsyncStorage,
   ActivityIndicator
 } from "react-native";
-import { Services, NotificationServices } from "../../../services";
+import { NotificationServices } from "../../../services";
+import  Services  from "../../../services/services";
 
 // create a component
 class Loader extends Component {

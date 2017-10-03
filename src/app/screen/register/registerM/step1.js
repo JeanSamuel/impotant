@@ -14,7 +14,8 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import styles from "./registerStyles";
 import { styleBase } from "../../../styles";
-import { Services, RegisterServices } from "../../../services";
+import { RegisterServices } from "../../../services";
+import Services from "../../../services/services";
 import { Icon, Button } from "react-native-elements";
 import { Loader } from "../../../components/loader";
 import data from "../../../configs/data/dataM";

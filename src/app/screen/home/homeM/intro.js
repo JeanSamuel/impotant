@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Keyboard, Image } from "react-native";
 import AppIntro from "react-native-app-intro";
 import data from "../../../configs/data/dataM";
-import { Services } from "../../../services";
+import  Services  from "../../../services/services";
 import { styleBase } from "../../../styles";
 
 // create a component
