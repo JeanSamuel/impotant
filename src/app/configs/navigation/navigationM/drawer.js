@@ -3,16 +3,13 @@ import React, { Component } from "react";
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import { DrawerNavigator, DrawerItems } from "react-navigation";
 import DrawerContent from "./drawerContent";
-// import About from "../../../screen/about";
-// import Home from "../../../screen/home/homeM";
+import { Icon } from "react-native-elements";
 import {
   Home,
   History,
-  Settings,
-  Logout,
+  Logout, 
   About
 } from "../../../screen/listScreenM";
-// import About from "../../../screen/about";
 
 // DrawerNavigator path
 
@@ -24,18 +21,20 @@ const drawerRoutes = {
   Third: {
     path: "/sent",
     screen: History
-  },
-  Fifth: {
-    path: "/sent1",
-    screen: Settings
-  },
+  },  
   Fourth: {
     path: "/",
-    screen: About
+    screen: About 
   },
   Sixth: {
     path: "/sent2",
-    screen: Logout
+    screen: Logout, 
+    navigationOptions : {
+      title: "Fin de la synchronisation", 
+      drawerIcon: ({ tintColor }) => (
+        <Icon name="close" size={25} type="evilicon" />
+      )
+    }
   }
 };
 

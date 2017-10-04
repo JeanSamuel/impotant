@@ -18,18 +18,24 @@ class StarterButton extends Component {
   render() {
     return (
       <View>
-        <DoubleLineButton
+        {/* <DoubleLineButton
           action={() => this.createNewUser()}
           firstLine="Je suis NOUVEAU"
           secondLine="Je n'ai pas encore de compte"
           color="rgba(22, 160, 133,1.0)"
           navigation={this.props.navigation}
-        />
-        <DoubleLineButton
+        /> */}
+        {/* <DoubleLineButton
           action={() => this.goToLogin(uri)}
           firstLine="J'ai déjà un compte"
           secondLine="Je me connecte sur Ariary.net"
           color="rgba(41, 128, 185,1.0)"
+        /> */}
+        <DoubleLineButton
+          action={() => this.goToLogin(uri)}
+          firstLine="Synchronisation"
+          secondLine="avec une application Ariary.net"
+          color="rgba(22, 160, 133,1.0)"
         />
       </View>
     );

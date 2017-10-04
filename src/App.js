@@ -5,6 +5,7 @@ import MainStack from "./app/configs/navigation/navigationM/mainStack";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { Font } from "expo";
+// import Test from './App.test'
 
 EStyleSheet.build({ outline: 0 });
 // create a component
@@ -32,7 +33,7 @@ const errorHandler = (e, isFatal) => {
   }
 };
 
-setJSExceptionHandler(errorHandler);
+setJSExceptionHandler(errorHandler, true);
 
 class Index extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class Index extends Component {
       isLoaded: false
     };
   }
+
   async componentDidMount() {
     await Font.loadAsync({
       Arial: require("./app/font/arial.ttf")

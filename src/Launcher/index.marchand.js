@@ -32,7 +32,7 @@ const errorHandler = (e, isFatal) => {
   }
 };
 
-setJSExceptionHandler(errorHandler);
+setJSExceptionHandler(errorHandler, true);
 
 class Index extends Component {
   constructor(props) {

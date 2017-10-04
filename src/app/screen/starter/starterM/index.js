@@ -68,17 +68,18 @@ class Starter extends Component {
                 <Text style={[styleBase.textWhiteCentered, styles.logoText]}>
                   Ariary.net Marchand
                 </Text>
-              </View>
+              </View> 
             </View>
-            <View style={styleBase.centered}>
+            
+          </ScrollView>
+          <View style={styleBase.centered}>
               <StarterButton navigation={this.props.navigation} />
             </View>
-          </ScrollView>
-          <View style={styles.copyright}>
+          {/* <View style={styles.copyright}>
             <Text style={styles.copyrightText}>
               Ariary.net copyright © {actualDate}
             </Text>
-          </View>
+          </View> */}
         </Image>
       </View>
     );

@@ -67,9 +67,10 @@ export default {
   uri:
     "http://auth.vola.mg/oauth2/authorize?response_type=code&state=xyz&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo",
   message: [
-    "Prenez en photo avec l'application ClientAriary pour recevoir de l'argent",
-    "Ariary.net, la solution simple, rapide, efficace et sécurisée",
-    "Si votre compte n'est pas configuré, votre solde sera limité à  5000ar",
-    "Partager votre identifiant à vos proches via d'autres applications"
+    "Prenez en photo avec l'application AriaryClient pour recevoir de l'argent",
+    "Ariary.net, la solution de paiement simple, rapide, efficace et sécurisée",
+    "L'argent reçu sera versé directement vers le compte principal",
+    "Partager votre identifiant à vos proches via d'autres applications",
+    "Consulter directement votre historique directement via le bouton en haut",
   ]
 };

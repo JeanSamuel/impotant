@@ -28,12 +28,13 @@ export default {
   // Boutton arrondi avec 2 lignes
 
   bouttonBase: {
-    width: 250,
+    width: width - 50,
     height: 60,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
-    borderRadius: 50
+    marginBottom: 20,
+    borderRadius: 70,
+    paddingBottom : 5
   },
   buttonMainText: {
     fontSize: 25

@@ -94,7 +94,7 @@ export default Launcher;
 
 const MainStack = new StackNavigator(
   {
-    Loader: {
+    Handler: {
       screen: Loader
     },
     Starter: {
@@ -111,7 +111,7 @@ const MainStack = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Loader",
+    initialRouteName: "Handler",
     navigationOptions: {
       header: null
     }
