@@ -73,7 +73,7 @@ class Send extends Component {
 
   handleDoneEditing = () => {
     if (this.state.amount > 0 && this.state.user.length != 0) {
-      console.log("End Entering amount", this.state.user);
+      // console.log("End Entering amount", this.state.user);
       this.promptPin();
     }
   };
@@ -103,7 +103,7 @@ class Send extends Component {
         ""
       )
       .then(rep => {
-        console.log(JSON.stringify(rep));
+        // console.log(JSON.stringify(rep));
         let fservices = new Services();
         fservices
           .checkSolde(this.state.user_id)
@@ -119,7 +119,7 @@ class Send extends Component {
             this.initState();
           })
           .catch(error => {
-            console.log("error");
+            // console.log("error");
           });
       });
   }
@@ -137,11 +137,10 @@ class Send extends Component {
   handlePinInput = text => {
     this.setState({ errorMessage: null });
     if (text.length === 4) {
-      console.log(text);
       let services = new Services();
       services.getData("pin").then(pin => {
         if (pin === text) {
-          console.log("Ataovy le transaction");
+          // console.log("Ataovy le transaction");
           this.performTransaction();
         } else {
           this.setState({ errorMessage: this.renderErrorMessage() });
@@ -197,9 +196,7 @@ class Send extends Component {
   onResetAction = () => {
     this.initState();
   };
-  promptInformation() {
-    console.log("show info");
-  }
+  promptInformation() {}
 
   onContinueAction = () => {
     if (this.state.amount == 0 || this.state.user === "") {
@@ -248,7 +245,7 @@ class Send extends Component {
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
-    console.log(qdata);
+    // console.log(qdata);
     if (qdata.includes("vola")) {
       readData = JSON.parse(qdata);
       this.setState({
@@ -259,11 +256,9 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        console.log(readData.a);
         this.prompAmount();
       }
       if (readData.a != 0 && readData.u) {
-        console.log(readData.a);
         this.promptPin();
       }
     }
@@ -300,7 +295,6 @@ class Send extends Component {
                 <InputLeftIcon
                   iconName="expand-more"
                   onPress={() => {
-                    console.log("Expand");
                     /* this.props.navigation.navigate("To", {
                       onGoBack: data => {
                         console.log(data);

@@ -46,20 +46,13 @@ class Login extends Component {
           };
           this.changeSpinnerVisibility(false);
           notif.initForPushNotificationsAsync(response);
-          console.log("====================================");
-          console.log("tong hatreto", response);
-          console.log("====================================");
           this.props.navigation.navigate("RegisterPin", data);
         })
-        .catch(error => {
-          console.log("error login", error);
-        });
+        .catch(error => {});
     }
   }
 
-  onErrorLoading(webViewState) {
-    console.log("nis erreur de connexion ");
-  }
+  onErrorLoading(webViewState) {}
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) => (
     <WarningConnexion />
@@ -85,7 +78,6 @@ class Login extends Component {
             />
           </View>
           <WebView
-            ref="webview"
             source={{ uri: uri }}
             style={styles.webview}
             onNavigationStateChange={this._onNavigationStateChange.bind(this)}

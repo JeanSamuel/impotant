@@ -42,7 +42,6 @@ export default class Landing extends React.Component {
   }
 
   render() {
-    console.log(this.props.navigation);
     return (
       <View>
         <Image
