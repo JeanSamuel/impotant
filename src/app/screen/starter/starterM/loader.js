@@ -5,10 +5,12 @@ import {
   Text,
   StyleSheet,
   AsyncStorage,
-  ActivityIndicator
+  ActivityIndicator,
+  BackHandler,
+  Alert
 } from "react-native";
 import { NotificationServices } from "../../../services";
-import  Services  from "../../../services/services";
+import Services from "../../../services/services";
 
 // create a component
 class Loader extends Component {
@@ -17,11 +19,12 @@ class Loader extends Component {
     this.state = {
       isLoading: true
     };
+    this._checkBackAndroid = this._checkBackAndroid.bind(this);
   }
 
   componentWillMount() {
     var services = new Services();
-
+    BackHandler.addEventListener("hardwareBackPress", this._checkBackAndroid);
     services.getData("user_id").then(user_id => {
       if (user_id === null) {
         this.props.navigation.navigate("Starter");
@@ -29,6 +32,23 @@ class Loader extends Component {
         this.props.navigation.navigate("Drawer", (user_id = { user_id }));
       }
     });
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this._checkBackAndroid
+    );
+  }
+
+  _checkBackAndroid() {
+    let routName = this.props.navigation.state.routeName;
+    if (routName == "Starter" || routName == "First") {
+      return true;
+    } else {
+      // this.props.navigation.goBack();
+      return false;
+    }
   }
 
   render() {

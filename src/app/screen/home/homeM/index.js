@@ -10,7 +10,8 @@ import {
   Keyboard,
   Share,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  BackHandler
 } from "react-native";
 import { StackNavigator } from "react-navigation";
 import QRCode from "react-native-qrcode-svg";
@@ -46,6 +47,7 @@ class Home extends Component {
       actualText: null,
       timer: null
     };
+    this._checkBackAndroid = this._checkBackAndroid.bind(this);
   }
 
   static navigationOptions = {
@@ -95,10 +97,20 @@ class Home extends Component {
   }
 
   componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this._checkBackAndroid);
     this.checkUserData();
     this.addTextDefault();
     this.showIntro();
     this.startTimer();
+  }
+  _checkBackAndroid() {
+    let routName = this.props.navigation.state.routeName;
+    if (routName == "Starter" || routName == "First") {
+      return false;
+    } else {
+      // this.props.navigation.goBack();
+      return true;
+    }
   }
 
   componentWillUnmount() {
