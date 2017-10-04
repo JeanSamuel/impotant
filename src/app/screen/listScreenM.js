@@ -2,7 +2,7 @@ import Home from "./home/homeM/";
 import History from "./history/historyM";
 import NewUser from "./register/registerM";
 import Login from "./login/loginM";
-import Logout from "./logout/logoutM";
+import {Logout} from "./logout/logoutC";
 import Assistance from "./assistance";
 import Starter from "./starter/starterM";
 import Loader from "./starter/starterM/loader";

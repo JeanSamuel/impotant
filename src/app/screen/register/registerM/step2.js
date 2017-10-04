@@ -32,9 +32,6 @@ class Step2 extends Component {
     super(props);
     this.state = {
       user_id: ""
-      // dataSource: new ListView.DataSource({
-      //   rowHasChanged: (row1, row2) => row1 !== row2
-      // }).cloneWithRows(data.step2)
     };
   }
 
@@ -77,14 +74,6 @@ class Step2 extends Component {
       });
   }
 
-  renderRow(data) {
-    return (
-      <View style={{ flexDirection: "row" }}>
-        <Text>{"\u2022"}</Text>
-        <Text style={styles.listText}>{data}</Text>
-      </View>
-    );
-  }
 
   render() {
     return (

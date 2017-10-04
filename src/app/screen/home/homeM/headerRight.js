@@ -5,11 +5,16 @@ import { Icon } from "react-native-elements";
 import Services from "../../../services/services";
 import { styleBase } from "../../../styles";
 import { IconBadge } from "../../../components/icon";
+import { Util } from 'expo';
 
 // create a component
 class HeaderRight extends Component {
   share() {
     this.props.actionShare();
+  }
+
+  componentDidMount() {
+
   }
 
   render() {

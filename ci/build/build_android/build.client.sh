@@ -1,7 +1,11 @@
 cd ../../switch
 ./switchToClient.sh
-exp login -u nivo_dev -p poiuytre123456
+cd ../../src/
+declare myname='nivo_dev'
+declare password='poiuytre123456'
+exp login -u $myname -p $password --non-interactive
+exp publish
 
-exp build:android
 
-exit -1
+
+exit -1   
