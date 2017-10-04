@@ -8,7 +8,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  WebView
+  WebView,
+  Dimensions
 } from "react-native";
 import { Container } from "../../../components/ContainerC";
 import { Logo } from "../../../components/Logo";
@@ -25,6 +26,7 @@ import moment from "moment";
 const background = require("../../../images/back3.jpg");
 const mark = require("../../../images/icons/logo-pro.png");
 
+const { width } = Dimensions.get("window");
 export default class Landing extends React.Component {
   constructor(props) {
     super(props);
@@ -49,23 +51,32 @@ export default class Landing extends React.Component {
           style={[styles.background, styleBase.centered]}
           resizeMode="cover"
         >
-          <ScrollView
-            contentContainerStyle={[{ flexGrow: 1 }, styleBase.centered]}
-          >
+          <ScrollView contentContainerStyle={[{ flex: 1 }, styleBase.centered]}>
             <Logo />
-            <DoubleLineButton
-              action={() => this.props.navigation.navigate("Register")}
-              firstLine="Je suis NOUVEAU"
-              secondLine="Je n'ai pas encore de compte"
-              color="rgba(22, 160, 133,1.0)"
-              navigation={this.props.navigation}
-            />
-            <DoubleLineButton
-              action={() => this.props.navigation.navigate("Login")}
-              firstLine="J'ai déjà un compte"
-              secondLine="Je me connecte sur Ariary.net"
-              color="rgba(41, 128, 185,1.0)"
-            />
+            <View
+              style={{
+                width: width,
+                alignItems: "center",
+                position: "absolute",
+                bottom: 0,
+                alignContent: "center",
+                justifyContent: "center"
+              }}
+            >
+              <DoubleLineButton
+                action={() => this.props.navigation.navigate("Register")}
+                firstLine="Je suis NOUVEAU"
+                secondLine="Je n'ai pas encore de compte"
+                color="rgba(22, 160, 133,1.0)"
+                navigation={this.props.navigation}
+              />
+              <DoubleLineButton
+                action={() => this.props.navigation.navigate("Login")}
+                firstLine="J'ai déjà un compte"
+                secondLine="Je me connecte sur Ariary.net"
+                color="rgba(41, 128, 185,1.0)"
+              />
+            </View>
           </ScrollView>
         </Image>
         <Modal

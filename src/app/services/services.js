@@ -8,8 +8,10 @@ import {
   StyleSheet,
   ActivityIndicator,
   AsyncStorage,
-  Share
+  Share,
+  Platform
 } from "react-native";
+import { Fingerprint } from "expo";
 // import styleBase from "../../styles/Styles";
 import configs from "../configs/data/dataM";
 
@@ -220,6 +222,27 @@ class Services extends Component {
       error.message = json.error;
       error.response = response;
       throw error;
+    }
+  }
+
+  static async haveFingerprint() {
+    let isEnroled = false;
+    let haveFingerprint = await Fingerprint.hasHardwareAsync();
+    if (haveFingerprint) {
+      isEnroled = await Fingerprint.isEnrolledAsync();
+    }
+    return isEnroled;
+  }
+  static async renderFingerPrintPromptAsync(messageIos) {
+    if (Plateform.OS === "android") {
+      (await Fingerprint.authenticateAsync())
+        ? alert("authenticated")
+        : alert("not authenticated");
+    }
+    if (Platform.OS === "ios") {
+      (await Fingerprint.authenticateAsync(messageIos))
+        ? alert("authenticated")
+        : alert("not authenticated");
     }
   }
 }

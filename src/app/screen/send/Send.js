@@ -36,6 +36,7 @@ class Send extends Component {
       user: "",
       flashIcon: "flash-off",
       flashOn: "off",
+      hasFingerPrint: false,
       user_id: this.props.navigation.state.params.user_id,
       currency: "Ar",
       errorMessage: null,
@@ -58,6 +59,12 @@ class Send extends Component {
         this.props.navigation.navigate("Handler");
       }
       this.setState({ loading: false });
+    });
+  }
+
+  componentDidMount() {
+    Services.haveFingerprint().then(hasFingerPrint => {
+      this.setState({ hasFingerPrint: hasFingerPrint });
     });
   }
 
@@ -150,20 +157,24 @@ class Send extends Component {
   };
 
   promptPin() {
-    this.setState({
-      modal: (
-        <PinModal
-          amount={Services.formatNumber(this.state.amount)}
-          user={this.state.user}
-          currency={this.state.currency}
-          onChangeText={this.handlePinInput}
-          errorMessage={this.state.errorMessage}
-          onRequestClose={() => {
-            this.removeModal();
-          }}
-        />
-      )
-    });
+    if (this.state.hasFingerPrint) {
+      Services.renderFingerPrintPromptAsync();
+    } else {
+      this.setState({
+        modal: (
+          <PinModal
+            amount={Services.formatNumber(this.state.amount)}
+            user={this.state.user}
+            currency={this.state.currency}
+            onChangeText={this.handlePinInput}
+            errorMessage={this.state.errorMessage}
+            onRequestClose={() => {
+              this.removeModal();
+            }}
+          />
+        )
+      });
+    }
   }
 
   prompAmount() {

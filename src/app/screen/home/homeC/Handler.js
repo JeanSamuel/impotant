@@ -1,9 +1,17 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Modal,
+  TouchableOpacity
+} from "react-native";
 import { Notifications } from "expo";
 import Landing from "./Landing";
 import { Pin } from "../../login/loginC";
+import Intro from "../../../components/WelcomeIntro/Welcome";
 import Services from "../../../services/services";
 import DropdownAlert from "react-native-dropdownalert";
 
@@ -24,10 +32,24 @@ class Handler extends Component {
         this.setState({ newUser: false, isLoading: false });
       } else {
         this.setState({ newUser: true, isLoading: false });
+        this.setModalVisible(true);
       }
     });
   }
 
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  onDoneBtnClick = () => {
+    console.log("done");
+    this.setModalVisible(false);
+  };
+
+  onSkipBtnHandle = () => {
+    console.log("skip");
+    this.setModalVisible(false);
+  };
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -46,6 +68,20 @@ class Handler extends Component {
         ) : (
           <Pin navigation={this.props.navigation} />
         )}
+        <Modal
+          animationType={"slide"}
+          transparent={true}
+          style={styles.ftreContainer}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(false);
+          }}
+        >
+          <Intro
+            onSkipBtnHandle={this.onSkipBtnHandle}
+            onDoneBtnClick={this.onDoneBtnClick}
+          />
+        </Modal>
       </View>
     );
   }

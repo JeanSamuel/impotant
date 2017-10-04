@@ -9,6 +9,7 @@ import {
   Alert
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Fingerprint } from "expo";
 import { Logo, LogoMini } from "../../../components/Logo";
 import { InputWithButton, SimpleInput } from "../../../components/TextInput";
 import { Container } from "../../../components/ContainerC";
@@ -23,6 +24,7 @@ class Pin extends React.Component {
       isLoading: true,
       pin: "",
       userPin: "",
+      haveFingerprint: false,
       errorMessage: null,
       user_id: ""
     };
@@ -32,6 +34,9 @@ class Pin extends React.Component {
     let services = new Services();
     user_id = await services.getData("user_id");
     user_pin = await services.getData("pin");
+    haveFingerprint = await Services.haveFingerprint();
+    this.setState({ haveFingerprint: haveFingerprint });
+
     if (user_pin !== null) {
       this.setState({ userPin: user_pin, user_id: user_id });
     } else {
@@ -72,53 +77,57 @@ class Pin extends React.Component {
           overlayColor="rgba(52, 73, 94,0.8)"
           textStyle={{ color: "#fafafa", fontWeight: "300" }}
         />
-        <KeyboardAvoidingView behavior="padding">
-          <View>
-            <View style={{ flex: 0.8 }} />
-            <LogoMini
-              style={{
-                marginBottom: 20
-              }}
-            />
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 20,
-                color: "#aaa",
-                fontWeight: "500"
-              }}
-            >
-              Enter your PIN here
-            </Text>
-            <View
-              style={{
-                borderWidth: 1,
-                borderColor: "#aaa",
-                borderRadius: 40,
-                height: 50,
-                width: width - 50,
-                paddingVertical: 10,
-                alignSelf: "center"
-              }}
-            >
-              <TextInput
-                keyboardType="numeric"
-                underlineColorAndroid="transparent"
-                autoFocus={true}
-                onChangeText={this.handlePinInput}
-                secureTextEntry={true}
-                value={this.state.pin}
-                maxLength={4}
+        {this.state.haveFingerprint ? (
+          Services.renderFingerPrintPromptAsync()
+        ) : (
+          <KeyboardAvoidingView behavior="padding">
+            <View>
+              <View style={{ flex: 0.8 }} />
+              <LogoMini
                 style={{
-                  fontSize: 20,
-                  textAlign: "center",
-                  paddingHorizontal: 5
+                  marginBottom: 20
                 }}
               />
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: "#aaa",
+                  fontWeight: "500"
+                }}
+              >
+                Enter your PIN here
+              </Text>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#aaa",
+                  borderRadius: 40,
+                  height: 50,
+                  width: width - 50,
+                  paddingVertical: 10,
+                  alignSelf: "center"
+                }}
+              >
+                <TextInput
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                  autoFocus={true}
+                  onChangeText={this.handlePinInput}
+                  secureTextEntry={true}
+                  value={this.state.pin}
+                  maxLength={4}
+                  style={{
+                    fontSize: 20,
+                    textAlign: "center",
+                    paddingHorizontal: 5
+                  }}
+                />
+              </View>
+              {this.state.errorMessage}
             </View>
-            {this.state.errorMessage}
-          </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        )}
       </View>
     );
   }
