@@ -47,7 +47,7 @@ const errorHandler = (e, isFatal) => {
   }
 };
 
-setJSExceptionHandler(errorHandler, true);
+setJSExceptionHandler(errorHandler);
 
 export default class Apk extends React.Component {
   constructor(props) {
@@ -56,7 +56,6 @@ export default class Apk extends React.Component {
       fontLoaded: false
     };
   }
-
   async componentDidMount() {
     await Expo.Font.loadAsync({
       Arial: require("./app/font/arial.ttf")

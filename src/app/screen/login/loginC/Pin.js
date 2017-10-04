@@ -68,6 +68,23 @@ class Pin extends React.Component {
     );
   }
 
+  async renderFingerPrintPromptAsync(messageIos) {
+    if (Plateform.OS === "android") {
+      (await Fingerprint.authenticateAsync())
+        ? this.props.navigation.navigate("Drawer", {
+            user_id: this.state.user_id
+          })
+        : alert("FingerPrint Authentication failed");
+    }
+    if (Platform.OS === "ios") {
+      (await Fingerprint.authenticateAsync(messageIos))
+        ? this.props.navigation.navigate("Drawer", {
+            user_id: this.state.user_id
+          })
+        : alert("TouchID Authentication failed");
+    }
+  }
+
   render() {
     return (
       <View style={[styles.container, { backgroundColor: "#fff" }]}>
@@ -78,7 +95,7 @@ class Pin extends React.Component {
           textStyle={{ color: "#fafafa", fontWeight: "300" }}
         />
         {this.state.haveFingerprint ? (
-          Services.renderFingerPrintPromptAsync()
+          this.renderFingerPrintPromptAsync()
         ) : (
           <KeyboardAvoidingView behavior="padding">
             <View>

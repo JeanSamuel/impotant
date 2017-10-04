@@ -34,7 +34,7 @@ export default {
     alignItems: "center",
     marginBottom: 20,
     borderRadius: 70,
-    paddingBottom : 5
+    paddingBottom: 5
   },
   buttonMainText: {
     fontSize: 25

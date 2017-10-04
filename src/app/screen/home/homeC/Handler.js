@@ -21,7 +21,8 @@ class Handler extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      newUser: null
+      newUser: null,
+      modalVisible: false
     };
   }
 
@@ -31,8 +32,7 @@ class Handler extends Component {
       if (user_id !== null) {
         this.setState({ newUser: false, isLoading: false });
       } else {
-        this.setState({ newUser: true, isLoading: false });
-        this.setModalVisible(true);
+        this.setState({ newUser: true, isLoading: false, modalVisible: true });
       }
     });
   }

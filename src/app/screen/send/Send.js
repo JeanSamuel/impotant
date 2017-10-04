@@ -156,9 +156,22 @@ class Send extends Component {
     }
   };
 
+  async renderFingerPrintPromptAsync(messageIos) {
+    if (Plateform.OS === "android") {
+      (await Fingerprint.authenticateAsync())
+        ? this.performTransaction()
+        : alert("FingerPrint Authentication failed");
+    }
+    if (Platform.OS === "ios") {
+      (await Fingerprint.authenticateAsync(messageIos))
+        ? this.performTransaction()
+        : alert("TouchID Authentication failed");
+    }
+  }
+
   promptPin() {
     if (this.state.hasFingerPrint) {
-      Services.renderFingerPrintPromptAsync();
+      this.renderFingerPrintPromptAsync();
     } else {
       this.setState({
         modal: (
