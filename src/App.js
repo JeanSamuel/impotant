@@ -1,28 +1,13 @@
-import React from "react";
-import {
-  StatusBar,
-  ActivityIndicator,
-  Alert,
-  Text,
-  BackHandler,
-  View
-} from "react-native";
+//import liraries
+import React, { Component } from "react";
+import { View, StatusBar, ActivityIndicator } from "react-native";
+import MainStack from "./app/configs/navigation/navigationM/mainStack";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Container } from "./app/components/ContainerC";
 import { setJSExceptionHandler } from "react-native-exception-handler";
-import Navigator from "./app/configs/navigation/navigationC/routes";
+import { Font } from "expo";
 
-EStyleSheet.build({
-  // outline: 1,
-  $primaryBlue: "#34495e",
-  $white: "#FFFFFF",
-  $lightGray: "#F0F0F0",
-  $border: "#E2E2E2",
-  $inputText: "#797979",
-  $darkText: "#343434",
-  $primaryGreen: "#1e9228",
-  $inputBG: "rgba(250,250,250,0.8)"
-});
+EStyleSheet.build({ outline: 0 });
+// create a component
 
 const errorHandler = (e, isFatal) => {
   if (isFatal) {
@@ -47,36 +32,34 @@ const errorHandler = (e, isFatal) => {
   }
 };
 
-setJSExceptionHandler(errorHandler);
+setJSExceptionHandler(errorHandler, true);
 
-export default class Apk extends React.Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontLoaded: false
+      isLoaded: false
     };
   }
   async componentDidMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       Arial: require("./app/font/arial.ttf")
     });
-    this.setState({ fontLoaded: true });
+    this.setState({ isLoaded: true });
   }
   render() {
-    const Main = Navigator;
-    return (
-      <View style={{ flex: 1 }}>
-        {this.state.fontLoaded ? (
-          <View style={{ flex: 1 }}>
-            <StatusBar hidden={true} />
-            <Navigator />
-          </View>
-        ) : (
-          <Container>
-            <ActivityIndicator size="large" />
-          </Container>
-        )}
-      </View>
-    );
+    if (this.state.isLoaded) {
+      return (
+        <View style={{ flex: 1 }}>
+          <StatusBar hidden={true} />
+          <MainStack />
+        </View>
+      );
+    } else {
+      return <ActivityIndicator />;
+    }
   }
 }
+
+//make this component available to the app
+export default Index;

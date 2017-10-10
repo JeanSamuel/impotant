@@ -1,17 +1,17 @@
 {
-  "expo": {
-    "name": "Ariary.net Beta",
-    "sdkVersion": "20.0.0",
-    "name": "Ariary.net Beta",
-    "icon": "./app/images/icons/logo.png",
-    "version": "0.2.0",
-    "slug": "ariarynet-beta",
-    "ios": {
-      "bundleIdentifier": "com.ariarynet.ariaryclient"
-    },
-    "android": {
-      "package": "com.ariarynet.ariaryclient"
-    },
-    "orientation": "portrait"
+    "expo": {
+      "sdkVersion": "20.0.0",
+      "name": "Ariary.net Marchand Beta",
+      "icon": "./app/images/icons/logo-pro.png",
+      "version": "0.2.0",
+      "slug": "ariarynet-Marchand-beta",
+      "ios": {
+        "bundleIdentifier": "com.ariarynet.marchandBeta"
+      },
+      "android": {
+        "package": "com.ariarynet.marchandBeta"
+      },
+      "orientation": "portrait"
+    }
   }
-}
+  
