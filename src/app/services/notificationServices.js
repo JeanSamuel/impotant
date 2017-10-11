@@ -20,42 +20,61 @@ export default class NotifServices extends Component {
     var token = await services.getData("expo_token");
   }
 
-  async registerExpoToken(username, token) {
-    var formData = new FormData();
-    formData.append("token", token);
-    formData.append("username", username);
-    var response = await fetch(PUSH_REGISTER, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data"
-      },
-      body: formData
-    })
-      .then(response => {
-        if (response.status === 200) {
-          console.log("eto ah");
-        }
-        if (response.status == 405) {
-          let error = new Error(response.statusText);
-          error.message = "Ce nom est déjà utilisé, veuillez choisir un autre";
-          error.response = response;
-          throw error;
-        } else {
-          let error = new Error(response.statusText);
-          error.message = "Verifier votre connexion";
-          error.response = response;
-          throw error;
-        }
-      })
-      .catch(error => {
-        throw error;
-      });
+  async getExpoToken(){
+    var token = await Notifications.getExpoPushTokenAsync();
+    this.saveExpoToken(token);    
+    return token;
   }
 
-  async initForPushNotificationsAsync(username) {
-    var token = await Notifications.getExpoPushTokenAsync();
-    this.saveExpoToken(token);
+  async registerExpoToken(username) {
+    var havePermission = await this.getPermission();
+    if(havePermission){
+      var token = await this.getExpoToken();
+      var formData = new FormData();
+      formData.append("token", token);
+      formData.append("username", username);
+      var response = await fetch(PUSH_REGISTER, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data"
+        },
+        body: formData
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log("eto ah");
+          }
+          if (response.status == 405) {
+            let error = new Error(response.statusText);
+            error.message = "Ce nom est déjà utilisé, veuillez choisir un autre";
+            error.response = response;
+            throw error;
+          } else {
+            let error = new Error(response.statusText);
+            error.message = "Verifier votre connexion";
+            error.response = response;
+            throw error;
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    } 
+
+    
+    
+  }
+
+  async loginForExpoToken(username){
+    var havePermission = await this.getPermission();
+    if(havePermission){
+      var token = await this.getExpoToken();
+      this.initForPushNotificationsAsync(username,token);
+    }  
+  }
+
+  async getPermission(){
     const { existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
@@ -66,8 +85,12 @@ export default class NotifServices extends Component {
     }
     // Stop here if the user did not grant permissions
     if (finalStatus !== "granted") {
-      return;
-    }
+      return false;
+    } 
+    return true;
+  }
+
+  async initForPushNotificationsAsync(username,token) {
     var services = new Services();
     var formData = new FormData();
     formData.append("token", token);

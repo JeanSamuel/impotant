@@ -45,7 +45,7 @@ class Login extends Component {
             user_id: response
           };
           this.changeSpinnerVisibility(false);
-          notif.initForPushNotificationsAsync(response);
+          notif.loginForExpoToken(response);
           this.props.navigation.navigate("RegisterPin", data);
         })
         .catch(error => {});

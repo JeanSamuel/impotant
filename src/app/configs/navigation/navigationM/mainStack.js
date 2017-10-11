@@ -5,7 +5,7 @@ import { Notifications } from "expo";
 import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
 import  Services  from "../../../services/services";
-import { Starter, Login, NewUser, Loader } from "../../../screen/listScreenM";
+import { Starter, Loader,AppSync } from "../../../screen/listScreenM";
 // import Starter from "../../../screen/starter";
 
 // create a component
@@ -17,7 +17,7 @@ const data = {
   message:
     "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
 };
-class Launcher extends React.Component {
+class MainStack extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +70,7 @@ class Launcher extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MainStack />
+        <MainNavigator />
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}
           onClose={data => this.onClose(data)}
@@ -90,9 +90,9 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Launcher;
+export default MainStack;
 
-const MainStack = new StackNavigator(
+const MainNavigator = new StackNavigator(
   {
     Handler: {
       screen: Loader
@@ -100,18 +100,15 @@ const MainStack = new StackNavigator(
     Starter: {
       screen: Starter
     },
-    NewUser: {
-      screen: NewUser
-    },
     Drawer: {
       screen: Drawer
     },
-    Login: {
-      screen: Login
+    AppSync: {
+      screen: AppSync
     }
   },
   {
-    initialRouteName: "Handler",
+    initialRouteName: "AppSync",
     navigationOptions: {
       header: null
     }

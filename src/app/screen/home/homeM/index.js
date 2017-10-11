@@ -14,9 +14,9 @@ import {
   BackHandler
 } from "react-native";
 import { StackNavigator } from "react-navigation";
-import QRCode from "react-native-qrcode-svg";
-import { Icon } from "react-native-elements";
+import { Icon} from "react-native-elements";
 import { DrawerMenu } from "../../../components/drawerMenu";
+import MyQrCode from "../../../components/qrCode";
 import { styleBase } from "../../../styles";
 import styles from "./homeStyles";
 import Toast from "react-native-easy-toast";
@@ -26,11 +26,11 @@ import data from "../../../configs/data/dataM";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Intro from "./intro";
+import Test from '../../../components/qrCode'
 
 const listText = data.message;
 const timer = null;
 const self = null;
-const logoFromFile = require("../../../images/icons/logo.png");
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -38,12 +38,11 @@ class Home extends Component {
     this.state = {
       type: "vola",
       data: {
-        currency: "Ar",
+        currency: "Toavina",
         userId: ""
       },
       amount: "",
       isInvalidData: false,
-      warning: null,
       actualText: null,
       timer: null
     };
@@ -122,7 +121,6 @@ class Home extends Component {
     services
       .getData("newAtHome")
       .then(response => {
-        // this.props.navigation.navigate("Intro");
         if (response != null) {
           this.props.navigation.navigate("Intro");
         } else {
@@ -162,7 +160,6 @@ class Home extends Component {
       amount = HomeServices.refactAmount(amount);
       this.setState({
         amount: amount,
-        warning: null
       });
     }
   }
@@ -172,6 +169,7 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+      
         <ScrollView>
           <View>{this.state.sharing}</View>
           <Toast
@@ -208,23 +206,12 @@ class Home extends Component {
                   />
                 </View>
               </KeyboardAvoidingView>
-              <View>{this.state.warning}</View>
             </View>
           </View>
 
           {/* QR Code   */}
           <View style={styles.row}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onLongPress={() => this.copyToClipBoard()}
-            >
-              <QRCode
-                value={this.generateQrCodeText()}
-                logo={logoFromFile}
-                size={180}
-                logoSize={35}
-              />
-            </TouchableOpacity>
+          <MyQrCode value={this.generateQrCodeText()}/>
             {this.state.actualText}
           </View>
         </ScrollView>
