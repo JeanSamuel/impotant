@@ -19,12 +19,14 @@ import Toast, { DURATION } from "react-native-easy-toast";
 import History from "../history/historyM";
 import headStyle from "../../styles/stylesC/headerStyle";
 import regStyles from "../../styles/stylesC/registerStyles";
+import sendStyle from "../../styles/stylesC/sendStyle";
 import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
 import To from "./to";
+import { SendLoader } from "../../components/loader";
 // create a component
 const { height, width } = Dimensions.get("window");
 class Send extends Component {
@@ -298,7 +300,7 @@ class Send extends Component {
       return (
         <View style={styles.container}>
           {this.state.loading ? (
-            <ActivityIndicator animating={true} />
+            <SendLoader loading={this.state.loading} />
           ) : (
             <View style={{ flex: 1 }}>
               <BarCodeScanner
@@ -307,15 +309,7 @@ class Send extends Component {
                 barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
                 style={StyleSheet.absoluteFill}
               />
-              <View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
-                }}
-              >
+              <View style={sendStyle.formContainer}>
                 <InputLeftIcon
                   iconName="expand-more"
                   onPress={() => {
@@ -345,32 +339,21 @@ class Send extends Component {
                   onEndEditing={this.handleDoneEditing}
                 />
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  backgroundColor: "rgba(52, 73, 94,0.7)" //"#607D8B"
-                }}
-              >
+              <View style={sendStyle.buttonContainer}>
                 <Button
                   buttonStyle={styles.controlButton}
-                  icon={{ name: "clear-all", size: 25 }}
+                  icon={{ name: "clear-all", size: 25, color: "#474B51" }}
                   onPress={this.onResetAction}
-                >
-                  <Icon name="clear-all" size={25} color="#fafafa" />
-                </Button>
+                />
                 <Button
                   buttonStyle={styles.controlButton}
-                  icon={{ name: this.state.flashIcon, size: 25 }}
+                  icon={{
+                    name: this.state.flashIcon,
+                    size: 25,
+                    color: "#474B51"
+                  }}
                   onPress={this.toggleFlash}
-                >
-                  <Icon name={this.state.flashIcon} size={25} color="#fafafa" />
-                </Button>
+                />
                 {/* <Button
               buttonStyle={styles.controlButton}
               onPress={this.promptInformation}
@@ -380,11 +363,9 @@ class Send extends Component {
             </Button> */}
                 <Button
                   buttonStyle={styles.controlButton}
-                  icon={{ name: "send", size: 25 }}
+                  icon={{ name: "send", size: 25, color: "#474B51" }}
                   onPress={this.onContinueAction}
-                >
-                  <Icon name="send" size={25} color="#fafafa" />
-                </Button>
+                />
               </View>
             </View>
           )}

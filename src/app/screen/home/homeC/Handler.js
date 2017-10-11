@@ -14,6 +14,7 @@ import { Pin } from "../../login/loginC";
 import Intro from "../../../components/WelcomeIntro/Welcome";
 import Services from "../../../services/services";
 import DropdownAlert from "react-native-dropdownalert";
+import { MinimLoading } from "../../../components/loader";
 
 // create a component
 class Handler extends Component {
@@ -21,7 +22,7 @@ class Handler extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      newUser: null,
+      notLoggedIn: null,
       modalVisible: false
     };
   }
@@ -30,9 +31,11 @@ class Handler extends Component {
     services = new Services();
     services.getData("user_id").then(user_id => {
       if (user_id !== null) {
-        this.setState({ newUser: false, isLoading: false });
+        this.setState({ notLoggedIn: false, isLoading: false });
+        this.props.navigation.navigate("Drawer", { user_id: user_id });
       } else {
-        this.setState({ newUser: true, isLoading: false, modalVisible: true });
+        this.setState({ notLoggedIn: true, isLoading: false });
+        this.props.navigation.navigate("Landing");
       }
     });
   }
@@ -55,33 +58,15 @@ class Handler extends Component {
       <View style={{ flex: 1 }}>
         {this.state.isLoading ? (
           <View style={{ flex: 1 }}>
-            <ActivityIndicator
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                flex: 1
+            <MinimLoading
+              loadingText="En attente de chargement"
+              visible={this.state.isLoading}
+              onRequestClose={() => {
+                console.log("Fermer");
               }}
             />
           </View>
-        ) : this.state.newUser ? (
-          <Landing navigation={this.props.navigation} />
-        ) : (
-          <Pin navigation={this.props.navigation} />
-        )}
-        <Modal
-          animationType={"slide"}
-          transparent={true}
-          style={styles.ftreContainer}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setModalVisible(false);
-          }}
-        >
-          <Intro
-            onSkipBtnHandle={this.onSkipBtnHandle}
-            onDoneBtnClick={this.onDoneBtnClick}
-          />
-        </Modal>
+        ) : null}
       </View>
     );
   }
