@@ -3,4 +3,5 @@ node_modules/
 .vscode/
 save/
 npm-debug.*
+react-native-packager-*/
 .DS_Store
