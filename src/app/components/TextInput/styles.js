@@ -11,7 +11,9 @@ export default EStyleSheet.create({
     backgroundColor: "$white",
     width: "90%",
     height: INPUT_HEIGHT,
-    borderRadius: BORDER_RADIUS,
+    // borderRadius: BORDER_RADIUS,
+    borderBottomWidth: 1,
+    borderBottomColor: "$border",
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 11,
@@ -43,12 +45,16 @@ export default EStyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "$white",
+    borderBottomWidth: 1,
+    borderBottomColor: "$border",
     borderTopRightRadius: BORDER_RADIUS,
     borderBottomRightRadius: BORDER_RADIUS
   },
   iconButton: {
     height: INPUT_HEIGHT,
     width: INPUT_HEIGHT + 20,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "$border",
     alignContent: "center",
     backgroundColor: "$white"
   },
