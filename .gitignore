@@ -5,3 +5,5 @@ save/
 npm-debug.*
 react-native-packager-*/
 .DS_Store
+App.js
+app.json
