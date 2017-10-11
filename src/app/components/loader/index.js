@@ -1,3 +1,3 @@
 import Loader from "./loader";
-
-export { Loader };
+import SendLoader from "./sendLoader";
+export { Loader, SendLoader };

@@ -21,7 +21,7 @@ class Handler extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      newUser: null,
+      notLoggedIn: null,
       modalVisible: false
     };
   }
@@ -30,9 +30,11 @@ class Handler extends Component {
     services = new Services();
     services.getData("user_id").then(user_id => {
       if (user_id !== null) {
-        this.setState({ newUser: false, isLoading: false });
+        this.setState({ notLoggedIn: false, isLoading: false });
+        this.props.navigation.navigate("Drawer", { user_id: user_id });
       } else {
-        this.setState({ newUser: true, isLoading: false, modalVisible: true });
+        this.setState({ notLoggedIn: true, isLoading: false });
+        this.props.navigation.navigate("Landing");
       }
     });
   }
@@ -63,25 +65,7 @@ class Handler extends Component {
               }}
             />
           </View>
-        ) : this.state.newUser ? (
-          <Landing navigation={this.props.navigation} />
-        ) : (
-          <Pin navigation={this.props.navigation} />
-        )}
-        <Modal
-          animationType={"slide"}
-          transparent={true}
-          style={styles.ftreContainer}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setModalVisible(false);
-          }}
-        >
-          <Intro
-            onSkipBtnHandle={this.onSkipBtnHandle}
-            onDoneBtnClick={this.onDoneBtnClick}
-          />
-        </Modal>
+        ) : null}
       </View>
     );
   }

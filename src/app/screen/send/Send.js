@@ -26,6 +26,7 @@ import { PinModal, AmountModal } from "../../components/modal";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
 import To from "./to";
+import { SendLoader } from "../../components/loader";
 // create a component
 const { height, width } = Dimensions.get("window");
 class Send extends Component {
@@ -59,7 +60,7 @@ class Send extends Component {
       if (user_id === null) {
         this.props.navigation.navigate("Handler");
       }
-      this.setState({ loading: false });
+      // this.setState({ loading: false });
     });
   }
 
@@ -299,7 +300,7 @@ class Send extends Component {
       return (
         <View style={styles.container}>
           {this.state.loading ? (
-            <ActivityIndicator animating={true} />
+            <SendLoader loading={this.state.loading} />
           ) : (
             <View style={{ flex: 1 }}>
               <BarCodeScanner
