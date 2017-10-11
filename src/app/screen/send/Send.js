@@ -60,7 +60,7 @@ class Send extends Component {
       if (user_id === null) {
         this.props.navigation.navigate("Handler");
       }
-      // this.setState({ loading: false });
+      this.setState({ loading: false });
     });
   }
 

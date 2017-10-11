@@ -1,3 +1,4 @@
 import Loader from "./loader";
 import SendLoader from "./sendLoader";
-export { Loader, SendLoader };
+import MinimLoading from "./MinimLoading";
+export { Loader, SendLoader, MinimLoading };

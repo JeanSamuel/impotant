@@ -14,6 +14,7 @@ import { Pin } from "../../login/loginC";
 import Intro from "../../../components/WelcomeIntro/Welcome";
 import Services from "../../../services/services";
 import DropdownAlert from "react-native-dropdownalert";
+import { MinimLoading } from "../../../components/loader";
 
 // create a component
 class Handler extends Component {
@@ -57,11 +58,11 @@ class Handler extends Component {
       <View style={{ flex: 1 }}>
         {this.state.isLoading ? (
           <View style={{ flex: 1 }}>
-            <ActivityIndicator
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                flex: 1
+            <MinimLoading
+              loadingText="En attente de chargement"
+              visible={this.state.isLoading}
+              onRequestClose={() => {
+                console.log("Fermer");
               }}
             />
           </View>
