@@ -26,9 +26,9 @@ class MainStack extends React.Component {
   }
 
   componentWillMount() {
-    this._notificationSubscription = Notifications.addListener(
-      this._handleNotification
-    );
+    // this._notificationSubscription = Notifications.addListener(
+    //   this._handleNotification
+    // );
   }
 
   componentWillUnmount() {

@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet,ActivityIndicator } from 'react-native';
 import MyQrCode from "../../components/qrCode";
-import { NotificationServices, SyncServices } from '../../services';
+import { NotificationServices, SyncServices, Services } from '../../services';
 import { Notifications } from "expo";
+import DeviceInfo from 'react-native-device-info'
 
 // create a component
 class AppSync extends Component {
@@ -34,28 +35,65 @@ class AppSync extends Component {
     }
 
     _handleNotification = notification => {
-        console.log('====================================')
-        console.log('notification',notification)
-        console.log('====================================')
         this.setState({ notification: notification });
-        this.synchronisation(notification);
+        try {
+            let userData = this.synchronisation(notification);
+            this.saveData(userData)
+            .then(() =>{
+                this.props.navigation.navigate('drawer')
+            }).catch(error =>{
+                console.log('====================================')
+                console.log('error saving userdata')
+                console.log('====================================')
+                throw error
+            })
+            
+        } catch (error) {
+            throw error
+        }
+        
+           
     };
 
     synchronisation(notification){
         let syncServices = new SyncServices();
         let isDataOk = syncServices.checkData(notification);
+        let userData = null;
         if(isDataOk){
             this.setState({
                 isSynchronised : true,
-                textStatus : 'Synchronisation en cours...',
-                textStatus2 : '',
+                textStatus : 'Début de synchronisation...',
+                textStatus2 : 'compte : ' + notification.data.alias,
                 textHelp : ''
-
             })
-            let pseudo = notification.data.pseudo;
-            syncServices.synchronise(this.state.value, pseudo)
-
+            try {
+                userData = syncServices.getUserData(notification.data);
+                return userData;
+            } catch (error) {
+                
+                console.log('====================================')
+                console.log('connexion error')
+                console.log('====================================')
+                throw error;
+            }
         }
+        
+    }
+
+    async saveData(userData){
+        this.setState({
+            isSynchronised : true,
+            textStatus : 'Configuration du compte',
+            textStatus2 : '',
+            textHelp : ''
+        })
+        let services = new Services();
+        try {
+            await services.saveData('userData', JSON.stringify(userData))
+        } catch (error) {
+            throw error
+        }
+        
     }
     
     async componentDidMount() {

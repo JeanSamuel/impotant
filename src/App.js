@@ -6,7 +6,18 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { Font } from "expo";
 
-EStyleSheet.build({ outline: 0 });
+EStyleSheet.build({
+  // outline: 1,
+  $primaryBlue: "#34495e",
+  $white: "#FFFFFF",
+  $lightGray: "#E6E6E6",
+  $border: "#E2E2E2",
+  $primaryColor: "#128FB5",
+  $inputText: "#797979",
+  $darkText: "#343434",
+  $primaryGreen: "#1e9228",
+  $inputBG: "rgba(250,250,250,0.8)"
+});
 // create a component
 
 // const errorHandler = (e, isFatal) => {
