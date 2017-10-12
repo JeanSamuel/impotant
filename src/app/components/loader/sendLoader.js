@@ -27,7 +27,7 @@ class SendLoader extends Component {
     if (this.props.loading) {
       return (
         <View style={[styles.container, {}]}>
-          <Animated.View style={styles.formPlaceholder} />
+          <View style={styles.formPlaceholder} />
           <View style={styles.cameraPlaceholder} />
         </View>
       );
