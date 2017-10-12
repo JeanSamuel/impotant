@@ -19,6 +19,7 @@ class UserServices extends Component {
   getAdresses(accountId) {
     return fetch(GET_URL + "&&accountId=" + accountId, { method: "GET" });
   }
+
 }
 
 //make this component available to the app

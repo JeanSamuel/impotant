@@ -12,6 +12,9 @@
     "android": {
       "package": "com.ariarynet.ariaryclient"
     },
+    "loading": {
+      "icon": "./app/images/icons/logo.png"
+    },
     "orientation": "portrait"
   }
 }

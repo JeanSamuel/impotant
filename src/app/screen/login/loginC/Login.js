@@ -15,6 +15,7 @@ import styleBase from "../../../styles/styles";
 import { WarningConnexion } from "../../../components/warning";
 import { Button } from "react-native-elements";
 import data from "../../../configs/data/dataM";
+import { FingerprintRequest } from "../../../components/fingerprint";
 
 // const { width, height } = Dimensions.get("window");
 const uri = data.uri;
@@ -52,6 +53,9 @@ class Login extends Component {
     }
   }
 
+  handleFingerPrintSuccess() {
+    this.props.navigation.navigate("Drawer", { user_id: user_id });
+  }
   onErrorLoading(webViewState) {}
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) => (
@@ -70,6 +74,7 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
+        <FingerprintRequest />
         <View style={{ flex: 1 }}>
           <View>
             <Spinner
