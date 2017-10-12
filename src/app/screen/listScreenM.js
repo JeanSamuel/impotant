@@ -8,6 +8,7 @@ import Starter from "./starter/starterM";
 import Loader from "./starter/starterM/loader";
 import { Settings } from "./settings";
 import About from "./about";
+import AppSync from './appSync'
 
 export {
   About,
@@ -19,5 +20,6 @@ export {
   Logout,
   Starter,
   Settings,
-  Loader
+  Loader,
+  AppSync
 };

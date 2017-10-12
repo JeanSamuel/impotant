@@ -4,6 +4,7 @@ import LoginServices from "./loginServices";
 import NotificationServices from "./notificationServices";
 import RegisterServices from "./registerServices";
 import HistoryServices from "./historyServices";
+import SyncServices from "./syncServices";
 
 export {
   Services,
@@ -11,5 +12,6 @@ export {
   LoginServices,
   NotificationServices,
   RegisterServices,
-  HistoryServices
+  HistoryServices,
+  SyncServices
 };
