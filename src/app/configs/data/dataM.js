@@ -60,6 +60,7 @@ export default {
   client_secret: "ariarynetpass",
   // BASE_URL: "http://54.229.79.45/ariary2API/web/api/",
   BASE_URL: "http://ariary.vola.mg/",
+  NEW_BASE_URL: "http://ariary.vola.mg/new_serv/",
   BASE_URL_Oauth: "http://auth.vola.mg/",
   redirect_uri: "http://auth.vola.mg/index.php/",
   scope: "userinfo",
@@ -71,6 +72,6 @@ export default {
     "Ariary.net, la solution de paiement simple, rapide, efficace et sécurisée",
     "L'argent reçu sera versé directement vers le compte principal",
     "Partager votre identifiant à vos proches via d'autres applications",
-    "Consulter directement votre historique directement via le bouton en haut",
+    "Consulter directement votre historique directement via le bouton en haut"
   ]
 };

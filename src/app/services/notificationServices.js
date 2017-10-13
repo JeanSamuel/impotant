@@ -20,15 +20,15 @@ export default class NotifServices extends Component {
     var token = await services.getData("expo_token");
   }
 
-  async getExpoToken(){
+  async getExpoToken() {
     var token = await Notifications.getExpoPushTokenAsync();
-    this.saveExpoToken(token);    
+    this.saveExpoToken(token);
     return token;
   }
 
   async registerExpoToken(username) {
     var havePermission = await this.getPermission();
-    if(havePermission){
+    if (havePermission) {
       var token = await this.getExpoToken();
       var formData = new FormData();
       formData.append("token", token);
@@ -47,7 +47,8 @@ export default class NotifServices extends Component {
           }
           if (response.status == 405) {
             let error = new Error(response.statusText);
-            error.message = "Ce nom est déjà utilisé, veuillez choisir un autre";
+            error.message =
+              "Ce nom est déjà utilisé, veuillez choisir un autre";
             error.response = response;
             throw error;
           } else {
@@ -60,21 +61,18 @@ export default class NotifServices extends Component {
         .catch(error => {
           throw error;
         });
-    } 
-
-    
-    
+    }
   }
 
-  async loginForExpoToken(username){
+  async loginForExpoToken(username) {
     var havePermission = await this.getPermission();
-    if(havePermission){
+    if (havePermission) {
       var token = await this.getExpoToken();
-      this.initForPushNotificationsAsync(username,token);
-    }  
+      this.initForPushNotificationsAsync(username, token);
+    }
   }
 
-  async getPermission(){
+  async getPermission() {
     const { existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
@@ -86,11 +84,11 @@ export default class NotifServices extends Component {
     // Stop here if the user did not grant permissions
     if (finalStatus !== "granted") {
       return false;
-    } 
+    }
     return true;
   }
 
-  async initForPushNotificationsAsync(username,token) {
+  async initForPushNotificationsAsync(username, token) {
     var services = new Services();
     var formData = new FormData();
     formData.append("token", token);
