@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { Fingerprint } from "expo";
 import { Icon } from "react-native-elements";
+// import colors from "../../constants/Colors";
 // create a component
 class FingerprintRequest extends Component {
   state = {
@@ -55,7 +56,12 @@ class FingerprintRequest extends Component {
           borderRadius: 12
         }}
       >
-        <Icon name={displayText.icon} size={25} color={displayText.color} />
+        <Icon
+          type="ionicon"
+          name={displayText.icon}
+          size={25}
+          color={displayText.color}
+        />
         <Text
           style={{
             fontSize: 20,
@@ -76,12 +82,12 @@ class FingerprintRequest extends Component {
     };
     const successText = {
       icon: "md-checkmark-circle",
-      color: colors.success,
+      color: "#2aa421",
       text: "Success! "
     };
     const failText = {
       icon: "md-alert",
-      color: colors.error,
+      color: "#c71c1f",
       text: this.state.authError
     };
 

@@ -74,7 +74,10 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <FingerprintRequest />
+        <FingerprintRequest
+          waitTextColor="rgba(22, 160, 133,1.0)"
+          onFingerprintSuccess={console.log("OK")}
+        />
         <View style={{ flex: 1 }}>
           <View>
             <Spinner
