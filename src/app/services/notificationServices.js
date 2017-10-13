@@ -22,7 +22,6 @@ export default class NotifServices extends Component {
 
   async getExpoToken() {
     var token = await Notifications.getExpoPushTokenAsync();
-    this.saveExpoToken(token);
     return token;
   }
 

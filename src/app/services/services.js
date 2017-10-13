@@ -90,6 +90,9 @@ class Services extends Component {
   async saveData(key, value) {
     try {
       await AsyncStorage.setItem(key, value);
+      console.log("====================================");
+      console.log("vita ato");
+      console.log("====================================");
     } catch (error) {
       console.log(error);
       throw "something went wrong when saving data";
