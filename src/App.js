@@ -18,6 +18,7 @@ EStyleSheet.build({
   // outline: 1,
   $primaryBlue: "#34495e",
   $white: "#FFFFFF",
+  $darkColor: "#1C2E48",
   $lightGray: "#E6E6E6",
   $border: "#E2E2E2",
   $primaryColor: "#128FB5",
@@ -95,7 +96,7 @@ export default class Apk extends React.Component {
     const title = data.title;
     const amount = notification.data.amount;
     const sender = notification.data.otherUser;
-    let debutMessage = "Vous venez d'envoyer' ";
+    let debutMessage = "Vous venez d'envoyer ";
     let finMessage = " Ar à ";
     const message = debutMessage + amount + finMessage + sender;
     this.dropdown.alertWithType(data.type, title, message);

@@ -2,11 +2,11 @@ import React from "react";
 import {
   StatusBar,
   TouchableOpacity,
-  Icon,
   Platform,
   View,
   Button
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { StackNavigator, DrawerNavigator } from "react-navigation";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -20,8 +20,11 @@ import {
   AppStarter,
   Landing,
   Send,
-  Handler
+  CustomKey,
+  Handler,
+  Review
 } from "../../../screen/indexScreen";
+import headStyle from "../../../styles/stylesC/headerStyle";
 import RegisterPin from "../../../screen/register/registerC/RegisterPin";
 import Register from "../../../screen/register/registerC/Register";
 import RegisterName from "../../../screen/register/registerC/RegisterName";
@@ -41,6 +44,48 @@ export default StackNavigator(
       navigationOptions: ({ navigation }) => ({
         header: () => null,
         headerTitle: "Home"
+      })
+    },
+    CustomKey: {
+      screen: CustomKey,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Envoyer à " + navigation.state.params.user,
+        headerStyle: headStyle.headerBackground,
+        headerTintColor: { color: "#fff" },
+        headerTitleStyle: { color: "#fff" },
+        headerLeft: (
+          <View
+            style={{
+              alignContent: "center",
+              marginHorizontal: 10
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="navigate-before" size={30} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )
+      })
+    },
+    Review: {
+      screen: Review,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Verifier et envoyer ",
+        headerStyle: { backgroundColor: "#193441" },
+        headerTintColor: { color: "#fff" },
+        headerTitleStyle: { color: "#fff" },
+        headerLeft: (
+          <View
+            style={{
+              alignContent: "center",
+              marginHorizontal: 10
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="navigate-before" size={30} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )
       })
     },
     Drawer: {

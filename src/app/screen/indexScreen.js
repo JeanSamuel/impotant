@@ -2,7 +2,7 @@ import { Adresses } from "./adresses";
 import History from "./history/historyM";
 import { Handler, Landing } from "./home/homeC";
 import { Login, Pin } from "./login/loginC";
-import { Send, To } from "./send";
+import { Send, To, CustomKey, Review } from "./send";
 import { Logout } from "./logout/logoutC";
 import { AppStarter } from "./appStarter";
 import {
@@ -20,6 +20,7 @@ export {
   Handler,
   Landing,
   Login,
+  Review,
   Pin,
   Send,
   To,
@@ -28,5 +29,6 @@ export {
   Register,
   RegisterName,
   RegisterPin,
+  CustomKey,
   RegisterPwd
 };

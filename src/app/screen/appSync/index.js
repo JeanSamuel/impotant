@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import MyQrCode from "../../components/qrCode";
 import { NotificationServices, SyncServices, Services } from "../../services";
 import { Notifications } from "expo";
-import DeviceInfo from "react-native-device-info";
 
 // create a component
 class AppSync extends Component {

@@ -289,7 +289,25 @@ class Send extends Component {
       }
     }
   };
-
+  _toNextStep() {
+    Keyboard.dismiss();
+    if(this.state.user){
+      if (!this.state.isEditable) {
+        alert(
+          "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"
+        );
+      } else {
+        this.props.navigation.navigate("CustomKey", {
+          user: this.state.user,
+          amount: this.state.amount
+        });
+      }
+    }else{
+      alert(
+        "Operation impossible : Veuillez specifier l'adresse avant de continuer"
+      );
+    }
+  }
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -334,6 +352,9 @@ class Send extends Component {
                   keyboardType="numeric"
                   returnKeyType="done"
                   editable={this.state.isEditable}
+                  onFocus={() => {
+                    this._toNextStep();
+                  }}
                   onChangeText={amount =>
                     this.setState({ amount: Services.formatNumber(amount) })}
                   onEndEditing={this.handleDoneEditing}

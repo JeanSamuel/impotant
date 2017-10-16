@@ -71,6 +71,15 @@ export default EStyleSheet.create({
     paddingHorizontal: 8,
     color: "$inputText"
   },
+  inputTouch: {
+    height: INPUT_HEIGHT,
+    flex: 1,
+    paddingHorizontal: 8
+  },
+  touchText: {
+    fontSize: 16,
+    color: "$inputText"
+  },
   border: {
     height: INPUT_HEIGHT,
     width: StyleSheet.hairlineWidth,
