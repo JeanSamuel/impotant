@@ -7,7 +7,6 @@ import { Icon } from "react-native-elements";
 import {
   Home,
   History,
-  Logout, 
   About
 } from "../../../screen/listScreenM";
 
@@ -26,16 +25,16 @@ const drawerRoutes = {
     path: "/",
     screen: About 
   },
-  Sixth: {
-    path: "/sent2",
-    screen: Logout, 
-    navigationOptions : {
-      title: "Fin de la synchronisation", 
-      drawerIcon: ({ tintColor }) => (
-        <Icon name="close" size={25} type="evilicon" />
-      )
-    }
-  }
+  // Sixth: {
+  //   path: "/sent2",
+  //   screen: Logout, 
+  //   navigationOptions : {
+  //     title: "Fin de la synchronisation", 
+  //     drawerIcon: ({ tintColor }) => (
+  //       <Icon name="close" size={25} type="evilicon" />
+  //     )
+  //   }
+  // }
 };
 
 // DrawerNavigator configuration

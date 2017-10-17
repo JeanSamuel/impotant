@@ -90,9 +90,7 @@ class Services extends Component {
   async saveData(key, value) {
     try {
       await AsyncStorage.setItem(key, value);
-      console.log("====================================");
-      console.log("vita ato");
-      console.log("====================================");
+
     } catch (error) {
       console.log(error);
       throw "something went wrong when saving data";
@@ -184,9 +182,28 @@ class Services extends Component {
     };
     const response = await fetch(url, data);
     const json = await response.json();
-    await this.saveData("token", json.access_token);
+    await this.saveData("access_token", json.access_token);
     return json.access_token;
   }
+
+  myFetch(url, data){
+    let access_token = this.getData('access_token')
+    .then(access_token =>{
+      if(access_token != null){
+        headers: {
+          Authorization: "Bearer " + access_token
+        }
+        data.headers = headers;
+        return fetch(url, data);
+      }
+    })
+    .catch(error =>{
+      throw error
+    })
+     
+
+  }
+
   async getUserInfo(token) {
     var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
     var response = await fetch(url, { method: "GET" });
@@ -205,27 +222,29 @@ class Services extends Component {
     dataformat = numeral(number).format();
     return dataformat;
   }
-  async checkSolde(user_id) {
+  async checkSolde(id_account) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.BASE_URL + "balance/" + user_id;
-    try {
-      var response = await fetch(url, { method: "GET" });
-      var json = await response.json();
-      if (json.accountId != null) {
-        await this.saveData("solde", JSON.stringify(json));
-        return json;
-      } else {
-        let error = new Error(response.statusText);
-        error.message = json.error;
-        error.response = response;
-        throw error;
-      }
-    } catch (error) {
-      let error = new Error(response.statusText);
-      error.message = json.error;
-      error.response = response;
-      throw error;
+    var url = configs.BASE_URL + "balance/" + id_account;
+    let data = {
+      method: "GET"
     }
+      return fetch(url, data)
+      .then(response => response.json())
+      .then(responseJSON =>{
+          if (responseJSON.accountId != null) {
+            this.saveData("solde", JSON.stringify(json));
+            return responseJSON;
+          } else {
+            let error = new Error(response.statusText);
+            error.message = json.error;
+            error.response = response;
+            throw error;
+          }
+        })
+      .catch(error =>{
+      })
+
+    
   }
 
   static async haveFingerprint() {

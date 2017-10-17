@@ -64,21 +64,27 @@ class SyncServices extends Component {
       });
   }
 
-  async getUserData(data) {
+  getUserData(data) {
     let url = configs.NEW_BASE_URL + "src/userData.php";
 
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append("id_account", data.id_account);
-    var data = {
+    let dataPOST = {
       method: "POST",
       body: formData
     };
 
-    let response = await fetch(url, data);
-    let responseJson = await response.json();
-    console.log("====================================");
-    console.log(responseJson);
-    console.log("====================================");
+    return fetch(url, dataPOST)
+    .then(response => response.json())
+    .then(responseJSON => {
+      return responseJSON;
+    })
+    .catch(error =>{
+      console.log("erreur aty synServices", error);
+      throw error;
+    })
+    
+    
   }
 }
 

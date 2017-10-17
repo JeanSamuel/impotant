@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DropdownAlert from "react-native-dropdownalert";
-import { Notifications } from "expo";
+import { Notifications} from "expo";
 import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
 import Services from "../../../services/services";
 import { Starter, Loader, AppSync } from "../../../screen/listScreenM";
 // import Starter from "../../../screen/starter";
 
-// create a component
-const MAIN_INFO_COLOR = "rgba(236, 240, 241,1.0)";
-const data = {
-  backgroundColor: MAIN_INFO_COLOR,
-  type: "info",
-  title: "Nouveau transfert",
-  message:
-    "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
-};
+
 class MainStack extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +24,6 @@ class MainStack extends React.Component {
   }
 
   componentWillUnmount() {
-    this.dismissAlert();
     this._notificationSubscription.remove();
   }
 
@@ -42,7 +33,7 @@ class MainStack extends React.Component {
   };
 
   showAlert(notification) {
-    const title = data.title;
+    const title = 'Transaction';
     const amount = notification.data.amount;
     const sender = notification.data.otherUser;
     let debutMessage = "Vous venez de recevoir ";
@@ -53,7 +44,7 @@ class MainStack extends React.Component {
       finMessage = " Ar à ";
     }
     const message = debutMessage + amount + finMessage + sender;
-    this.dropdown.alertWithType(data.type, title, message);
+    this.dropdown.alertWithType('info', title, message);
   }
   dismissAlert = () => {
     this.dropdown.onClose();
@@ -108,7 +99,7 @@ const MainNavigator = new StackNavigator(
     }
   },
   {
-    initialRouteName: "AppSync",
+    initialRouteName: "Handler",
     navigationOptions: {
       header: null
     }

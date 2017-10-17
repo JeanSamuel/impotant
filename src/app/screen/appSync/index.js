@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import MyQrCode from "../../components/qrCode";
 import { NotificationServices, SyncServices } from "../../services";
 import Services from "../../services/services";
-import { Notifications } from "expo";
+import { Notifications, Constants } from "expo";
 
 // create a component
 class AppSync extends Component {
@@ -14,12 +14,15 @@ class AppSync extends Component {
       textStatus: "Préparation",
       textStatus2: "pour la synchronisation",
       textHelp: "",
-      value: "",
+      token: "",
+      deviceId : Constants.deviceName,
+      qrvalue : "",
       isSetted: false,
       isSynchronised: false,
 
       notification: {}
     };
+    this._generateValue = this.generateQrValue.bind(this)
   }
 
   componentWillMount() {
@@ -27,7 +30,7 @@ class AppSync extends Component {
       this._handleNotification
     );
   }
-
+  
   componentWillUnmount() {
     this.dismissAlert();
     this._notificationSubscription.remove();
@@ -35,27 +38,25 @@ class AppSync extends Component {
 
   _handleNotification = notification => {
     this.setState({ notification: notification });
-    try {
-      let userData = this.synchronisation(notification);
-      this.saveData(userData)
-        .then(() => {
-          this.props.navigation.navigate("drawer");
+      let response = this.synchronisation(notification)
+      .then(response =>{
+        let services = new Services();
+        services.saveData('userData', JSON.stringify(response))
+        .then(answer =>{
+          let data = {
+            user_id: response.pseudo
+          };
+          this.props.navigation.navigate('Drawer', data)
         })
-        .catch(error => {
-          console.log("====================================");
-          console.log("error saving userdata");
-          console.log("====================================");
-          throw error;
-        });
-    } catch (error) {
-      throw error;
-    }
+        
+      }).catch(error => {
+        console.log('misy erreur synchronisation');
+
+      })
+      
   };
 
   synchronisation(notification) {
-    console.log("====================================");
-    console.log("debut synchronisation");
-    console.log("====================================");
     let syncServices = new SyncServices();
     let isDataOk = syncServices.checkData(notification);
     let userData = null;
@@ -67,36 +68,26 @@ class AppSync extends Component {
         textHelp: ""
       });
 
-      syncServices
-        .getUserData(notification.data)
-        .then(response => {
-          return response;
-        })
-        .catch(error => {
-          throw error;
-        });
+      let response = syncServices.getUserData(notification.data)
+        return response;
     }
   }
 
-  async saveData(userData) {
-    let services = new Services();
-    try {
-      await services.saveData("userData", JSON.stringify(userData));
-      return;
-    } catch (error) {
-      throw error;
+  generateQrValue (token){
+    let value = {
+      'expToken' : token,
+      'deviceName' : this.state.deviceId
     }
+    this.setState({qrvalue : JSON.stringify(value)})
   }
 
   async componentDidMount() {
     if (!this.state.isSetted) {
-      var token = await new NotificationServices().getExpoToken();
-      console.log("====================================");
-      console.log("token", token);
-      console.log("====================================");
+      let token = await new NotificationServices().getExpoToken();
+      this.generateQrValue(token);
       this.setState({
         isSetted: true,
-        value: token,
+        token: token,
         textStatus: "Prêt",
         textStatus2: "",
         textHelp: "Prenez en photo avec l'application AriaryClient"
@@ -114,7 +105,7 @@ class AppSync extends Component {
 
         <View style={styles.body}>
           {this.state.isSetted && !this.state.isSynchronised ? (
-            <MyQrCode value={this.state.value} />
+            <MyQrCode value={this.state.qrvalue} />
           ) : null}
 
           <Text style={styles.textHelp}>{this.state.textHelp}</Text>
