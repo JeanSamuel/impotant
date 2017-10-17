@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import config from "../configs/data/config";
 import moment from "moment";
+import Services from "./services";
 
 // create a component
 const transaction_url = config.CUSTOM_BASE_URL + "transaction";
@@ -48,6 +49,7 @@ class QrServices extends Component {
 
   async performTransation(amount, sender_id, currency, user_id, access_token) {
     const url = transaction_url + "/" + sender_id;
+    var services = new Services();
     let formData = new FormData();
     formData.append("amount", amount);
     formData.append("senderId", sender_id);
@@ -65,7 +67,7 @@ class QrServices extends Component {
     };
     // console.log("waiting for transactions", url);
     // response = await fetch(url, data);
-    return await fetch(url, data)
+    return await services.myFetch(url, data)
       .then(response => response.json())
       .then(responseJson => {
         return responseJson;

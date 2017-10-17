@@ -29,7 +29,7 @@ class SyncServices extends Component {
       body: formData
     };
 
-    fetch(url, data)
+    new Services().myFetch(url, data)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           try {
@@ -77,7 +77,7 @@ class SyncServices extends Component {
       body: formData
     };
 
-    return fetch(url, dataPOST)
+    return new Services().myFetch(url, dataPOST)
     .then(response => response.json())
     .then(responseJSON => {
       console.log('====================================');

@@ -189,17 +189,23 @@ class Services extends Component {
   async myFetch(url, data){
     let access_token = await this.getData('access_token')
       if(access_token != null){
-        let headers =  {
-          Authorization: "Bearer " + access_token
+
+        if(data.headers == null){
+          data.headers = {
+            Authorization: "Bearer " + access_token
+          };
+        }else{
+          let headers = data.headers;
+          headers.Authorization = "Bearer " + access_token;
+          data.headers = headers
         }
-        data.headers = headers;
         return await fetch(url, data);
       }
   }
 
   async getUserInfo(token) {
     var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
-    var response = await fetch(url, { method: "GET" });
+    var response = await this.myFetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";
     if (json.user_id !== null) {

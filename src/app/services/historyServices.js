@@ -23,7 +23,7 @@ class HistorySevices extends Component {
     let url = configs.BASE_URL + "transaction/" + user_id;
 
     try {
-      var response = await fetch(url, { method: "GET" });
+      var response = await new Services().myFetch(url, { method: "GET" });
       var responseJson = await response.json();
       this.saveHistory(JSON.stringify(responseJson));
       return responseJson;
