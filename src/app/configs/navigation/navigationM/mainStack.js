@@ -18,9 +18,9 @@ class MainStack extends React.Component {
   }
 
   componentWillMount() {
-    // this._notificationSubscription = Notifications.addListener(
-    //   this._handleNotification
-    // );
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
   componentWillUnmount() {
@@ -33,19 +33,22 @@ class MainStack extends React.Component {
   };
 
   showAlert(notification) {
-    const title = 'Transaction';
-    const amount = notification.data.amount;
-    const sender = notification.data.otherUser;
-    let debutMessage = "Vous venez de recevoir ";
-    let finMessage = " Ar de la part de ";
-
-    if (notification.data.title == "Envoi d'argent") {
-      debutMessage = "Vous venez d'envoyer ";
-      finMessage = " Ar à ";
+    if(notification.type == 'transaction'){
+      const title = 'Transaction';
+      const amount = notification.data.amount;
+      const sender = notification.data.otherUser;
+      let debutMessage = "Vous venez de recevoir ";
+      let finMessage = " Ar de la part de ";
+  
+      if (notification.data.title == "Envoi d'argent") {
+        debutMessage = "Vous venez d'envoyer ";
+        finMessage = " Ar à ";
+      }
+      const message = debutMessage + amount + finMessage + sender;
+      this.dropdown.alertWithType('info', title, message);
     }
-    const message = debutMessage + amount + finMessage + sender;
-    this.dropdown.alertWithType('info', title, message);
   }
+
   dismissAlert = () => {
     this.dropdown.onClose();
   };
@@ -99,7 +102,7 @@ const MainNavigator = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Handler",
+    initialRouteName: "Starter",
     navigationOptions: {
       header: null
     }

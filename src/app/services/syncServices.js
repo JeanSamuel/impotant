@@ -3,11 +3,14 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Constants } from "expo";
 import configs from "../configs/data/dataM";
+import Services from './services'
 
 // create a component
 class SyncServices extends Component {
   checkData(response) {
     if (response.data.type == "sync") {
+      let services = new Services();
+      services.saveData('access_token', response.data.token);
       return true;
     } else {
       return false;
@@ -77,6 +80,9 @@ class SyncServices extends Component {
     return fetch(url, dataPOST)
     .then(response => response.json())
     .then(responseJSON => {
+      console.log('====================================');
+      console.log('userData', responseJSON);
+      console.log('====================================');
       return responseJSON;
     })
     .catch(error =>{

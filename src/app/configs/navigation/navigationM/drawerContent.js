@@ -79,7 +79,6 @@ export default class DrawerContent extends Component {
     let services = new Services();
     let response = services.checkSolde(this.state.id_account)
     .then(response => {
-
       this.setState({
         solde: response.value,
         date: response.date,

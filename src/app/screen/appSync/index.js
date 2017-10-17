@@ -1,10 +1,11 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
 import MyQrCode from "../../components/qrCode";
 import { NotificationServices, SyncServices } from "../../services";
 import Services from "../../services/services";
 import { Notifications, Constants } from "expo";
+import { Button } from "react-native-elements";
 
 // create a component
 class AppSync extends Component {
@@ -32,7 +33,6 @@ class AppSync extends Component {
   }
   
   componentWillUnmount() {
-    this.dismissAlert();
     this._notificationSubscription.remove();
   }
 
@@ -75,6 +75,7 @@ class AppSync extends Component {
 
   generateQrValue (token){
     let value = {
+      'type' : 'sync',
       'expToken' : token,
       'deviceName' : this.state.deviceId
     }
@@ -95,20 +96,36 @@ class AppSync extends Component {
     }
   }
 
+  return() {
+    this.props.navigation.goBack();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title1}>{this.state.textStatus}</Text>
-          <Text style={styles.title2}>{this.state.textStatus2}</Text>
-        </View>
+        <ScrollView  contentContainerStyle={styles.bodyContainer} >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title1}>{this.state.textStatus}</Text>
+            <Text style={styles.title2}>{this.state.textStatus2}</Text>
+          </View>
 
-        <View style={styles.body}>
-          {this.state.isSetted && !this.state.isSynchronised ? (
-            <MyQrCode value={this.state.qrvalue} />
-          ) : null}
+          <View style={styles.body}>
+            {this.state.isSetted && !this.state.isSynchronised ? (
+              <MyQrCode value={this.state.qrvalue} />
+            ) : null}
 
-          <Text style={styles.textHelp}>{this.state.textHelp}</Text>
+            <Text style={styles.textHelp}>{this.state.textHelp}</Text>
+          </View>
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Retour"
+            backgroundColor="transparent"
+            underlayColor="#000"
+            large
+            textStyle={styles.buttonText}
+            onPress={() => this.return()}
+          />
         </View>
       </View>
     );
@@ -123,8 +140,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white"
   },
-  titleContainer: {
-    marginBottom: 20
+  bodyContainer : {
+    flex : 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title1: {
     textAlign: "center",
@@ -136,6 +155,10 @@ const styles = StyleSheet.create({
   },
   textHelp: {
     marginTop: 15
+  },
+  buttonText: {
+    fontSize: 20,
+    color: "rgba(52, 73, 94,1.0)"
   }
 });
 

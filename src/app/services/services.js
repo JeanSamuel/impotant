@@ -171,11 +171,11 @@ class Services extends Component {
     var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
-    formData.append("client_id", "ariarynet");
-    formData.append("client_secret", "ariarynetpass");
+    formData.append("client_id", configs.client_id);
+    formData.append("client_secret", configs.client_secret);
     formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
-    formData.append("grant_type", "authorization_code");
-    formData.append("scope", "userinfo");
+    formData.append("grant_type", configs.grant_type);
+    formData.append("scope", configs.scope);
     var data = {
       method: "POST",
       body: formData
@@ -186,22 +186,15 @@ class Services extends Component {
     return json.access_token;
   }
 
-  myFetch(url, data){
-    let access_token = this.getData('access_token')
-    .then(access_token =>{
+  async myFetch(url, data){
+    let access_token = await this.getData('access_token')
       if(access_token != null){
-        headers: {
+        let headers =  {
           Authorization: "Bearer " + access_token
         }
         data.headers = headers;
-        return fetch(url, data);
+        return await fetch(url, data);
       }
-    })
-    .catch(error =>{
-      throw error
-    })
-     
-
   }
 
   async getUserInfo(token) {
@@ -222,19 +215,24 @@ class Services extends Component {
     dataformat = numeral(number).format();
     return dataformat;
   }
-  async checkSolde(id_account) {
+  
+  checkSolde(id_account) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.BASE_URL + "balance/" + id_account;
+    var url = configs.BASE_URL + "balance/" + 1;
     let data = {
       method: "GET"
     }
-      return fetch(url, data)
+      return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON =>{
+        
           if (responseJSON.accountId != null) {
-            this.saveData("solde", JSON.stringify(json));
+            this.saveData("solde", JSON.stringify(responseJSON.value));
             return responseJSON;
           } else {
+            return {
+              value : 0
+            }
             let error = new Error(response.statusText);
             error.message = json.error;
             error.response = response;
