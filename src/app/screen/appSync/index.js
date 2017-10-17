@@ -34,9 +34,6 @@ class AppSync extends Component {
   }
 
   _handleNotification = notification => {
-    console.log("====================================");
-    console.log("ty le notification", notification);
-    console.log("====================================");
     this.setState({ notification: notification });
     try {
       let userData = this.synchronisation(notification);
@@ -51,9 +48,6 @@ class AppSync extends Component {
           throw error;
         });
     } catch (error) {
-      console.log("====================================");
-      console.log("ato njay ary eh");
-      console.log("====================================");
       throw error;
     }
   };
@@ -72,37 +66,24 @@ class AppSync extends Component {
         textStatus2: "alias : " + notification.data.alias,
         textHelp: ""
       });
-      try {
-        userData = syncServices.getUserData(notification.data);
-        console.log("====================================");
-        console.log("fin synchronisation");
-        console.log(userData);
-        console.log("====================================");
-        return userData;
-      } catch (error) {
-        console.log("====================================");
-        console.log("connexion error");
-        console.log("====================================");
-        throw error;
-      }
+
+      syncServices
+        .getUserData(notification.data)
+        .then(response => {
+          return response;
+        })
+        .catch(error => {
+          throw error;
+        });
     }
   }
 
   async saveData(userData) {
     let services = new Services();
-    console.log("====================================");
-    console.log(userData);
-    console.log("====================================");
     try {
       await services.saveData("userData", JSON.stringify(userData));
-      console.log("====================================");
-      console.log("apres n sauvegarde");
-      console.log("====================================");
       return;
     } catch (error) {
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
       throw error;
     }
   }

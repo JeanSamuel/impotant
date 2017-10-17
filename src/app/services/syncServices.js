@@ -64,8 +64,9 @@ class SyncServices extends Component {
       });
   }
 
-  getUserData(data) {
-    let url = configs.BASE_URL + "src/userData.php";
+  async getUserData(data) {
+    let url = configs.NEW_BASE_URL + "src/userData.php";
+
     var formData = new FormData();
     formData.append("id_account", data.id_account);
     var data = {
@@ -73,40 +74,11 @@ class SyncServices extends Component {
       body: formData
     };
 
-    fetch(url, data)
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          try {
-            console.log("====================================");
-            console.log(response);
-            console.log("====================================");
-            let services = new Services();
-            return response.data;
-          } catch (error) {
-            let myerror = new Error(error);
-            myerror.message = "Une erreur est survenue veuillez réessayer";
-            throw myerror;
-          }
-        } else if (response.status == 405) {
-          let num = Services.getRandomNumber();
-          let error = new Error(response.statusText);
-          error.message =
-            "Ce nom est déjà utilisé, veuillez choisir un autre (essayez avec : " +
-            accountId +
-            num;
-          error.response = response;
-
-          throw error;
-        } else {
-          let error = new Error(response.statusText);
-          error.message =
-            "Une erreur est survenue lors de la connexion aux serveurs";
-          error.response = response;
-
-          throw error;
-        }
-      })
-      .catch(error => {});
+    let response = await fetch(url, data);
+    let responseJson = await response.json();
+    console.log("====================================");
+    console.log(responseJson);
+    console.log("====================================");
   }
 }
 
