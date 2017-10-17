@@ -4,8 +4,8 @@ import DropdownAlert from "react-native-dropdownalert";
 import { Notifications } from "expo";
 import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
-import  Services  from "../../../services/services";
-import { Starter, Loader,AppSync } from "../../../screen/listScreenM";
+import Services from "../../../services/services";
+import { Starter, Loader, AppSync } from "../../../screen/listScreenM";
 // import Starter from "../../../screen/starter";
 
 // create a component

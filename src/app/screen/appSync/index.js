@@ -2,7 +2,8 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import MyQrCode from "../../components/qrCode";
-import { NotificationServices, SyncServices, Services } from "../../services";
+import { NotificationServices, SyncServices } from "../../services";
+import Services from "../../services/services";
 import { Notifications } from "expo";
 
 // create a component
@@ -33,6 +34,9 @@ class AppSync extends Component {
   }
 
   _handleNotification = notification => {
+    console.log("====================================");
+    console.log("ty le notification", notification);
+    console.log("====================================");
     this.setState({ notification: notification });
     try {
       let userData = this.synchronisation(notification);
@@ -47,23 +51,33 @@ class AppSync extends Component {
           throw error;
         });
     } catch (error) {
+      console.log("====================================");
+      console.log("ato njay ary eh");
+      console.log("====================================");
       throw error;
     }
   };
 
   synchronisation(notification) {
+    console.log("====================================");
+    console.log("debut synchronisation");
+    console.log("====================================");
     let syncServices = new SyncServices();
     let isDataOk = syncServices.checkData(notification);
     let userData = null;
     if (isDataOk) {
       this.setState({
         isSynchronised: true,
-        textStatus: "Début de synchronisation...",
-        textStatus2: "compte : " + notification.data.alias,
+        textStatus: "Synchronisation...",
+        textStatus2: "alias : " + notification.data.alias,
         textHelp: ""
       });
       try {
         userData = syncServices.getUserData(notification.data);
+        console.log("====================================");
+        console.log("fin synchronisation");
+        console.log(userData);
+        console.log("====================================");
         return userData;
       } catch (error) {
         console.log("====================================");
@@ -75,16 +89,20 @@ class AppSync extends Component {
   }
 
   async saveData(userData) {
-    this.setState({
-      isSynchronised: true,
-      textStatus: "Configuration du compte",
-      textStatus2: "",
-      textHelp: ""
-    });
     let services = new Services();
+    console.log("====================================");
+    console.log(userData);
+    console.log("====================================");
     try {
       await services.saveData("userData", JSON.stringify(userData));
+      console.log("====================================");
+      console.log("apres n sauvegarde");
+      console.log("====================================");
+      return;
     } catch (error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
       throw error;
     }
   }
@@ -92,6 +110,9 @@ class AppSync extends Component {
   async componentDidMount() {
     if (!this.state.isSetted) {
       var token = await new NotificationServices().getExpoToken();
+      console.log("====================================");
+      console.log("token", token);
+      console.log("====================================");
       this.setState({
         isSetted: true,
         value: token,

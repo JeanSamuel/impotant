@@ -77,8 +77,11 @@ class SyncServices extends Component {
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           try {
+            console.log("====================================");
+            console.log(response);
+            console.log("====================================");
             let services = new Services();
-            services.saveData("user_id", accountId);
+            return response.data;
           } catch (error) {
             let myerror = new Error(error);
             myerror.message = "Une erreur est survenue veuillez réessayer";

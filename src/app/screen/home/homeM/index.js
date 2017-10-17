@@ -14,7 +14,7 @@ import {
   BackHandler
 } from "react-native";
 import { StackNavigator } from "react-navigation";
-import { Icon} from "react-native-elements";
+import { Icon } from "react-native-elements";
 import { DrawerMenu } from "../../../components/drawerMenu";
 import MyQrCode from "../../../components/qrCode";
 import { styleBase } from "../../../styles";
@@ -26,7 +26,7 @@ import data from "../../../configs/data/dataM";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Intro from "./intro";
-import Test from '../../../components/qrCode'
+import Test from "../../../components/qrCode";
 
 const listText = data.message;
 const timer = null;
@@ -77,13 +77,14 @@ class Home extends Component {
   checkUserData() {
     let services = new Services();
     services
-      .getData("user_id")
-      .then(response => {
-        if (response != null) {
+      .getData("userData")
+      .then(responseJSON => {
+        if (responseJSON != null) {
+          let response = JSON.parse(responseJSON);
           this.setState({
             data: {
               currency: "Ar",
-              userId: response
+              userId: response.pseudo
             }
           });
         } else {
@@ -159,7 +160,7 @@ class Home extends Component {
     if (!isNaN(amount)) {
       amount = HomeServices.refactAmount(amount);
       this.setState({
-        amount: amount,
+        amount: amount
       });
     }
   }
@@ -169,7 +170,6 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-      
         <ScrollView>
           <View>{this.state.sharing}</View>
           <Toast
@@ -211,7 +211,7 @@ class Home extends Component {
 
           {/* QR Code   */}
           <View style={styles.row}>
-          <MyQrCode value={this.generateQrCodeText()}/>
+            <MyQrCode value={this.generateQrCodeText()} />
             {this.state.actualText}
           </View>
         </ScrollView>
