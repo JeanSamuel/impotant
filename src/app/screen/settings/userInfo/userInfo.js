@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RowValue, Separator, RowTitle } from "../../../components/row";
 import { styleBase } from "../../../styles";
+import Services from '../../../services/services'
 
 // create a component
 const self = null;
@@ -10,10 +11,43 @@ class UserInfo extends Component {
   constructor(props) {
     super(props);
     self = this;
+    this.state = {
+      pseudo : '...',
+      nom : '...', 
+      email : '...', 
+      phone : '...'
+    }
   }
 
   goBack() {
     this.props.navigation.navigate("Settings");
+  }
+
+  
+  componentDidMount() {
+    this.getData();
+  }
+  
+
+  getData(){
+    let services = new Services();
+    services
+    .getData("userData")
+    .then(response => {
+      if (response != null) {
+        dataParsed = JSON.parse(response)
+        this.setState({ 
+          pseudo: dataParsed.pseudo,
+          nom: dataParsed.pseudo,
+          email: dataParsed.pseudo,
+          phone: dataParsed.pseudo,
+        
+        });
+      }
+    })
+    .catch(error => {
+      console.log("error", error);
+    });
   }
 
   render() {
@@ -22,34 +56,29 @@ class UserInfo extends Component {
         <RowTitle title="Profil d'utilisateur" />
         <RowValue
           menu="Pseudo"
-          value={this.props.user_id}
+          value={this.state.pseudo}
           action={() => console.log("zertyu")}
           noNext={true}
         />
         <Separator />
         <RowValue
           menu="Nom et Prénoms"
-          value="non défini"
+          value={this.state.nom}
           action={() => console.log("zertyu")}
         />
         <Separator />
         <RowValue
           menu="Adresse e-mail"
-          value="non défini"
+          value={this.state.email}
           action={() => console.log("zertyu")}
         />
         <Separator />
         <RowValue
           menu="Téléphone"
-          value="non défini"
+          value={this.state.phone}
           action={() => console.log("zertyu")}
         />
         <Separator />
-        <RowValue
-          menu="Date de naissance"
-          value="non défini"
-          action={() => console.log("zertyu")}
-        />
       </View>
     );
   }

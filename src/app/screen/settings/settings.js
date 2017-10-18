@@ -26,7 +26,6 @@ class Settings extends Component {
       data: null,
       user_id: ""
     };
-    this.manageData();
   }
 
   componentWillMount() {
@@ -49,24 +48,8 @@ class Settings extends Component {
     });
   }
 
-  async manageData() {
-    let services = new Services();
-    services
-      .getData("user_id")
-      .then(response => {
-        if (response != null) {
-          this.setState({ user_id: response });
-          this.createData(response);
-        }
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
-  }
-
-  createData(response) {
-    this.setState({
-      data: (
+  render() {
+      return (
         <View style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={styles.container}>
             <RowValue
@@ -76,25 +59,12 @@ class Settings extends Component {
               value="Aide rapide à la configuration de compte"
               action={() => this.goToAssistant()}
             />
-            <UserInfo user_id={this.state.user_id} />
+            <UserInfo/>
             <Security />
             <Confidentiality />
           </ScrollView>
         </View>
-      )
-    });
-  }
-
-  render() {
-    if (this.state.data === null) {
-      return (
-        <View style={styles.firstContainer}>
-          <ActivityIndicator size="large" />
-        </View>
       );
-    } else {
-      return this.state.data;
-    }
   }
 }
 

@@ -102,7 +102,7 @@ const MainNavigator = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Starter",
+    initialRouteName: "Handler",
     navigationOptions: {
       header: null
     }

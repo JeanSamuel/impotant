@@ -10,7 +10,7 @@ class SyncServices extends Component {
   checkData(response) {
     if (response.data.type == "sync") {
       let services = new Services();
-      services.saveData('access_token', response.data.token);
+      services.saveData('access_token', response.data.refresh_token);
       return true;
     } else {
       return false;

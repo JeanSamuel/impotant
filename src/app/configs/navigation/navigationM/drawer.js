@@ -7,7 +7,8 @@ import { Icon } from "react-native-elements";
 import {
   Home,
   History,
-  About
+  About,
+  Settings
 } from "../../../screen/listScreenM";
 
 // DrawerNavigator path
@@ -17,6 +18,10 @@ const drawerRoutes = {
     path: "/",
     screen: Home
   },
+  Fifth : {
+    path : '/settings',
+    screen : Settings
+  },
   Third: {
     path: "/sent",
     screen: History
@@ -24,7 +29,7 @@ const drawerRoutes = {
   Fourth: {
     path: "/",
     screen: About 
-  },
+  }
   // Sixth: {
   //   path: "/sent2",
   //   screen: Logout, 
@@ -40,7 +45,7 @@ const drawerRoutes = {
 // DrawerNavigator configuration
 
 const drawerConfigs = {
-  initialRouteName: "First",
+  initialRouteName: "Fifth",
   drawerPosition: "left",
   contentOptions: {
     activeBackgroundColor: "#bdc3c7",

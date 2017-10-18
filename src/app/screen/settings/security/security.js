@@ -12,9 +12,10 @@ class Security extends Component {
   }
 
   componentDidMount() {
-    console.log("====================================");
-    console.log("deveice info", Expo.Constants);
-    console.log("====================================");
+  }
+
+  getData(){
+    
   }
 
   render() {
