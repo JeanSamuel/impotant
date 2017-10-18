@@ -44,21 +44,25 @@ class AppSync extends Component {
         services.saveData('userData', JSON.stringify(response))
         .then(answer =>{
           let data = {
-            user_id: response.pseudo
+            user_id: answer.pseudo
           };
           this.props.navigation.navigate('Drawer', data)
         })
         
       }).catch(error => {
-        console.log('misy erreur synchronisation');
+        console.log('misy erreur synchronisation', error);
 
       })
       
   };
 
   synchronisation(notification) {
+    console.log('====================================');
+    console.log(notification);
+    console.log('====================================');
     let syncServices = new SyncServices();
-    let isDataOk = syncServices.checkData(notification);
+    let services = new Services();
+    let isDataOk = syncServices.checkDataNotification(notification);
     let userData = null;
     if (isDataOk) {
       this.setState({
@@ -67,7 +71,7 @@ class AppSync extends Component {
         textStatus2: "alias : " + notification.data.alias,
         textHelp: ""
       });
-
+      let access_token = services.getTokenByRefreshToken(notification.data.refresh_token);
       let response = syncServices.getUserData(notification.data)
         return response;
     }

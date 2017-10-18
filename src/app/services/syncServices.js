@@ -7,23 +7,25 @@ import Services from './services'
 
 // create a component
 class SyncServices extends Component {
-  checkData(response) {
+  checkDataNotification(response) {
     if (response.data.type == "sync") {
       let services = new Services();
-      services.saveData('access_token', response.data.refresh_token);
+      services.saveData('refresh_token', response.data.refresh_token);
       return true;
     } else {
       return false;
     }
   }
 
-  synchronise(id_account, expToken, device_id, alias) {
+  async synchronise(id_account, expToken, device_id, alias) {
+    let refresh_token = await new Services().getData('refresh_token');
     let url = configs.NEW_BASE_URL + "src/beginSync.php";
     var formData = new FormData();
     formData.append("id_account", id_account);
     formData.append("expToken", expToken);
     formData.append("device_id", device_id);
     formData.append("alias", alias);
+    formData.append("refresh_token", refresh_token);
     var data = {
       method: "POST",
       body: formData
@@ -31,45 +33,23 @@ class SyncServices extends Component {
 
     new Services().myFetch(url, data)
       .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          try {
-            let services = new Services();
-            return response.data;
-          } catch (error) {
-            let myerror = new Error(error);
-            myerror.message = "Une erreur est survenue veuillez réessayer";
-            throw myerror;
-          }
-        } else if (response.status == 405) {
-          let num = Services.getRandomNumber();
-          let error = new Error(response.statusText);
-          error.message =
-            "Ce nom est déjà utilisé, veuillez choisir un autre (essayez avec : " +
-            accountId +
-            num;
-          error.response = response;
-
-          throw error;
-        } else {
-          let error = new Error(response.statusText);
-          error.message =
-            "Une erreur est survenue lors de la connexion aux serveurs";
-          error.response = response;
-
-          throw error;
+        if(response.error == null){
+          return 'ok'
+        }else{
+          let myerror = new Error(response.error);
+          myerror.message = "erreur lors de la synchronisation";
+          throw myerror;
         }
       })
       .catch(error => {
-        console.log("====================================");
-        console.log("error when synchronised");
-        console.log("====================================");
-        throw error;
+        let myerror = new Error(response.error);
+        myerror.message = "erreur de service lors de la synchronisation";
+        throw myerror;
       });
   }
 
   getUserData(data) {
     let url = configs.NEW_BASE_URL + "src/userData.php";
-
     let formData = new FormData();
     formData.append("id_account", data.id_account);
     let dataPOST = {
@@ -80,14 +60,19 @@ class SyncServices extends Component {
     return new Services().myFetch(url, dataPOST)
     .then(response => response.json())
     .then(responseJSON => {
-      console.log('====================================');
-      console.log('userData', responseJSON);
-      console.log('====================================');
-      return responseJSON;
+      if(response.error == null){
+        return responseJSON;
+      }else{
+        let myerror = new Error(responseJSON.error);
+        myerror.message = "erreur lors de la prise de donnée";
+        throw myerror;
+      }
+      
     })
     .catch(error =>{
-      console.log("erreur aty synServices", error);
-      throw error;
+      let myerror = new Error(response.error);
+      myerror.message = "erreur de service lors de la prise de donnée";
+      throw myerror;
     })
     
     

@@ -102,7 +102,7 @@ const MainNavigator = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Handler",
+    initialRouteName: "AppSync",
     navigationOptions: {
       header: null
     }

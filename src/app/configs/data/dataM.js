@@ -51,7 +51,8 @@ export default {
   BASE_URL_Oauth: "http://auth.vola.mg/",
   redirect_uri: "http://auth.vola.mg/index.php/",
   scope: "userinfo",
-  grant_type: "authorization_code",
+  grant_type_Oauth: "authorization_code",
+  grant_type_refresh: "refresh_token",
   client_id : 'ariarynet',
   client_secret : 'ariarynetpass',
   uri:
