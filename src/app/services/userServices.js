@@ -1,5 +1,6 @@
 //import liraries
 import React, { Component } from "react";
+import Services from './services'
 
 // create a component
 const URL = "http://ariary.vola.mg/UserRestController.php?adress";
@@ -13,11 +14,11 @@ class UserServices extends Component {
       method: "POST",
       body: formData
     };
-    return fetch(URL, data);
+    return new Services().myFetch(URL, data);
   }
 
   getAdresses(accountId) {
-    return fetch(GET_URL + "&&accountId=" + accountId, { method: "GET" });
+    return new Services().myFetch(GET_URL + "&&accountId=" + accountId, { method: "GET" });
   }
 
 }

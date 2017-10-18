@@ -31,7 +31,7 @@ class RegisterServices extends Component {
     var formData = new FormData();
     formData.append("accountId", accountId);
     formData.append("expo_token", token);
-    var response = await fetch(url, {
+    var response = await new Services().myFetch(url, {
       method: "POST",
       headers: {
         Accept: "application/json",

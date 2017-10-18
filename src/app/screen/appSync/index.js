@@ -1,10 +1,11 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
 import MyQrCode from "../../components/qrCode";
 import { NotificationServices, SyncServices } from "../../services";
 import Services from "../../services/services";
-import { Notifications } from "expo";
+import { Notifications, Constants } from "expo";
+import { Button } from "react-native-elements";
 
 // create a component
 class AppSync extends Component {
@@ -14,12 +15,15 @@ class AppSync extends Component {
       textStatus: "Préparation",
       textStatus2: "pour la synchronisation",
       textHelp: "",
-      value: "",
+      token: "",
+      deviceId : Constants.deviceName,
+      qrvalue : "",
       isSetted: false,
       isSynchronised: false,
 
       notification: {}
     };
+    this._generateValue = this.generateQrValue.bind(this)
   }
 
   componentWillMount() {
@@ -27,41 +31,32 @@ class AppSync extends Component {
       this._handleNotification
     );
   }
-
+  
   componentWillUnmount() {
-    this.dismissAlert();
     this._notificationSubscription.remove();
   }
 
   _handleNotification = notification => {
-    console.log("====================================");
-    console.log("ty le notification", notification);
-    console.log("====================================");
     this.setState({ notification: notification });
-    try {
-      let userData = this.synchronisation(notification);
-      this.saveData(userData)
-        .then(() => {
-          this.props.navigation.navigate("drawer");
+      let response = this.synchronisation(notification)
+      .then(response =>{
+        let services = new Services();
+        services.saveData('userData', JSON.stringify(response))
+        .then(answer =>{
+          let data = {
+            user_id: response.pseudo
+          };
+          this.props.navigation.navigate('Drawer', data)
         })
-        .catch(error => {
-          console.log("====================================");
-          console.log("error saving userdata");
-          console.log("====================================");
-          throw error;
-        });
-    } catch (error) {
-      console.log("====================================");
-      console.log("ato njay ary eh");
-      console.log("====================================");
-      throw error;
-    }
+        
+      }).catch(error => {
+        console.log('misy erreur synchronisation');
+
+      })
+      
   };
 
   synchronisation(notification) {
-    console.log("====================================");
-    console.log("debut synchronisation");
-    console.log("====================================");
     let syncServices = new SyncServices();
     let isDataOk = syncServices.checkData(notification);
     let userData = null;
@@ -72,50 +67,28 @@ class AppSync extends Component {
         textStatus2: "alias : " + notification.data.alias,
         textHelp: ""
       });
-      try {
-        userData = syncServices.getUserData(notification.data);
-        console.log("====================================");
-        console.log("fin synchronisation");
-        console.log(userData);
-        console.log("====================================");
-        return userData;
-      } catch (error) {
-        console.log("====================================");
-        console.log("connexion error");
-        console.log("====================================");
-        throw error;
-      }
+
+      let response = syncServices.getUserData(notification.data)
+        return response;
     }
   }
 
-  async saveData(userData) {
-    let services = new Services();
-    console.log("====================================");
-    console.log(userData);
-    console.log("====================================");
-    try {
-      await services.saveData("userData", JSON.stringify(userData));
-      console.log("====================================");
-      console.log("apres n sauvegarde");
-      console.log("====================================");
-      return;
-    } catch (error) {
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
-      throw error;
+  generateQrValue (token){
+    let value = {
+      'type' : 'sync',
+      'expToken' : token,
+      'deviceName' : this.state.deviceId
     }
+    this.setState({qrvalue : JSON.stringify(value)})
   }
 
   async componentDidMount() {
     if (!this.state.isSetted) {
-      var token = await new NotificationServices().getExpoToken();
-      console.log("====================================");
-      console.log("token", token);
-      console.log("====================================");
+      let token = await new NotificationServices().getExpoToken();
+      this.generateQrValue(token);
       this.setState({
         isSetted: true,
-        value: token,
+        token: token,
         textStatus: "Prêt",
         textStatus2: "",
         textHelp: "Prenez en photo avec l'application AriaryClient"
@@ -123,20 +96,36 @@ class AppSync extends Component {
     }
   }
 
+  return() {
+    this.props.navigation.goBack();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title1}>{this.state.textStatus}</Text>
-          <Text style={styles.title2}>{this.state.textStatus2}</Text>
-        </View>
+        <ScrollView  contentContainerStyle={styles.bodyContainer} >
+          <View style={styles.titleContainer}>
+            <Text style={styles.title1}>{this.state.textStatus}</Text>
+            <Text style={styles.title2}>{this.state.textStatus2}</Text>
+          </View>
 
-        <View style={styles.body}>
-          {this.state.isSetted && !this.state.isSynchronised ? (
-            <MyQrCode value={this.state.value} />
-          ) : null}
+          <View style={styles.body}>
+            {this.state.isSetted && !this.state.isSynchronised ? (
+              <MyQrCode value={this.state.qrvalue} />
+            ) : null}
 
-          <Text style={styles.textHelp}>{this.state.textHelp}</Text>
+            <Text style={styles.textHelp}>{this.state.textHelp}</Text>
+          </View>
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Retour"
+            backgroundColor="transparent"
+            underlayColor="#000"
+            large
+            textStyle={styles.buttonText}
+            onPress={() => this.return()}
+          />
         </View>
       </View>
     );
@@ -151,8 +140,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white"
   },
-  titleContainer: {
-    marginBottom: 20
+  bodyContainer : {
+    flex : 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title1: {
     textAlign: "center",
@@ -164,6 +155,10 @@ const styles = StyleSheet.create({
   },
   textHelp: {
     marginTop: 15
+  },
+  buttonText: {
+    fontSize: 20,
+    color: "rgba(52, 73, 94,1.0)"
   }
 });
 

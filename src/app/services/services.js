@@ -90,9 +90,7 @@ class Services extends Component {
   async saveData(key, value) {
     try {
       await AsyncStorage.setItem(key, value);
-      console.log("====================================");
-      console.log("vita ato");
-      console.log("====================================");
+
     } catch (error) {
       console.log(error);
       throw "something went wrong when saving data";
@@ -173,23 +171,41 @@ class Services extends Component {
     var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("code", oauthCode);
-    formData.append("client_id", "ariarynet");
-    formData.append("client_secret", "ariarynetpass");
+    formData.append("client_id", configs.client_id);
+    formData.append("client_secret", configs.client_secret);
     formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
-    formData.append("grant_type", "authorization_code");
-    formData.append("scope", "userinfo");
+    formData.append("grant_type", configs.grant_type);
+    formData.append("scope", configs.scope);
     var data = {
       method: "POST",
       body: formData
     };
     const response = await fetch(url, data);
     const json = await response.json();
-    await this.saveData("token", json.access_token);
+    await this.saveData("access_token", json.access_token);
     return json.access_token;
   }
+
+  async myFetch(url, data){
+    let access_token = await this.getData('access_token')
+      if(access_token != null){
+
+        if(data.headers == null){
+          data.headers = {
+            Authorization: "Bearer " + access_token
+          };
+        }else{
+          let headers = data.headers;
+          headers.Authorization = "Bearer " + access_token;
+          data.headers = headers
+        }
+        return await fetch(url, data);
+      }
+  }
+
   async getUserInfo(token) {
     var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
-    var response = await fetch(url, { method: "GET" });
+    var response = await this.myFetch(url, { method: "GET" });
     var json = await response.json();
     var userInfo = "";
     if (json.user_id !== null) {
@@ -205,27 +221,34 @@ class Services extends Component {
     dataformat = numeral(number).format();
     return dataformat;
   }
-  async checkSolde(user_id) {
+  
+  checkSolde(id_account) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.BASE_URL + "balance/" + user_id;
-    try {
-      var response = await fetch(url, { method: "GET" });
-      var json = await response.json();
-      if (json.accountId != null) {
-        await this.saveData("solde", JSON.stringify(json));
-        return json;
-      } else {
-        let error = new Error(response.statusText);
-        error.message = json.error;
-        error.response = response;
-        throw error;
-      }
-    } catch (error) {
-      let error = new Error(response.statusText);
-      error.message = json.error;
-      error.response = response;
-      throw error;
+    var url = configs.BASE_URL + "balance/" + 1;
+    let data = {
+      method: "GET"
     }
+      return this.myFetch(url, data)
+      .then(response => response.json())
+      .then(responseJSON =>{
+        
+          if (responseJSON.accountId != null) {
+            this.saveData("solde", JSON.stringify(responseJSON.value));
+            return responseJSON;
+          } else {
+            return {
+              value : 0
+            }
+            let error = new Error(response.statusText);
+            error.message = json.error;
+            error.response = response;
+            throw error;
+          }
+        })
+      .catch(error =>{
+      })
+
+    
   }
 
   static async haveFingerprint() {

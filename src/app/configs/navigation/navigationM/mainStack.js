@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DropdownAlert from "react-native-dropdownalert";
-import { Notifications } from "expo";
+import { Notifications} from "expo";
 import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
 import Services from "../../../services/services";
 import { Starter, Loader, AppSync } from "../../../screen/listScreenM";
 // import Starter from "../../../screen/starter";
 
-// create a component
-const MAIN_INFO_COLOR = "rgba(236, 240, 241,1.0)";
-const data = {
-  backgroundColor: MAIN_INFO_COLOR,
-  type: "info",
-  title: "Nouveau transfert",
-  message:
-    "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
-};
+
 class MainStack extends React.Component {
   constructor(props) {
     super(props);
@@ -26,13 +18,12 @@ class MainStack extends React.Component {
   }
 
   componentWillMount() {
-    // this._notificationSubscription = Notifications.addListener(
-    //   this._handleNotification
-    // );
+    this._notificationSubscription = Notifications.addListener(
+      this._handleNotification
+    );
   }
 
   componentWillUnmount() {
-    this.dismissAlert();
     this._notificationSubscription.remove();
   }
 
@@ -42,19 +33,22 @@ class MainStack extends React.Component {
   };
 
   showAlert(notification) {
-    const title = data.title;
-    const amount = notification.data.amount;
-    const sender = notification.data.otherUser;
-    let debutMessage = "Vous venez de recevoir ";
-    let finMessage = " Ar de la part de ";
-
-    if (notification.data.title == "Envoi d'argent") {
-      debutMessage = "Vous venez d'envoyer ";
-      finMessage = " Ar à ";
+    if(notification.type == 'transaction'){
+      const title = 'Transaction';
+      const amount = notification.data.amount;
+      const sender = notification.data.otherUser;
+      let debutMessage = "Vous venez de recevoir ";
+      let finMessage = " Ar de la part de ";
+  
+      if (notification.data.title == "Envoi d'argent") {
+        debutMessage = "Vous venez d'envoyer ";
+        finMessage = " Ar à ";
+      }
+      const message = debutMessage + amount + finMessage + sender;
+      this.dropdown.alertWithType('info', title, message);
     }
-    const message = debutMessage + amount + finMessage + sender;
-    this.dropdown.alertWithType(data.type, title, message);
   }
+
   dismissAlert = () => {
     this.dropdown.onClose();
   };
@@ -108,7 +102,7 @@ const MainNavigator = new StackNavigator(
     }
   },
   {
-    initialRouteName: "AppSync",
+    initialRouteName: "Starter",
     navigationOptions: {
       header: null
     }

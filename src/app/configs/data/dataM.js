@@ -1,18 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export default {
-  type: [
-    "Chez",
-    "Hotel",
-    "Epicerie",
-    "Hotely",
-    "Boucherie",
-    "Tranombarotra",
-    "Grossiste",
-    "Distributeur",
-    "Le Café",
-    "Coiffure"
-  ],
   name: [
     "Aina",
     "Ainga",
@@ -29,7 +17,6 @@ export default {
     "Baliaka",
     "Baovola",
     "Benja",
-    "Boto",
     "Dadavy",
     "Dama",
     "Dimby",
@@ -65,6 +52,8 @@ export default {
   redirect_uri: "http://auth.vola.mg/index.php/",
   scope: "userinfo",
   grant_type: "authorization_code",
+  client_id : 'ariarynet',
+  client_secret : 'ariarynetpass',
   uri:
     "http://auth.vola.mg/oauth2/authorize?response_type=code&state=xyz&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo",
   message: [

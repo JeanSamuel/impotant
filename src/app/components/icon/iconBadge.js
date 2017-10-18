@@ -33,12 +33,14 @@ class MyClass extends Component {
   }
 
   _handleNotification = notification => {
-    let services = new Services();
-    this.setState({ notification: notification });
-    this.setState({
-      number: this.state.number + 1
-    });
-    services.saveData("numberBadge", this.state.number.toString());
+    if(notification.data.type == 'transaction'){
+      let services = new Services();
+      this.setState({ notification: notification });
+      this.setState({
+        number: this.state.number + 1
+      });
+      services.saveData("numberBadge", this.state.number.toString());
+    } 
   };
 
   componentDidMount() {

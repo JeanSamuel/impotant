@@ -24,14 +24,15 @@ export default class DrawerContent extends Component {
     this.spinValue = new Animated.Value(0);
     this.state = {
       solde: "",
-      ownerId: 0,
-      ownerName: "",
+      id_account: 0,
+      alias: "",
+      pseudo : "",
       date: "",
       animation: "",
       isrefreshing: false,
       notification: {}
     };
-    this.checkSolde();
+    
   }
 
   componentWillMount() {
@@ -39,6 +40,12 @@ export default class DrawerContent extends Component {
       this._handleNotification
     );
   }
+
+  
+  componentDidMount() {
+    this.checkUserData()
+  }
+  
 
   componentWillUnmount() {
     this._notificationSubscription.remove();
@@ -52,32 +59,41 @@ export default class DrawerContent extends Component {
     return this.state.solde;
   }
 
-  async checkSolde() {
-    var user_id = await new Services().getData("user_id");
-    this.setState({
-      ownerId: user_id,
-      ownerName: user_id,
-      isrefreshing: true
-    });
+  async checkUserData(){
     let services = new Services();
-    services
-      .checkSolde(user_id)
-      .then(response => {
+    let userData = services.getData("userData")
+      .then(userData =>{
+        dataParsed = JSON.parse(userData)
         this.setState({
-          solde: response.value,
-          date: response.date,
-          isrefreshing: false
+          id_account: dataParsed.id_account,
+          alias :  dataParsed.alias,
+          pseudo :  dataParsed.pseudo,
+          isrefreshing: true
         });
+        this.checkSolde();
       })
-      .catch(error => {
-        this.checkOldSolde();
+      
+  }
+
+  checkSolde() {
+    let services = new Services();
+    let response = services.checkSolde(this.state.id_account)
+    .then(response => {
+      this.setState({
+        solde: response.value,
+        date: response.date,
+        isrefreshing: false
       });
+    })
+    .catch(error => {
+      this.checkOldSolde();
+    });
   }
 
   checkOldSolde() {
     let services = new Services();
     services
-      .getData("history")
+      .getData("solde")
       .then(response => {
         if (response.value != null) {
           this.setState({
@@ -128,7 +144,7 @@ export default class DrawerContent extends Component {
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
               <Text style={[styleBase.textWhiteBold, { fontSize: 25 }]}>
-                {this.state.ownerName}
+                {this.state.alias}
               </Text>
               <View
                 style={{
