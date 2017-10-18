@@ -70,7 +70,7 @@ export default StackNavigator(
     Review: {
       screen: Review,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Verifier et envoyer ",
+        headerTitle: "Vérifier et envoyer ",
         headerStyle: { backgroundColor: "#193441" },
         headerTintColor: { color: "#fff" },
         headerTitleStyle: { color: "#fff" },
