@@ -89,7 +89,7 @@ export default class NotifServices extends Component {
     var formData = new FormData();
     formData.append("token", init_token);
     formData.append("username", username);
-    var response = await services.myFetch(PUSH_INIT, {
+    var response = await services.fetch(PUSH_INIT, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -114,7 +114,7 @@ export default class NotifServices extends Component {
     var formData = new FormData();
     formData.append("token", token);
     formData.append("user", username);
-    var response = await services.myFetch(PUSH_STOP, {
+    var response = await services.fetch(PUSH_STOP, {
       method: "POST",
       headers: {
         Accept: "application/json",
