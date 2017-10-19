@@ -39,9 +39,9 @@ class Services extends Component {
         return response;
       } else {
         Notifications.getExpoPushTokenAsync().then(expToken => {
-          this.saveData("expToken", expToken).then(res =>{
-            return test
-          })
+          this.saveData("expToken", expToken).then(res => {
+            return test;
+          });
         });
       }
     });
@@ -178,15 +178,14 @@ class Services extends Component {
 
   async goLogin(webViewState) {
     var OauthCode = await this.extractOauthCode(webViewState.url);
-    return this.getToken(OauthCode).then(response =>{
+    return this.getToken(OauthCode).then(response => {
       let token = response;
-      return this.getUserName(token).then(pseudo =>{
-        return this.getUserData(pseudo).then(userData =>{
+      return this.getUserName(token).then(pseudo => {
+        return this.getUserData(pseudo).then(userData => {
           return userData;
-        })
-      })
-    })
-    
+        });
+      });
+    });
   }
 
   /**
@@ -217,29 +216,29 @@ class Services extends Component {
       method: "POST",
       body: formData
     };
-   return response = await fetch(url, data)
+    return (response = await fetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
           this.saveTokenData(responseJSON);
-            return responseJSON.access_token;
+          return responseJSON.access_token;
         } else {
           let myerror = new Error(response.error);
           myerror.message = "erreur getting token by OauthCode";
           throw myerror;
         }
       })
-      .catch(error =>{
-        console.log('token azo', error);
+      .catch(error => {
+        console.log("token azo", error);
         let myerror = new Error(error);
         myerror.message = "erreur services during refresh_token";
         throw myerror;
-      })
+      }));
   }
 
   async getValidToken() {
     return this.getData("token_data").then(tokenData => {
-      
+      console.log(tokenData);
       let tokenDataJson = JSON.parse(tokenData);
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
@@ -259,8 +258,7 @@ class Services extends Component {
    * @param {*} data 
    */
   async myFetch(url, data) {
-    return this.getValidToken()
-    .then(access_token =>{
+    return this.getValidToken().then(access_token => {
       if (access_token != null) {
         if (data.headers == null) {
           data.headers = {
@@ -273,8 +271,7 @@ class Services extends Component {
         }
         return fetch(url, data);
       }
-    })
-    
+    });
   }
 
   /**
@@ -314,18 +311,23 @@ class Services extends Component {
   }
 
   async getUserData(pseudo) {
-    let expToken = await this.getExpoToken()
-    var url = configs.NEW_BASE_URL + "src/userData.php?pseudo="+pseudo.trim()+"&expToken="+expToken;
+    let expToken = await this.getExpoToken();
+    var url =
+      configs.NEW_BASE_URL +
+      "src/userData.php?pseudo=" +
+      pseudo.trim() +
+      "&expToken=" +
+      expToken;
     return this.myFetch(url, { method: "GET" })
-    .then(response =>response.json())
+      .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
-          console.log('====================================');
-          console.log('in userData', responseJSON);
-          console.log('====================================');
+          console.log("====================================");
+          console.log("in userData", responseJSON);
+          console.log("====================================");
           if (responseJSON.id_account !== null) {
-            this.saveData("userData", JSON.stringify(responseJSON))
-              return responseJSON;
+            this.saveData("userData", JSON.stringify(responseJSON));
+            return responseJSON;
           } else {
             console.log("error", error);
             let myerror = new Error(responseJSON.error);
@@ -348,11 +350,11 @@ class Services extends Component {
   }
 
   async getUserName(new_token) {
-    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
+    var url =
+      configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-
         if (!responseJSON.error) {
           var userInfo = "";
           if (responseJSON.id_account !== null) {

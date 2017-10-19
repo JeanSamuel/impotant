@@ -63,11 +63,11 @@ export default class DrawerContent extends Component {
     let services = new Services();
     let userData = services.getData("userData")
       .then(userData =>{
-        dataParsed = JSON.parse(userData)
+        // dataParsed = JSON.parse(userData)
         this.setState({
-          id_account: dataParsed.id_account,
-          alias :  dataParsed.alias,
-          pseudo :  dataParsed.pseudo,
+          // id_account: dataParsed.id_account,
+          // alias :  dataParsed.alias,
+          // pseudo :  dataParsed.pseudo,
           isrefreshing: true
         });
         this.checkSolde();
