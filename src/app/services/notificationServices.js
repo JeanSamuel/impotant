@@ -20,15 +20,11 @@ export default class NotifServices extends Component {
     var token = await services.getData("expo_token");
   }
 
-  async getExpoToken() {
-    var token = await Notifications.getExpoPushTokenAsync();
-    return token;
-  }
 
   async registerExpoToken(username) {
     var havePermission = await this.getPermission();
     if (havePermission) {
-      var token = await this.getExpoToken();
+      var token = await new Services().getExpoToken();
       var formData = new FormData();
       formData.append("token", token);
       formData.append("username", username);
@@ -66,7 +62,7 @@ export default class NotifServices extends Component {
   async loginForExpoToken(username) {
     var havePermission = await this.getPermission();
     if (havePermission) {
-      var token = await this.getExpoToken();
+      var token = await new Services().getExpoToken();
       this.initForPushNotificationsAsync(username, token);
     }
   }

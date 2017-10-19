@@ -19,6 +19,7 @@ import FormData from "FormData";
 import Toast from "react-native-easy-toast";
 import { RegisterServices } from "./";
 import config from "../configs/data/config";
+import { Notifications } from "expo";
 
 // create a component
 class Services extends Component {
@@ -32,6 +33,21 @@ class Services extends Component {
     }).then(this._showResult);
   }
 
+  async getExpoToken() {
+    this.getData("expToken").then(response => {
+      if (response == null) {
+        return response;
+      } else {
+        return Notifications.getExpoPushTokenAsync().then(token => {
+          this.saveData("expToken", token);
+          return token;
+        });
+      }
+    });
+
+    return token;
+  }
+
   renderPlaceholderPage() {
     return (
       <View>
@@ -43,7 +59,7 @@ class Services extends Component {
   async goLogin(webViewState) {
     var OauthCode = await this.extractOauthCode(webViewState.url);
     var token = await this.getToken(OauthCode);
-    return await this.getUserInfo(token);
+    return await this.getUserName(token);
   }
 
   login(username, password) {
@@ -140,7 +156,7 @@ class Services extends Component {
       let OauthCode = await this.extractOauthCode(webViewState.url);
       let tokenData = await this.getToken(OauthCode);
       await this.saveTokenData(tokenData);
-      return await this.getUserInfo(tokenData.access_token);
+      return await this.getUserName(tokenData.access_token);
     } catch (error) {
       let myerror = new Error(response.error);
       console.log("error", error);
@@ -198,6 +214,9 @@ class Services extends Component {
     return await fetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
+        console.log("====================================");
+        console.log("token by Oauth", responseJSON);
+        console.log("====================================");
         if (!responseJSON.error) {
           return responseJSON;
         } else {
@@ -205,11 +224,6 @@ class Services extends Component {
           myerror.message = "erreur getting token by OauthCode";
           throw myerror;
         }
-      })
-      .catch(error => {
-        let myerror = new Error(error);
-        myerror.message = "erreur services getting token by OauthCode";
-        throw myerror;
       });
   }
 
@@ -285,25 +299,35 @@ class Services extends Component {
       });
   }
 
-  async getUserInfo(token) {
-    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
-    this.myFetch(url, { method: "GET" })
+  async getUserData(pseudo) {
+    var url = configs.NEW_BASE_URL + "src/userData.php";
+    var formData = new FormData();
+    formData.append("pseudo", pseudo);
+    var data = {
+      method: "GET",
+      body: formData
+    };
+    return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
+        console.log("====================================");
+        console.log("userData", responseJSON);
+        console.log("====================================");
         if (!responseJSON.error) {
-          var userInfo = "";
-          if (responseJSON.user_id !== null) {
-            this.saveData("user_id", responseJSON.user_id);
-            userInfo = responseJSON.user_id;
+          if (responseJSON.id_account !== null) {
+            this.saveData("userData", responseJSON).then(answer => {
+              return responseJSON;
+            });
           } else {
+            console.log("error", error);
             let myerror = new Error(responseJSON.error);
-            myerror.message = "utilisateur inconnu";
+            myerror.message = "erreur getting userData";
             throw myerror;
           }
-          return userInfo;
         } else {
+          console.log("error", error);
           let myerror = new Error(responseJSON.error);
-          myerror.message = "erreur getting userInfo";
+          myerror.message = "erreur services getting userData";
           throw myerror;
         }
       })
@@ -312,6 +336,33 @@ class Services extends Component {
         let myerror = new Error(error);
         myerror.message = "erreur services getting userInfo";
         throw myerror;
+      });
+  }
+
+  async getUserName(token) {
+    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
+    return this.fetch(url, { method: "GET" })
+      .then(response => response.json())
+      .then(responseJSON => {
+        console.log("====================================");
+        console.log("userInfo", responseJSON);
+        console.log("====================================");
+        if (!responseJSON.error) {
+          var userInfo = "";
+          if (responseJSON.id_account !== null) {
+            this.saveData("user_id", responseJSON.user_id);
+            userInfo = responseJSON.user_id;
+            return userInfo;
+          } else {
+            let myerror = new Error(responseJSON.error);
+            myerror.message = "erreur getting userInfo";
+            throw myerror;
+          }
+        } else {
+          let myerror = new Error(responseJSON.error);
+          myerror.message = "erreur getting userInfo";
+          throw myerror;
+        }
       });
   }
 

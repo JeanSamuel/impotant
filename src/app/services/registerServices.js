@@ -24,7 +24,7 @@ class RegisterServices extends Component {
    */
   async saveAccount(accountId) {
     var notifServices = new NotifServices();
-    var token = await notifServices.getExpoToken();
+    var token = await new Services().getExpoToken();
     await notifServices.initForPushNotificationsAsync(accountId);
 
     let url = configs.BASE_URL + "UserRestController.php";
