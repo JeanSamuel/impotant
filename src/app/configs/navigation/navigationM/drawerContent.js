@@ -32,7 +32,6 @@ export default class DrawerContent extends Component {
       isrefreshing: false,
       notification: {}
     };
-    
   }
 
   componentWillMount() {
@@ -76,6 +75,9 @@ export default class DrawerContent extends Component {
   }
 
   checkSolde() {
+    console.log('====================================');
+    console.log('début maka solde');
+    console.log('====================================');
     let services = new Services();
     let response = services.checkSolde(this.state.id_account)
     .then(response => {

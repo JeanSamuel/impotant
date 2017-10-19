@@ -320,9 +320,6 @@ class Services extends Component {
     .then(response =>response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
-          console.log('====================================');
-          console.log('in userData', responseJSON);
-          console.log('====================================');
           if (responseJSON.id_account !== null) {
             this.saveData("userData", JSON.stringify(responseJSON))
               return responseJSON;
@@ -384,31 +381,33 @@ class Services extends Component {
    */
   checkSolde(id_account) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.BASE_URL + "balance/" + 1;
+    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=aa001";
     let data = {
       method: "GET"
     };
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        if (responseJSON.accountId != null) {
-          this.saveData(
-            "solde",
-            JSON.stringify(responseJSON.value)
-          ).then(answer => {
+        console.log('====================================');
+        console.log(responseJSON);
+        console.log('====================================');
+        if (!responseJSON.error) {
+          this.saveData("solde",JSON.stringify(responseJSON.value))
             return responseJSON;
-          });
         } else {
-          return {
-            value: 0
-          };
-          let error = new Error(response.error);
-          error.message = json.error;
-          error.response = response;
-          throw error;
+          let myerror = new Error(responseJSON.error);
+          console.log(error);
+          myerror.message = "erreur getting solde";
+          throw myerror;
         }
+        
       })
-      .catch(error => {});
+      .catch(error => {
+        let myerror = new Error(responseJSON.error);
+        console.log(error);
+        myerror.message = "erreur servicesgetting solde";
+        throw myerror;
+      });
   }
 
   static async haveFingerprint() {
