@@ -88,7 +88,6 @@ class Services extends Component {
   async saveData(key, value) {
     try {
       await AsyncStorage.setItem(key, value);
-
     } catch (error) {
       console.log(error);
       throw "something went wrong when saving data";
@@ -137,21 +136,27 @@ class Services extends Component {
      * @param {*} webViewState : l'etat actuel dela fenetre de login (Webview)
      */
   async goLogin(webViewState) {
-   try {
-    let OauthCode = await this.extractOauthCode(webViewState.url);
-    let tokenData = await this.getToken(OauthCode);
-    await this.saveTokenData(tokenData);
-    return await this.getUserInfo(tokenData.access_token);
-   } catch (error) {
-    let myerror = new Error(response.error);
-    console.log('error', error);
-    myerror.message = "erreur during login";
-   }
+    try {
+      let OauthCode = await this.extractOauthCode(webViewState.url);
+      let tokenData = await this.getToken(OauthCode);
+      await this.saveTokenData(tokenData);
+      return await this.getUserInfo(tokenData.access_token);
+    } catch (error) {
+      let myerror = new Error(response.error);
+      console.log("error", error);
+      myerror.message = "erreur during login";
+    }
   }
 
-  async saveTokenData(tokenData){
-    await this.saveData('access_token', tokenData.access_token)
-    await this.saveData('refresh_token', tokenData.refresh_token)
+  async saveTokenData(tokenData) {
+    now = new Date();
+    expireTime = now.setSeconds(now.getSeconds() + tokenData.expires_in);
+    tokenData = {
+      access_token: tokenData.access_token,
+      refresh_token: tokenData.refresh_token,
+      expire_in: expireTime
+    };
+    await this.saveData("token_data", JSON.stringify(tokenData));
   }
 
   static getRandomIntoArray(myArray) {
@@ -186,58 +191,69 @@ class Services extends Component {
     formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
     formData.append("grant_type", configs.grant_type_Oauth);
     formData.append("scope", configs.scope);
-      var data = {
-        method: "POST",
-        body: formData
-      };
+    var data = {
+      method: "POST",
+      body: formData
+    };
     return await fetch(url, data)
-    .then(response => response.json())
-    .then(responseJSON =>{
-      if(!responseJSON.error){
-        return responseJSON;
-      }else{
-        let myerror = new Error(response.error);
-        myerror.message = "erreur getting token by OauthCode";
+      .then(response => response.json())
+      .then(responseJSON => {
+        if (!responseJSON.error) {
+          return responseJSON;
+        } else {
+          let myerror = new Error(response.error);
+          myerror.message = "erreur getting token by OauthCode";
+          throw myerror;
+        }
+      })
+      .catch(error => {
+        let myerror = new Error(error);
+        myerror.message = "erreur services getting token by OauthCode";
         throw myerror;
-      }
-    })
-    .catch(error =>{
-      let myerror = new Error(error);
-      myerror.message = "erreur services getting token by OauthCode";
-      throw myerror;
-    })
-    
+      });
   }
 
+  getValidToken() {
+    let tokenData = this.getData("token_data").then(tokenData => {
+      let tokenDataJson = JSON.parse(tokenData);
+      let expiration = tokenDataJson.expire_in;
+      let now = new Date();
+      if (expiration > now) {
+        return tokenDataJson.access_token;
+      } else {
+        this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
+          return token;
+        });
+      }
+    });
+  }
 
   /**
    * Implémentation du fetch par défaut our ajouter un header avec token
    * @param {*} url 
    * @param {*} data 
    */
-  async myFetch(url, data){
-    let access_token = await this.getData('access_token')
-      if(access_token != null){
-
-        if(data.headers == null){
-          data.headers = {
-            Authorization: "Bearer " + access_token
-          };
-        }else{
-          let headers = data.headers;
-          headers.Authorization = "Bearer " + access_token;
-          data.headers = headers
-        }
-        return await fetch(url, data);
+  async myFetch(url, data) {
+    let access_token = await this.getValidToken();
+    if (access_token != null) {
+      if (data.headers == null) {
+        data.headers = {
+          Authorization: "Bearer " + access_token
+        };
+      } else {
+        let headers = data.headers;
+        headers.Authorization = "Bearer " + access_token;
+        data.headers = headers;
       }
+      return await fetch(url, data);
+    }
   }
 
   /**
    * get token using refresh_token after register or sync or expired token
    * @param {*} refresh_token 
    */
-  async getTokenByRefreshToken(refresh_token){
-    await this.saveData('refresh_token', refresh_token);
+  async getTokenByRefreshToken(refresh_token) {
     var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
     formData.append("refresh_token", refresh_token);
@@ -249,66 +265,61 @@ class Services extends Component {
       body: formData
     };
     return await fetch(url, data)
-    .then(response =>response.json())
-    .then(responseJSON =>{
-      if(!responseJSON.error){
-        this.saveData('access_token', responseJSON.access_token);
-        this.saveData('refresh_token', responseJSON.refresh_token)
-        .then(answer =>{
-          return responseJSON.access_token;
-        })
-      }else{
-        let myerror = new Error(responseJSON.error);
-        console.log(error);
-        myerror.message = "erreur getting refresh_token";
+      .then(response => response.json())
+      .then(responseJSON => {
+        if (!responseJSON.error) {
+          this.saveTokenData(responseJSON).then(answer => {
+            return responseJSON.access_token;
+          });
+        } else {
+          let myerror = new Error(responseJSON.error);
+          console.log(error);
+          myerror.message = "erreur getting refresh_token";
+          throw myerror;
+        }
+      })
+      .catch(error => {
+        let myerror = new Error(error);
+        myerror.message = "erreur services during refresh_token";
         throw myerror;
-      }
-    })
-    .catch(error =>{
-      let myerror = new Error(error);
-      myerror.message = "erreur services during refresh_token";
-      throw myerror;
-    })
-    
+      });
   }
 
   async getUserInfo(token) {
     var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
     this.myFetch(url, { method: "GET" })
-    .then(response => response.json())
-    .then(responseJSON =>{
-      if(!responseJSON.error){
-        var userInfo = "";
-        if (responseJSON.user_id !== null) {
-          this.saveData("user_id", responseJSON.user_id);
-          userInfo = responseJSON.user_id;
+      .then(response => response.json())
+      .then(responseJSON => {
+        if (!responseJSON.error) {
+          var userInfo = "";
+          if (responseJSON.user_id !== null) {
+            this.saveData("user_id", responseJSON.user_id);
+            userInfo = responseJSON.user_id;
+          } else {
+            let myerror = new Error(responseJSON.error);
+            myerror.message = "utilisateur inconnu";
+            throw myerror;
+          }
+          return userInfo;
         } else {
           let myerror = new Error(responseJSON.error);
-          myerror.message = "utilisateur inconnu";
+          myerror.message = "erreur getting userInfo";
           throw myerror;
         }
-        return userInfo;
-      }else{
-        let myerror = new Error(responseJSON.error);
-        myerror.message = "erreur getting userInfo";
+      })
+      .catch(error => {
+        console.log("error", error);
+        let myerror = new Error(error);
+        myerror.message = "erreur services getting userInfo";
         throw myerror;
-      }
-    })
-    .catch(error =>{
-      console.log('error', error);
-      let myerror = new Error(error);
-      myerror.message = "erreur services getting userInfo";
-      throw myerror;
-    })
+      });
   }
-
 
   static formatNumber(number) {
     numeral.locale("fr");
     dataformat = numeral(number).format();
     return dataformat;
   }
-
 
   /**
    * Demander la solde d'un utilisateur
@@ -319,29 +330,28 @@ class Services extends Component {
     var url = configs.BASE_URL + "balance/" + 1;
     let data = {
       method: "GET"
-    }
-      return this.myFetch(url, data)
+    };
+    return this.myFetch(url, data)
       .then(response => response.json())
-      .then(responseJSON =>{
-          if (responseJSON.accountId != null) {
-            this.saveData("solde", JSON.stringify(responseJSON.value))
-            .then(answer =>{
-              return responseJSON;
-            })
-          } else {
-            return {
-              value : 0
-            }
-            let error = new Error(response.statusText);
-            error.message = json.error;
-            error.response = response;
-            throw error;
-          }
-        })
-      .catch(error =>{
+      .then(responseJSON => {
+        if (responseJSON.accountId != null) {
+          this.saveData(
+            "solde",
+            JSON.stringify(responseJSON.value)
+          ).then(answer => {
+            return responseJSON;
+          });
+        } else {
+          return {
+            value: 0
+          };
+          let error = new Error(response.statusText);
+          error.message = json.error;
+          error.response = response;
+          throw error;
+        }
       })
-
-    
+      .catch(error => {});
   }
 
   static async haveFingerprint() {

@@ -20,6 +20,7 @@ EStyleSheet.build({
   $white: "#FFFFFF",
   $lightGray: "#E6E6E6",
   $border: "#E2E2E2",
+  $darkColor: "#1C2E48",
   $primaryColor: "#128FB5",
   $inputText: "#797979",
   $darkText: "#343434",

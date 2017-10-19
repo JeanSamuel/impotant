@@ -59,15 +59,12 @@ class QrServices extends Component {
     formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
     let data = {
       method: "POST",
-      // headers: {
-      //   // Authorization: "Bearer " + access_token
-      //   // '-origin':
-      // },
       body: formData
     };
     // console.log("waiting for transactions", url);
     // response = await fetch(url, data);
-    return await services.myFetch(url, data)
+    return await services
+      .myFetch(url, data)
       .then(response => response.json())
       .then(responseJson => {
         return responseJson;
