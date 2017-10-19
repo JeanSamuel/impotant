@@ -56,12 +56,6 @@ class Services extends Component {
     );
   }
 
-  async goLogin(webViewState) {
-    var OauthCode = await this.extractOauthCode(webViewState.url);
-    var token = await this.getToken(OauthCode);
-    return await this.getUserName(token);
-  }
-
   login(username, password) {
     formdata = new FormData();
     formData.append("username", username);
@@ -183,6 +177,20 @@ class Services extends Component {
     return Math.floor(Math.random() * 100 + 1);
   }
 
+  async goLogin(webViewState) {
+    var OauthCode = await this.extractOauthCode(webViewState.url);
+    this.getToken(OauthCode).then(response =>{
+      console.log('====================================');
+      console.log('response avy an am token', response);
+      console.log('====================================');
+      let test = response;
+      this.getUserName(test).then(pseudo =>{
+        return this.getUserData(pseudo)
+      })
+    })
+    
+  }
+
   /**
      * 
      * @param {*} uri the url contains the Oauth Code 
@@ -211,14 +219,11 @@ class Services extends Component {
       method: "POST",
       body: formData
     };
-    return await fetch(url, data)
+   return response = await fetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("token by Oauth", responseJSON);
-        console.log("====================================");
         if (!responseJSON.error) {
-          return responseJSON;
+            return responseJSON.access_token;
         } else {
           let myerror = new Error(response.error);
           myerror.message = "erreur getting token by OauthCode";
@@ -300,9 +305,14 @@ class Services extends Component {
   }
 
   async getUserData(pseudo) {
+    console.log('====================================');
+    console.log('mankaty am userData v');
+    console.log('====================================');
     var url = configs.NEW_BASE_URL + "src/userData.php";
+    let expToken = await this.getExpoToken();
     var formData = new FormData();
     formData.append("pseudo", pseudo);
+    formData.append("expToken", expToken);
     var data = {
       method: "GET",
       body: formData
@@ -340,8 +350,11 @@ class Services extends Component {
   }
 
   async getUserName(token) {
+    console.log('====================================');
+    console.log('token aty a username', token);
+    console.log('====================================');
     var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
-    return this.fetch(url, { method: "GET" })
+    return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
         console.log("====================================");
