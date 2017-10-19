@@ -24,9 +24,9 @@ export default class NotifServices extends Component {
   async registerExpoToken(username) {
     var havePermission = await this.getPermission();
     if (havePermission) {
-      var token = await new Services().getExpoToken();
+      var reg_token = await new Services().getExpoToken();
       var formData = new FormData();
-      formData.append("token", token);
+      formData.append("token", reg_token);
       formData.append("username", username);
       var response = await fetch(PUSH_REGISTER, {
         method: "POST",
@@ -41,13 +41,13 @@ export default class NotifServices extends Component {
             console.log("eto ah");
           }
           if (response.status == 405) {
-            let error = new Error(response.statusText);
+            let error = new Error(response.error);
             error.message =
               "Ce nom est déjà utilisé, veuillez choisir un autre";
             error.response = response;
             throw error;
           } else {
-            let error = new Error(response.statusText);
+            let error = new Error(response.error);
             error.message = "Verifier votre connexion";
             error.response = response;
             throw error;
@@ -62,8 +62,9 @@ export default class NotifServices extends Component {
   async loginForExpoToken(username) {
     var havePermission = await this.getPermission();
     if (havePermission) {
-      var token = await new Services().getExpoToken();
-      this.initForPushNotificationsAsync(username, token);
+      new Services().getExpoToken().then(response=>{
+        this.initForPushNotificationsAsync(username, response);
+      })
     }
   }
 
@@ -83,10 +84,10 @@ export default class NotifServices extends Component {
     return true;
   }
 
-  async initForPushNotificationsAsync(username, token) {
+  async initForPushNotificationsAsync(username, init_token) {
     var services = new Services();
     var formData = new FormData();
-    formData.append("token", token);
+    formData.append("token", init_token);
     formData.append("username", username);
     var response = await services.myFetch(PUSH_INIT, {
       method: "POST",
@@ -96,7 +97,7 @@ export default class NotifServices extends Component {
       },
       body: formData
     }).catch(error => {
-      let erreur = new Error(response.statusText);
+      let erreur = new Error(response.error);
       erreur.response = response;
       console.log("error initialisation Push", erreur);
     });

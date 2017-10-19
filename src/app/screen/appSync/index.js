@@ -88,15 +88,22 @@ class AppSync extends Component {
 
   async componentDidMount() {
     if (!this.state.isSetted) {
-      let token = await new NotificationServices().getExpoToken();
-      this.generateQrValue(token);
-      this.setState({
-        isSetted: true,
-        token: token,
-        textStatus: "Prêt",
-        textStatus2: "",
-        textHelp: "Prenez en photo avec l'application AriaryClient"
-      });
+      new NotificationServices().getExpoToken().then(response =>{
+        this.generateQrValue(response);
+        this.setState({
+          isSetted: true,
+          token: response,
+          textStatus: "Prêt",
+          textStatus2: "",
+          textHelp: "Prenez en photo avec l'application AriaryClient"
+        });
+      })
+      .catch(error =>{
+        console.log('====================================');
+        console.log('error préparation');
+        console.log('====================================');
+      })
+      
     }
   }
 

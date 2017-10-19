@@ -51,7 +51,7 @@ class RegisterServices extends Component {
           }
         } else if (response.status == 405) {
           let num = Services.getRandomNumber();
-          let error = new Error(response.statusText);
+          let error = new Error(response.error);
           error.message =
             "Ce nom est déjà utilisé, veuillez choisir un autre (essayez avec : " +
             accountId +
@@ -60,7 +60,7 @@ class RegisterServices extends Component {
 
           throw error;
         } else {
-          let error = new Error(response.statusText);
+          let error = new Error(response.error);
           error.message =
             "Une erreur est survenue lors de la connexion aux serveurs";
           error.response = response;

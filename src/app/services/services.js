@@ -34,18 +34,17 @@ class Services extends Component {
   }
 
   async getExpoToken() {
-    this.getData("expToken").then(response => {
-      if (response == null) {
+    return await this.getData("expToken").then(response => {
+      if (response != null) {
         return response;
       } else {
-        return Notifications.getExpoPushTokenAsync().then(token => {
-          this.saveData("expToken", token);
-          return token;
+        Notifications.getExpoPushTokenAsync().then(expToken => {
+          this.saveData("expToken", expToken).then(res =>{
+            return test
+          })
         });
       }
     });
-
-    return token;
   }
 
   renderPlaceholderPage() {
@@ -166,7 +165,7 @@ class Services extends Component {
       refresh_token: tokenData.refresh_token,
       expire_in: expireTime
     };
-    await this.saveData("token_data", JSON.stringify(tokenData));
+    this.saveData("token_data", JSON.stringify(tokenData));
   }
 
   static getRandomIntoArray(myArray) {
@@ -179,13 +178,12 @@ class Services extends Component {
 
   async goLogin(webViewState) {
     var OauthCode = await this.extractOauthCode(webViewState.url);
-    this.getToken(OauthCode).then(response =>{
-      console.log('====================================');
-      console.log('response avy an am token', response);
-      console.log('====================================');
-      let test = response;
-      this.getUserName(test).then(pseudo =>{
-        return this.getUserData(pseudo)
+    return this.getToken(OauthCode).then(response =>{
+      let token = response;
+      return this.getUserName(token).then(pseudo =>{
+        return this.getUserData(pseudo).then(userData =>{
+          return userData;
+        })
       })
     })
     
@@ -223,17 +221,25 @@ class Services extends Component {
       .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
+          this.saveTokenData(responseJSON);
             return responseJSON.access_token;
         } else {
           let myerror = new Error(response.error);
           myerror.message = "erreur getting token by OauthCode";
           throw myerror;
         }
-      });
+      })
+      .catch(error =>{
+        console.log('token azo', error);
+        let myerror = new Error(error);
+        myerror.message = "erreur services during refresh_token";
+        throw myerror;
+      })
   }
 
-  getValidToken() {
-    let tokenData = this.getData("token_data").then(tokenData => {
+  async getValidToken() {
+    return this.getData("token_data").then(tokenData => {
+      
       let tokenDataJson = JSON.parse(tokenData);
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
@@ -253,19 +259,22 @@ class Services extends Component {
    * @param {*} data 
    */
   async myFetch(url, data) {
-    let access_token = await this.getValidToken();
-    if (access_token != null) {
-      if (data.headers == null) {
-        data.headers = {
-          Authorization: "Bearer " + access_token
-        };
-      } else {
-        let headers = data.headers;
-        headers.Authorization = "Bearer " + access_token;
-        data.headers = headers;
+    return this.getValidToken()
+    .then(access_token =>{
+      if (access_token != null) {
+        if (data.headers == null) {
+          data.headers = {
+            Authorization: "Bearer " + access_token
+          };
+        } else {
+          let headers = data.headers;
+          headers.Authorization = "Bearer " + access_token;
+          data.headers = headers;
+        }
+        return fetch(url, data);
       }
-      return await fetch(url, data);
-    }
+    })
+    
   }
 
   /**
@@ -305,33 +314,22 @@ class Services extends Component {
   }
 
   async getUserData(pseudo) {
-    console.log('====================================');
-    console.log('mankaty am userData v');
-    console.log('====================================');
-    var url = configs.NEW_BASE_URL + "src/userData.php";
-    let expToken = await this.getExpoToken();
-    var formData = new FormData();
-    formData.append("pseudo", pseudo);
-    formData.append("expToken", expToken);
-    var data = {
-      method: "GET",
-      body: formData
-    };
-    return this.myFetch(url, data)
-      .then(response => response.json())
+    let expToken = await this.getExpoToken()
+    var url = configs.NEW_BASE_URL + "src/userData.php?pseudo="+pseudo.trim()+"&expToken="+expToken;
+    return this.myFetch(url, { method: "GET" })
+    .then(response =>response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("userData", responseJSON);
-        console.log("====================================");
         if (!responseJSON.error) {
+          console.log('====================================');
+          console.log('in userData', responseJSON);
+          console.log('====================================');
           if (responseJSON.id_account !== null) {
-            this.saveData("userData", responseJSON).then(answer => {
+            this.saveData("userData", JSON.stringify(responseJSON))
               return responseJSON;
-            });
           } else {
             console.log("error", error);
             let myerror = new Error(responseJSON.error);
-            myerror.message = "erreur getting userData";
+            myerror.message = "erreur getting userData" + error;
             throw myerror;
           }
         } else {
@@ -344,22 +342,17 @@ class Services extends Component {
       .catch(error => {
         console.log("error", error);
         let myerror = new Error(error);
-        myerror.message = "erreur services getting userInfo";
+        myerror.message = "erreur services getting userData";
         throw myerror;
       });
   }
 
-  async getUserName(token) {
-    console.log('====================================');
-    console.log('token aty a username', token);
-    console.log('====================================');
-    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + token;
+  async getUserName(new_token) {
+    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("userInfo", responseJSON);
-        console.log("====================================");
+
         if (!responseJSON.error) {
           var userInfo = "";
           if (responseJSON.id_account !== null) {
@@ -368,12 +361,12 @@ class Services extends Component {
             return userInfo;
           } else {
             let myerror = new Error(responseJSON.error);
-            myerror.message = "erreur getting userInfo";
+            myerror.message = "erreur getting userName";
             throw myerror;
           }
         } else {
           let myerror = new Error(responseJSON.error);
-          myerror.message = "erreur getting userInfo";
+          myerror.message = "erreur getting userName";
           throw myerror;
         }
       });
@@ -409,7 +402,7 @@ class Services extends Component {
           return {
             value: 0
           };
-          let error = new Error(response.statusText);
+          let error = new Error(response.error);
           error.message = json.error;
           error.response = response;
           throw error;
