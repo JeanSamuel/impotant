@@ -18,6 +18,7 @@ EStyleSheet.build({
   // outline: 1,
   $primaryBlue: "#34495e",
   $white: "#FFFFFF",
+  $darkColor: "#1C2E48",
   $lightGray: "#E6E6E6",
   $border: "#E2E2E2",
   $primaryColor: "#128FB5",

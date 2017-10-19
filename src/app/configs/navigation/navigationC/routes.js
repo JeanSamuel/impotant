@@ -124,5 +124,5 @@ export default StackNavigator(
       })
     }
   },
-  { initialRouteName: "Handler" }
+  { initialRouteName: "Landing" }
 );
