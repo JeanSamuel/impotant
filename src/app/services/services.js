@@ -40,7 +40,7 @@ class Services extends Component {
       } else {
         Notifications.getExpoPushTokenAsync().then(expToken => {
           this.saveData("expToken", expToken).then(res => {
-            return test;
+            return res;
           });
         });
       }
@@ -238,11 +238,11 @@ class Services extends Component {
 
   async getValidToken() {
     return this.getData("token_data").then(tokenData => {
-      console.log(tokenData);
       let tokenDataJson = JSON.parse(tokenData);
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
       if (expiration > now) {
+        console.log(now);
         return tokenDataJson.access_token;
       } else {
         this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
@@ -386,31 +386,32 @@ class Services extends Component {
    */
   checkSolde(id_account) {
     // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.BASE_URL + "balance/" + 1;
+    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=aa001";
     let data = {
       method: "GET"
     };
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        if (responseJSON.accountId != null) {
-          this.saveData(
-            "solde",
-            JSON.stringify(responseJSON.value)
-          ).then(answer => {
-            return responseJSON;
-          });
+        console.log("====================================");
+        console.log(responseJSON);
+        console.log("====================================");
+        if (!responseJSON.error) {
+          this.saveData("solde", JSON.stringify(responseJSON.value));
+          return responseJSON;
         } else {
-          return {
-            value: 0
-          };
-          let error = new Error(response.error);
-          error.message = json.error;
-          error.response = response;
-          throw error;
+          let myerror = new Error(responseJSON.error);
+          console.log(error);
+          myerror.message = "erreur getting solde";
+          throw myerror;
         }
       })
-      .catch(error => {});
+      .catch(error => {
+        let myerror = new Error(responseJSON.error);
+        console.log(error);
+        myerror.message = "erreur servicesgetting solde";
+        throw myerror;
+      });
   }
 
   static async haveFingerprint() {

@@ -26,13 +26,12 @@ export default class DrawerContent extends Component {
       solde: "",
       id_account: 0,
       alias: "",
-      pseudo : "",
+      pseudo: "",
       date: "",
       animation: "",
       isrefreshing: false,
       notification: {}
     };
-    
   }
 
   componentWillMount() {
@@ -41,11 +40,9 @@ export default class DrawerContent extends Component {
     );
   }
 
-  
   componentDidMount() {
-    this.checkUserData()
+    this.checkUserData();
   }
-  
 
   componentWillUnmount() {
     this._notificationSubscription.remove();
@@ -59,35 +56,37 @@ export default class DrawerContent extends Component {
     return this.state.solde;
   }
 
-  async checkUserData(){
+  async checkUserData() {
     let services = new Services();
-    let userData = services.getData("userData")
-      .then(userData =>{
-        // dataParsed = JSON.parse(userData)
-        this.setState({
-          // id_account: dataParsed.id_account,
-          // alias :  dataParsed.alias,
-          // pseudo :  dataParsed.pseudo,
-          isrefreshing: true
-        });
-        this.checkSolde();
-      })
-      
+    let userData = services.getData("userData").then(userData => {
+      // dataParsed = JSON.parse(userData)
+      this.setState({
+        // id_account: dataParsed.id_account,
+        // alias :  dataParsed.alias,
+        // pseudo :  dataParsed.pseudo,
+        isrefreshing: true
+      });
+      this.checkSolde();
+    });
   }
 
   checkSolde() {
+    console.log("====================================");
+    console.log("début maka solde");
+    console.log("====================================");
     let services = new Services();
-    let response = services.checkSolde(this.state.id_account)
-    .then(response => {
-      this.setState({
-        solde: response.value,
-        date: response.date,
-        isrefreshing: false
+    let response = services
+      .checkSolde(this.state.id_account)
+      .then(response => {
+        this.setState({
+          solde: response.value,
+          date: response.date,
+          isrefreshing: false
+        });
+      })
+      .catch(error => {
+        this.checkOldSolde();
       });
-    })
-    .catch(error => {
-      this.checkOldSolde();
-    });
   }
 
   checkOldSolde() {

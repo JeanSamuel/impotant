@@ -6,13 +6,16 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Modal
 } from "react-native";
 import { Icon } from "react-native-elements";
 import QrServices from "../../services/qrservices";
+import { MessagePrompt } from "../../components/modal";
 
 // create a component
 const { height, width } = Dimensions.get("window");
+
 class Review extends Component {
   constructor(props) {
     super(props);
@@ -20,11 +23,24 @@ class Review extends Component {
       user_id: this.props.navigation.state.params.user_id,
       amount: this.props.navigation.state.params.amount,
       user: this.props.navigation.state.params.user,
+      messageText: "",
+      messageVisible: false,
+      loading: true,
+      messageTitle: "Hold On!",
+      error: false,
+      iconName: "done",
+      color: "",
       currency: "Ar"
     };
   }
 
   _handleContinue() {
+    this.setState({
+      loading: true,
+      color: "#FF9521",
+      messageText: "Votre transaction est en cours de validation",
+      messageVisible: true
+    });
     services = new QrServices();
     let services = new QrServices();
     services
@@ -36,8 +52,28 @@ class Review extends Component {
         ""
       )
       .then(rep => {
-        alert("succées");
+        if (rep.resultat == "succcess") {
+          this.setState({
+            loading: false,
+            error: false,
+            messageTitle: "Success !",
+            iconName: "done",
+            color: "#00B232",
+            messageText:
+              "Vous avez envoyé " +
+              this.state.amount +
+              " " +
+              this.state.currency +
+              " à " +
+              this.state.user
+          });
+        }
       });
+  }
+
+  _hideMessage() {
+    this.setState({ messageVisible: !this.state.messageVisible });
+    this.props.navigation.navigate("History", { user_id: this.state.user_id });
   }
   render() {
     return (
@@ -90,6 +126,27 @@ class Review extends Component {
             </Text>
           </View>
         </TouchableHighlight>
+        {this.state.messageVisible ? (
+          <MessagePrompt
+            onRequestClose={() => this._hideMessage()}
+            amount={this.state.amount}
+            currency={this.state.currency}
+            user={this.state.user}
+            iconName={this.state.iconName}
+            loading={this.state.loading}
+            text={
+              "Vous avez envoyé " +
+              this.state.amount +
+              " " +
+              this.state.currency +
+              " à " +
+              this.state.user
+            }
+            title={this.state.messageTitle}
+            error={this.state.error}
+            color={this.state.color}
+          />
+        ) : null}
       </View>
     );
   }
@@ -97,6 +154,13 @@ class Review extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(52, 73, 94,0.9)"
+  },
   container: {
     flex: 1,
     justifyContent: "center",
