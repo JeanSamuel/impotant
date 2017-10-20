@@ -2,11 +2,13 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import config from "../configs/data/config";
+import configs from "../configs/data/dataM";
 import moment from "moment";
 import Services from "./services";
 
 // create a component
-const transaction_url = config.CUSTOM_BASE_URL + "transaction";
+// const transaction_url = config.CUSTOM_BASE_URL + "transaction";
+const transaction_url = configs.NEW_BASE_URL + "src/transaction.php";
 class QrServices extends Component {
   /**
    * 
@@ -48,31 +50,41 @@ class QrServices extends Component {
   }
 
   async performTransation(amount, sender_id, currency, user_id, access_token) {
-    const url = transaction_url + "/" + sender_id;
+    // const url = transaction_url + "/" + sender_id;
+    const url = transaction_url;
     var services = new Services();
     let formData = new FormData();
     formData.append("amount", amount);
-    formData.append("senderId", sender_id);
-    formData.append("recipientId", user_id);
+    // formData.append("senderId", sender_id);
+    formData.append("senderId", "AA001");
+    formData.append("recipientId", "AA002");
+    // formData.append("recipientId", user_id);
     formData.append("currency", currency);
     formData.append("comment", "Transfert");
-    formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
+    // formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
     let data = {
       method: "POST",
       body: formData
     };
-    // console.log("waiting for transactions", url);
-    // response = await fetch(url, data);
     return await services
       .myFetch(url, data)
       .then(response => response.json())
       .then(responseJson => {
+        console.log(responseJson);
         return responseJson;
       })
       .catch(error => {
         console.log("erreur aty aloha", error);
         throw error;
       });
+
+    // .then(responseJson => {
+    //   return responseJson;
+    // })
+    // .catch(error => {
+    //   console.log("erreur aty aloha", error);
+    //   throw error;
+    // });
   }
 
   async handleTransactionResponse(responseJson) {

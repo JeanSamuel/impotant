@@ -39,9 +39,9 @@ class Services extends Component {
         return response;
       } else {
         Notifications.getExpoPushTokenAsync().then(expToken => {
-          this.saveData("expToken", expToken).then(res =>{
-            return test
-          })
+          this.saveData("expToken", expToken).then(res => {
+            return res;
+          });
         });
       }
     });
@@ -103,12 +103,12 @@ class Services extends Component {
     }
   }
 
-  createError(error, message){
-    console.log('erreur auto :', error);
-    console.log('erreur perso :', message);
+  createError(error, message) {
+    console.log("erreur auto :", error);
+    console.log("erreur perso :", message);
     let myerror = new Error(error);
     myerror.message = message;
-    return myerror
+    return myerror;
   }
 
   saveData2(key, value) {
@@ -159,7 +159,7 @@ class Services extends Component {
       await this.saveTokenData(tokenData);
       return await this.getUserName(tokenData.access_token);
     } catch (error) {
-      throw this.createError(response.error, "erreur during login")
+      throw this.createError(response.error, "erreur during login");
     }
   }
 
@@ -184,15 +184,14 @@ class Services extends Component {
 
   async goLogin(webViewState) {
     var OauthCode = await this.extractOauthCode(webViewState.url);
-    return this.getToken(OauthCode).then(response =>{
+    return this.getToken(OauthCode).then(response => {
       let token = response;
-      return this.getUserName(token).then(pseudo =>{
-        return this.getUserData(pseudo).then(userData =>{
+      return this.getUserName(token).then(pseudo => {
+        return this.getUserData(pseudo).then(userData => {
           return userData;
-        })
-      })
-    })
-    
+        });
+      });
+    });
   }
 
   /**
@@ -223,31 +222,33 @@ class Services extends Component {
       method: "POST",
       body: formData
     };
-   return response = await fetch(url, data)
+    return (response = await fetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
           this.saveTokenData(responseJSON);
-            return responseJSON.access_token;
+          return responseJSON.access_token;
         } else {
-          throw this.createError(response.error, "erreur getting token by OauthCode")
+          throw this.createError(
+            response.error,
+            "erreur getting token by OauthCode"
+          );
         }
       })
-      .catch(error =>{
-        throw this.createError(error, "erreur services during refresh_token")
-      })
+      .catch(error => {
+        throw this.createError(error, "erreur services during refresh_token");
+      }));
   }
 
   async getValidToken() {
     return this.getData("token_data").then(tokenData => {
-      
       let tokenDataJson = JSON.parse(tokenData);
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
       if (expiration > now) {
-        console.log('====================================');
-        console.log('token actuel', tokenDataJson.access_token);
-        console.log('====================================');
+        console.log("====================================");
+        console.log("token actuel", tokenDataJson.access_token);
+        console.log("====================================");
         return tokenDataJson.access_token;
       } else {
         this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
@@ -264,24 +265,23 @@ class Services extends Component {
    */
   async myFetch(url, data) {
     return this.getValidToken()
-    .then(access_token =>{
-      if (access_token != null) {
-        if (data.headers == null) {
-          data.headers = {
-            Authorization: "Bearer " + access_token
-          };
-        } else {
-          let headers = data.headers;
-          headers.Authorization = "Bearer " + access_token;
-          data.headers = headers;
+      .then(access_token => {
+        if (access_token != null) {
+          if (data.headers == null) {
+            data.headers = {
+              Authorization: "Bearer " + access_token
+            };
+          } else {
+            let headers = data.headers;
+            headers.Authorization = "Bearer " + access_token;
+            data.headers = headers;
+          }
+          return fetch(url, data);
         }
-        return fetch(url, data);
-      }
-    })
-    .catch(error =>{
-      throw this.createError(error, "erreur services fetching")
-    })
-    
+      })
+      .catch(error => {
+        throw this.createError(error, "erreur services fetching");
+      });
   }
 
   /**
@@ -307,42 +307,53 @@ class Services extends Component {
             return responseJSON.access_token;
           });
         } else {
-          throw this.createError(responseJSON.error, "erreur getting refresh_token")
+          throw this.createError(
+            responseJSON.error,
+            "erreur getting refresh_token"
+          );
         }
       })
       .catch(error => {
-        throw this.createError(error, "erreur services during refresh_token")
+        throw this.createError(error, "erreur services during refresh_token");
       });
   }
 
   async getUserData(pseudo) {
-    let expToken = await this.getExpoToken()
-    var url = configs.NEW_BASE_URL + "src/userData.php?pseudo="+pseudo.trim()+"&expToken="+expToken;
+    let expToken = await this.getExpoToken();
+    var url =
+      configs.NEW_BASE_URL +
+      "src/userData.php?pseudo=" +
+      pseudo.trim() +
+      "&expToken=" +
+      expToken;
     return this.myFetch(url, { method: "GET" })
-    .then(response =>response.json())
+      .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
+          console.log("====================================");
+          console.log("in userData", responseJSON);
+          console.log("====================================");
           if (responseJSON.id_account !== null) {
-            this.saveData("userData", JSON.stringify(responseJSON))
-              return responseJSON;
+            this.saveData("userData", JSON.stringify(responseJSON));
+            return responseJSON;
           } else {
-            throw this.createError(null, "no id_account in userData response")
+            throw this.createError(null, "no id_account in userData response");
           }
         } else {
-          throw this.createError(responseJSON.error, "erreur getting userData")
+          throw this.createError(responseJSON.error, "erreur getting userData");
         }
       })
       .catch(error => {
-        throw this.createError(error, "erreur services getting userData")
+        throw this.createError(error, "erreur services getting userData");
       });
   }
 
   async getUserName(new_token) {
-    var url = configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
+    var url =
+      configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-
         if (!responseJSON.error) {
           var userInfo = "";
           if (responseJSON.id_account !== null) {
@@ -350,16 +361,15 @@ class Services extends Component {
             userInfo = responseJSON.user_id;
             return userInfo;
           } else {
-            throw this.createError(null, "erreur getting id in userName")
+            throw this.createError(null, "erreur getting id in userName");
           }
         } else {
-          throw this.createError(responseJSON.error, "erreur getting userName")
-
+          throw this.createError(responseJSON.error, "erreur getting userName");
         }
       })
-      .catch(error =>{
-        throw this.createError(error, "erreur services getting userName")
-      })
+      .catch(error => {
+        throw this.createError(error, "erreur services getting userName");
+      });
   }
 
   static formatNumber(number) {
@@ -381,19 +391,21 @@ class Services extends Component {
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        console.log('====================================');
-        console.log('solde', responseJSON);
-        console.log('====================================');
+        console.log("====================================");
+        console.log("solde", responseJSON);
+        console.log("====================================");
         if (!responseJSON.error) {
-          this.saveData("solde",JSON.stringify(responseJSON.value))
-            return responseJSON;
+          this.saveData("solde", JSON.stringify(responseJSON.value));
+          return responseJSON;
         } else {
-          throw this.createError(responseJSON.error, "erreur getting solde")
+          throw this.createError(responseJSON.error, "erreur getting solde");
         }
-        
       })
       .catch(error => {
-        throw this.createError(responseJSON.error, "erreur services getting solde")
+        throw this.createError(
+          responseJSON.error,
+          "erreur services getting solde"
+        );
       });
   }
 
