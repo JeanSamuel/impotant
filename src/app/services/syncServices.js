@@ -18,7 +18,6 @@ class SyncServices extends Component {
   }
 
   async synchronise(id_account, expToken, device_id, alias) {
-    let refresh_token = await new Services().getData('refresh_token');
     let url = configs.NEW_BASE_URL + "src/beginSync.php";
     var formData = new FormData();
     formData.append("id_account", id_account);

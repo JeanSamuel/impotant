@@ -96,9 +96,20 @@ class History extends Component {
     });
   }
 
+  waiting(){
+    return(
+      <View>
+        <Error isSynchronised={true} text="Synchronisation..." />
+        <RowEmpty />
+        <RowEmpty />
+        <RowEmpty />
+      </View>
+    )
+  }
+
   isSynchronised() {
     this.setState({
-      error: <Error isSynchronised={true} text="Synchronisation..." />
+      error: this.waiting()
     });
   }
 
@@ -181,12 +192,7 @@ class History extends Component {
   render() {
     if (this.state.data == null) {
       return (
-        <View>
-          <Error isSynchronised={true} text="Synchronisation..." />
-          <RowEmpty />
-          <RowEmpty />
-          <RowEmpty />
-        </View>
+        this.waiting()
       )
     } else {
       const ds = new ListView.DataSource({
