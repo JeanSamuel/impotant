@@ -52,7 +52,7 @@ class HeaderHistory extends Component {
         }
         return <View>{response}</View>;
       } catch (error) {
-        return <View>Erreur dans header</View>;
+        return <View><Text>Erreur dans header</Text></View>;
       }
     }
   }

@@ -18,21 +18,46 @@ class HistorySevices extends Component {
     return moment(actualDate, "YYYY-MM-DD").format("YYYY-MM-DD");
   };
 
+  checkHistoryError(data){
+    if(data.length > 0){
+      let oneData = data[0];
+      if(!oneData.id){
+        return [];
+      }
+      return data;
+    }else{
+      return data;
+    }
+  }
+
   async getHistory(user_id) {
-    // let url = loginData.BASE_URL + "transaction/aa031";
-    let url = configs.BASE_URL + "transaction/" + user_id;
+    let url = configs.NEW_BASE_URL + "src/transaction.php?account-id=aa001";
+    // let url = configs.BASE_URL + "transaction/" + user_id;
+    console.log('====================================');
+    console.log('début maka history');
+    console.log('====================================');
 
     try {
-      new Services().myFetch(url, { method: "GET" })
-      .then(response =>{
-
-      })
-      .catch(error =>{
+      return new Services().myFetch(url, { method: "GET" })
+      .then(response => response.json())
+      .then(responseJSON =>{
+        if (!responseJSON.error) {
+          let dataChecked = this.checkHistoryError(responseJSON);
+          return this.saveHistory(JSON.stringify(dataChecked)).then(answer =>{
+            return dataChecked;
+          })
+          .catch(error=>{
+            return responseJSON;
+          })
+        } else {
+          throw new Services().createError(responseJSON.error, "erreur getting History")
+        }
         
       })
-      var responseJson = await response.json();
-      this.saveHistory(JSON.stringify(responseJson));
-      return responseJson;
+      .catch(error =>{
+        throw new Services().createError(error, "erreur services getting History")
+      })
+      
     } catch (error) {
       console.log("erreur getHistory", error);
       throw error;

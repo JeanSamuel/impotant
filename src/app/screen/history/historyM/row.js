@@ -10,7 +10,15 @@ import Services from "../../../services/services";
 class Row extends Component {
   getCurrencyAndAmount(amount, currency, date) {
     let styleNegative = null;
-    let hour = date.split(" ")[1];
+    let hour = "00:00:00"
+    try {
+      hour = date.split("T")[1].split("+")[0];
+    } catch (error) {
+      new Services().createError(error, 'erreur getting hour row history')
+    }
+    console.log('====================================');
+    console.log(hour);
+    console.log('====================================');
     if (amount < 0) {
       styleNegative = styles.currencyNegative;
     }
@@ -76,7 +84,7 @@ class Row extends Component {
       this.props.info.date
     );
     // let type = this.getTypeOfTransaction(this.props.info.amount);
-    let type = this.props.info.comment;
+    let type = this.props.info.type;
     let icon = this.getIcon(this.props.info.amount);
 
     return (

@@ -105,7 +105,7 @@ class Services extends Component {
 
   createError(error, message){
     console.log('erreur auto :', error);
-    console.log('erreur perso :', error);
+    console.log('erreur perso :', message);
     let myerror = new Error(error);
     myerror.message = message;
     return myerror
@@ -245,6 +245,9 @@ class Services extends Component {
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
       if (expiration > now) {
+        console.log('====================================');
+        console.log('token actuel', tokenDataJson.access_token);
+        console.log('====================================');
         return tokenDataJson.access_token;
       } else {
         this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
@@ -378,6 +381,9 @@ class Services extends Component {
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
+        console.log('====================================');
+        console.log('solde', responseJSON);
+        console.log('====================================');
         if (!responseJSON.error) {
           this.saveData("solde",JSON.stringify(responseJSON.value))
             return responseJSON;
