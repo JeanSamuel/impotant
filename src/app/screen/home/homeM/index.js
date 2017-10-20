@@ -36,7 +36,7 @@ class Home extends Component {
     super(props);
     self = this;
     this.state = {
-      type: "vola",
+      type: "trans",
       data: {
         currency: "Toavina",
         userId: ""
@@ -77,7 +77,7 @@ class Home extends Component {
   checkUserData() {
     let services = new Services();
     services
-      .getData("userData")
+      .getData("userData")  
       .then(responseJSON => {
         if (responseJSON != null) {
           let response = JSON.parse(responseJSON);
@@ -103,6 +103,7 @@ class Home extends Component {
     this.showIntro();
     this.startTimer();
   }
+  
   _checkBackAndroid() {
     let routName = this.props.navigation.state.routeName;
     if (routName == "Starter" || routName == "First") {

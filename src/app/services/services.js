@@ -103,6 +103,14 @@ class Services extends Component {
     }
   }
 
+  createError(error, message) {
+    console.log("erreur auto :", error);
+    console.log("erreur perso :", message);
+    let myerror = new Error(error);
+    myerror.message = message;
+    return myerror;
+  }
+
   saveData2(key, value) {
     return AsyncStorage.setItem(key, value);
   }
@@ -151,9 +159,7 @@ class Services extends Component {
       await this.saveTokenData(tokenData);
       return await this.getUserName(tokenData.access_token);
     } catch (error) {
-      let myerror = new Error(response.error);
-      console.log("error", error);
-      myerror.message = "erreur during login";
+      throw this.createError(response.error, "erreur during login");
     }
   }
 
@@ -223,16 +229,14 @@ class Services extends Component {
           this.saveTokenData(responseJSON);
           return responseJSON.access_token;
         } else {
-          let myerror = new Error(response.error);
-          myerror.message = "erreur getting token by OauthCode";
-          throw myerror;
+          throw this.createError(
+            response.error,
+            "erreur getting token by OauthCode"
+          );
         }
       })
       .catch(error => {
-        console.log("token azo", error);
-        let myerror = new Error(error);
-        myerror.message = "erreur services during refresh_token";
-        throw myerror;
+        throw this.createError(error, "erreur services during refresh_token");
       }));
   }
 
@@ -242,7 +246,9 @@ class Services extends Component {
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
       if (expiration > now) {
-        console.log(now);
+        console.log("====================================");
+        console.log("token actuel", tokenDataJson.access_token);
+        console.log("====================================");
         return tokenDataJson.access_token;
       } else {
         this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
@@ -258,20 +264,24 @@ class Services extends Component {
    * @param {*} data 
    */
   async myFetch(url, data) {
-    return this.getValidToken().then(access_token => {
-      if (access_token != null) {
-        if (data.headers == null) {
-          data.headers = {
-            Authorization: "Bearer " + access_token
-          };
-        } else {
-          let headers = data.headers;
-          headers.Authorization = "Bearer " + access_token;
-          data.headers = headers;
+    return this.getValidToken()
+      .then(access_token => {
+        if (access_token != null) {
+          if (data.headers == null) {
+            data.headers = {
+              Authorization: "Bearer " + access_token
+            };
+          } else {
+            let headers = data.headers;
+            headers.Authorization = "Bearer " + access_token;
+            data.headers = headers;
+          }
+          return fetch(url, data);
         }
-        return fetch(url, data);
-      }
-    });
+      })
+      .catch(error => {
+        throw this.createError(error, "erreur services fetching");
+      });
   }
 
   /**
@@ -297,16 +307,14 @@ class Services extends Component {
             return responseJSON.access_token;
           });
         } else {
-          let myerror = new Error(responseJSON.error);
-          console.log(error);
-          myerror.message = "erreur getting refresh_token";
-          throw myerror;
+          throw this.createError(
+            responseJSON.error,
+            "erreur getting refresh_token"
+          );
         }
       })
       .catch(error => {
-        let myerror = new Error(error);
-        myerror.message = "erreur services during refresh_token";
-        throw myerror;
+        throw this.createError(error, "erreur services during refresh_token");
       });
   }
 
@@ -329,23 +337,14 @@ class Services extends Component {
             this.saveData("userData", JSON.stringify(responseJSON));
             return responseJSON;
           } else {
-            console.log("error", error);
-            let myerror = new Error(responseJSON.error);
-            myerror.message = "erreur getting userData" + error;
-            throw myerror;
+            throw this.createError(null, "no id_account in userData response");
           }
         } else {
-          console.log("error", error);
-          let myerror = new Error(responseJSON.error);
-          myerror.message = "erreur services getting userData";
-          throw myerror;
+          throw this.createError(responseJSON.error, "erreur getting userData");
         }
       })
       .catch(error => {
-        console.log("error", error);
-        let myerror = new Error(error);
-        myerror.message = "erreur services getting userData";
-        throw myerror;
+        throw this.createError(error, "erreur services getting userData");
       });
   }
 
@@ -362,15 +361,14 @@ class Services extends Component {
             userInfo = responseJSON.user_id;
             return userInfo;
           } else {
-            let myerror = new Error(responseJSON.error);
-            myerror.message = "erreur getting userName";
-            throw myerror;
+            throw this.createError(null, "erreur getting id in userName");
           }
         } else {
-          let myerror = new Error(responseJSON.error);
-          myerror.message = "erreur getting userName";
-          throw myerror;
+          throw this.createError(responseJSON.error, "erreur getting userName");
         }
+      })
+      .catch(error => {
+        throw this.createError(error, "erreur services getting userName");
       });
   }
 
@@ -394,23 +392,20 @@ class Services extends Component {
       .then(response => response.json())
       .then(responseJSON => {
         console.log("====================================");
-        console.log(responseJSON);
+        console.log("solde", responseJSON);
         console.log("====================================");
         if (!responseJSON.error) {
           this.saveData("solde", JSON.stringify(responseJSON.value));
           return responseJSON;
         } else {
-          let myerror = new Error(responseJSON.error);
-          console.log(error);
-          myerror.message = "erreur getting solde";
-          throw myerror;
+          throw this.createError(responseJSON.error, "erreur getting solde");
         }
       })
       .catch(error => {
-        let myerror = new Error(responseJSON.error);
-        console.log(error);
-        myerror.message = "erreur servicesgetting solde";
-        throw myerror;
+        throw this.createError(
+          responseJSON.error,
+          "erreur services getting solde"
+        );
       });
   }
 

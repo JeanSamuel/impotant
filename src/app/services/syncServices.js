@@ -18,7 +18,6 @@ class SyncServices extends Component {
   }
 
   async synchronise(id_account, expToken, device_id, alias) {
-    let refresh_token = await new Services().getData('refresh_token');
     let url = configs.NEW_BASE_URL + "src/beginSync.php";
     var formData = new FormData();
     formData.append("id_account", id_account);
@@ -48,33 +47,7 @@ class SyncServices extends Component {
       });
   }
 
-  getUserData(data) {
-    let url = configs.NEW_BASE_URL + "src/userData.php";
-    let formData = new FormData();
-    formData.append("id_account", data.id_account);
-    let dataPOST = {
-      method: "POST",
-      body: formData
-    };
-
-    return new Services().myFetch(url, dataPOST)
-    .then(response => response.json())
-    .then(responseJSON => {
-      if(response.error == null){
-        return responseJSON;
-      }else{
-        let myerror = new Error(responseJSON.error);
-        myerror.message = "erreur lors de la prise de donnée";
-        throw myerror;
-      }
-      
-    })
-    .catch(error =>{
-      let myerror = new Error(response.error);
-      myerror.message = "erreur de service lors de la prise de donnée";
-      throw myerror;
-    })
-    
+  getAllDevices(){
     
   }
 }

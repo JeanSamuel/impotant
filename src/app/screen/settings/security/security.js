@@ -7,11 +7,25 @@ import { Constants } from "expo";
 // create a component
 const self = null;
 class Security extends Component {
+
+  constructor(props){
+    super(props)
+  }
+
   goBack() {
     this.props.navigation.navigate("Settings");
   }
 
+
+
   componentDidMount() {
+    console.log('====================================');
+    console.log('nvigation', this.props);
+    console.log('====================================');
+  }
+
+  getAllDevices(){
+
   }
 
   getData(){

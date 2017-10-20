@@ -20,6 +20,7 @@ import Error from "./errorHistory";
 import { DrawerMenu } from "../../../components/drawerMenu";
 import SearchBar from "react-native-searchbar";
 import { Notifications } from "expo";
+import RowEmpty from './rowEmpty';
 
 // create a component
 const self = null;
@@ -37,7 +38,6 @@ class History extends Component {
       error: null,
       extraMargin: null
     };
-    this.getOldHistory(this);
     this._handleResults = this._handleResults.bind(this);
   }
 
@@ -66,7 +66,14 @@ class History extends Component {
     this._notificationSubscription = Notifications.addListener(
       this._handleNotification
     );
+    this.getOldHistory();
   }
+
+  
+  componentDidMount() {
+    
+  }
+  
 
   componentWillUnmount() {
     this._notificationSubscription.remove();
@@ -89,9 +96,20 @@ class History extends Component {
     });
   }
 
+  waiting(){
+    return(
+      <View>
+        <Error isSynchronised={true} text="Synchronisation..." />
+        <RowEmpty />
+        <RowEmpty />
+        <RowEmpty />
+      </View>
+    )
+  }
+
   isSynchronised() {
     this.setState({
-      error: <Error isSynchronised={true} text="Synchronisation..." />
+      error: this.waiting()
     });
   }
 
@@ -99,20 +117,23 @@ class History extends Component {
     this.setState({ error: null });
   }
 
+
   async getOldHistory() {
     let services = new HistoryServices();
     services
       .getOldHistory()
       .then(response => {
+        let dateChecked = services.checkHistoryError(response);
         this.setState({
-          dataBrute: JSON.parse(response),
-          data: this.refactHistory(JSON.parse(response))
+          dataBrute: dateChecked,
+          data: this.refactHistory(dateChecked)
         });
+        
         this.getHistory();
       })
       .catch(error => {
         this.getHistory();
-        console.log("error fanindroany", error);
+        console.log("error error getting oldHistory", error);
       });
   }
 
@@ -170,7 +191,9 @@ class History extends Component {
 
   render() {
     if (this.state.data == null) {
-      return <Error isSynchronised={true} text="Synchronisation..." />;
+      return (
+        this.waiting()
+      )
     } else {
       const ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,

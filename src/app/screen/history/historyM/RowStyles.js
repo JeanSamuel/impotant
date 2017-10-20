@@ -19,6 +19,7 @@ export default (styles = EStyleSheet.create({
     textAlign: "left"
   },
   amount: {
+    justifyContent: "center",
     fontSize: 25,
     textAlign: "right",
     color: "rgba(44, 62, 80,1.0)"
