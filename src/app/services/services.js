@@ -156,8 +156,12 @@ class Services extends Component {
     try {
       let OauthCode = await this.extractOauthCode(webViewState.url);
       let tokenData = await this.getToken(OauthCode);
-      await this.saveTokenData(tokenData);
-      return await this.getUserName(tokenData.access_token);
+      let token = response;
+      return this.getUserInfo(token).then(pseudo => {
+        return this.getUserData(pseudo).then(userData => {
+          return userData;
+        });
+      });
     } catch (error) {
       throw this.createError(response.error, "erreur during login");
     }
@@ -182,17 +186,6 @@ class Services extends Component {
     return Math.floor(Math.random() * 100 + 1);
   }
 
-  async goLogin(webViewState) {
-    var OauthCode = await this.extractOauthCode(webViewState.url);
-    return this.getToken(OauthCode).then(response => {
-      let token = response;
-      return this.getUserName(token).then(pseudo => {
-        return this.getUserData(pseudo).then(userData => {
-          return userData;
-        });
-      });
-    });
-  }
 
   /**
      * 
@@ -348,21 +341,19 @@ class Services extends Component {
       });
   }
 
-  async getUserName(new_token) {
+  async getUserInfo(new_token) {
     var url =
       configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
+        console.log('====================================');
+        console.log('get username', responseJSON);
+        console.log('====================================');
         if (!responseJSON.error) {
-          var userInfo = "";
-          if (responseJSON.id_account !== null) {
             this.saveData("user_id", responseJSON.user_id);
             userInfo = responseJSON.user_id;
             return userInfo;
-          } else {
-            throw this.createError(null, "erreur getting id in userName");
-          }
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");
         }
@@ -387,8 +378,7 @@ class Services extends Component {
    * @param {*} id_account 
    */
   checkSolde(id_account) {
-    // var url = loginData.BASE_URL + "balance/aa031";
-    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=aa001";
+    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=aa027";
     let data = {
       method: "GET"
     };
