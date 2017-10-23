@@ -22,6 +22,7 @@ class Review extends Component {
     super(props);
     this.state = {
       user_id: this.props.navigation.state.params.user_id,
+      accountName: this.props.navigation.state.params.username,
       amount: this.props.navigation.state.params.amount,
       user: this.props.navigation.state.params.user,
       messageText: "",
@@ -85,7 +86,10 @@ class Review extends Component {
 
   _hideMessage() {
     this.setState({ messageVisible: !this.state.messageVisible });
-    this.props.navigation.navigate("Drawer", { user_id: this.state.user_id });
+    this.props.navigation.navigate("Drawer", {
+      user_id: this.state.user_id,
+      username: this.state.accountName
+    });
   }
   render() {
     const formatedAmount = Services.formatNumber(this.state.amount);
