@@ -1,8 +1,9 @@
+
 {
   "expo": {
-    "sdkVersion": "20.0.0",
     "name": "Ariary.net Marchand Beta",
-    "icon": "./app/images/icons/logo-pro.png",
+    "sdkVersion": "20.0.0",
+    "icon": "./app/images/icons/logo.png",
     "version": "0.2.0",
     "slug": "ariarynet-Marchand-beta",
     "ios": {
@@ -10,6 +11,9 @@
     },
     "android": {
       "package": "com.ariarynet.marchandBeta"
+    },
+    "loading": {
+      "icon": "./app/images/icons/logo.png"
     },
     "orientation": "portrait"
   }

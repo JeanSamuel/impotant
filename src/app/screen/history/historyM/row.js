@@ -16,9 +16,6 @@ class Row extends Component {
     } catch (error) {
       new Services().createError(error, 'erreur getting hour row history')
     }
-    console.log('====================================');
-    console.log(hour);
-    console.log('====================================');
     if (amount < 0) {
       styleNegative = styles.currencyNegative;
     }

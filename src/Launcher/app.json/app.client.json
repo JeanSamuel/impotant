@@ -2,7 +2,6 @@
   "expo": {
     "name": "Ariary.net Beta",
     "sdkVersion": "20.0.0",
-    "name": "Ariary.net Beta",
     "icon": "./app/images/icons/logo.png",
     "version": "0.2.0",
     "slug": "ariarynet-beta",
