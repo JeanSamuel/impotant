@@ -40,6 +40,7 @@ class Send extends Component {
       flashOn: "off",
       hasFingerPrint: false,
       user_id: this.props.navigation.state.params.user_id,
+      accountName: this.props.navigation.state.params.username,
       currency: "Ar",
       errorMessage: null,
       modal: null,
@@ -299,6 +300,7 @@ class Send extends Component {
         this.setState({ disabled: true });
         this.props.navigation.navigate("Review", {
           user: readData.u,
+          username: this.state.accountName,
           amount: Services.reformatNumber(readData.a),
           user_id: this.state.user_id
         });
@@ -306,7 +308,7 @@ class Send extends Component {
     }
   };
   _toNextStep(receiver) {
-    console.log(receiver);
+    this.setState({ cameraEnabled: false });
     Keyboard.dismiss();
     if (receiver) {
       if (!this.state.isEditable) {
@@ -317,6 +319,7 @@ class Send extends Component {
         this.props.navigation.navigate("CustomKey", {
           user: this.state.user,
           amount: this.state.amount,
+          username: this.state.accountName,
           user_id: this.state.user_id
         });
       }

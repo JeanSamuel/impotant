@@ -12,6 +12,8 @@ class CustomKey extends Component {
     super(props);
     this.state = {
       user: this.props.navigation.state.params.user,
+      user_id: this.props.navigation.state.params.user_id,
+      accountName: this.props.navigation.state.params.username,
       inputValue: 0
     };
   }
@@ -38,6 +40,8 @@ class CustomKey extends Component {
     console.log("continue");
     this.props.navigation.navigate("Review", {
       user: this.state.user,
+      username: this.state.accountName,
+      user_id: this.state.user_id,
       amount: this.state.inputValue
     });
   }

@@ -49,16 +49,22 @@ class QrServices extends Component {
     }
   }
 
-  async performTransation(amount, sender_id, currency, user_id, access_token) {
+  async performTransation(
+    amount,
+    senderId,
+    currency,
+    recipientId,
+    access_token
+  ) {
     // const url = transaction_url + "/" + sender_id;
     const url = transaction_url;
     var services = new Services();
     let formData = new FormData();
     formData.append("amount", amount);
     // formData.append("senderId", sender_id);
-    formData.append("senderId", "AA002");
+    formData.append("senderId", senderId);
     formData.append("recipientId", "AA001");
-    // formData.append("recipientId", user_id);
+    // formData.append("recipientId", recipientId);
     formData.append("currency", currency);
     formData.append("comment", "Transfert");
     // formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
@@ -66,6 +72,7 @@ class QrServices extends Component {
       method: "POST",
       body: formData
     };
+    console.log("Transaction data: " + JSON.stringify(data));
     return await services
       .myFetch(url, data)
       .then(response => response.json())
