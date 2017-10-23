@@ -38,8 +38,9 @@ class Home extends Component {
     this.state = {
       type: "trans",
       data: {
-        currency: "Toavina",
-        userId: ""
+        currency: "Ar",
+        userId: "",
+        username : ''
       },
       amount: "",
       isInvalidData: false,
@@ -52,7 +53,7 @@ class Home extends Component {
   static navigationOptions = {
     headerStyle: styleBase.header,
     headerTitleStyle: styleBase.headerTitle,
-    drawerLabel: "Accueil",
+    drawerLabel: "Recevoir",
     titleStyle: styleBase.headerTitle,
     drawerIcon: ({ tintColor }) => (
       <Icon name="home" size={25} type="simpleLineIcon" />
@@ -77,14 +78,15 @@ class Home extends Component {
   checkUserData() {
     let services = new Services();
     services
-      .getData("userData")  
+      .getData("user_id")  
       .then(responseJSON => {
         if (responseJSON != null) {
           let response = JSON.parse(responseJSON);
           this.setState({
             data: {
               currency: "Ar",
-              userId: response.pseudo
+              userId: response.user_id,
+              username : response.username
             }
           });
         } else {
@@ -226,7 +228,7 @@ export default new StackNavigator({
   HomeM: {
     screen: Home,
     navigationOptions: ({ navigation }) => ({
-      title: navigation.state.params.user_id,
+      title: navigation.state.params.username,
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
         <View style={{ flexDirection: "row" }}>

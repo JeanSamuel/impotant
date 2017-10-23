@@ -32,7 +32,7 @@ class UserInfo extends Component {
   getData(){
     let services = new Services();
     services
-    .getData("userData")
+    .getData("userInfo")
     .then(response => {
       if (response != null) {
         dataParsed = JSON.parse(response)

@@ -26,7 +26,7 @@ class Pin extends React.Component {
       userPin: "",
       haveFingerprint: false,
       errorMessage: null,
-      user_id: ""
+      user_id: null
     };
   }
 
@@ -38,7 +38,9 @@ class Pin extends React.Component {
     this.setState({ haveFingerprint: haveFingerprint });
 
     if (user_pin !== null) {
-      this.setState({ userPin: user_pin, user_id: user_id });
+      let dataParsed = JSON.parse(user_id);
+
+      this.setState({ userPin: user_pin, user_id: dataParsed });
     } else {
       Alert.alert("Erreur", "L' utilisateur n'a pas encore de Pin enregistrer");
     }
@@ -49,9 +51,9 @@ class Pin extends React.Component {
     this.setState({ pin: text, errorMessage: null });
     if (text.length === 4) {
       if (text === this.state.userPin) {
-        this.props.navigation.navigate("Drawer", {
-          user_id: this.state.user_id
-        });
+        this.props.navigation.navigate("Drawer",
+          this.state.user_id
+        );
       } else {
         this.setState({ errorMessage: this.renderErrorMessage(), pin: "" });
       }
@@ -70,17 +72,23 @@ class Pin extends React.Component {
 
   async renderFingerPrintPromptAsync(messageIos) {
     if (Plateform.OS === "android") {
+      console.log('====================================');
+      console.log('user_id aty am PIN', this.state.user_id);
+      console.log('====================================');
       (await Fingerprint.authenticateAsync())
-        ? this.props.navigation.navigate("Drawer", {
-            user_id: this.state.user_id
-          })
+        ? this.props.navigation.navigate("Drawer",
+        this.state.user_id
+      )
         : alert("FingerPrint Authentication failed");
     }
     if (Platform.OS === "ios") {
+      console.log('====================================');
+      console.log('user_id aty am PIN', this.state.user_id);
+      console.log('====================================');
       (await Fingerprint.authenticateAsync(messageIos))
-        ? this.props.navigation.navigate("Drawer", {
-            user_id: this.state.user_id
-          })
+        ?this.props.navigation.navigate("Drawer",
+        this.state.user_id
+      )
         : alert("TouchID Authentication failed");
     }
   }

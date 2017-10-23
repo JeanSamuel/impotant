@@ -43,6 +43,9 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
+          console.log('====================================');
+          console.log('ty le response aty am login', response);
+          console.log('====================================');
           this.setState({
             data : response
           })
