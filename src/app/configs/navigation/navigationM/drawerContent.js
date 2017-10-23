@@ -48,12 +48,12 @@ export default class DrawerContent extends Component {
   
   getUserInfo(){
     let services = new Services();
-   services.getData("userInfo").then(response =>{
+   services.getData("user_id").then(response =>{
      if(response != null){
        let dataParsed = JSON.parse(response);
        this.setState({
         username : dataParsed.username,
-        account_id : dataParsed.account_id
+        account_id : dataParsed.user_id
        })
        this.checkSolde()
      }else{
@@ -82,9 +82,7 @@ export default class DrawerContent extends Component {
 
 
   checkSolde() {
-    console.log('====================================');
-    console.log('début maka solde');
-    console.log('====================================');
+
     let services = new Services();
     let response = services.checkSolde(this.state.account_id)
     .then(response => {

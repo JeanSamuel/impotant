@@ -390,7 +390,7 @@ class Services extends Component {
    * @param {*} id_account 
    */
   checkSolde(id_account) {
-    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=aa027";
+    var url = configs.NEW_BASE_URL + "src/balance.php?account-id="+ id_account;
     let data = {
       method: "GET"
     };
