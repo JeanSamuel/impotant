@@ -72,8 +72,8 @@ class AppSync extends Component {
         textHelp: ""
       });
       let access_token = services.getTokenByRefreshToken(notification.data.refresh_token);
-      let response = syncServices.getUserData(notification.data)
-        return response;
+      // let response = syncServices.getUserData(notification.data)
+        // return response;
     }
   }
 
@@ -88,7 +88,8 @@ class AppSync extends Component {
 
   async componentDidMount() {
     if (!this.state.isSetted) {
-      new NotificationServices().getExpoToken().then(response =>{
+      let services = new Services();
+      services.getExpoToken().then(response =>{
         this.generateQrValue(response);
         this.setState({
           isSetted: true,
@@ -99,9 +100,7 @@ class AppSync extends Component {
         });
       })
       .catch(error =>{
-        console.log('====================================');
-        console.log('error préparation');
-        console.log('====================================');
+        services.createError(error, 'error service préparation')
       })
       
     }

@@ -46,9 +46,32 @@ class SyncServices extends Component {
         throw myerror;
       });
   }
+  getUserData(){
+    
+  }
 
   getAllDevices(){
-    
+    var url = configs.NEW_BASE_URL + "src/getDevices.php?account-id=aa001";
+    let data = {
+      method: "GET"
+    };
+    return this.myFetch(url, data)
+      .then(response => response.json())
+      .then(responseJSON => {
+        console.log('====================================');
+        console.log('solde', responseJSON);
+        console.log('====================================');
+        if (!responseJSON.error) {
+          this.saveData("solde",JSON.stringify(responseJSON.value))
+            return responseJSON;
+        } else {
+          throw this.createError(responseJSON.error, "erreur getting solde")
+        }
+        
+      })
+      .catch(error => {
+        throw this.createError(responseJSON.error, "erreur services getting solde")
+      });
   }
 }
 

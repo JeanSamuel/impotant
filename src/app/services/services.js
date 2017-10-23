@@ -71,7 +71,7 @@ class Services extends Component {
     let keys = ["token", "oauthCode", "user_id", "adress", "history", "pin"];
     try {
       await AsyncStorage.multiRemove(keys, err => {
-        console.log("misy tsy nety");
+        console.log("after logout");
       });
     } catch (error) {
       console.log("la clé n'existe plus");
