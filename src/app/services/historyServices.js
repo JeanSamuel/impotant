@@ -31,7 +31,7 @@ class HistorySevices extends Component {
   }
 
   async getHistory(user_id) {
-    let url = configs.NEW_BASE_URL + "src/transaction.php?account-id=aa001";
+    let url = configs.NEW_BASE_URL + "src/transaction.php?account-id=toavina";
     // let url = configs.BASE_URL + "transaction/" + user_id;
     console.log('====================================');
     console.log('début maka history');
@@ -41,6 +41,10 @@ class HistorySevices extends Component {
       return new Services().myFetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON =>{
+        console.log('====================================');
+        console.log('response History', responseJSON);
+        console.log('response History', responseJSON.error);
+        console.log('====================================');
         if (!responseJSON.error) {
           let dataChecked = this.checkHistoryError(responseJSON);
           return this.saveHistory(JSON.stringify(dataChecked)).then(answer =>{
