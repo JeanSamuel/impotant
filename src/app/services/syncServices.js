@@ -46,6 +46,9 @@ class SyncServices extends Component {
         throw myerror;
       });
   }
+  getUserData(){
+    
+  }
 
   getAllDevices(){
     var url = configs.NEW_BASE_URL + "src/getDevices.php?account-id=aa001";
