@@ -106,9 +106,11 @@ class MessagePrompt extends Component {
                 {this.props.title}
               </Text>
               <View style={{ paddingHorizontal: 25, marginVertical: 30 }}>
-                <Text style={{ textAlign: "center" }}>{this.props.text}</Text>
+                <Text style={{ textAlign: "center", fontSize: 20 }}>
+                  {this.props.text}
+                </Text>
               </View>
-              {this.props.loading || this.props.error ? null : (
+              {this.props.loading ? null : (
                 <View
                   style={{
                     position: "absolute",

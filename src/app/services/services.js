@@ -158,7 +158,7 @@ class Services extends Component {
       let tokenData = await this.getToken(OauthCode);
       let token = response;
       return this.getUserInfo(token).then(userInfo => {
-          return userInfo;
+        return userInfo;
       });
     } catch (error) {
       throw this.createError(response.error, "erreur during login");
@@ -183,7 +183,6 @@ class Services extends Component {
   static getRandomNumber() {
     return Math.floor(Math.random() * 100 + 1);
   }
-
 
   /**
      * 
@@ -325,13 +324,19 @@ class Services extends Component {
             this.saveData("userData", JSON.stringify(responseJSON));
             return responseJSON;
           } else {
-            throw this.createError(responseJSON, "no id_account in userData response");
+            throw this.createError(
+              responseJSON,
+              "no id_account in userData response"
+            );
           }
         } else {
           throw this.createError(responseJSON.error, "erreur getting userData");
         }
       })
       .catch(error => {
+        console.log("====================================");
+        console.log("Error getting user data", error);
+        console.log("====================================");
         throw this.createError(error, "erreur services getting userData");
       });
   }
@@ -343,18 +348,15 @@ class Services extends Component {
       .then(response => response.json())
       .then(responseJSON => {
         responseJSON = {
-          "birthday": "11-10-2017",
-          "code": "AA027",
-           "mail": "toaviana@v.com",
-           "nom": "Ralambomanana Toavina",
-          "phone": "+261345087423",
-           "roles": [
-           "ROLE_CLIENT_SIMPLE",
-          "ROLE_USER",
-           ],
-           "solde": 0,
-           "username": "toavina",
-        }
+          birthday: "11-10-2017",
+          code: "AA027",
+          mail: "toaviana@v.com",
+          nom: "Ralambomanana Toavina",
+          phone: "+261345087423",
+          roles: ["ROLE_CLIENT_SIMPLE", "ROLE_USER"],
+          solde: 0,
+          username: "toavina"
+        };
         if (!responseJSON.error) {
             this.saveData("userInfo", JSON.stringify(responseJSON));
             userInfo = {
@@ -377,6 +379,10 @@ class Services extends Component {
     numeral.locale("fr");
     dataformat = numeral(number).format();
     return dataformat;
+  }
+
+  static reformatNumber(number) {
+    return number.replace(/[ ,]/g, "");
   }
 
   /**
