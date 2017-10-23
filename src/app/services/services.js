@@ -347,12 +347,26 @@ class Services extends Component {
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
+        responseJSON = {
+          "birthday": "11-10-2017",
+          "code": "AA027",
+           "mail": "toaviana@v.com",
+           "nom": "Ralambomanana Toavina",
+          "phone": "+261345087423",
+           "roles": [
+           "ROLE_CLIENT_SIMPLE",
+          "ROLE_USER",
+           ],
+           "solde": 0,
+           "username": "toavina",
+        }
         console.log('====================================');
-        console.log('get username', responseJSON);
+        console.log('get userName static', responseJSON);
         console.log('====================================');
         if (!responseJSON.error) {
-            this.saveData("user_id", responseJSON.user_id);
-            userInfo = responseJSON.user_id;
+            this.saveData("userInfo", JSON.stringify(responseJSON));
+            this.saveData("account_id", responseJSON.code);
+            userInfo = responseJSON.username;
             return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");

@@ -24,7 +24,7 @@ export default class DrawerContent extends Component {
     this.spinValue = new Animated.Value(0);
     this.state = {
       solde: "",
-      id_account: 0,
+      account_id: 0,
       alias: "",
       pseudo : "",
       date: "",
@@ -60,16 +60,17 @@ export default class DrawerContent extends Component {
 
   async checkUserData(){
     let services = new Services();
-    let userData = services.getData("userData")
-      .then(userData =>{
-        dataParsed = JSON.parse(userData)
-        this.setState({
-          id_account: dataParsed.id_account,
-          alias :  dataParsed.alias,
-          pseudo :  dataParsed.pseudo,
-          isrefreshing: true
-        });
-        this.checkSolde();
+    let account_id = services.getData("account_id")
+      .then(account_id =>{
+        if(account_id != null){
+          this.setState({
+            account_id: account_id,
+            isrefreshing: true
+          });
+          this.checkSolde();
+        }else{
+          services.createError(null, 'account_id null into storage')
+        }
       })
       
   }
@@ -79,7 +80,7 @@ export default class DrawerContent extends Component {
     console.log('début maka solde');
     console.log('====================================');
     let services = new Services();
-    let response = services.checkSolde(this.state.id_account)
+    let response = services.checkSolde(this.state.account_id)
     .then(response => {
       this.setState({
         solde: response.value,
