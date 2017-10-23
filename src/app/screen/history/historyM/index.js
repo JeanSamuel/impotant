@@ -10,7 +10,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Icon, List } from "react-native-elements";
+import { Icon, List, Button } from "react-native-elements";
 import { StackNavigator } from "react-navigation";
 import { styleBase } from "../../../styles";
 import { HistoryServices } from "../../../services";
@@ -30,13 +30,14 @@ class History extends Component {
     super(props);
     self = this;
     this.state = {
-      accountId: this.props.navigation.state.params.user_id,
-      accountName: "",
+      user_id: this.props.navigation.state.params.user_id,
+      accountName: this.props.navigation.state.params.username,
       data: null,
       dataBrute: null,
       refreshing: false,
       error: null,
-      extraMargin: null
+      extraMargin: null,
+      emptyData : null
     };
     this._handleResults = this._handleResults.bind(this);
   }
@@ -68,13 +69,7 @@ class History extends Component {
     );
     this.getOldHistory();
   }
-
   
-  componentDidMount() {
-    
-  }
-  
-
   componentWillUnmount() {
     this._notificationSubscription.remove();
   }
@@ -92,7 +87,7 @@ class History extends Component {
 
   setAccount(user_Id) {
     this.setState({
-      accountId: user_Id
+      user_id: user_Id
     });
   }
 
@@ -109,7 +104,8 @@ class History extends Component {
 
   isSynchronised() {
     this.setState({
-      error: this.waiting()
+      error: this.waiting(),
+      emptyData : null
     });
   }
 
@@ -123,12 +119,13 @@ class History extends Component {
     services
       .getOldHistory()
       .then(response => {
-        let dateChecked = services.checkHistoryError(response);
-        this.setState({
-          dataBrute: dateChecked,
-          data: this.refactHistory(dateChecked)
-        });
-        
+        if(response != null){
+          let dateChecked = services.checkHistoryError(response);
+          this.setState({
+            dataBrute: dateChecked,
+            data: this.refactHistory(dateChecked)
+          });
+        }
         this.getHistory();
       })
       .catch(error => {
@@ -141,12 +138,13 @@ class History extends Component {
     this.isSynchronised();
     let services = new HistoryServices();
     services
-      .getHistory(this.state.accountId)
+      .getHistory(this.state.user_id)
       .then(response => {
         this.setData(response);
         this.stopSynchronised();
       })
       .catch(error => {
+        console.log('error response getting history', error);
         this.setState({
           error: (
             <Error isSynchronised={false} text="Erreur de synchronisation" />
@@ -156,10 +154,40 @@ class History extends Component {
   }
 
   setData(response) {
+    if(response.length == 0){
+      this.createEmptyText()
+    }else{
+      this.setState({
+        dataBrute: response,
+        data: this.refactHistory(response)
+      });
+    }
+  }
+
+  createEmptyText(){
     this.setState({
-      dataBrute: response,
-      data: this.refactHistory(response)
-    });
+      emptyData : (
+        <View style={[style.dataEmpty, styleBase.centered]}>
+        <Icon
+          name="ios-close"
+          reverse
+          color="rgba(189, 195, 199,1.0)"
+          size={30}
+          type="ionicon"
+        />
+        <View style={styleBase.centered} >
+            <Text style={style.dataEmptyText} >
+            Liste de transaction vide</Text>
+        </View>
+          <Button
+          small
+          title='RECHARGER'
+          buttonStyle = {[style.refreshBtnStyle]} 
+          onPress = {this._onRefresh.bind(this)}
+          />
+        </View>
+      )
+    })
   }
 
   _onRefresh() {
@@ -217,11 +245,11 @@ class History extends Component {
 
           <View>{this.state.error}</View>
           <View style={[style.headerList, this.state.extraMargin]} />
-          {this.state.data.length == 0 ? (
-            <Text style={{ fontSize: 30 }}>Pas de résultat</Text>
-          ) : (
-            <View />
-          )}
+          
+            <View>
+              {this.state.emptyData}
+            </View>
+          
           <ListView
             refreshControl={
               <RefreshControl
@@ -261,6 +289,16 @@ const style = EStyleSheet.create({
   connexionErrorText: {
     color: "white",
     textAlign: "center"
+  },
+  dataEmpty : {
+    marginTop : 20
+  },
+  dataEmptyText : {
+    fontSize : 25
+  },
+  refreshBtnStyle : {
+    marginTop : 10 ,
+    backgroundColor : '$darkColor'
   }
 });
 

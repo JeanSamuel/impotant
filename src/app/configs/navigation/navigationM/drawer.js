@@ -55,7 +55,7 @@ const drawerConfigs = {
   headerMode: "screen",
   contentComponent: props => (
     <ScrollView>
-      <DrawerContent />
+      <DrawerContent/>
       <DrawerItems {...props} />
     </ScrollView>
   )

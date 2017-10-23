@@ -26,7 +26,7 @@ export default class DrawerContent extends Component {
       solde: "",
       account_id: 0,
       alias: "",
-      pseudo : "",
+      username : "",
       date: "",
       animation: "",
       isrefreshing: false,
@@ -41,10 +41,32 @@ export default class DrawerContent extends Component {
   }
 
   
-  componentDidMount() {
-    this.checkUserData()
+  componentDidMount(){
+    this.getUserInfo()
+    
   }
   
+  getUserInfo(){
+    let services = new Services();
+   services.getData("userInfo").then(response =>{
+     if(response != null){
+       let dataParsed = JSON.parse(response);
+       this.setState({
+        username : dataParsed.username,
+        account_id : dataParsed.account_id
+       })
+       this.checkSolde()
+     }else{
+      this.setState({
+        username : 'unassigned',
+        account_id : 0
+       })
+     }
+   })
+   .catch(error =>{
+     services.createError(error, 'erreur response getting solde')
+   })
+  }
 
   componentWillUnmount() {
     this._notificationSubscription.remove();
@@ -58,22 +80,6 @@ export default class DrawerContent extends Component {
     return this.state.solde;
   }
 
-  async checkUserData(){
-    let services = new Services();
-    let account_id = services.getData("account_id")
-      .then(account_id =>{
-        if(account_id != null){
-          this.setState({
-            account_id: account_id,
-            isrefreshing: true
-          });
-          this.checkSolde();
-        }else{
-          services.createError(null, 'account_id null into storage')
-        }
-      })
-      
-  }
 
   checkSolde() {
     console.log('====================================');
@@ -147,7 +153,7 @@ export default class DrawerContent extends Component {
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
               <Text style={[styleBase.textWhiteBold, { fontSize: 25 }]}>
-                {this.state.alias}
+                {this.state.username}
               </Text>
               <View
                 style={{

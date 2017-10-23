@@ -42,12 +42,9 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
-          let data = {
-            user_id: response.id_account
-          };
           this.changeSpinnerVisibility(false);
-          notif.loginForExpoToken(response.id_account);
-          this.props.navigation.navigate("RegisterPin", data);
+          notif.loginForExpoToken(response.username);
+          this.props.navigation.navigate("RegisterPin", response);
         })
         .catch(error => {});
     }
