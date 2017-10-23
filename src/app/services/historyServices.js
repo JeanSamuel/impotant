@@ -44,6 +44,9 @@ class HistorySevices extends Component {
       .then(response => response.json())
       .then(responseJSON =>{
         if (responseJSON.error != 0 ) {
+          console.log('====================================');
+          console.log('ty ny valiny history', responseJSON);
+          console.log('====================================');
           let dataChecked = this.checkHistoryError(responseJSON);
           this.saveHistory(JSON.stringify(dataChecked))
             return dataChecked;

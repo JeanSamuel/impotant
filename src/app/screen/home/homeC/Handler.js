@@ -29,10 +29,11 @@ class Handler extends Component {
 
   componentDidMount() {
     services = new Services();
-    services.getData("user_id").then(user_id => {
-      if (user_id !== null) {
+    services.getData("user_id").then(response => {
+      if (response !== null) {
+        dataParsed = JSON.parse(response)
         this.setState({ notLoggedIn: false, isLoading: false });
-        this.props.navigation.navigate("Drawer", { user_id: user_id });
+        this.props.navigation.navigate("Drawer", dataParsed);
       } else {
         this.setState({ notLoggedIn: true, isLoading: false });
         this.props.navigation.navigate("Landing");

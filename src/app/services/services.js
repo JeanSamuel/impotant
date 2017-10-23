@@ -99,7 +99,7 @@ class Services extends Component {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
       console.log(error);
-      throw "something went wrong when saving data";
+      throw "something went wrong when saving data" + key;
     }
   }
 
@@ -357,11 +357,12 @@ class Services extends Component {
         }
         if (!responseJSON.error) {
             this.saveData("userInfo", JSON.stringify(responseJSON));
-            this.saveData("user_id", responseJSON.code);
             userInfo = {
               user_id : responseJSON.code,
               username : responseJSON.username
             }
+            this.saveData("user_id", JSON.stringify(userInfo));
+            
             return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");

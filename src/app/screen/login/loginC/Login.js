@@ -25,7 +25,8 @@ class Login extends Component {
     super(props);
     this.state = {
       spinnerVisibility: false,
-      saving: false
+      saving: false,
+      data : null
     };
   }
 
@@ -42,6 +43,9 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
+          this.setState({
+            data : response
+          })
           this.changeSpinnerVisibility(false);
           notif.loginForExpoToken(response.username);
           this.props.navigation.navigate("RegisterPin", response);
@@ -51,7 +55,7 @@ class Login extends Component {
   }
 
   handleFingerPrintSuccess() {
-    this.props.navigation.navigate("Drawer", { user_id: user_id });
+    this.props.navigation.navigate("Drawer", this.state.data);
   }
   onErrorLoading(webViewState) {}
 
