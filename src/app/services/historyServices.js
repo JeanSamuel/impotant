@@ -36,7 +36,7 @@ class HistorySevices extends Component {
     }
     let url = configs.NEW_BASE_URL + "src/transaction.php?account-id="+ user_id;
     console.log('====================================');
-    console.log('début maka history');
+    console.log('début maka history ', user_id);
     console.log('====================================');
 
     try {

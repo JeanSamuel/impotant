@@ -55,7 +55,8 @@ class RegisterPin extends Component {
         services.saveData("pin", this.state.pin1).then(() => {
           this.setState({ isLoading: !this.state.isLoading });
           this.props.navigation.navigate("Drawer", {
-            user_id: this.props.navigation.state.params.user_id
+            user_id: this.props.navigation.state.params.user_id,
+            username : this.props.navigation.state.params.username,
           });
         });
       } else {

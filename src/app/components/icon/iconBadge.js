@@ -68,12 +68,17 @@ class MyClass extends Component {
     }
   }
 
+  navigateToHistory(){
+    this.props.navigation.navigate('Third')
+    this.props.navigation.navigate('History')
+  }
+
   render() {
     return (
       <TouchableOpacity
         onPress={() => {
           Keyboard.dismiss();
-          this.props.navigation.navigate("Third");
+          this.navigateToHistory()
         }}
       >
         <IconBadge

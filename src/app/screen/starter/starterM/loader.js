@@ -25,15 +25,12 @@ class Loader extends Component {
   componentWillMount() {
     var services = new Services();
     BackHandler.addEventListener("hardwareBackPress", this._checkBackAndroid);
-    services.getData("userData").then(userData => {
-      if (userData === null) {
+    services.getData("user_id").then(userData => {
+      if (userData == null) {
         this.props.navigation.navigate("Starter");
       } else {
         dataParsed = JSON.parse(userData);
-        let data = {
-          user_id : dataParsed.pseudo
-        }
-        this.props.navigation.navigate("Drawer", data);
+        this.props.navigation.navigate("Drawer", dataParsed);
       }
     });
   }
