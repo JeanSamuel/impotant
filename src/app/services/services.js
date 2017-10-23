@@ -157,10 +157,8 @@ class Services extends Component {
       let OauthCode = await this.extractOauthCode(webViewState.url);
       let tokenData = await this.getToken(OauthCode);
       let token = response;
-      return this.getUserInfo(token).then(pseudo => {
-        return this.getUserData(pseudo).then(userData => {
-          return userData;
-        });
+      return this.getUserInfo(token).then(userInfo => {
+        return userInfo;
       });
     } catch (error) {
       throw this.createError(response.error, "erreur during login");
@@ -322,14 +320,14 @@ class Services extends Component {
       .then(response => response.json())
       .then(responseJSON => {
         if (!responseJSON.error) {
-          console.log("====================================");
-          console.log("in userData", responseJSON);
-          console.log("====================================");
           if (responseJSON.id_account !== null) {
             this.saveData("userData", JSON.stringify(responseJSON));
             return responseJSON;
           } else {
-            throw this.createError(null, "no id_account in userData response");
+            throw this.createError(
+              responseJSON,
+              "no id_account in userData response"
+            );
           }
         } else {
           throw this.createError(responseJSON.error, "erreur getting userData");
@@ -359,13 +357,13 @@ class Services extends Component {
           solde: 0,
           username: "toavina"
         };
-        console.log("====================================");
-        console.log("get userName static", responseJSON);
-        console.log("====================================");
         if (!responseJSON.error) {
           this.saveData("userInfo", JSON.stringify(responseJSON));
-          this.saveData("account_id", responseJSON.code);
-          userInfo = responseJSON.username;
+          this.saveData("user_id", responseJSON.code);
+          userInfo = {
+            user_id: responseJSON.code,
+            username: responseJSON.username
+          };
           return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");

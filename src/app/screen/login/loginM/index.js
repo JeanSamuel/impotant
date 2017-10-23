@@ -41,15 +41,12 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
-          let data = {
-            user_id: response
-          };
           this.changeSpinnerVisibility(false);
-          notif.initForPushNotificationsAsync(response);
-          this.props.navigation.navigate("Drawer", data);
+          notif.initForPushNotificationsAsync(response.username);
+          this.props.navigation.navigate("Drawer", response);
         })
         .catch(error => {
-          console.log("error login", error);
+         service.createError(error, 'error response login')
         });
     }
   }
