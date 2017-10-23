@@ -186,7 +186,6 @@ class Services extends Component {
     return Math.floor(Math.random() * 100 + 1);
   }
 
-
   /**
      * 
      * @param {*} uri the url contains the Oauth Code 
@@ -337,6 +336,9 @@ class Services extends Component {
         }
       })
       .catch(error => {
+        console.log("====================================");
+        console.log("Error getting user data", error);
+        console.log("====================================");
         throw this.createError(error, "erreur services getting userData");
       });
   }
@@ -347,13 +349,13 @@ class Services extends Component {
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-        console.log('====================================');
-        console.log('get username', responseJSON);
-        console.log('====================================');
+        console.log("====================================");
+        console.log("get username", responseJSON);
+        console.log("====================================");
         if (!responseJSON.error) {
-            this.saveData("user_id", responseJSON.user_id);
-            userInfo = responseJSON.user_id;
-            return userInfo;
+          this.saveData("user_id", responseJSON.user_id);
+          userInfo = responseJSON.user_id;
+          return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");
         }
