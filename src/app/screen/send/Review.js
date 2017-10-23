@@ -46,13 +46,14 @@ class Review extends Component {
     let services = new QrServices();
     services
       .performTransation(
-        Services.reformatNumber(this.state.amount),
+        this.state.amount,
         this.state.user_id,
         this.state.currency,
         this.state.user,
         ""
       )
       .then(rep => {
+        console.log(rep);
         if (rep.resultat == "succcess") {
           this.setState({
             loading: false,
@@ -69,14 +70,14 @@ class Review extends Component {
               this.state.user
           });
         }
-        if (rep.error) {
+        if (rep.error != null) {
           this.setState({
             loading: false,
             error: true,
             messageTitle: "Error !",
             iconName: "close",
             color: "#FF2423",
-            messageText: error.error_decription
+            messageText: rep.error_message
           });
         }
       });
@@ -84,22 +85,23 @@ class Review extends Component {
 
   _hideMessage() {
     this.setState({ messageVisible: !this.state.messageVisible });
-    this.props.navigation.navigate("History", { user_id: this.state.user_id });
+    this.props.navigation.navigate("Drawer", { user_id: this.state.user_id });
   }
   render() {
+    const formatedAmount = Services.formatNumber(this.state.amount);
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.reviewBox}>
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.amountReview}>{this.state.amount}</Text>
+              <Text style={styles.amountReview}>{formatedAmount}</Text>
               <Text style={{ fontSize: 35, marginBottom: 30 }}>
                 {this.state.currency}
               </Text>
             </View>
             <View style={styles.informationBox}>
               <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-                Vous allez envoyer {this.state.amount} {this.state.currency} à{" "}
+                Vous allez envoyer {formatedAmount} {this.state.currency} à{" "}
                 {this.state.user}
               </Text>
               <View style={{ marginTop: 10 }}>
@@ -140,7 +142,7 @@ class Review extends Component {
         {this.state.messageVisible ? (
           <MessagePrompt
             onRequestClose={() => this._hideMessage()}
-            amount={this.state.amount}
+            amount={formatedAmount}
             currency={this.state.currency}
             user={this.state.user}
             iconName={this.state.iconName}

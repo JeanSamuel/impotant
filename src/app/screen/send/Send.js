@@ -45,7 +45,7 @@ class Send extends Component {
       modal: null,
       loading: true,
       solde: 0,
-      desabled: false,
+      cameraEnabled: true,
       isEditable: true
     };
   }
@@ -67,12 +67,12 @@ class Send extends Component {
 
   componentDidMount() {
     Services.haveFingerprint().then(hasFingerPrint => {
-      this.setState({ hasFingerPrint: hasFingerPrint, desabled: false });
+      this.setState({ hasFingerPrint: hasFingerPrint, cameraEnabled: true });
     });
   }
 
   componentWillUnMount() {
-    this.setState({ desabled: true });
+    this.setState({ cameraEnabled: false });
   }
 
   toggleFlash = () => {
@@ -274,7 +274,7 @@ class Send extends Component {
     });
   }
   _handleBarCodeRead = data => {
-    this.initState();
+    this.setState({ cameraEnabled: false });
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
@@ -299,7 +299,7 @@ class Send extends Component {
         this.setState({ disabled: true });
         this.props.navigation.navigate("Review", {
           user: readData.u,
-          amount: readData.a,
+          amount: Services.reformatNumber(readData.a),
           user_id: this.state.user_id
         });
       }
@@ -339,7 +339,7 @@ class Send extends Component {
             <SendLoader loading={this.state.loading} />
           ) : (
             <View style={{ flex: 1 }}>
-              {this.state.desabled ? null : (
+              {!this.state.cameraEnabled ? null : (
                 <BarCodeScanner
                   onBarCodeRead={this._handleBarCodeRead}
                   torchMode={this.state.flashOn}
