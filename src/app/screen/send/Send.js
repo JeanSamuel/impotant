@@ -45,6 +45,7 @@ class Send extends Component {
       modal: null,
       loading: true,
       solde: 0,
+      desabled: false,
       isEditable: true
     };
   }
@@ -66,8 +67,12 @@ class Send extends Component {
 
   componentDidMount() {
     Services.haveFingerprint().then(hasFingerPrint => {
-      this.setState({ hasFingerPrint: hasFingerPrint });
+      this.setState({ hasFingerPrint: hasFingerPrint, desabled: false });
     });
+  }
+
+  componentWillUnMount() {
+    this.setState({ desabled: true });
   }
 
   toggleFlash = () => {
@@ -215,7 +220,8 @@ class Send extends Component {
       user: "",
       type: "",
       currency: "Ar",
-      isEditable: true
+      isEditable: true,
+      desabled: false
     });
   }
 
@@ -268,6 +274,7 @@ class Send extends Component {
     });
   }
   _handleBarCodeRead = data => {
+    this.initState();
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
@@ -282,16 +289,26 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        this.prompAmount();
+        // this.prompAmount();
+        console.log(readData);
+        this.setState({ disabled: true });
+        this._toNextStep(readData.u);
       }
       if (readData.a != 0 && readData.u) {
-        this.promptPin();
+        // this.promptPin();
+        this.setState({ disabled: true });
+        this.props.navigation.navigate("Review", {
+          user: readData.u,
+          amount: readData.a,
+          user_id: this.state.user_id
+        });
       }
     }
   };
-  _toNextStep() {
+  _toNextStep(receiver) {
+    console.log(receiver);
     Keyboard.dismiss();
-    if(this.state.user){
+    if (receiver) {
       if (!this.state.isEditable) {
         alert(
           "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"
@@ -299,10 +316,11 @@ class Send extends Component {
       } else {
         this.props.navigation.navigate("CustomKey", {
           user: this.state.user,
-          amount: this.state.amount
+          amount: this.state.amount,
+          user_id: this.state.user_id
         });
       }
-    }else{
+    } else {
       alert(
         "Operation impossible : Veuillez specifier l'adresse avant de continuer"
       );
@@ -321,12 +339,14 @@ class Send extends Component {
             <SendLoader loading={this.state.loading} />
           ) : (
             <View style={{ flex: 1 }}>
-              <BarCodeScanner
-                onBarCodeRead={this._handleBarCodeRead}
-                torchMode={this.state.flashOn}
-                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                style={StyleSheet.absoluteFill}
-              />
+              {this.state.desabled ? null : (
+                <BarCodeScanner
+                  onBarCodeRead={this._handleBarCodeRead}
+                  torchMode={this.state.flashOn}
+                  barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                  style={StyleSheet.absoluteFill}
+                />
+              )}
               <View style={sendStyle.formContainer}>
                 <InputLeftIcon
                   iconName="expand-more"
@@ -353,7 +373,7 @@ class Send extends Component {
                   returnKeyType="done"
                   editable={this.state.isEditable}
                   onFocus={() => {
-                    this._toNextStep();
+                    this._toNextStep(this.state.user);
                   }}
                   onChangeText={amount =>
                     this.setState({ amount: Services.formatNumber(amount) })}

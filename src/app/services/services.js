@@ -378,6 +378,10 @@ class Services extends Component {
     return dataformat;
   }
 
+  static reformatNumber(number) {
+    return number.replace(/[ ,]/g, "");
+  }
+
   /**
    * Demander la solde d'un utilisateur
    * @param {*} id_account 

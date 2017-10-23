@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Icon } from "react-native-elements";
 import QrServices from "../../services/qrservices";
+import Services from "../../services/services";
 import { MessagePrompt } from "../../components/modal";
 
 // create a component
@@ -45,7 +46,7 @@ class Review extends Component {
     let services = new QrServices();
     services
       .performTransation(
-        this.state.amount,
+        Services.reformatNumber(this.state.amount),
         this.state.user_id,
         this.state.currency,
         this.state.user,
@@ -66,6 +67,16 @@ class Review extends Component {
               this.state.currency +
               " à " +
               this.state.user
+          });
+        }
+        if (rep.error) {
+          this.setState({
+            loading: false,
+            error: true,
+            messageTitle: "Error !",
+            iconName: "close",
+            color: "#FF2423",
+            messageText: error.error_decription
           });
         }
       });
@@ -134,14 +145,7 @@ class Review extends Component {
             user={this.state.user}
             iconName={this.state.iconName}
             loading={this.state.loading}
-            text={
-              "Vous avez envoyé " +
-              this.state.amount +
-              " " +
-              this.state.currency +
-              " à " +
-              this.state.user
-            }
+            text={this.state.messageText}
             title={this.state.messageTitle}
             error={this.state.error}
             color={this.state.color}
