@@ -25,7 +25,7 @@ class HeaderRight extends Component {
         <IconBadge navigation={this.props.navigation} />
         <TouchableOpacity
           onPress={() => this.share()}
-          style={{ marginLeft: 20 }}
+          style={{ marginLeft: 10 }}
         >
           <Icon name="share-google" size={30} color={"#FFF"} type="evilicon" />
         </TouchableOpacity>

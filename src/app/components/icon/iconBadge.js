@@ -85,10 +85,10 @@ class MyClass extends Component {
           MainElement={
             <View>
               <Icon
-                name="ios-paper-outline"
+                name="history"
                 color="white"
                 size={35}
-                type="ionicon"
+                type="materialIcon"
                 style={{
                   paddingRight: 10
                 }}

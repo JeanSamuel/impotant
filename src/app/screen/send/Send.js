@@ -23,6 +23,7 @@ import sendStyle from "../../styles/stylesC/sendStyle";
 import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
+import { IconBadge } from '../../components/icon'
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
 import To from "./to";
@@ -534,8 +535,12 @@ const NestedSendStack = StackNavigator({
             marginHorizontal: 10
           }}
         >
+
           <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
-            <Icon name="menu" size={30} color="#fff" />
+            <Icon name="ios-menu-outline"
+            color="white"
+            size={30}
+            type="ionicon" />
           </TouchableOpacity>
         </View>
       ),
@@ -543,17 +548,9 @@ const NestedSendStack = StackNavigator({
         <View
           style={{
             alignContent: "center",
-            marginRight: 10
           }}
         >
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("History", {
-                user_id: navigation.state.params.user_id
-              })}
-          >
-            <Icon name="back-in-time" type="entypo" size={30} color="#fff" />
-          </TouchableOpacity>
+          <IconBadge navigation={navigation} />
         </View>
       )
     })
