@@ -13,7 +13,6 @@ import Landing from "./Landing";
 import { Pin } from "../../login/loginC";
 import Intro from "../../../components/WelcomeIntro/Welcome";
 import Services from "../../../services/services";
-import DropdownAlert from "react-native-dropdownalert";
 import { MinimLoading } from "../../../components/loader";
 
 // create a component

@@ -21,12 +21,6 @@ const data = {
 class Alert extends Component {
 
     componentWillMount() {
-        new Services().getExpoToken().then(response =>{
-            console.log('====================================');
-            console.log(response);
-            console.log('====================================');
-        })
-        
         this._notificationSubscription = Notifications.addListener(
           this._handleNotification
         );
@@ -49,6 +43,9 @@ class Alert extends Component {
       }
 
       showAlert(notification) {
+          console.log('====================================');
+          console.log('ty le notificatoin', notification);
+          console.log('====================================');
         const title = data.title;
         const amount = data.amount;
         const sender = data.otherUser;
