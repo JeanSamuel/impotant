@@ -38,10 +38,9 @@ class Services extends Component {
       if (response != null) {
         return response;
       } else {
-        Notifications.getExpoPushTokenAsync().then(expToken => {
-          this.saveData("expToken", expToken).then(res => {
-            return res;
-          });
+        return Notifications.getExpoPushTokenAsync().then(expToken => {
+          this.saveData("expToken", expToken)
+            return expToken;
         });
       }
     });

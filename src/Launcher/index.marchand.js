@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import { Notifications } from "expo";
+import AlertNotif from "./app/components/alertNotif";
 import EStyleSheet from "react-native-extended-stylesheet";
 import MainStack from "./app/configs/navigation/navigationM/mainStack";
 import { setJSExceptionHandler } from "react-native-exception-handler";
@@ -82,9 +83,8 @@ export default class Apk extends React.Component {
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
             <StatusBar hidden={true} />
-
             <MainStack />
-            
+            <AlertNotif />
           </View>
         ) : (
           <Container>

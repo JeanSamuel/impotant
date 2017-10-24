@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Constants } from "expo";
-import { Permissions, Notifications } from "expo";
+import { Permissions, Notifications, Constants } from "expo";
 import Services from "./services";
 import RegisterServices from "./registerServices";
 import configs from "../configs/data/dataM";
 
-const PUSH_INIT = configs.BASE_URL + "exp_token/init.php";
+const PUSH_INIT = configs.NEW_BASE_URL + "src/initNotification.php";
 const PUSH_STOP = configs.BASE_URL + "exp_token/disconnect.php";
 const PUSH_REGISTER = configs.BASE_URL + "exp_token/createAccount.php";
 
@@ -84,23 +83,35 @@ export default class NotifServices extends Component {
     return true;
   }
 
-  async initForPushNotificationsAsync(username, init_token) {
+  async initForPushNotificationsAsync() {
     var services = new Services();
     var formData = new FormData();
-    formData.append("token", init_token);
-    formData.append("username", username);
-    var response = await fetch(PUSH_INIT, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data"
-      },
-      body: formData
-    }).catch(error => {
-      let erreur = new Error(response.error);
-      erreur.response = response;
-      console.log("error initialisation Push", erreur);
-    });
+
+    var expoToken = await services.getExpoToken();
+    var userData = await services.getData('userInfo');
+    if(userData == null){
+      return;
+    }
+      let dataJson = JSON.parse(userData);
+      formData.append('expToken', expoToken);
+      formData.append('pseudo', dataJson.username);
+      formData.append('code', dataJson.code );
+      formData.append('idmobile', Constants.deviceName);
+      let data = {
+          method: "POST",
+          body: formData
+        }
+      return await services.myFetch(PUSH_INIT, data)
+      .then(response =>{
+        console.log('====================================');
+        console.log('response',response);
+        console.log('====================================');
+      })
+      .catch(error =>{
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
+      })
   }
 
   async saveExpoToken(expo_token) {

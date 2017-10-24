@@ -82,7 +82,6 @@ export default class DrawerContent extends Component {
 
 
   checkSolde() {
-
     let services = new Services();
     let response = services.checkSolde(this.state.account_id)
     .then(response => {
