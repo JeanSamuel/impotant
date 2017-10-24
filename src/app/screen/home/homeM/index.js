@@ -69,6 +69,7 @@ class Home extends Component {
       t: this.state.type,
       c: this.state.data.currency,
       u: this.state.data.userId,
+      n: this.state.data.username,
       a: amount
     };
     var dataJSON = JSON.stringify(myData);
