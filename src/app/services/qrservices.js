@@ -63,7 +63,7 @@ class QrServices extends Component {
     formData.append("amount", amount);
     // formData.append("senderId", sender_id);
     formData.append("senderId", senderId);
-    formData.append("recipientId", "AA001");
+    formData.append("recipientId", "AA002");
     // formData.append("recipientId", recipientId);
     formData.append("currency", currency);
     formData.append("comment", "Transfert");
