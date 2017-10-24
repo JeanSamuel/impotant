@@ -33,7 +33,7 @@ class MyClass extends Component {
   }
 
   _handleNotification = notification => {
-    if(notification.data.type == 'transaction'){
+    if(notification.data.type == 'reception'){
       let services = new Services();
       this.setState({ notification: notification });
       this.setState({

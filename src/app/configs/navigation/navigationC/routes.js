@@ -34,16 +34,6 @@ import Drawer from "./Drawer";
 import { Notifications } from "expo";
 import DropdownAlert from "react-native-dropdownalert";
 
-const MAIN_INFO_COLOR = "rgba(52, 73, 94,1.0)";
-const data = {
-  backgroundColor: MAIN_INFO_COLOR,
-  type: "info",
-  title: "Nouveau transfert",
-  amount : 2000,
-  sender : 'Toavina',
-  message:
-    "System is going down at 12 AM tonight for routine maintenance. We'll notify you when the system is back online."
-};
 
  class Navigateur extends Component {
 
@@ -70,16 +60,20 @@ const data = {
   }
 
   showAlert(notification) {
-      console.log('====================================');
-      console.log('ty le notificatoin', notification);
-      console.log('====================================');
-    const title = data.title;
-    const amount = data.amount;
-    const sender = data.sender;
-    let debutMessage = "Vous venez d'envoyer' ";
-    let finMessage = " Ar à ";
-    const message = debutMessage + amount + finMessage + sender;
-    this.dropdown.alertWithType(data.type, title, message);
+    console.log('====================================');
+    console.log(notification);
+    console.log('====================================');
+    let data = notification.data;
+    if(data.type == 'reception'){
+      let title = 'Nouveau transfert';
+      let amount = data.amount;
+      let sender = data.from;
+      let debutMessage = "Vous avez reçu ";
+      let finMessage = "Ar de la part de ";
+      const message = debutMessage + amount + finMessage + sender;
+      this.dropdown.alertWithType('info', title, message);
+    }
+    
   }
   dismissAlert = () => {
     this.dropdown.onClose();
