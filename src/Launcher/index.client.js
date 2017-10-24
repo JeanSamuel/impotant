@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Container } from "./app/components/ContainerC";
-import AlertNotif from "./app/components/alertNotif";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import Navigator from "./app/configs/navigation/navigationC/routes";
 
@@ -76,9 +75,11 @@ export default class Apk extends React.Component {
       <View style={{ flex: 1 }}>
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
+            
             <StatusBar hidden={true} />
+            
             <Navigator />
-            <AlertNotif />
+            
           </View>
         ) : (
           <Container>
