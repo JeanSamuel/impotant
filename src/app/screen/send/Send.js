@@ -23,7 +23,7 @@ import sendStyle from "../../styles/stylesC/sendStyle";
 import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
-import { IconBadge } from '../../components/icon'
+import { IconBadge } from "../../components/icon";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
 import To from "./to";
@@ -294,7 +294,7 @@ class Send extends Component {
         // this.prompAmount();
         console.log(readData);
         this.setState({ disabled: true });
-        this._toNextStep(readData.u);
+        this._toNextStep(readData.u, readData.n);
       }
       if (readData.a != 0 && readData.u) {
         // this.promptPin();
@@ -303,12 +303,13 @@ class Send extends Component {
           user: readData.u,
           username: this.state.accountName,
           amount: Services.reformatNumber(readData.a),
-          user_id: this.state.user_id
+          user_id: this.state.user_id,
+          receiver_name: readData.n
         });
       }
     }
   };
-  _toNextStep(receiver) {
+  _toNextStep(receiver, receiver_name) {
     this.setState({ cameraEnabled: false });
     Keyboard.dismiss();
     if (receiver) {
@@ -318,10 +319,11 @@ class Send extends Component {
         );
       } else {
         this.props.navigation.navigate("CustomKey", {
-          user: this.state.user,
+          user: receiver,
           amount: this.state.amount,
           username: this.state.accountName,
-          user_id: this.state.user_id
+          user_id: this.state.user_id,
+          receiver_name: receiver_name
         });
       }
     } else {
@@ -535,19 +537,20 @@ const NestedSendStack = StackNavigator({
             marginHorizontal: 10
           }}
         >
-
           <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
-            <Icon name="ios-menu-outline"
-            color="white"
-            size={30}
-            type="ionicon" />
+            <Icon
+              name="ios-menu-outline"
+              color="white"
+              size={30}
+              type="ionicon"
+            />
           </TouchableOpacity>
         </View>
       ),
       headerRight: (
         <View
           style={{
-            alignContent: "center",
+            alignContent: "center"
           }}
         >
           <IconBadge navigation={navigation} />

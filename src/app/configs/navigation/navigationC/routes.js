@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   StatusBar,
   TouchableOpacity,
@@ -34,9 +34,7 @@ import Drawer from "./Drawer";
 import { Notifications } from "expo";
 import DropdownAlert from "react-native-dropdownalert";
 
-
- class Navigateur extends Component {
-
+class Navigateur extends Component {
   componentWillMount() {
     this._notificationSubscription = Notifications.addListener(
       this._handleNotification
@@ -60,20 +58,19 @@ import DropdownAlert from "react-native-dropdownalert";
   }
 
   showAlert(notification) {
-    console.log('====================================');
+    console.log("====================================");
     console.log(notification);
-    console.log('====================================');
+    console.log("====================================");
     let data = notification.data;
-    if(data.type == 'reception'){
-      let title = 'Nouveau transfert';
+    if (data.type == "reception") {
+      let title = "Nouveau transfert";
       let amount = data.amount;
       let sender = data.from;
       let debutMessage = "Vous avez reçu ";
       let finMessage = "Ar de la part de ";
       const message = debutMessage + amount + finMessage + sender;
-      this.dropdown.alertWithType('info', title, message);
+      this.dropdown.alertWithType("info", title, message);
     }
-    
   }
   dismissAlert = () => {
     this.dropdown.onClose();
@@ -88,10 +85,10 @@ import DropdownAlert from "react-native-dropdownalert";
       <View style={styles.container}>
         <MainNavigator />
         <DropdownAlert
-            ref={ref => (this.dropdown = ref)}
-            onClose={data => this.onClose(data)}
-            containerStyle={{ marginTop: 20 }}
-            closeInterval={5000}
+          ref={ref => (this.dropdown = ref)}
+          onClose={data => this.onClose(data)}
+          containerStyle={{ marginTop: 20 }}
+          closeInterval={5000}
         />
       </View>
     );
@@ -124,7 +121,7 @@ const MainNavigator = new StackNavigator(
     CustomKey: {
       screen: CustomKey,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Envoyer à " + navigation.state.params.user,
+        headerTitle: "Envoyer à " + navigation.state.params.receiver_name,
         headerStyle: headStyle.headerBackground,
         headerTintColor: { color: "#fff" },
         headerTitleStyle: { color: "#fff" },

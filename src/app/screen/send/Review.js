@@ -23,6 +23,7 @@ class Review extends Component {
     this.state = {
       user_id: this.props.navigation.state.params.user_id,
       accountName: this.props.navigation.state.params.username,
+      receiver_name: this.props.navigation.state.params.username,
       amount: this.props.navigation.state.params.amount,
       user: this.props.navigation.state.params.user,
       messageText: "",
@@ -68,7 +69,7 @@ class Review extends Component {
               " " +
               this.state.currency +
               " à " +
-              this.state.user
+              this.state.receiver_name
           });
         }
         if (rep.error != null) {
@@ -106,7 +107,7 @@ class Review extends Component {
             <View style={styles.informationBox}>
               <Text style={{ textAlign: "center", fontWeight: "bold" }}>
                 Vous allez envoyer {formatedAmount} {this.state.currency} à{" "}
-                {this.state.user}
+                {this.state.receiver_name}
               </Text>
               <View style={{ marginTop: 10 }}>
                 <Text style={{ textAlign: "center", color: "#797979" }}>

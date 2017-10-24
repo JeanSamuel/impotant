@@ -14,6 +14,7 @@ class CustomKey extends Component {
       user: this.props.navigation.state.params.user,
       user_id: this.props.navigation.state.params.user_id,
       accountName: this.props.navigation.state.params.username,
+      receiver_name: this.props.navigation.state.params.receiver_name,
       inputValue: 0
     };
   }
@@ -42,6 +43,7 @@ class CustomKey extends Component {
       user: this.state.user,
       username: this.state.accountName,
       user_id: this.state.user_id,
+      receiver_name: this.state.receiver_name,
       amount: this.state.inputValue
     });
   }
