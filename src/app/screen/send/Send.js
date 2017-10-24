@@ -281,7 +281,7 @@ class Send extends Component {
     let qdata = Object();
     qdata = data.data;
     // console.log(qdata);
-    if (qdata.includes("vola")) {
+    if (qdata.includes("trans")) {
       readData = JSON.parse(qdata);
       this.setState({
         amount: readData.a,

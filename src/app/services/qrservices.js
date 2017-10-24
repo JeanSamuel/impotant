@@ -37,7 +37,7 @@ class QrServices extends Component {
    * @param {*} user_id 
    */
   isDataValid(qrData) {
-    if (qrData.type !== null && qrData.type === "trans") {
+    if (qrData.type !== null && qrData.type == "trans") {
       if (
         qrData.currency === null ||
         qrData.user === null ||
