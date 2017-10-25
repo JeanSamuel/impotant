@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
+  ActivityIndicator,
   Image,
   ToastAndroid,
   TextInput,
@@ -56,7 +57,7 @@ class RegisterPin extends Component {
           this.setState({ isLoading: !this.state.isLoading });
           this.props.navigation.navigate("Drawer", {
             user_id: this.props.navigation.state.params.user_id,
-            username : this.props.navigation.state.params.username,
+            username: this.props.navigation.state.params.username
           });
         });
       } else {
@@ -73,11 +74,7 @@ class RegisterPin extends Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: "#fff" }]}>
-        <Spinner
-          animation="slide"
-          size="large"
-          visible={this.state.isLoading}
-        />
+        <ActivityIndicator size="large" animating={this.state.isLoading} />
         {Platform.OS === "ios" ? (
           <Toast
             ref="toast"

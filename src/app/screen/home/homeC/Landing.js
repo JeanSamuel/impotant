@@ -71,19 +71,6 @@ export default class Landing extends React.Component {
             <View style={{ height: 20 }} />
           </ScrollView>
         </Image>
-        <Modal
-          animationType={"slide"}
-          ref="modal"
-          visible={this.state.modalVisible}
-          onRequestClose={() => this.ChangeModalVisibility()}
-        >
-          <View style={{ flex: 1 }}>
-            <Login
-              navigation={this.props.navigation}
-              modal={this.ChangeModalVisibility.bind(this)}
-            />
-          </View>
-        </Modal>
       </View>
     );
   }

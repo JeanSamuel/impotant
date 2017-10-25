@@ -6,6 +6,7 @@ import {
   StyleSheet,
   WebView,
   ActivityIndicator,
+  KeyboardAvoidingView,
   ScrollView
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -26,12 +27,19 @@ class Login extends Component {
     this.state = {
       spinnerVisibility: false,
       saving: false,
-      data : null
+      haveFingerprint: false,
+      data: null
     };
   }
 
   changeSpinnerVisibility(value) {
     this.setState({ spinnerVisibility: value });
+  }
+
+  componentWillMount() {
+    Services.haveFingerprint().then(haveFingerprint => {
+      this.setState({ haveFingerprint: haveFingerprint });
+    });
   }
 
   async _onNavigationStateChange(webViewState) {
@@ -43,12 +51,12 @@ class Login extends Component {
       service
         .goLogin(webViewState)
         .then(response => {
-          console.log('====================================');
-          console.log('ty le response aty am login', response);
-          console.log('====================================');
+          console.log("====================================");
+          console.log("ty le response aty am login", response);
+          console.log("====================================");
           this.setState({
-            data : response
-          })
+            data: response
+          });
           this.changeSpinnerVisibility(false);
           notif.loginForExpoToken(response.username);
           this.props.navigation.navigate("RegisterPin", response);
@@ -78,37 +86,39 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <FingerprintRequest
-          waitTextColor="rgba(22, 160, 133,1.0)"
-          onFingerprintSuccess={console.log("OK")}
-        />
-        <View style={{ flex: 1 }}>
-          <View>
-            <Spinner
-              visible={this.state.spinnerVisibility}
-              textStyle={{ color: "#FFF" }}
-            />
+        {this.state.haveFingerprint ? (
+          <FingerprintRequest
+            waitTextColor="rgba(22, 160, 133,1.0)"
+            onFingerprintSuccess={this.handleFingerPrintSuccess()}
+          />
+        ) : (
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              <ActivityIndicator animating={this.state.spinnerVisibility} />
+              <WebView
+                source={{ uri: uri }}
+                style={styles.webview}
+                onNavigationStateChange={this._onNavigationStateChange.bind(
+                  this
+                )}
+                renderLoading={this.renderLoading}
+                onError={this.onErrorLoading.bind(this)}
+                renderError={() => this.webviewRenderError()}
+                startInLoadingState
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Retour"
+                backgroundColor="transparent"
+                underlayColor="#000"
+                large
+                textStyle={styles.buttonText}
+                onPress={() => this.return()}
+              />
+            </View>
           </View>
-          <WebView
-            source={{ uri: uri }}
-            style={styles.webview}
-            onNavigationStateChange={this._onNavigationStateChange.bind(this)}
-            renderLoading={this.renderLoading}
-            onError={this.onErrorLoading.bind(this)}
-            renderError={() => this.webviewRenderError()}
-            startInLoadingState
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Retour"
-            backgroundColor="transparent"
-            underlayColor="#000"
-            large
-            textStyle={styles.buttonText}
-            onPress={() => this.return()}
-          />
-        </View>
+        )}
       </View>
     );
   }

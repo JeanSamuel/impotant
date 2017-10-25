@@ -41,7 +41,7 @@ class Logout extends Component {
     services
       .logout()
       .then(() => {
-        this.props.navigation.navigate("Handler");
+        this.props.navigation.navigate("Landing");
       })
       .catch(error => {
         console.log("====================================");
