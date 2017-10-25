@@ -173,7 +173,10 @@ const MainNavigator = new StackNavigator(
       })
     },
     RegisterPin: {
-      screen: RegisterPin
+      screen: RegisterPin,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
     },
     Register: {
       screen: Register,
