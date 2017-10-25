@@ -13,6 +13,7 @@ import { Fingerprint } from "expo";
 import { Logo, LogoMini } from "../../../components/Logo";
 import { InputWithButton, SimpleInput } from "../../../components/TextInput";
 import { Container } from "../../../components/ContainerC";
+import { FingerprintRequest } from "../../../components/fingerprint";
 import Services from "../../../services/services";
 import styles from "../../../styles/stylesC/registerStyles";
 
@@ -32,15 +33,12 @@ class Pin extends React.Component {
 
   async componentDidMount() {
     let services = new Services();
-    user_id = await services.getData("user_id");
     user_pin = await services.getData("pin");
     haveFingerprint = await Services.haveFingerprint();
     this.setState({ haveFingerprint: haveFingerprint });
 
     if (user_pin !== null) {
-      let dataParsed = JSON.parse(user_id);
-
-      this.setState({ userPin: user_pin, user_id: dataParsed });
+      this.setState({ userPin: user_pin });
     } else {
       Alert.alert("Erreur", "L' utilisateur n'a pas encore de Pin enregistrer");
     }
@@ -51,20 +49,21 @@ class Pin extends React.Component {
     this.setState({ pin: text, errorMessage: null });
     if (text.length === 4) {
       if (text === this.state.userPin) {
-        this.props.navigation.navigate("Drawer",
-          this.state.user_id
-        );
+        this.props.navigation.navigate("Drawer", this.props.userData);
       } else {
         this.setState({ errorMessage: this.renderErrorMessage(), pin: "" });
       }
     }
   };
+  handleFingerPrintSuccess() {
+    this.props.navigation.navigate("Drawer", this.props.userData);
+  }
 
   renderErrorMessage() {
     return (
       <View style={{ justifyContent: "center" }}>
         <Text style={{ textAlign: "center" }}>
-          Le Pin que vous avez entrer n'est pas valide
+          Le Pin que vous avez entré n'est pas valide
         </Text>
       </View>
     );
@@ -72,23 +71,19 @@ class Pin extends React.Component {
 
   async renderFingerPrintPromptAsync(messageIos) {
     if (Plateform.OS === "android") {
-      console.log('====================================');
-      console.log('user_id aty am PIN', this.state.user_id);
-      console.log('====================================');
+      console.log("====================================");
+      console.log("user_id aty am PIN", this.state.user_id);
+      console.log("====================================");
       (await Fingerprint.authenticateAsync())
-        ? this.props.navigation.navigate("Drawer",
-        this.state.user_id
-      )
+        ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("FingerPrint Authentication failed");
     }
     if (Platform.OS === "ios") {
-      console.log('====================================');
-      console.log('user_id aty am PIN', this.state.user_id);
-      console.log('====================================');
+      console.log("====================================");
+      console.log("user_id aty am PIN", this.state.user_id);
+      console.log("====================================");
       (await Fingerprint.authenticateAsync(messageIos))
-        ?this.props.navigation.navigate("Drawer",
-        this.state.user_id
-      )
+        ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("TouchID Authentication failed");
     }
   }
@@ -96,14 +91,11 @@ class Pin extends React.Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: "#fff" }]}>
-        <Spinner
-          textContent="En attente de chargement..."
-          visible={this.state.isLoading}
-          overlayColor="rgba(52, 73, 94,0.8)"
-          textStyle={{ color: "#fafafa", fontWeight: "300" }}
-        />
         {this.state.haveFingerprint ? (
-          this.renderFingerPrintPromptAsync()
+          <FingerprintRequest
+            waitTextColor="rgba(22, 160, 133,1.0)"
+            onFingerprintSuccess={this.handleFingerPrintSuccess()}
+          />
         ) : (
           <KeyboardAvoidingView behavior="padding">
             <View>

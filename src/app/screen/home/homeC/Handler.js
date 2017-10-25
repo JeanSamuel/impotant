@@ -21,21 +21,24 @@ class Handler extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      notLoggedIn: null,
-      modalVisible: false
+      notLoggedIn: true,
+      modalVisible: false,
+      userData: null
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     services = new Services();
     services.getData("user_id").then(response => {
       if (response !== null) {
-        dataParsed = JSON.parse(response)
-        this.setState({ notLoggedIn: false, isLoading: false });
-        this.props.navigation.navigate("Drawer", dataParsed);
+        dataParsed = JSON.parse(response);
+        this.setState({
+          notLoggedIn: false,
+          isLoading: false,
+          userData: dataParsed
+        });
       } else {
         this.setState({ notLoggedIn: true, isLoading: false });
-        this.props.navigation.navigate("Landing");
       }
     });
   }
@@ -54,19 +57,14 @@ class Handler extends Component {
     this.setModalVisible(false);
   };
   render() {
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        {this.state.isLoading ? (
-          <View style={{ flex: 1 }}>
-            <MinimLoading
-              loadingText="En attente de chargement"
-              visible={this.state.isLoading}
-              onRequestClose={() => {
-                console.log("Fermer");
-              }}
-            />
-          </View>
-        ) : null}
+        {this.state.notLoggedIn ? (
+          <Landing navigation={navigation} />
+        ) : (
+          <Pin navigation={navigation} userData={this.state.userData} />
+        )}
       </View>
     );
   }

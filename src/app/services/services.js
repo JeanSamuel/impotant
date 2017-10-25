@@ -39,8 +39,8 @@ class Services extends Component {
         return response;
       } else {
         return Notifications.getExpoPushTokenAsync().then(expToken => {
-          this.saveData("expToken", expToken)
-            return expToken;
+          this.saveData("expToken", expToken);
+          return expToken;
         });
       }
     });
@@ -67,7 +67,14 @@ class Services extends Component {
   }
 
   async logout() {
-    let keys = ["token", "oauthCode", "user_id", "adress", "history", "pin"];
+    let keys = [
+      "token_data",
+      "oauthCode",
+      "user_id",
+      "adress",
+      "history",
+      "pin"
+    ];
     try {
       await AsyncStorage.multiRemove(keys, err => {
         console.log("after logout");
@@ -357,14 +364,14 @@ class Services extends Component {
           username: "toavina"
         };
         if (!responseJSON.error) {
-            this.saveData("userInfo", JSON.stringify(responseJSON));
-            userInfo = {
-              user_id : responseJSON.code,
-              username : responseJSON.username
-            }
-            this.saveData("user_id", JSON.stringify(userInfo));
-            
-            return userInfo;
+          this.saveData("userInfo", JSON.stringify(responseJSON));
+          userInfo = {
+            user_id: responseJSON.code,
+            username: responseJSON.username
+          };
+          this.saveData("user_id", JSON.stringify(userInfo));
+
+          return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");
         }
@@ -389,7 +396,7 @@ class Services extends Component {
    * @param {*} id_account 
    */
   checkSolde(id_account) {
-    var url = configs.NEW_BASE_URL + "src/balance.php?account-id="+ id_account;
+    var url = configs.NEW_BASE_URL + "src/balance.php?account-id=" + id_account;
     let data = {
       method: "GET"
     };
