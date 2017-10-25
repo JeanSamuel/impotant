@@ -65,9 +65,9 @@ class Login extends Component {
     }
   }
 
-  handleFingerPrintSuccess() {
+  handleFingerPrintSuccess = () => {
     this.props.navigation.navigate("Drawer", this.state.data);
-  }
+  };
   onErrorLoading(webViewState) {}
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) => (
@@ -89,7 +89,7 @@ class Login extends Component {
         {this.state.haveFingerprint ? (
           <FingerprintRequest
             waitTextColor="rgba(22, 160, 133,1.0)"
-            onFingerprintSuccess={this.handleFingerPrintSuccess()}
+            onFingerprintSuccess={this.handleFingerPrintSuccess}
           />
         ) : (
           <View style={{ flex: 1 }}>
