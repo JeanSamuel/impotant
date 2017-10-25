@@ -11,6 +11,7 @@ import {
   Modal,
   Alert,
   Keyboard,
+  BackHandler,
   ToastAndroid
 } from "react-native";
 import { StackNavigator } from "react-navigation";
@@ -69,13 +70,19 @@ class Send extends Component {
   }
 
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backHandler);
     Services.haveFingerprint().then(hasFingerPrint => {
       this.setState({ hasFingerPrint: hasFingerPrint, cameraEnabled: true });
     });
   }
 
+  backHandler = () => {
+    return true;
+  };
+
   componentWillUnMount() {
     this.setState({ cameraEnabled: false });
+    BackHandler.removeEventListener("hardwareBackPress", this.backHandler);
   }
 
   toggleFlash = () => {

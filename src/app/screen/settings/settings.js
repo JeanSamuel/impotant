@@ -49,22 +49,22 @@ class Settings extends Component {
   }
 
   render() {
-      return (
-        <View style={{ flex: 1 }}>
-          <ScrollView contentContainerStyle={styles.container}>
-            <RowValue
-              iconName="touch-app"
-              noNext={true}
-              menu="Lancer l'assistance de Configuration"
-              value="Aide rapide à la configuration de compte"
-              action={() => this.goToAssistant()}
-            />
-            <UserInfo/>
-            <Security navigation = {this.props.navigation} />
-            <Confidentiality />
-          </ScrollView>
-        </View>
-      );
+    return (
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <RowValue
+            iconName="touch-app"
+            noNext={true}
+            menu="Lancer l'assistance de Configuration"
+            value="Aide rapide à la configuration de compte"
+            action={() => this.goToAssistant()}
+          />
+          <UserInfo />
+          <Security navigation={this.props.navigation} />
+          <Confidentiality />
+        </ScrollView>
+      </View>
+    );
   }
 }
 
