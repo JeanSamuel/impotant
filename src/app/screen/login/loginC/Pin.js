@@ -57,9 +57,9 @@ class Pin extends React.Component {
       }
     }
   };
-  handleFingerPrintSuccess() {
+  handleFingerPrintSuccess = () => {
     this.props.navigation.navigate("Drawer", this.props.userData);
-  }
+  };
 
   renderErrorMessage() {
     return (
@@ -96,7 +96,7 @@ class Pin extends React.Component {
         {this.state.haveFingerprint ? (
           <FingerprintRequest
             waitTextColor="rgba(22, 160, 133,1.0)"
-            onFingerprintSuccess={this.handleFingerPrintSuccess()}
+            onFingerprintSuccess={this.handleFingerPrintSuccess}
           />
         ) : (
           <KeyboardAvoidingView behavior="padding">
