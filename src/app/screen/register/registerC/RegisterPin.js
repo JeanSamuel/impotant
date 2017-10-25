@@ -10,6 +10,7 @@ import {
   ToastAndroid,
   TextInput,
   Dimensions,
+  Keyboard,
   Platform
 } from "react-native";
 import Toast, { DURATION } from "react-native-easy-toast";
@@ -50,6 +51,7 @@ class RegisterPin extends Component {
     console.log("input 2 toggled");
     console.log("Toggle input2", this.state.pin1);
     if (text.length === 4) {
+      Keyboard.dismiss();
       if (text == this.state.pin1) {
         services = new Services();
         this.setState({ isLoading: true });

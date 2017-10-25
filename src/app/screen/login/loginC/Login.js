@@ -93,8 +93,17 @@ class Login extends Component {
           />
         ) : (
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <ActivityIndicator animating={this.state.spinnerVisibility} />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignContent: "center"
+              }}
+            >
+              <ActivityIndicator
+                animating={this.state.spinnerVisibility}
+                size="large"
+              />
               <WebView
                 source={{ uri: uri }}
                 style={styles.webview}
