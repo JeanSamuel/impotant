@@ -61,16 +61,15 @@ class SyncServices extends Component {
         console.log('====================================');
         console.log('allDevices', responseJSON);
         console.log('====================================');
-        // if (!responseJSON.error) {
-        //   this.saveData("solde",JSON.stringify(responseJSON.value))
-        //     return responseJSON;
-        // } else {
-        //   throw this.createError(responseJSON.error, "erreur getting solde")
-        // }
+        if (!responseJSON.error) {
+            return responseJSON;
+        } else {
+          throw this.createError(responseJSON.error, "erreur getting deviceListe")
+        }
         
       })
       .catch(error => {
-        throw this.createError(responseJSON.error, "erreur services getting solde")
+        throw this.createError(responseJSON.error, "erreur services getting deviceListe")
       });
   }
 }

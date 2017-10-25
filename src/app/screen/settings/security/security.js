@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,ListView } from "react-native";
 import { RowValue, RowTitle } from "../../../components/row";
 import { Constants } from "expo";
 import { SyncServices } from '../../../services'
@@ -13,8 +13,10 @@ class Security extends Component {
     super(props);
     this.state = {
       isGettingData : false,
-      user_id : this.props.navigation.state.params.user_id
+      user_id : this.props.navigation.state.params.user_id,
+      deviceList : []
     }
+    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
   }
 
   goBack() {
@@ -24,9 +26,9 @@ class Security extends Component {
 
   componentDidMount() {
     if(!this.state.isGettingData){
-      console.log('====================================');
-      console.log(this.state);
-      console.log('====================================');
+      this.setState({
+        isGettingData : true
+      })
       this.getAllDevices('toavina');
       
     }
@@ -34,14 +36,16 @@ class Security extends Component {
 
   getAllDevices(account_id){
     let syncServices = new SyncServices();
-    let deviceList = syncServices.getAllDevices()
-    .then(deviceList =>{
-      console.log('====================================');
-      console.log(deviceList);
-      console.log('====================================');
+    let response = syncServices.getAllDevices()
+    .then(response =>{
+      this.setState({
+        deviceList : response
+      })
     })
     .catch(error =>{
-
+      console.log('====================================');
+      console.log('error getting liste devices - Security', error);
+      console.log('====================================');
     })
 
   }
@@ -53,34 +57,26 @@ class Security extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RowTitle
+      <RowTitle
           title="Liste des appareils connectés"
           help={
             "Les périphériques qui sont connéctés à votre compte et qui reçoivent des notifications à chaque transaction"
           }
         />
-        <RowValue
-          menu="Sony XPERIA ZR"
-          value="Antananarivo, Madagascar"
-          action={() => console.log("zertyu")}
-          iconName="phone-android"
-          noNext={true}
-        />
-        <RowValue
-          menu="ZTE Blade L110"
-          value="Antananarivo, Madagascar"
-          action={() => console.log("zertyu")}
-          iconName="phone-android"
-          noNext={true}
-        />
-        <RowValue
-          menu="PC Windows"
-          value="Antananarivo, Madagascar"
-          action={() => console.log("zertyu")}
-          iconName="computer"
-          noNext={true}
-        />
-
+      <ListView
+        enableEmptySections={true}
+        dataSource={this.dataSource.cloneWithRows(this.state.deviceList)}
+        renderRow={(rowData) => 
+          <RowValue
+            menu={rowData.idmobile}
+            value="Antananarivo, Madagascar"
+            action={() => console.log("identifiant du mobile : ", rowData.id_account)}
+            iconName="phone-android"
+            noNext={true}
+          />
+        }
+      />
+      
         <RowTitle title="Connexion" />
         <RowValue
           menu="Changer mot de passe"
