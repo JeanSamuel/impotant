@@ -31,7 +31,7 @@ class FingerprintRequest extends Component {
       if (result.success) {
         this.setState(
           { authStatus: "success" },
-          this.props.onFingerprintSuccess()
+          this.props.onFingerprintSuccess
         );
       } else {
         this.setState({
