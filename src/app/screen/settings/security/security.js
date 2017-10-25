@@ -3,28 +3,46 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RowValue, RowTitle } from "../../../components/row";
 import { Constants } from "expo";
+import { SyncServices } from '../../../services'
 
 // create a component
 const self = null;
 class Security extends Component {
 
   constructor(props){
-    super(props)
+    super(props);
+    this.state = {
+      isGettingData : false,
+      user_id : this.props.navigation.state.params.user_id
+    }
   }
 
   goBack() {
     this.props.navigation.navigate("Settings");
   }
-
-
+  
 
   componentDidMount() {
-    console.log('====================================');
-    console.log('nvigation', this.props);
-    console.log('====================================');
+    if(!this.state.isGettingData){
+      console.log('====================================');
+      console.log(this.state);
+      console.log('====================================');
+      this.getAllDevices('toavina');
+      
+    }
   }
 
-  getAllDevices(){
+  getAllDevices(account_id){
+    let syncServices = new SyncServices();
+    let deviceList = syncServices.getAllDevices()
+    .then(deviceList =>{
+      console.log('====================================');
+      console.log(deviceList);
+      console.log('====================================');
+    })
+    .catch(error =>{
+
+    })
 
   }
 

@@ -50,23 +50,23 @@ class SyncServices extends Component {
     
   }
 
-  getAllDevices(){
-    var url = configs.NEW_BASE_URL + "src/getDevices.php?account-id=aa001";
+  async getAllDevices(code){
+    var url = configs.NEW_BASE_URL + "src/getDevices.php?code=aa012";
     let data = {
       method: "GET"
     };
-    return this.myFetch(url, data)
+    return new Services().myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
         console.log('====================================');
-        console.log('solde', responseJSON);
+        console.log('allDevices', responseJSON);
         console.log('====================================');
-        if (!responseJSON.error) {
-          this.saveData("solde",JSON.stringify(responseJSON.value))
-            return responseJSON;
-        } else {
-          throw this.createError(responseJSON.error, "erreur getting solde")
-        }
+        // if (!responseJSON.error) {
+        //   this.saveData("solde",JSON.stringify(responseJSON.value))
+        //     return responseJSON;
+        // } else {
+        //   throw this.createError(responseJSON.error, "erreur getting solde")
+        // }
         
       })
       .catch(error => {
