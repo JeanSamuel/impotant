@@ -1,7 +1,15 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { Button, Header } from "react-native-elements";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  BackHandler
+} from "react-native";
+import { StackNavigator } from "react-navigation";
+import { Button, Header, Icon } from "react-native-elements";
 import { InputButton } from "../../components/TextInput";
 import CancelKeyButton from "../../components/Buttons/CancelKeyButton";
 import headStyle from "../../styles/stylesC/headerStyle";
@@ -18,6 +26,16 @@ class CustomKey extends Component {
       inputValue: 0
     };
   }
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backHandler);
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backHandler);
+  }
+  backHandler = () => {
+    this.props.navigation.state.params.onGoBack();
+  };
+
   _onInputButtonPressed(input) {
     switch (typeof input) {
       case "number":
@@ -142,6 +160,4 @@ const styles = StyleSheet.create({
     padding: 20
   }
 });
-
-//make this component available to the app
 export default CustomKey;

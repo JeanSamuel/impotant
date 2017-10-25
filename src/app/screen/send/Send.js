@@ -56,7 +56,8 @@ class Send extends Component {
     Keyboard.dismiss();
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
-      hasCameraPermission: status === "granted"
+      hasCameraPermission: status === "granted",
+      cameraEnabled: true
     });
     let services = new Services();
     services.getData("user_id").then(user_id => {
@@ -93,6 +94,10 @@ class Send extends Component {
       this.promptPin();
     }
   };
+
+  enableCamera() {
+    this.setState({ cameraEnabled: true });
+  }
 
   removeModal() {
     this.setState({ modal: null });
@@ -323,7 +328,10 @@ class Send extends Component {
           amount: this.state.amount,
           username: this.state.accountName,
           user_id: this.state.user_id,
-          receiver_name: receiver_name
+          receiver_name: receiver_name ? receiver_name : receiver,
+          onGoBack: () => {
+            this.setState({ cameraEnabled: true });
+          }
         });
       }
     } else {
