@@ -5,6 +5,7 @@ import {
   Text,
   ActivityIndicator,
   TextInput,
+  Keyboard,
   Dimensions,
   Alert
 } from "react-native";
@@ -48,6 +49,7 @@ class Pin extends React.Component {
   handlePinInput = text => {
     this.setState({ pin: text, errorMessage: null });
     if (text.length === 4) {
+      Keyboard.dismiss();
       if (text === this.state.userPin) {
         this.props.navigation.navigate("Drawer", this.props.userData);
       } else {
