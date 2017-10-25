@@ -132,7 +132,12 @@ const MainNavigator = new StackNavigator(
               marginHorizontal: 10
             }}
           >
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.state.params.onGoBack();
+                navigation.goBack();
+              }}
+            >
               <Icon name="navigate-before" size={30} color="#fff" />
             </TouchableOpacity>
           </View>
