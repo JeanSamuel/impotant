@@ -117,6 +117,13 @@ class Services extends Component {
     return myerror;
   }
 
+  createErrorWithoutThrow(error, message) {
+    console.log("erreur auto :", error);
+    console.log("erreur perso :", message);
+    let myerror = new Error(error);
+    myerror.message = message;
+  }
+
   saveData2(key, value) {
     return AsyncStorage.setItem(key, value);
   }

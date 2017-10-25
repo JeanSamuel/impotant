@@ -7,7 +7,8 @@ import {
   ListView,
   RefreshControl,
   Keyboard,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon, List, Button } from "react-native-elements";
@@ -17,7 +18,9 @@ import { HistoryServices } from "../../../services";
 import Row from "./row";
 import HeaderHistory from "./header";
 import Error from "./errorHistory";
+import HeaderRight from './headerRight';
 import { DrawerMenu } from "../../../components/drawerMenu";
+import { Download } from "../../../components/icon";
 import SearchBar from "react-native-searchbar";
 import { Notifications } from "expo";
 import RowEmpty from './rowEmpty';
@@ -49,17 +52,7 @@ class History extends Component {
     ),
     titleStyle: styleBase.headerTitle,
     headerRight: (
-      <TouchableOpacity
-        onPress={() => self.showSearchBar()}
-        activeOpacity={0.3}
-      >
-        <Icon
-          name="ios-search-outline"
-          color="#ecf0f1"
-          size={30}
-          type="ionicon"
-        />
-      </TouchableOpacity>
+      <HeaderRight action={() => self.showSearchBar() } />
     )
   };
 
@@ -230,7 +223,7 @@ class History extends Component {
 
       return (
         <View style={style.listView}>
-          <View>
+          <ScrollView>
             <SearchBar
               ref={ref => (this.searchBar = ref)}
               data={this.state.dataBrute}
@@ -241,32 +234,39 @@ class History extends Component {
               onBack={() => this.reinitialiseData()}
               backButton={<Icon name="keyboard-arrow-up" size={30} />}
             />
-          </View>
+            
+          
 
-          <View>{this.state.error}</View>
-          <View style={[style.headerList, this.state.extraMargin]} />
+            <View>{this.state.error}</View>
+            <View style={[style.headerList, this.state.extraMargin]} />
+            
+              <View>
+                {this.state.emptyData}
+              </View>
+            
+            <ListView
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
+              dataSource={ds.cloneWithRowsAndSections(this.state.data)}
+              renderSectionHeader={this.renderSectionHeader}
+              renderRow={(row, j, k) => (
+                <Row
+                  info={row}
+                  index={parseInt(k)}
+                  navigation={this.props.navigation}
+                />
+              )}
+            />
+            
+          </ScrollView>
+          <View style={style.downloadContainer} >
+            <Download source={this.state.dataBrute}/>
+          </View>
           
-            <View>
-              {this.state.emptyData}
-            </View>
-          
-          <ListView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }
-            dataSource={ds.cloneWithRowsAndSections(this.state.data)}
-            renderSectionHeader={this.renderSectionHeader}
-            renderRow={(row, j, k) => (
-              <Row
-                info={row}
-                index={parseInt(k)}
-                navigation={this.props.navigation}
-              />
-            )}
-          />
         </View>
       );
     }
@@ -274,12 +274,21 @@ class History extends Component {
 }
 
 const style = EStyleSheet.create({
+  downloadContainer : {
+    flex : 1, 
+    position : 'absolute', 
+    bottom : 1,
+    width : '100%',
+    paddingVertical : 8,
+    backgroundColor : "rgba(236, 240, 241,1.0)",
+    marginBottom : -1
+  },
   headerList: {},
   greyText: {
     color: "rgba(52, 73, 94,1.0)"
   },
   listView: {
-    // marginBottom: 20
+    flex : 1
   },
   connexionError: {
     flexDirection: "row",

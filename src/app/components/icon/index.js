@@ -1,2 +1,3 @@
 import IconBadge from "./iconBadge";
-export { IconBadge };
+import Download from "./download";
+export { IconBadge, Download };

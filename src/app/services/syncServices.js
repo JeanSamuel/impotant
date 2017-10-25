@@ -64,12 +64,12 @@ class SyncServices extends Component {
         if (!responseJSON.error) {
             return responseJSON;
         } else {
-          throw this.createError(responseJSON.error, "erreur getting deviceListe")
+          throw new Services().createError(responseJSON.error, "erreur getting deviceListe")
         }
         
       })
       .catch(error => {
-        throw this.createError(responseJSON.error, "erreur services getting deviceListe")
+        throw new Services().createError(responseJSON.error, "erreur services getting deviceListe")
       });
   }
 }
