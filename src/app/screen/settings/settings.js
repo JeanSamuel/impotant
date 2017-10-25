@@ -60,7 +60,7 @@ class Settings extends Component {
               action={() => this.goToAssistant()}
             />
             <UserInfo/>
-            <Security />
+            <Security navigation = {this.props.navigation} />
             <Confidentiality />
           </ScrollView>
         </View>
