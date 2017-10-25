@@ -88,7 +88,7 @@ export default DrawerNavigator(
     }
   },
   {
-    initialRouteName: "Options",
+    initialRouteName: "History",
     contentOptions: {
       activeTintColor: "#e91e63"
     },
