@@ -18,46 +18,50 @@ class HistorySevices extends Component {
     return moment(actualDate, "YYYY-MM-DD").format("YYYY-MM-DD");
   };
 
-  checkHistoryError(data){
-    if(data.length > 0){
+  checkHistoryError(data) {
+    if (data.length > 0) {
       let oneData = data[0];
-      if(!oneData.id){
+      if (!oneData.id) {
         return [];
       }
       return data;
-    }else{
+    } else {
       return data;
     }
   }
 
   async getHistory(user_id) {
-    if(user_id == null){
+    if (user_id == null) {
       return [];
     }
-    let url = configs.NEW_BASE_URL + "src/transaction.php?account-id="+ user_id;
-    console.log('====================================');
-    console.log('début maka history ', user_id);
-    console.log('====================================');
+    let url =
+      configs.NEW_BASE_URL + "src/transaction.php?account-id=" + user_id;
+    console.log("====================================");
+    console.log("début maka history ", user_id);
+    console.log("====================================");
 
     try {
-      return new Services().myFetch(url, { method: "GET" })
-      .then(response => response.json())
-      .then(responseJSON =>{
-        if (responseJSON.error != 0 ) {
-          
-          let dataChecked = this.checkHistoryError(responseJSON);
-          this.saveHistory(JSON.stringify(dataChecked))
+      return new Services()
+        .myFetch(url, { method: "GET" })
+        .then(response => response.json())
+        .then(responseJSON => {
+          if (responseJSON.error != 0) {
+            let dataChecked = this.checkHistoryError(responseJSON);
+            this.saveHistory(JSON.stringify(dataChecked));
             return dataChecked;
-        } else {
-          console.log('====================================');
-          console.log('erreur de données getHistory', responseJSON);
-          console.log('====================================');
-          return [];
-        }
-      })
-      .catch(error =>{
-        throw new Services().createError(error, "erreur services getting History")
-      })
+          } else {
+            console.log("====================================");
+            console.log("erreur de données getHistory", responseJSON);
+            console.log("====================================");
+            return [];
+          }
+        })
+        .catch(error => {
+          throw new Services().createError(
+            error,
+            "erreur services getting History"
+          );
+        });
     } catch (error) {
       console.log("erreur getHistory", error);
       throw error;
@@ -112,6 +116,9 @@ class HistorySevices extends Component {
     return _.groupBy(data, h =>
       moment(h.date, "YYYY-MM-DD").format("YYYY-MM-DD")
     );
+  }
+  groupRecipientId(data) {
+    return _.groupBy(data, h => h.recipientId);
   }
 }
 
