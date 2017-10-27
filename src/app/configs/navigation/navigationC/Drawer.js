@@ -7,10 +7,15 @@ import {
   AppStarter,
   Send,
   To,
+  History,
   Logout
 } from "../../../screen/indexScreen";
 import { Icon } from "react-native-elements";
-import { History, Settings, Home } from "../../../screen/listScreenM";
+import {
+  //History,
+  Settings,
+  Home
+} from "../../../screen/listScreenM";
 import DrawerContent from "../navigationM/drawerContent";
 
 //make this component available to the app

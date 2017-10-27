@@ -288,12 +288,12 @@ class Send extends Component {
     });
   }
   _handleBarCodeRead = data => {
-    this.setState({ cameraEnabled: false });
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
     // console.log(qdata);
     if (qdata.includes("trans")) {
+      this.setState({ cameraEnabled: false });
       readData = JSON.parse(qdata);
       this.setState({
         amount: readData.a,
@@ -319,6 +319,8 @@ class Send extends Component {
           receiver_name: readData.n
         });
       }
+    } else {
+      alert("Veuillez scanner un Qr Code valide");
     }
   };
   _toNextStep(receiver, receiver_name) {

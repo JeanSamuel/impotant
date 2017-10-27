@@ -84,5 +84,13 @@ export default EStyleSheet.create({
     height: INPUT_HEIGHT,
     width: StyleSheet.hairlineWidth,
     backgroundColor: "$border"
+  },
+  autocompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    zIndex: 1
   }
 });
