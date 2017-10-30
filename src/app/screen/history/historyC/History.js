@@ -261,9 +261,6 @@ class History extends React.Component {
 
   getIcon(amount, comment) {
     let iconName = "directions";
-    if (comment.trim() === "First Transaction") {
-      iconName = "present";
-    }
     color = "#e4795f";
     if (amount < 0) {
       color = "#e4795f";
