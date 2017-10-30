@@ -31,6 +31,7 @@ import { DrawerMenu } from "../../../components/drawerMenu";
 import HeaderRight from "../historyM/headerRight";
 import Error from "../historyM/errorHistory";
 import _ from "lodash";
+import "moment/locale/fr";
 // create a component
 
 class History extends React.Component {
@@ -330,7 +331,9 @@ class History extends React.Component {
         }}
       >
         <Text style={{ marginLeft: 10 }}>
-          {moment(headerItem.section.key, "YYYY-MM-DD").format("DD MMM, YYYY")}
+          {moment(headerItem.section.key, "YYYY-MM-DD").format(
+            "Do MMMM YYYY"
+          )}
         </Text>
       </View>
     );
@@ -387,6 +390,7 @@ class History extends React.Component {
   _getAllHistory = () => {
     this.setState({
       data: this.state.dataAll,
+      dataBrute: this.state.dataAll,
       showAll: true,
       showIn: false,
       showOut: false
@@ -395,6 +399,7 @@ class History extends React.Component {
   _getSentHistory = () => {
     this.setState({
       data: this.state.dataOut,
+      dataBrute: this.state.dataOut,
       showAll: false,
       showIn: false,
       showOut: true
@@ -403,6 +408,7 @@ class History extends React.Component {
   _getReceivedHistory = () => {
     this.setState({
       data: this.state.dataIn,
+      dataBrute: this.state.dataIn,
       showAll: false,
       showIn: true,
       showOut: false
