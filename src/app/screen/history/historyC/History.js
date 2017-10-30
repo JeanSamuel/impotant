@@ -6,12 +6,14 @@ import {
   View,
   Text,
   ActivityIndicator,
+  TouchableHighlight,
   RefreshControl,
   Keyboard,
   StyleSheet,
   TouchableOpacity,
   NetInfo
 } from "react-native";
+import colors from "color";
 import EStyleSheet from "react-native-extended-stylesheet";
 import headStyle from "../../../styles/stylesC/headerStyle";
 import { HistoryServices } from "../../../services";
@@ -39,6 +41,9 @@ class History extends React.Component {
       user_id: this.props.navigation.state.params.user_id,
       accountName: this.props.navigation.state.params.username,
       data: [],
+      dataIn: [],
+      dataOut: [],
+      dataAll: [],
       loading: true,
       refreshing: false,
       online: true,
@@ -46,7 +51,10 @@ class History extends React.Component {
       dataBrute: null,
       error: null,
       extraMargin: null,
-      emptyData: null
+      emptyData: null,
+      showAll: true,
+      showIn: false,
+      showOut: false
     };
     this._handleResults = this._handleResults.bind(this);
   }
@@ -119,12 +127,20 @@ class History extends React.Component {
     if (response.length == 0) {
       this.createEmptyText();
     } else {
+      hServices = new HistoryServices();
       this.setState({
         syncing: false,
         loading: false,
         refreshing: false,
         dataBrute: response,
-        data: this.parseHistoryData(response)
+        data: this.parseHistoryData(response),
+        dataAll: this.parseHistoryData(response),
+        dataIn: this.parseHistoryData(
+          hServices.getReceivedTransaction(response, this.state.user_id)
+        ),
+        dataOut: this.parseHistoryData(
+          hServices.getSentTransactionData(response, this.state.user_id)
+        )
       });
     }
   }
@@ -370,9 +386,70 @@ class History extends React.Component {
 
     return component;
   }
+
+  _getAllHistory = () => {
+    this.setState({
+      data: this.state.dataAll,
+      showAll: true,
+      showIn: false,
+      showOut: false
+    });
+  };
+  _getSentHistory = () => {
+    this.setState({
+      data: this.state.dataOut,
+      showAll: false,
+      showIn: false,
+      showOut: true
+    });
+  };
+  _getReceivedHistory = () => {
+    this.setState({
+      data: this.state.dataIn,
+      showAll: false,
+      showIn: true,
+      showOut: false
+    });
+  };
   render() {
+    let allActive = this.state.showAll
+      ? { tab: style.tabActive, text: style.tabTextActive }
+      : { tab: {}, text: {} };
+    let inActive = this.state.showIn
+      ? { tab: style.tabActive, text: style.tabTextActive }
+      : { tab: {}, text: {} };
+    let outActive = this.state.showOut
+      ? { tab: style.tabActive, text: style.tabTextActive }
+      : { tab: {}, text: {} };
+
+    const underlayColor = colors("#fff").darken(0.1);
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
+        <View style={style.tab}>
+          <TouchableHighlight
+            underlayColor={underlayColor}
+            onPress={this._getAllHistory}
+            style={[style.tabButtonStyle, allActive.tab]}
+          >
+            <Text style={[style.tabTextStyle, allActive.text]}>Tout</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            underlayColor={underlayColor}
+            onPress={this._getSentHistory}
+            style={[style.tabButtonStyle, outActive.tab]}
+          >
+            <Text style={[style.tabTextStyle, outActive.text]}>Envoyé</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            underlayColor={underlayColor}
+            onPress={this._getReceivedHistory}
+            style={[style.tabButtonStyle, inActive.tab]}
+          >
+            <Text style={[style.tabTextStyle, inActive.text]}>Reçu</Text>
+          </TouchableHighlight>
+        </View>
         <SearchBar
           ref={ref => (this.searchBar = ref)}
           data={this.state.dataBrute}
@@ -426,6 +503,33 @@ const style = EStyleSheet.create({
   headerList: {},
   greyText: {
     color: "rgba(52, 73, 94,1.0)"
+  },
+  tab: {
+    flexDirection: "row",
+    height: 50,
+    // justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "$border"
+  },
+  tabButtonStyle: {
+    height: 50,
+    width: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  tabActive: {
+    borderBottomWidth: 2,
+    borderBottomColor: "$border"
+  },
+  tabTextStyle: {
+    color: "$border",
+    fontWeight: "bold"
+  },
+  tabTextActive: {
+    color: "#000"
   },
   listView: {
     flex: 1

@@ -27,7 +27,6 @@ EStyleSheet.build({
   $inputBG: "rgba(250,250,250,0.8)"
 });
 
-
 const errorHandler = (e, isFatal) => {
   if (isFatal) {
     Alert.alert(
@@ -61,7 +60,6 @@ export default class Apk extends React.Component {
     };
   }
 
-
   async componentDidMount() {
     await Expo.Font.loadAsync({
       Arial: require("./app/font/arial.ttf")
@@ -75,11 +73,9 @@ export default class Apk extends React.Component {
       <View style={{ flex: 1 }}>
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
-            
             <StatusBar hidden={true} />
-            
+
             <Navigator />
-            
           </View>
         ) : (
           <Container>

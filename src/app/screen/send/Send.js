@@ -83,6 +83,20 @@ class Send extends Component {
     let historyServices = new HistoryServices();
     historyServices.getOldHistory().then(history => {
       let historyObject = JSON.parse(history);
+      console.log(
+        "Money out",
+        historyServices.getSentTransactionData(
+          historyObject,
+          this.state.user_id
+        )
+      );
+      console.log(
+        "Money in",
+        historyServices.getReceivedTransaction(
+          historyObject,
+          this.state.user_id
+        )
+      );
       this.setState({ data: this.parseHistoryData(historyObject) });
     });
   }
@@ -440,7 +454,12 @@ class Send extends Component {
                       {
                         height: 40,
                         flex: 1,
-                        paddingHorizontal: 8
+                        paddingHorizontal: 8,
+                        borderTopWidth: 0,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        borderBottomWidth: 0,
+                        borderRadius: 0
                       }
                     ]}
                     style={[inputStyles.input]}

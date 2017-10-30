@@ -120,6 +120,18 @@ class HistorySevices extends Component {
   groupRecipientId(data) {
     return _.groupBy(data, h => h.recipientId);
   }
+
+  getSentTransactionData(data, senderId) {
+    return _.filter(data, h => {
+      return h.senderId == senderId;
+    });
+  }
+
+  getReceivedTransaction(data, recipientId) {
+    return _.filter(data, h => {
+      return h.recipientId == recipientId;
+    });
+  }
 }
 
 //make this component available to the app
