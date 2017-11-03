@@ -13,6 +13,7 @@ import { Icon } from "react-native-elements";
 import QrServices from "../../services/qrservices";
 import Services from "../../services/services";
 import { MessagePrompt, PinModal } from "../../components/modal";
+import { FingerprintRequest } from "../../components/fingerprint";
 
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -26,10 +27,12 @@ class Review extends Component {
       receiver_name: this.props.navigation.state.params.username,
       amount: this.props.navigation.state.params.amount,
       user: this.props.navigation.state.params.user,
+      haveFingerprint: false,
       messageText: "",
       messageVisible: false,
       loading: true,
       messageTitle: "Hold On!",
+      makeTransaction: false,
       error: false,
       iconName: "done",
       color: "",
@@ -44,6 +47,9 @@ class Review extends Component {
     services = new Services();
     services.getData("pin").then(pin => {
       this.setState({ pin: pin });
+    });
+    Services.haveFingerprint().then(haveFingerprint => {
+      this.setState({ haveFingerprint: haveFingerprint });
     });
     services
       .getUserDetails(this.state.user)
@@ -83,20 +89,24 @@ class Review extends Component {
     this.setState({ modal: null, errorMessage: null });
   }
   _promptPin() {
-    this.setState({
-      modal: (
-        <PinModal
-          amount={Services.formatNumber(this.state.amount)}
-          user={this.state.user}
-          currency={this.state.currency}
-          onChangeText={this._handlePinInput}
-          errorMessage={this.state.errorMessage}
-          onRequestClose={() => {
-            this.removeModal();
-          }}
-        />
-      )
-    });
+    if (this.state.haveFingerprint) {
+      this.setState({ makeTransaction: true });
+    } else {
+      this.setState({
+        modal: (
+          <PinModal
+            amount={Services.formatNumber(this.state.amount)}
+            user={this.state.user}
+            currency={this.state.currency}
+            onChangeText={this._handlePinInput}
+            errorMessage={this.state.errorMessage}
+            onRequestClose={() => {
+              this.removeModal();
+            }}
+          />
+        )
+      });
+    }
   }
   _handleContinue() {
     this.setState({
@@ -157,6 +167,12 @@ class Review extends Component {
     const formatedAmount = Services.formatNumber(this.state.amount);
     return (
       <View style={styles.container}>
+        {this.state.haveFingerprint && this.state.makeTransaction ? (
+          <FingerprintRequest
+            waitTextColor="rgba(22, 160, 133,1.0)"
+            onFingerprintSuccess={() => this._handleContinue()}
+          />
+        ) : null}
         <ScrollView>
           <View style={styles.reviewBox}>
             <View style={{ flexDirection: "row" }}>
