@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { List, ListItem, Icon } from "react-native-elements";
+import { List, ListItem, Icon, Button } from "react-native-elements";
 import {
   SectionList,
   View,
@@ -18,6 +18,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import headStyle from "../../../styles/stylesC/headerStyle";
 import { HistoryServices } from "../../../services";
 import Services from "../../../services/services";
+import { styleBase } from "../../../styles";
 import styles from "../../../styles/stylesC/historyStyle";
 import moment from "moment";
 import numeral from "numeral";
@@ -331,9 +332,7 @@ class History extends React.Component {
         }}
       >
         <Text style={{ marginLeft: 10 }}>
-          {moment(headerItem.section.key, "YYYY-MM-DD").format(
-            "Do MMMM YYYY"
-          )}
+          {moment(headerItem.section.key, "YYYY-MM-DD").format("Do MMMM YYYY")}
         </Text>
       </View>
     );
@@ -520,7 +519,7 @@ const style = EStyleSheet.create({
     height: 50,
     width: 80,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   tabActive: {
     borderBottomWidth: 2,

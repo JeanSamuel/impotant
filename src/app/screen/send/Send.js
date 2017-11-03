@@ -50,6 +50,7 @@ class Send extends Component {
       currency: "Ar",
       errorMessage: null,
       modal: null,
+      loggedIn: false,
       loading: true,
       solde: 0,
       cameraEnabled: true,
@@ -68,10 +69,13 @@ class Send extends Component {
     });
     let services = new Services();
     services.getData("user_id").then(user_id => {
-      if (user_id === null) {
-        this.props.navigation.navigate("Handler");
-      }
-      this.setState({ loading: false });
+      services.getData("pin").then(pin => {
+        if (user_id === null || pin === null) {
+          this.props.navigation.navigate("Handler");
+        } else {
+          this.setState({ loading: false, loggedIn: true });
+        }
+      });
     });
   }
 

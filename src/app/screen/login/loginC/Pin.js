@@ -28,22 +28,23 @@ class Pin extends React.Component {
       userPin: "",
       haveFingerprint: false,
       errorMessage: null,
+      hasPin: false,
       user_id: null
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     let services = new Services();
-    user_pin = await services.getData("pin");
-    haveFingerprint = await Services.haveFingerprint();
-    this.setState({ haveFingerprint: haveFingerprint });
-
-    if (user_pin !== null) {
-      this.setState({ userPin: user_pin });
-    } else {
-      Alert.alert("Erreur", "L' utilisateur n'a pas encore de Pin enregistrer");
-    }
-    this.setState({ isLoading: false });
+    services.getData("pin").then(user_pin => {
+      Services.haveFingerprint().then(haveFingerprint => {
+        this.setState({ haveFingerprint: haveFingerprint });
+      });
+      if (user_pin !== null) {
+        this.setState({ userPin: user_pin, isLoading: false, hasPin: true });
+      } else {
+        this.props.navigation.navigate("RegisterPin");
+      }
+    });
   }
 
   handlePinInput = text => {
@@ -98,7 +99,7 @@ class Pin extends React.Component {
             waitTextColor="rgba(22, 160, 133,1.0)"
             onFingerprintSuccess={this.handleFingerPrintSuccess}
           />
-        ) : (
+        ) : this.state.hasPin ? (
           <KeyboardAvoidingView behavior="padding">
             <View>
               <View style={{ flex: 0.8 }} />
@@ -146,7 +147,7 @@ class Pin extends React.Component {
               {this.state.errorMessage}
             </View>
           </KeyboardAvoidingView>
-        )}
+        ) : null}
       </View>
     );
   }
