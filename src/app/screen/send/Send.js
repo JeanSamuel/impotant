@@ -83,20 +83,6 @@ class Send extends Component {
     let historyServices = new HistoryServices();
     historyServices.getOldHistory().then(history => {
       let historyObject = JSON.parse(history);
-      console.log(
-        "Money out",
-        historyServices.getSentTransactionData(
-          historyObject,
-          this.state.user_id
-        )
-      );
-      console.log(
-        "Money in",
-        historyServices.getReceivedTransaction(
-          historyObject,
-          this.state.user_id
-        )
-      );
       this.setState({ data: this.parseHistoryData(historyObject) });
     });
   }
@@ -345,14 +331,14 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        // this.prompAmount();
-        console.log(readData);
-        this.setState({ disabled: true });
+        // // this.prompAmount();
+        // console.log(readData);
+        this.setState({ cameraEnabled: false });
         this._toNextStep(readData.u, readData.n);
       }
       if (readData.a != 0 && readData.u) {
         // this.promptPin();
-        this.setState({ disabled: true });
+        this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("Review", {
           user: readData.u,
           username: this.state.accountName,
@@ -366,7 +352,6 @@ class Send extends Component {
     }
   };
   _toNextStep(receiver, receiver_name) {
-    this.setState({ cameraEnabled: false });
     Keyboard.dismiss();
     if (receiver) {
       if (!this.state.isEditable) {
@@ -374,6 +359,7 @@ class Send extends Component {
           "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"
         );
       } else {
+        this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("CustomKey", {
           user: receiver,
           amount: this.state.amount,

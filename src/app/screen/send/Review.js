@@ -37,6 +37,18 @@ class Review extends Component {
     };
   }
 
+  componentDidMount() {
+    services = new Services();
+    services
+      .getUserDetails(this.state.user)
+      .then(user_info => {
+        console.log(user_info);
+        this.setState({ receiver_name: user_info.nom });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
   _handleContinue() {
     this.setState({
       loading: true,

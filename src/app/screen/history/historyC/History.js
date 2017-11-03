@@ -521,7 +521,6 @@ const style = EStyleSheet.create({
     width: 80,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 10
   },
   tabActive: {
     borderBottomWidth: 2,
