@@ -27,6 +27,10 @@ import { PinModal, AmountModal } from "../../components/modal";
 import { IconBadge } from "../../components/icon";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/services";
+import inputStyles from "../../components/TextInput/styles";
+import AutoComplete from "react-native-autocomplete-input";
+import { HistoryServices } from "../../services";
+import _ from "lodash";
 import To from "./to";
 import { SendLoader } from "../../components/loader";
 // create a component
@@ -46,10 +50,13 @@ class Send extends Component {
       currency: "Ar",
       errorMessage: null,
       modal: null,
+      loggedIn: false,
       loading: true,
       solde: 0,
       cameraEnabled: true,
-      isEditable: true
+      isEditable: true,
+      hideResult: false,
+      data: []
     };
   }
 
@@ -62,10 +69,13 @@ class Send extends Component {
     });
     let services = new Services();
     services.getData("user_id").then(user_id => {
-      if (user_id === null) {
-        this.props.navigation.navigate("Handler");
-      }
-      this.setState({ loading: false });
+      services.getData("pin").then(pin => {
+        if (user_id === null || pin === null) {
+          this.props.navigation.navigate("Handler");
+        } else {
+          this.setState({ loading: false, loggedIn: true });
+        }
+      });
     });
   }
 
@@ -74,6 +84,28 @@ class Send extends Component {
     Services.haveFingerprint().then(hasFingerPrint => {
       this.setState({ hasFingerPrint: hasFingerPrint, cameraEnabled: true });
     });
+    let historyServices = new HistoryServices();
+    historyServices.getOldHistory().then(history => {
+      let historyObject = JSON.parse(history);
+      this.setState({ data: this.parseHistoryData(historyObject) });
+    });
+  }
+
+  parseHistoryData(historyData) {
+    const historyServices = new HistoryServices();
+    history = historyServices.groupRecipientId(historyData);
+    history = _.reduce(
+      history,
+      (acc, next, index) => {
+        acc.push({
+          key: index,
+          data: next
+        });
+        return acc;
+      },
+      []
+    );
+    return history;
   }
 
   backHandler = () => {
@@ -288,12 +320,12 @@ class Send extends Component {
     });
   }
   _handleBarCodeRead = data => {
-    this.setState({ cameraEnabled: false });
     services = new QrServices();
     let qdata = Object();
     qdata = data.data;
     // console.log(qdata);
     if (qdata.includes("trans")) {
+      this.setState({ cameraEnabled: false });
       readData = JSON.parse(qdata);
       this.setState({
         amount: readData.a,
@@ -303,14 +335,14 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        // this.prompAmount();
-        console.log(readData);
-        this.setState({ disabled: true });
+        // // this.prompAmount();
+        // console.log(readData);
+        this.setState({ cameraEnabled: false });
         this._toNextStep(readData.u, readData.n);
       }
       if (readData.a != 0 && readData.u) {
         // this.promptPin();
-        this.setState({ disabled: true });
+        this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("Review", {
           user: readData.u,
           username: this.state.accountName,
@@ -319,10 +351,11 @@ class Send extends Component {
           receiver_name: readData.n
         });
       }
+    } else {
+      alert("Veuillez scanner un Qr Code valide");
     }
   };
   _toNextStep(receiver, receiver_name) {
-    this.setState({ cameraEnabled: false });
     Keyboard.dismiss();
     if (receiver) {
       if (!this.state.isEditable) {
@@ -330,6 +363,7 @@ class Send extends Component {
           "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"
         );
       } else {
+        this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("CustomKey", {
           user: receiver,
           amount: this.state.amount,
@@ -347,8 +381,21 @@ class Send extends Component {
       );
     }
   }
+  findUser(query) {
+    if (query === "") {
+      return [];
+    }
+    const { data } = this.state;
+    const regex = new RegExp(query.trim(), "i");
+    console.log(data.filter(item => item.key.search(regex) >= 0));
+    return data.filter(item => item.key.search(regex) >= 0);
+    // console.log(data.filter(item => item.item.key.search(regex) >= 0));
+    // return data.filter(mot => mot.search(regex) >= 0);
+  }
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, user, data } = this.state;
+    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+    const users = this.findUser(user);
     if (hasCameraPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     } else if (hasCameraPermission === false) {
@@ -369,23 +416,113 @@ class Send extends Component {
                 />
               )}
               <View style={sendStyle.formContainer}>
-                <InputLeftIcon
+                <View
+                  style={{
+                    height: 60,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignContent: "center"
+                  }}
+                />
+                <View
+                  style={[
+                    inputStyles.autocompleteContent,
+                    {
+                      alignSelf: "center",
+                      justifyContent: "center",
+                      alignContent: "center",
+                      alignItems: "center",
+                      marginTop: 10
+                    },
+                    inputStyles.autocompleteContainer
+                  ]}
+                >
+                  <AutoComplete
+                    data={users}
+                    containerStyle={{ alignSelf: "center" }}
+                    inputContainerStyle={[
+                      {
+                        height: 40,
+                        flex: 1,
+                        paddingHorizontal: 8,
+                        borderTopWidth: 0,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        borderBottomWidth: 0,
+                        borderRadius: 0
+                      }
+                    ]}
+                    style={[inputStyles.input]}
+                    listContainerStyle={{ zIndex: 1000 }}
+                    underlineColorAndroid="transparent"
+                    autoComplete={true}
+                    placeholder="Envoyer à: Tel , Adresse ..."
+                    onChangeText={user => {
+                      this.setState({ user: user, hideResult: false });
+                    }}
+                    returnKeyType="none"
+                    defaultValue={user}
+                    listStyle={[
+                      inputStyles.listWidth,
+                      { borderRadius: 0, borderWidth: 0, zIndex: 1000 }
+                    ]}
+                    hideResults={this.state.hideResult}
+                    data={users}
+                    renderItem={data => (
+                      <View>
+                        {this.state.user_id != data.key ? (
+                          <View
+                            style={{
+                              height: 30,
+                              justifyContent: "center",
+                              marginHorizontal: 10
+                            }}
+                          >
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.setState({
+                                  user: data.key,
+                                  hideResult: true
+                                });
+                              }}
+                            >
+                              <Text>{data.key}</Text>
+                            </TouchableOpacity>
+                          </View>
+                        ) : null}
+                      </View>
+                    )}
+                  />
+                </View>
+
+                {/* <InputLeftIcon
                   iconName="expand-more"
                   onPress={() => {
-                    /* this.props.navigation.navigate("To", {
+                     this.props.navigation.navigate("To", {
                       onGoBack: data => {
                         console.log(data);
                         this.setState({ user: data });
                       },
                       user_id: this.state.user_id
-                    }); */
+                    });
                   }}
+                  data={users}
+                  autoComplete={true}
                   placeholder="Envoyer à: Tel , Adresse ..."
                   onChangeText={user => this.setState({ user })}
                   value={this.state.user}
                   returnKeyType="none"
+                  defaultValue={user}
+                  data={users}
+                  renderItem={data => (
+                    <TouchableOpacity
+                      onPress={() => this.setState({ user: data })}
+                    >
+                      <Text>{data}</Text>
+                    </TouchableOpacity>
+                  )}
                   blurOnSubmit={false}
-                />
+                /> */}
                 <InputLeftButton
                   buttonText={this.state.currency}
                   value={"" + Services.formatNumber(this.state.amount)}

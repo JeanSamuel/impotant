@@ -19,6 +19,20 @@ export default EStyleSheet.create({
     marginVertical: 11,
     alignSelf: "center"
   },
+  autocompleteContent: {
+    backgroundColor: "$white",
+    width: "90%",
+    // borderRadius: BORDER_RADIUS,
+    borderBottomWidth: 1,
+    borderBottomColor: "$border",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 11,
+    alignSelf: "center"
+  },
+  listWidth: {
+    width: "90%"
+  },
   myInputContainer: {
     backgroundColor: "$inputBG",
     width: "90%",
@@ -84,5 +98,12 @@ export default EStyleSheet.create({
     height: INPUT_HEIGHT,
     width: StyleSheet.hairlineWidth,
     backgroundColor: "$border"
+  },
+  autocompleteContainer: {
+    flex: 1,
+    position: "absolute",
+    top: 0,
+    width: "90%",
+    zIndex: 1
   }
 });

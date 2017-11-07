@@ -1,5 +1,5 @@
 import { Adresses } from "./adresses";
-import History from "./history/historyM";
+import { History } from "./history/historyC";
 import { Handler, Landing } from "./home/homeC";
 import { Login, Pin } from "./login/loginC";
 import { Send, To, CustomKey, Review } from "./send";

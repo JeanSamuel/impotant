@@ -45,8 +45,8 @@ class Login extends Component {
   async _onNavigationStateChange(webViewState) {
     var service = new Services();
     var notif = new NotificationServices();
+    this.changeSpinnerVisibility(true);
     if (webViewState.url != uri && !this.state.saving) {
-      this.changeSpinnerVisibility(true);
       this.setState({ saving: true });
       service
         .goLogin(webViewState)

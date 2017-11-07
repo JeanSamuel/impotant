@@ -12,7 +12,8 @@ import {
 import { Icon } from "react-native-elements";
 import QrServices from "../../services/qrservices";
 import Services from "../../services/services";
-import { MessagePrompt } from "../../components/modal";
+import { MessagePrompt, PinModal } from "../../components/modal";
+import { FingerprintRequest } from "../../components/fingerprint";
 
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -26,17 +27,87 @@ class Review extends Component {
       receiver_name: this.props.navigation.state.params.username,
       amount: this.props.navigation.state.params.amount,
       user: this.props.navigation.state.params.user,
+      haveFingerprint: false,
       messageText: "",
       messageVisible: false,
       loading: true,
       messageTitle: "Hold On!",
+      makeTransaction: false,
       error: false,
       iconName: "done",
       color: "",
-      currency: "Ar"
+      currency: "Ar",
+      errorMessage: null,
+      pin: "",
+      modal: null
     };
   }
 
+  componentDidMount() {
+    services = new Services();
+    services.getData("pin").then(pin => {
+      this.setState({ pin: pin });
+    });
+    Services.haveFingerprint().then(haveFingerprint => {
+      this.setState({ haveFingerprint: haveFingerprint });
+    });
+    services
+      .getUserDetails(this.state.user)
+      .then(user_info => {
+        console.log(user_info);
+        this.setState({ receiver_name: user_info.nom });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+  renderErrorMessage() {
+    return (
+      <View style={{ justifyContent: "center" }}>
+        <Text style={{ textAlign: "center" }}>
+          Le Pin que vous avez entrer n'est pas valide
+        </Text>
+      </View>
+    );
+  }
+  _handlePinInput = text => {
+    this.setState({ errorMessage: null });
+    console.log(text);
+    if (text.length === 4) {
+      let services = new Services();
+      if (this.state.pin === text) {
+        // console.log("Ataovy le transaction");
+        this.removeModal();
+        this._handleContinue();
+      } else {
+        console.log("error");
+        this.setState({ errorMessage: this.renderErrorMessage() });
+      }
+    }
+  };
+  removeModal() {
+    this.setState({ modal: null, errorMessage: null });
+  }
+  _promptPin() {
+    if (this.state.haveFingerprint) {
+      this.setState({ makeTransaction: true });
+    } else {
+      this.setState({
+        modal: (
+          <PinModal
+            amount={Services.formatNumber(this.state.amount)}
+            user={this.state.user}
+            currency={this.state.currency}
+            onChangeText={this._handlePinInput}
+            errorMessage={this.state.errorMessage}
+            onRequestClose={() => {
+              this.removeModal();
+            }}
+          />
+        )
+      });
+    }
+  }
   _handleContinue() {
     this.setState({
       loading: true,
@@ -56,7 +127,11 @@ class Review extends Component {
       )
       .then(rep => {
         console.log(rep);
+<<<<<<< HEAD
         if (rep.resultat == "success") {
+=======
+        if (rep.result == "success") {
+>>>>>>> ddb8fd4a460a0189eac30a17bbc13bb3e35e8517
           this.setState({
             loading: false,
             error: false,
@@ -96,6 +171,12 @@ class Review extends Component {
     const formatedAmount = Services.formatNumber(this.state.amount);
     return (
       <View style={styles.container}>
+        {this.state.haveFingerprint && this.state.makeTransaction ? (
+          <FingerprintRequest
+            waitTextColor="rgba(22, 160, 133,1.0)"
+            onFingerprintSuccess={() => this._handleContinue()}
+          />
+        ) : null}
         <ScrollView>
           <View style={styles.reviewBox}>
             <View style={{ flexDirection: "row" }}>
@@ -118,6 +199,7 @@ class Review extends Component {
               </View>
             </View>
           </View>
+          {this.state.modal}
         </ScrollView>
 
         <TouchableHighlight
@@ -128,7 +210,7 @@ class Review extends Component {
             width: width
           }}
           onPress={() => {
-            this._handleContinue();
+            this._promptPin();
           }}
         >
           <View>

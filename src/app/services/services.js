@@ -354,22 +354,31 @@ class Services extends Component {
       });
   }
 
+  async getUserDetails(account_id) {
+    let uri = configs.ARIARY_BASE_URL + "get_details/" + account_id;
+    return fetch(uri, { method: "GET" })
+      .then(response => response.json())
+      .then(responseJSON => {
+        if (!responseJSON.error) {
+          return responseJSON;
+        } else {
+          throw this.createError(responseJSON.error, "erreur getting userName");
+        }
+      })
+      .catch(error => {
+        throw this.createError(error, "erreur services getting userName");
+      });
+  }
   async getUserInfo(new_token) {
+    let accound_id = "AA012";
+    //http://ariary.vola.mg/new_serv/src/access-tokens.php?token=
     var url =
-      configs.BASE_URL_Oauth + "oauth2/userinfo?access_token=" + new_token;
+      configs.BASE_URL + "new_serv/src/access-tokens.php?token=" + new_token;
+    let uri = configs.ARIARY_BASE_URL + "get_details/" + accound_id;
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-        responseJSON = {
-          birthday: "11-10-2017",
-          code: "AA012",
-          mail: "toaviana@v.com",
-          nom: "Ralambomanana Toavina",
-          phone: "+261345087423",
-          roles: ["ROLE_CLIENT_SIMPLE", "ROLE_USER"],
-          solde: 0,
-          username: "toavina"
-        };
+        console.log(responseJSON);
         if (!responseJSON.error) {
           this.saveData("userInfo", JSON.stringify(responseJSON));
           userInfo = {

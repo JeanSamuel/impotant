@@ -29,10 +29,7 @@ class PinModal extends Component {
           <View style={styles.modalContainer}>
             <View style={styles.webViewContainer}>
               <Text style={[styles.text, regStyles.textWidth]}>
-                Vous allez envoyer {this.props.amount} {this.props.currency}
-              </Text>
-              <Text style={[styles.text, regStyles.textWidth]}>
-                à {this.props.user}
+                Entrer votre code PIN pour continuer
               </Text>
               <View style={styles.inputContainer}>
                 <TextInput
@@ -57,8 +54,8 @@ class PinModal extends Component {
                   returnKeyType="done"
                   secureTextEntry={true}
                 />
-                {this.props.errorMessage}
               </View>
+              <View style={{ marginTop: 5 }}>{this.props.errorMessage}</View>
               <View style={styles.bottom}>
                 <TouchableOpacity onPress={this.props.onRequestClose}>
                   <Text style={styles.bottomText}>Annuler</Text>

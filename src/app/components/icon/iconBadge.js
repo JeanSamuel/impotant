@@ -85,10 +85,10 @@ class MyClass extends Component {
           MainElement={
             <View>
               <Icon
-                name="history"
+                name="clock"
                 color="white"
                 size={35}
-                type="materialIcon"
+                type="evilicon"
                 style={{
                   paddingRight: 10
                 }}

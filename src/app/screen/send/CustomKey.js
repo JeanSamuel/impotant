@@ -23,7 +23,7 @@ class CustomKey extends Component {
       user_id: this.props.navigation.state.params.user_id,
       accountName: this.props.navigation.state.params.username,
       receiver_name: this.props.navigation.state.params.receiver_name,
-      inputValue: 0
+      inputValue: 0.0
     };
   }
   componentDidMount() {
@@ -41,10 +41,19 @@ class CustomKey extends Component {
       case "number":
         this._handleNumberInput(input);
         break;
+      case "string":
+        if (input === ".") {
+          var decimal = parseFloat(
+            Math.round(this.state.inputValue * 100) / 100
+          ).toFixed(1);
+          this.setState({ inputValue: decimal });
+        }
     }
   }
 
   _handleNumberInput(num) {
+    if (this.state.inputValue.toString().includes(".")) {
+    }
     let inputValue = this.state.inputValue * 10 + num;
 
     this.setState({
