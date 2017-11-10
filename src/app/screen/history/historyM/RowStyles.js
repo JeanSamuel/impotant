@@ -39,7 +39,8 @@ export default (styles = EStyleSheet.create({
   },
   date: {
     fontSize: 15,
-    color: "rgba(149, 165, 166,1.0)"
+    color: "rgba(149, 165, 166,1.0)",
+    textAlign : 'right'
   },
   type: {
     fontSize: 15,
