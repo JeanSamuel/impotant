@@ -127,11 +127,7 @@ class Review extends Component {
       )
       .then(rep => {
         console.log(rep);
-<<<<<<< HEAD
         if (rep.resultat == "success") {
-=======
-        if (rep.result == "success") {
->>>>>>> ddb8fd4a460a0189eac30a17bbc13bb3e35e8517
           this.setState({
             loading: false,
             error: false,
