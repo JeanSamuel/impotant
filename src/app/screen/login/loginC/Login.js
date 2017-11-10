@@ -16,7 +16,6 @@ import styleBase from "../../../styles/styles";
 import { WarningConnexion } from "../../../components/warning";
 import { Button } from "react-native-elements";
 import data from "../../../configs/data/dataM";
-import { FingerprintRequest } from "../../../components/fingerprint";
 
 // const { width, height } = Dimensions.get("window");
 const uri = data.uri;
@@ -27,19 +26,12 @@ class Login extends Component {
     this.state = {
       spinnerVisibility: false,
       saving: false,
-      haveFingerprint: false,
       data: null
     };
   }
 
   changeSpinnerVisibility(value) {
     this.setState({ spinnerVisibility: value });
-  }
-
-  componentWillMount() {
-    Services.haveFingerprint().then(haveFingerprint => {
-      this.setState({ haveFingerprint: haveFingerprint });
-    });
   }
 
   async _onNavigationStateChange(webViewState) {
@@ -65,9 +57,6 @@ class Login extends Component {
     }
   }
 
-  handleFingerPrintSuccess = () => {
-    this.props.navigation.navigate("Drawer", this.state.data);
-  };
   onErrorLoading(webViewState) {}
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) => (
@@ -86,48 +75,39 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        {this.state.haveFingerprint ? (
-          <FingerprintRequest
-            waitTextColor="rgba(22, 160, 133,1.0)"
-            onFingerprintSuccess={this.handleFingerPrintSuccess}
-          />
-        ) : (
-          <View style={{ flex: 1 }}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignContent: "center"
-              }}
-            >
-              <ActivityIndicator
-                animating={this.state.spinnerVisibility}
-                size="large"
-              />
-              <WebView
-                source={{ uri: uri }}
-                style={styles.webview}
-                onNavigationStateChange={this._onNavigationStateChange.bind(
-                  this
-                )}
-                renderLoading={this.renderLoading}
-                onError={this.onErrorLoading.bind(this)}
-                renderError={() => this.webviewRenderError()}
-                startInLoadingState
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Retour"
-                backgroundColor="transparent"
-                underlayColor="#000"
-                large
-                textStyle={styles.buttonText}
-                onPress={() => this.return()}
-              />
-            </View>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignContent: "center"
+            }}
+          >
+            <ActivityIndicator
+              animating={this.state.spinnerVisibility}
+              size="large"
+            />
+            <WebView
+              source={{ uri: uri }}
+              style={styles.webview}
+              onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+              renderLoading={this.renderLoading}
+              onError={this.onErrorLoading.bind(this)}
+              renderError={() => this.webviewRenderError()}
+              startInLoadingState
+            />
           </View>
-        )}
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Retour"
+              backgroundColor="transparent"
+              underlayColor="#000"
+              large
+              textStyle={styles.buttonText}
+              onPress={() => this.return()}
+            />
+          </View>
+        </View>
       </View>
     );
   }
