@@ -1,5 +1,6 @@
 //import liraries
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View, Text, StyleSheet } from "react-native";
 import styles from "./styles";
 
@@ -7,9 +8,7 @@ import styles from "./styles";
 const Header = ({ headerText }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>
-        {headerText}
-      </Text>
+      <Text style={styles.headerText}>{headerText}</Text>
     </View>
   );
 };

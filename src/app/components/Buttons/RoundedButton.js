@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { Button, Icon } from "react-native-elements";
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 

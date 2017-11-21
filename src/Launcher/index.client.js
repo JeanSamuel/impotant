@@ -11,6 +11,8 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Container } from "./app/components/ContainerC";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import Navigator from "./app/configs/navigation/navigationC/routes";
+import configureStore from "./app/store/configureStore";
+import { Provider } from "react-redux";
 
 EStyleSheet.build({
   // outline: 1,
@@ -52,6 +54,8 @@ const errorHandler = (e, isFatal) => {
 
 setJSExceptionHandler(errorHandler);
 
+const store = configureStore();
+
 export default class Apk extends React.Component {
   constructor(props) {
     super(props);
@@ -70,19 +74,21 @@ export default class Apk extends React.Component {
   render() {
     const Main = Navigator;
     return (
-      <View style={{ flex: 1 }}>
-        {this.state.fontLoaded ? (
-          <View style={{ flex: 1 }}>
-            <StatusBar hidden={true} />
+      <Provider store={store}>
+        <View style={{ flex: 1 }}>
+          {this.state.fontLoaded ? (
+            <View style={{ flex: 1 }}>
+              <StatusBar hidden={true} />
 
-            <Navigator />
-          </View>
-        ) : (
-          <Container>
-            <ActivityIndicator size="large" />
-          </Container>
-        )}
-      </View>
+              <Navigator />
+            </View>
+          ) : (
+            <Container>
+              <ActivityIndicator size="large" />
+            </Container>
+          )}
+        </View>
+      </Provider>
     );
   }
 }

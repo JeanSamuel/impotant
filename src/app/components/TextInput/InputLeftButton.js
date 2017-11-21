@@ -23,19 +23,8 @@ class InputLeftButton extends React.Component {
     return (
       <View style={containerStyles}>
         <TouchableHighlight
+          underlayColor={underlayColor}
           style={[styles.inputTouch, this.props.style]}
-          /* editable={this.props.editable}
-          value={this.props.value}
-          autoFocus={this.props.autoFocus}
-          onFocus={this.props.onFocus}
-          onChangeText={this.props.onChangeText}
-          keyboardType={this.props.keyboardType}
-          returnKeyType={this.props.returnKeyType}
-          secureTextEntry={this.props.secureTextEntry}
-          maxLength={this.props.maxLength}
-          underlineColorAndroid="transparent"
-          onEndEditing={this.props.onEndEditing}
-          placeholder={this.props.placeholder} */
           onPress={this.props.onFocus}
         >
           <Text style={[styles.touchText, { lineHeight: 30 }]}>
