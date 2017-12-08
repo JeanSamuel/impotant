@@ -12,16 +12,15 @@ import { Container } from "./app/components/ContainerC";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import Navigator from "./app/configs/navigation/navigationC/routes";
 import configureStore from "./app/store/configureStore";
-import { Provider } from "react-redux";
 
 EStyleSheet.build({
-  // outline: 1,
   $primaryBlue: "#34495e",
   $white: "#FFFFFF",
   $darkColor: "#1C2E48",
   $lightGray: "#E6E6E6",
   $border: "#E2E2E2",
-  $darkColor: "#1C2E48",
+  // $darkColor: "#1C2E48",
+  $darkColor: "#00d07f",
   $primaryColor: "#128FB5",
   $inputText: "#797979",
   $darkText: "#343434",
@@ -54,8 +53,6 @@ const errorHandler = (e, isFatal) => {
 
 setJSExceptionHandler(errorHandler);
 
-const store = configureStore();
-
 export default class Apk extends React.Component {
   constructor(props) {
     super(props);
@@ -74,21 +71,19 @@ export default class Apk extends React.Component {
   render() {
     const Main = Navigator;
     return (
-      <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          {this.state.fontLoaded ? (
-            <View style={{ flex: 1 }}>
-              <StatusBar hidden={true} />
+      <View style={{ flex: 1 }}>
+        {this.state.fontLoaded ? (
+          <View style={{ flex: 1 }}>
+            <StatusBar hidden={true} />
 
-              <Navigator />
-            </View>
-          ) : (
-            <Container>
-              <ActivityIndicator size="large" />
-            </Container>
-          )}
-        </View>
-      </Provider>
+            <Navigator />
+          </View>
+        ) : (
+          <Container>
+            <ActivityIndicator size="large" />
+          </Container>
+        )}
+      </View>
     );
   }
 }
