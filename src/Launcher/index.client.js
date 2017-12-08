@@ -11,7 +11,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Container } from "./app/components/ContainerC";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import Navigator from "./app/configs/navigation/navigationC/routes";
-import configureStore from "./app/store/configureStore";
 
 EStyleSheet.build({
   $primaryBlue: "#34495e",

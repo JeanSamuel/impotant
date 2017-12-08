@@ -291,7 +291,8 @@ class ProfileAriary extends React.Component {
                       <Icon
                         size={30}
                         name="settings"
-                        style={{ color: "white", paddingVertical: 10 }}
+                        color="white"
+                        style={{ paddingVertical: 10 }}
                         type="material-icon"
                       />
                       <Text

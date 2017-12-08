@@ -23,6 +23,16 @@ import {
   Send,
   CustomKey,
   Handler,
+  MainValidation,
+  Validation,
+  ValidationCompte,
+  MainConfig,
+  EditPassword,
+  EditBirthday,
+  EditMail,
+  EditName,
+  EditPhone,
+  EditPseudo,
   Review
 } from "../../../screen/indexScreen";
 import headStyle from "../../../styles/stylesC/headerStyle";
@@ -33,6 +43,7 @@ import RegisterPwd from "../../../screen/register/registerC/RegisterPwd";
 import Drawer from "./Drawer";
 import { Notifications } from "expo";
 import DropdownAlert from "react-native-dropdownalert";
+import StartStack from "./StartStack";
 
 class Navigateur extends Component {
   componentWillMount() {
@@ -201,6 +212,66 @@ const MainNavigator = new StackNavigator(
       navigationOptions: ({ navigation }) => ({
         header: () => null,
         headerTitle: "Register"
+      })
+    },
+    Validation: {
+      screen: MainValidation,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    ValidationCompte: {
+      screen: ValidationCompte,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    ValidationInscription: {
+      screen: Validation,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    Config: {
+      screen: MainConfig,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditPassword: {
+      screen: EditPassword,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditPhone: {
+      screen: EditPhone,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditPseudo: {
+      screen: EditPseudo,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditMail: {
+      screen: EditMail,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditName: {
+      screen: EditName,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    StartAriary: {
+      screen: StartStack,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
       })
     }
   },

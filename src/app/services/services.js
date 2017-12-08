@@ -386,6 +386,7 @@ class Services extends Component {
             username: responseJSON.username
           };
           this.saveData("user_id", JSON.stringify(userInfo));
+          this.saveData("userData",JSON.stringify(responseJSON))
 
           return userInfo;
         } else {

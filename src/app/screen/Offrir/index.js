@@ -23,8 +23,8 @@ import {
   Button
 } from "react-native-elements";
 import Mybutton from "../../components/Buttons/SamButton";
-import { loginCss, baseStyle, configStyles } from "../../../styles/index";
-import { Utils, UserService, OffrirService } from "../../../services";
+import { loginCss, baseStyle, configStyles } from "../../styles/index";
+import { Utils, UserService, OffrirService } from "../../services";
 import config from "../../configs/data/dataM";
 const BASE_URL = config.ARIARY_BASE_URL;
 
@@ -49,17 +49,15 @@ class Offrir extends Component {
   }
   async componentWillMount() {
     try {
-      let dataUser = await Utils.getItem("dataUser");
+      let dataUser = await Utils.getItem("userData");
       if (dataUser == null) {
         this.props.navigation.navigate("Loader");
       }
-      let userinfo = await Utils.getItem("userInfo");
-      userinfo = JSON.parse(userinfo);
       let userData = JSON.parse(dataUser);
       this.setState({
-        userinfo: userinfo,
+        userinfo: userData,
         sender: userData.code,
-        username: userinfo.username
+        username: userData.username
       });
     } catch (error) {
       console.log(error);

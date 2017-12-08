@@ -15,7 +15,7 @@ import {
   Modal,
   Platform
 } from "react-native";
-import FlagResource from "../../../../assets/flags";
+import FlagResource from "../../../assets/flags";
 import {
   FormInput,
   FormLabel,
@@ -26,8 +26,8 @@ import {
 } from "react-native-elements";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
-import { AchatService, UserService, Utils } from "../../../../services";
-import { configStyles, loginCss } from "../../../../styles/index";
+import { AchatService, UserService, Utils } from "../../../services";
+import { configStyles, loginCss } from "../../../styles/index";
 
 // create a component
 class ViaMobileMoney extends Component {
@@ -94,18 +94,16 @@ class ViaMobileMoney extends Component {
   }
   async componentWillMount() {
     try {
-      const dataUser = await Utils.getItem("dataUser");
+      const dataUser = await Utils.getItem("userData");
       if (dataUser == null) {
         this.props.navigation.navigate("Loader");
       }
-
-      let userinfo = await Utils.getItem("userInfo");
-      userinfo = JSON.parse(userinfo);
+      console.log(JSON.parse(dataUser));
       let userData = JSON.parse(dataUser);
       this.setState({
-        userinfo: userinfo,
+        userinfo: userData,
         account_id: userData.code,
-        username: userData.pseudo
+        username: userData.username
       });
       this.setState({ data: userData });
     } catch (error) {

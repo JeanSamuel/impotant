@@ -8,7 +8,10 @@ import {
   Send,
   To,
   History,
-  Logout
+  Logout,
+  ProfileAriary,
+  MainAchat,
+  Offrir
 } from "../../../screen/indexScreen";
 import { Icon } from "react-native-elements";
 import {
@@ -16,6 +19,7 @@ import {
   Settings,
   Home
 } from "../../../screen/listScreenM";
+import About from "../../../screen/about";
 import DrawerContent from "../navigationM/drawerContent";
 
 //make this component available to the app
@@ -48,6 +52,36 @@ export default DrawerNavigator(
         header: () => null
       })
     },
+    Profile: {
+      screen: ProfileAriary,
+      navigationOptions: ({ navigation }) => ({
+        title: "Profile",
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+        ),
+        header: () => null
+      })
+    },
+    Achat: {
+      screen: MainAchat,
+      navigationOptions: ({ navigation }) => ({
+        title: "Dépôt",
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+        ),
+        header: () => null
+      })
+    },
+    Offrir: {
+      screen: Offrir,
+      navigationOptions: ({ navigation }) => ({
+        title: "Offrir",
+        drawerIcon: ({ tintColor }) => (
+          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+        ),
+        header: () => null
+      })
+    },
     // Adresses: {
     //   screen: Adresses,
     //   navigationOptions: ({ navigation }) => ({
@@ -57,29 +91,20 @@ export default DrawerNavigator(
     //     header: () => null
     //   })
     // },
-    Options: {
-      screen: Settings,
+    About: {
+      screen: About,
       navigationOptions: ({ navigation }) => ({
+        title: "A propos",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-settings-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-information-circle-outline"
+            size={25}
+            type="ionicon"
+          />
         ),
         header: () => null
       })
     },
-    // About: {
-    //   screen: AppStarter,
-    //   navigationOptions: ({ navigation }) => ({
-    //     title: "A propos",
-    //     drawerIcon: ({ tintColor }) => (
-    //       <Icon
-    //         name="ios-information-circle-outline"
-    //         size={25}
-    //         type="ionicon"
-    //       />
-    //     ),
-    //     header: () => null
-    //   })
-    // },
 
     Logout: {
       screen: Logout,

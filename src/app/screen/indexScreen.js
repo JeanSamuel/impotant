@@ -19,7 +19,6 @@ import MainInscription from './Account/Register/Simple';
 import MainValidation from './Account/Register/Validation';
 import Validation from './Account/Register/Simple/Step/Recap';
 import ValidationCompte from './Account/Register/Validation/Step/Recap';
-import Login from './Account/Login';
 import Main from './Account/Register/Temp';
 import Bienvenue from './Account/Register/Temp/Bienvenue';
 import LogOut from './Account/SignOut';
@@ -63,8 +62,6 @@ export {
   MainValidation,
   Validation,
   ValidationCompte,
-  Login,
-  Accueil,
   Main,
   Bienvenue,
   LogOut,

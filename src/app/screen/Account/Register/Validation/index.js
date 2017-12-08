@@ -11,16 +11,16 @@ import {
   Modal
 } from "react-native";
 import ViewPager from "react-native-viewpager";
-import { Icon, Button } from "react-native-elements";
+import { Icon, Button, Header } from "react-native-elements";
 import Mybutton from "../../../../components/Buttons/SamButton";
 const deviceWidth = Dimensions.get("window").width;
 import StepIndicator from "react-native-step-indicator";
-import Profile from "./Step/Profile/";
+import Profile from "./Step/Profile";
 import Addresse from "./Step/Addresse";
 import Recuperation from "./Step/Recuperation";
 import { Utils, InscriptionService } from "../../../../services";
 import styles from "./styles";
-import { baseStyle } from "../../../../styles/index";
+import { baseStyle } from "../../../../styles";
 
 const firstIndicatorStyles = {
   stepIndicatorSize: 30,
@@ -137,7 +137,7 @@ class MainValidation extends React.Component {
           leftComponent={
             <Mybutton
               iconName="arrow-back"
-              type="font-awesome"
+              type="material-icon"
               onPress={() => this.handleActionLeft()}
               styleBtn={baseStyle.btnLeftHeader}
             />
@@ -157,7 +157,10 @@ class MainValidation extends React.Component {
               stepCount={3}
             />
           </View>
-
+          <Profile
+            updateProfile={this.updateProfile.bind(this)}
+            activity={this}
+          />
           <ViewPager
             ref="viewpager"
             style={{ flex: 1 }}
@@ -289,7 +292,7 @@ class MainValidation extends React.Component {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    //flex: 1
   },
   page: {
     width: deviceWidth

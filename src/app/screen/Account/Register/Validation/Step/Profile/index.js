@@ -20,7 +20,7 @@ import { Icon } from "react-native-elements";
 import Exponent, { Constants, ImagePicker, registerRootComponent } from "expo";
 const deviceWidth = Dimensions.get("window").width;
 import DatePicker from "react-native-datepicker";
-import { loginCss } from "../../../../../../styles/index";
+import { loginCss } from "../../../../../../styles";
 import { ImageUpload } from "../../../../../../services";
 import styles from "./styles";
 
@@ -86,10 +86,9 @@ class Profile extends Component {
   }
   render() {
     return (
-      <ScrollView>
+      <View>
         <View
           style={{
-            flex: 1,
             justifyContent: "center",
             paddingHorizontal: 10,
             paddingVertical: 30
@@ -260,7 +259,7 @@ class Profile extends Component {
           )}
         </View>
         {this._maybeRenderUploadingOverlay()}
-      </ScrollView>
+      </View>
     );
   }
   _maybeRenderImage = () => {

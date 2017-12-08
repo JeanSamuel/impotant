@@ -12,6 +12,7 @@ import {
   Text,
   Modal
 } from "react-native";
+import { Icon } from "react-native-elements";
 import CountryPicker from "react-native-country-picker-modal";
 import PropTypes from "prop-types";
 import { loginCss } from "../../../../../../styles/index";
@@ -115,11 +116,11 @@ class Addresse extends Component {
                 >
                   Pays
                 </Text>
-                <Materialcon
+                <Icon
                   name="arrow-forward"
                   color="#fff"
                   size={20}
-                  style={{ fontWeight: "900", paddingVertical: 10 }}
+                  style={{ paddingVertical: 10 }}
                 />
               </View>
             </TouchableOpacity>

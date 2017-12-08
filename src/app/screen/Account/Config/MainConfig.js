@@ -19,7 +19,7 @@ import styles from "./styles";
 import { loginCss, baseStyle } from "../../../styles";
 import { Utils, UserService } from "../../../services";
 
-import { Button } from "../../../components/Buttons";
+import MyButton from "../../../components/Buttons/SamButton";
 
 // create a component
 class MainConfig extends Component {

@@ -10,17 +10,6 @@ import {
   Alert,
   Modal
 } from "react-native";
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  Left,
-  Right,
-  Body
-} from "native-base";
 import PropTypes from "prop-types";
 import { loginCss, configStyles } from "../../../../styles";
 import { Utils, UserService } from "../../../../services";
