@@ -568,7 +568,7 @@ const stackHistory = new StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: "Historique",
       drawerIcon: ({ tintColor }) => (
-        <Icon name="ios-paper-outline" size={25} type="ionicon" color={tintColor}/>
+        <Icon name="ios-clock" size={28} type="ionicon" color={tintColor} />
       ),
       headerStyle: headStyle.headerBackground,
       headerTitleStyle: headStyle.headerText,

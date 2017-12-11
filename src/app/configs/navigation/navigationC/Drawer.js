@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { DrawerNavigator, StackNavigator, DrawerItems } from "react-navigation";
 import {
   Adresses,
@@ -23,27 +23,36 @@ import About from "../../../screen/about";
 import DrawerContent from "../navigationM/drawerContent";
 
 //make this component available to the app
-
+const { width } = Dimensions.get("screen");
 export default DrawerNavigator(
   {
-    Home: {
-      screen: Send,
+    Profile: {
+      screen: ProfileAriary,
       navigationOptions: ({ navigation }) => ({
-        title: "Envoyer",
+        title: "Profile",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-home-outline"
-            size={25}
+            name="ios-contact-outline"
             type="ionicon"
             color={tintColor}
+            size={28}
           />
         ),
         header: () => null
       })
     },
-    History: {
-      screen: History,
+    Home: {
+      screen: Send,
       navigationOptions: ({ navigation }) => ({
+        title: "Payer",
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="ios-qr-scanner"
+            size={28}
+            type="ionicon"
+            color={tintColor}
+          />
+        ),
         header: () => null
       })
     },
@@ -53,40 +62,26 @@ export default DrawerNavigator(
         title: "Recevoir",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-cash-outline"
-            size={25}
+            name="ios-rose-outline"
             type="ionicon"
             color={tintColor}
+            size={28}
           />
         ),
         header: () => null
       })
     },
-    Profile: {
-      screen: ProfileAriary,
-      navigationOptions: ({ navigation }) => ({
-        title: "Profile",
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="ios-cash-outline"
-            size={25}
-            type="ionicon"
-            color={tintColor}
-          />
-        ),
-        header: () => null
-      })
-    },
+
     Achat: {
       screen: MainAchat,
       navigationOptions: ({ navigation }) => ({
         title: "Dépôt",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-cash-outline"
-            size={25}
+            name="ios-filing-outline"
             type="ionicon"
             color={tintColor}
+            size={28}
           />
         ),
         header: () => null
@@ -98,10 +93,10 @@ export default DrawerNavigator(
         title: "Offrir",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-cash-outline"
-            size={25}
-            type="ionicon"
+            name="present"
+            type="simple-line-icon"
             color={tintColor}
+            size={24}
           />
         ),
         header: () => null
@@ -123,8 +118,8 @@ export default DrawerNavigator(
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="ios-information-circle-outline"
-            size={25}
             type="ionicon"
+            size={28}
           />
         ),
         header: () => null
@@ -136,7 +131,7 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Déconnexion",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-exit-outline" size={25} type="ionicon" />
+          <Icon name="ios-log-out" type="ionicon" size={28} />
         ),
         header: () => null
       })
@@ -144,11 +139,15 @@ export default DrawerNavigator(
   },
   {
     initialRouteName: "Home",
+    drawerWidth: width - 50,
     contentOptions: {
       activeTintColor: "#00d07f",
-      activeBackgroundColor: "transparent",
-      itemsContainerStyle: {
+      // activeBackgroundColor: "",
+      itemStyle: {
         paddingLeft: 15
+      },
+      labelStyle: {
+        fontWeight: "200"
       }
     },
     contentComponent: props => (

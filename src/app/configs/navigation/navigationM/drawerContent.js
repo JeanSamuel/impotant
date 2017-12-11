@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   Animated,
-  Easing
+  Easing,
+  Dimensions
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { styleBase } from "../../../styles";
@@ -14,7 +15,6 @@ import { Icon } from "react-native-elements";
 import Services from "../../../services/services";
 import * as Animatable from "react-native-animatable";
 import { Notifications } from "expo";
-
 const back = require("../../../images/backHeader.jpg");
 const logoFromFile = require("../../../images/icons/user.png");
 
@@ -26,7 +26,7 @@ export default class DrawerContent extends Component {
       solde: "",
       account_id: 0,
       alias: "",
-      username : "",
+      username: "",
       date: "",
       animation: "",
       isrefreshing: false,
@@ -40,32 +40,33 @@ export default class DrawerContent extends Component {
     );
   }
 
-  
-  componentDidMount(){
-    this.getUserInfo()
-    
+  componentDidMount() {
+    this.getUserInfo();
   }
-  
-  getUserInfo(){
+
+  getUserInfo() {
     let services = new Services();
-   services.getData("user_id").then(response =>{
-     if(response != null){
-       let dataParsed = JSON.parse(response);
-       this.setState({
-        username : dataParsed.username,
-        account_id : dataParsed.user_id
-       })
-       this.checkSolde()
-     }else{
-      this.setState({
-        username : 'unassigned',
-        account_id : 0
-       })
-     }
-   })
-   .catch(error =>{
-     services.createError(error, 'erreur response getting solde')
-   })
+    services
+      .getData("userData")
+      .then(response => {
+        if (response != null) {
+          let dataParsed = JSON.parse(response);
+          console.log(dataParsed);
+          this.setState({
+            username: dataParsed.nom,
+            account_id: dataParsed.code
+          });
+          this.checkSolde();
+        } else {
+          this.setState({
+            username: "unassigned",
+            account_id: 0
+          });
+        }
+      })
+      .catch(error => {
+        services.createError(error, "erreur response getting solde");
+      });
   }
 
   componentWillUnmount() {
@@ -80,20 +81,20 @@ export default class DrawerContent extends Component {
     return this.state.solde;
   }
 
-
   checkSolde() {
     let services = new Services();
-    let response = services.checkSolde(this.state.account_id)
-    .then(response => {
-      this.setState({
-        solde: response.value,
-        date: response.date,
-        isrefreshing: false
+    let response = services
+      .checkSolde(this.state.account_id)
+      .then(response => {
+        this.setState({
+          solde: response.value,
+          date: response.date,
+          isrefreshing: false
+        });
+      })
+      .catch(error => {
+        this.checkOldSolde();
       });
-    })
-    .catch(error => {
-      this.checkOldSolde();
-    });
   }
 
   checkOldSolde() {
@@ -132,7 +133,7 @@ export default class DrawerContent extends Component {
     let soldeFormated = Services.formatNumber(this.getSolde());
     return (
       <View style={styles.container}>
-        <Image source={back} style={styles.imageBack} resizeMethod="scale">
+        <View style={styles.imageBack}>
           <View
             style={[
               styles.logoContainer,
@@ -141,15 +142,11 @@ export default class DrawerContent extends Component {
               }
             ]}
           >
-            <Icon
-              name="account-circle"
-              size={70}
-              color="rgba(26, 188, 156,1.0)"
-            />
+            <Icon name="account-circle" size={70} color="#00d07f" />
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={[styleBase.textWhiteBold, { fontSize: 25 }]}>
+              <Text style={{ fontSize: 16, color: "#000" }}>
                 {this.state.username}
               </Text>
               <View
@@ -157,7 +154,7 @@ export default class DrawerContent extends Component {
                   flexDirection: "row"
                 }}
               >
-                <Text style={styleBase.textWhiteBold}>
+                {/* <Text style={styleBase.textWhiteBold}>
                   <Text style={{ fontSize: 30 }}>{soldeFormated} Ar</Text>
                 </Text>
                 <TouchableOpacity
@@ -182,11 +179,31 @@ export default class DrawerContent extends Component {
                       containerStyle={styleBase.centered}
                     />
                   </Animatable.View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </View>
-        </Image>
+        </View>
+        {/* <View
+          style={[
+            {
+              borderTopWidth: 2,
+              borderTopColor: "#E2E2E2",
+              height: 40,
+              justifyContent: "center"
+            }
+          ]}
+        >
+          <View
+            style={{
+              marginHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <Text>{soldeFormated} Ar</Text>
+          </View>
+        </View> */}
       </View>
     );
   }
@@ -195,7 +212,9 @@ export default class DrawerContent extends Component {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    height: 170
+    height: 150,
+    borderBottomWidth: 2,
+    borderBottomColor: "$border"
   },
   imageBack: {
     flex: 1,
