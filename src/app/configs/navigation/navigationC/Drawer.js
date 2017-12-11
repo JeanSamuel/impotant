@@ -31,7 +31,12 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Envoyer",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-home-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-home-outline"
+            size={25}
+            type="ionicon"
+            color={tintColor}
+          />
         ),
         header: () => null
       })
@@ -47,7 +52,12 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Recevoir",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-cash-outline"
+            size={25}
+            type="ionicon"
+            color={tintColor}
+          />
         ),
         header: () => null
       })
@@ -57,7 +67,12 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Profile",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-cash-outline"
+            size={25}
+            type="ionicon"
+            color={tintColor}
+          />
         ),
         header: () => null
       })
@@ -67,7 +82,12 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Dépôt",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-cash-outline"
+            size={25}
+            type="ionicon"
+            color={tintColor}
+          />
         ),
         header: () => null
       })
@@ -77,7 +97,12 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Offrir",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-cash-outline" size={25} type="ionicon" />
+          <Icon
+            name="ios-cash-outline"
+            size={25}
+            type="ionicon"
+            color={tintColor}
+          />
         ),
         header: () => null
       })
@@ -120,7 +145,11 @@ export default DrawerNavigator(
   {
     initialRouteName: "Home",
     contentOptions: {
-      activeTintColor: "#e91e63"
+      activeTintColor: "#00d07f",
+      activeBackgroundColor: "transparent",
+      itemsContainerStyle: {
+        paddingLeft: 15
+      }
     },
     contentComponent: props => (
       <ScrollView>
