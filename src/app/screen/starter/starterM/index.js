@@ -14,8 +14,8 @@ import styleBase from "../../../styles/styles";
 import StarterButton from "./starterButton";
 import moment from "moment";
 
-const background = require("../../../images/back3.jpg");
-const mark = require("../../../images/icons/logo.png");
+const background = require("../../../assets/images/back3.jpg");
+const mark = require("../../../assets/images/icons/logo.png");
 
 const actualDate = moment().get("year");
 
@@ -68,13 +68,12 @@ class Starter extends Component {
                 <Text style={[styleBase.textWhiteCentered, styles.logoText]}>
                   Ariary.net Marchand
                 </Text>
-              </View> 
+              </View>
             </View>
-            
           </ScrollView>
           <View style={styleBase.centered}>
-              <StarterButton navigation={this.props.navigation} />
-            </View>
+            <StarterButton navigation={this.props.navigation} />
+          </View>
           {/* <View style={styles.copyright}>
             <Text style={styles.copyrightText}>
               Ariary.net copyright © {actualDate}

@@ -19,10 +19,11 @@ import { DrawerMenu } from "../../../components/drawerMenu";
 import MyQrCode from "../../../components/qrCode";
 import { styleBase } from "../../../styles";
 import styles from "./homeStyles";
+import headStyle from "../../../styles/stylesC/headerStyle";
 import Toast from "react-native-easy-toast";
 import Services from "../../../services/services";
 import HomeServices from "../../../services/homeServices";
-import data from "../../../configs/data/dataM";
+import data from "../../../config/data/dataM";
 import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Intro from "./intro";
@@ -40,7 +41,7 @@ class Home extends Component {
       data: {
         currency: "Ar",
         userId: "",
-        username : ''
+        username: ""
       },
       amount: "",
       isInvalidData: false,
@@ -51,8 +52,8 @@ class Home extends Component {
   }
 
   static navigationOptions = {
-    headerStyle: styleBase.header,
-    headerTitleStyle: styleBase.headerTitle,
+    headerStyle: headStyle.headerBackground,
+    headerTitleStyle: headStyle.headerText,
     drawerLabel: "Recevoir",
     titleStyle: styleBase.headerTitle,
     drawerIcon: ({ tintColor }) => (
@@ -79,7 +80,7 @@ class Home extends Component {
   checkUserData() {
     let services = new Services();
     services
-      .getData("user_id")  
+      .getData("user_id")
       .then(responseJSON => {
         if (responseJSON != null) {
           let response = JSON.parse(responseJSON);
@@ -87,7 +88,7 @@ class Home extends Component {
             data: {
               currency: "Ar",
               userId: response.user_id,
-              username : response.username
+              username: response.username
             }
           });
         } else {
@@ -106,7 +107,7 @@ class Home extends Component {
     this.showIntro();
     this.startTimer();
   }
-  
+
   _checkBackAndroid() {
     let routName = this.props.navigation.state.routeName;
     if (routName == "Starter" || routName == "First") {
@@ -230,12 +231,15 @@ export default new StackNavigator({
     screen: Home,
     navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.username,
+      headerStyle: headStyle.headerBackground,
+      headerTitleStyle: headStyle.headerText,
       headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
       headerRight: (
         <View style={{ flexDirection: "row" }}>
           <HeaderRight
             actionShare={() =>
-              Services._shareMessage(self.generateQrCodeText())}
+              Services._shareMessage(self.generateQrCodeText())
+            }
             navigation={navigation}
           />
         </View>

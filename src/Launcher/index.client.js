@@ -10,7 +10,7 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Container } from "./app/components/ContainerC";
 import { setJSExceptionHandler } from "react-native-exception-handler";
-import Navigator from "./app/configs/navigation/navigationC/routes";
+import Navigator from "./app/config/navigation/navigationC/routes";
 
 EStyleSheet.build({
   $primaryBlue: "#34495e",

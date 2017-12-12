@@ -5,15 +5,15 @@ import Services from "./services";
 import moment from "moment";
 import "moment/locale/fr";
 import _ from "lodash";
-import configs from "../configs/data/dataM";
+import config from "../config/data/dataM";
 
 moment.locale("fr");
 // create a component
 class HistorySevices extends Component {
   /**
-     *@type string de fromat 'YYYY-MM-DD' 
-     *@return string de type 'YYYY-MM-DD'
-     */
+   *@type string de fromat 'YYYY-MM-DD'
+   *@return string de type 'YYYY-MM-DD'
+   */
   getMomentFormat1 = function(actualDate) {
     return moment(actualDate, "YYYY-MM-DD").format("YYYY-MM-DD");
   };
@@ -34,8 +34,7 @@ class HistorySevices extends Component {
     if (user_id == null) {
       return [];
     }
-    let url =
-      configs.NEW_BASE_URL + "src/transaction.php?account-id=" + user_id;
+    let url = config.NEW_BASE_URL + "src/transaction.php?account-id=" + user_id;
     console.log("====================================");
     console.log("début maka history ", user_id);
     console.log("====================================");
@@ -93,11 +92,11 @@ class HistorySevices extends Component {
   }
 
   /**
-     *@description transformer une date sous un autre format
-     *@type string de fromat 'YYYY-MM-DD' 
-     *@return string de type 'dddd Do MMMM YYYY'
-     *@example dimanche 9 juillet 2017
-     */
+   *@description transformer une date sous un autre format
+   *@type string de fromat 'YYYY-MM-DD'
+   *@return string de type 'dddd Do MMMM YYYY'
+   *@example dimanche 9 juillet 2017
+   */
   getMomentFormat2 = function(actualDate) {
     return moment(actualDate, "YYYY-MM-DD").format("dddd Do MMMM YYYY");
   };
@@ -109,9 +108,9 @@ class HistorySevices extends Component {
   }
 
   /**
-     *@description transforme une tableau de données en une tableau 2 dimensions groupée par date
-     *@argument data : le table de départ
-     */
+   *@description transforme une tableau de données en une tableau 2 dimensions groupée par date
+   *@argument data : le table de départ
+   */
   refactHistory(data) {
     return _.groupBy(data, h =>
       moment(h.date, "YYYY-MM-DD").format("YYYY-MM-DD")

@@ -7,7 +7,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 
 // create a component
 const textColor = "rgba(236, 240, 241,1.0)";
-const image = require("../../../images/icons/bonus.png");
+const image = require("../../../assets/images/icons/bonus.png");
 class OneNotif extends Component {
   action() {
     this.props.remove();

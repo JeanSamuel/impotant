@@ -327,7 +327,7 @@ class ProfileAriary extends React.Component {
                       }}
                     >
                       <Image
-                        source={require("../../..//assets/images/ariary.png")}
+                        source={require("../../../assets/images/ariary.png")}
                         style={{ width: 25, height: 25, marginVertical: 10 }}
                         resizeMode="contain"
                       />

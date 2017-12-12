@@ -25,7 +25,7 @@ import {
 import Mybutton from "../../components/Buttons/SamButton";
 import { loginCss, baseStyle, configStyles } from "../../styles/index";
 import { Utils, UserService, OffrirService } from "../../services";
-import config from "../../configs/data/dataM";
+import config from "../../config/data/dataM";
 const BASE_URL = config.ARIARY_BASE_URL;
 
 import styles from "./style";

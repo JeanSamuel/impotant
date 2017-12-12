@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Permissions, Notifications, Constants } from "expo";
 import Services from "./services";
 import RegisterServices from "./registerServices";
-import configs from "../configs/data/dataM";
+import config from "../config/data/dataM";
 
-const PUSH_INIT = configs.NEW_BASE_URL + "src/initNotification.php";
-const PUSH_STOP = configs.BASE_URL + "exp_token/disconnect.php";
-const PUSH_REGISTER = configs.BASE_URL + "exp_token/createAccount.php";
+const PUSH_INIT = config.NEW_BASE_URL + "src/initNotification.php";
+const PUSH_STOP = config.BASE_URL + "exp_token/disconnect.php";
+const PUSH_REGISTER = config.BASE_URL + "exp_token/createAccount.php";
 
 export default class NotifServices extends Component {
   ExceptionUtilisateur(message) {
@@ -18,7 +18,6 @@ export default class NotifServices extends Component {
     var services = new Services();
     var token = await services.getData("expo_token");
   }
-
 
   async registerExpoToken(username) {
     var havePermission = await this.getPermission();
@@ -61,9 +60,9 @@ export default class NotifServices extends Component {
   async loginForExpoToken(username) {
     var havePermission = await this.getPermission();
     if (havePermission) {
-      new Services().getExpoToken().then(response=>{
+      new Services().getExpoToken().then(response => {
         this.initForPushNotificationsAsync(username, response);
-      })
+      });
     }
   }
 
@@ -88,30 +87,31 @@ export default class NotifServices extends Component {
     var formData = new FormData();
 
     var expoToken = await services.getExpoToken();
-    var userData = await services.getData('userInfo');
-    if(userData == null){
+    var userData = await services.getData("userInfo");
+    if (userData == null) {
       return;
     }
-      let dataJson = JSON.parse(userData);
-      formData.append('expToken', expoToken);
-      formData.append('pseudo', dataJson.username);
-      formData.append('code', dataJson.code );
-      formData.append('idmobile', Constants.deviceName);
-      let data = {
-          method: "POST",
-          body: formData
-        }
-      return await services.myFetch(PUSH_INIT, data)
-      .then(response =>{
-        console.log('====================================');
-        console.log('response',response);
-        console.log('====================================');
+    let dataJson = JSON.parse(userData);
+    formData.append("expToken", expoToken);
+    formData.append("pseudo", dataJson.username);
+    formData.append("code", dataJson.code);
+    formData.append("idmobile", Constants.deviceName);
+    let data = {
+      method: "POST",
+      body: formData
+    };
+    return await services
+      .myFetch(PUSH_INIT, data)
+      .then(response => {
+        console.log("====================================");
+        console.log("response", response);
+        console.log("====================================");
       })
-      .catch(error =>{
-        console.log('====================================');
+      .catch(error => {
+        console.log("====================================");
         console.log(error);
-        console.log('====================================');
-      })
+        console.log("====================================");
+      });
   }
 
   async saveExpoToken(expo_token) {

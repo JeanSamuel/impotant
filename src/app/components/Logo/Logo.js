@@ -5,10 +5,11 @@ import styles from "./styles";
 
 const mark = require("./images/logo.png");
 
-const Logo = () =>
+const Logo = () => (
   <View style={styles.markWrap}>
     <Image source={mark} style={styles.containerImage} resizeMode="contain" />
     <Text style={styles.logoText}>Ariary.net Client</Text>
-  </View>;
+  </View>
+);
 
 export default Logo;

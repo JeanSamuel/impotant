@@ -9,8 +9,8 @@ import translation from "./translation";
 import Services from "../../services/services";
 
 // create a component
-const drawerCover = require("../../images/imgC/4.jpg");
-const drawerImage = require("./images/logo-kitchen-sink.png");
+const drawerCover = require("../../assets/images/imgC/4.jpg");
+const drawerImage = require("./assets/images/logo-kitchen-sink.png");
 
 I18n.fallbacks = true;
 I18n.translations = translation;

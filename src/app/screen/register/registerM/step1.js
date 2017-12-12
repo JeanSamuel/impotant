@@ -18,12 +18,12 @@ import { RegisterServices } from "../../../services";
 import Services from "../../../services/services";
 import { Icon, Button } from "react-native-elements";
 import { Loader } from "../../../components/loader";
-import data from "../../../configs/data/dataM";
+import data from "../../../config/data/dataM";
 import { WarningInput } from "../../../components/warning";
 import { MyButton } from "../../../components/button";
-const check = require("../../../images/icons/Check.png");
-const mark = require("../../../images/icons/login2_mark.png");
-const backHeader = require("../../../images/backHeader.jpg");
+const check = require("../../../assets/images/icons/Check.png");
+const mark = require("../../../assets/images/icons/login2_mark.png");
+const backHeader = require("../../../assets/images/backHeader.jpg");
 
 // create a component
 class Step1 extends Component {

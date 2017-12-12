@@ -23,8 +23,8 @@ import styleBase from "../../../styles/styles";
 import StarterButton from "../../starter/starterM/starterButton";
 import moment from "moment";
 
-const background = require("../../../images/back3.jpg");
-const mark = require("../../../images/icons/logo-pro.png");
+const background = require("../../../assets/images/back3.jpg");
+const mark = require("../../../assets/images/icons/logo-pro.png");
 
 const { width } = Dimensions.get("window");
 export default class Landing extends React.Component {

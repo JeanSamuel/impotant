@@ -15,7 +15,7 @@ import NotificationServices from "../../../services/notificationServices";
 import styleBase from "../../../styles/styles";
 import { WarningConnexion } from "../../../components/warning";
 import { Button } from "react-native-elements";
-import data from "../../../configs/data/dataM";
+import data from "../../../config/data/dataM";
 
 // const { width, height } = Dimensions.get("window");
 const uri = data.uri;

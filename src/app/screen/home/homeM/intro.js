@@ -2,15 +2,15 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Keyboard, Image } from "react-native";
 import AppIntro from "react-native-app-intro";
-import data from "../../../configs/data/dataM";
-import  Services  from "../../../services/services";
+import data from "../../../config/data/dataM";
+import Services from "../../../services/services";
 import { styleBase } from "../../../styles";
 
 // create a component
 
-const image1 = require("../../../images/icons/bonus.png");
-const image2 = require("../../../images/icons/bonus.png");
-const image3 = require("../../../images/icons/bonus.png");
+const image1 = require("../../../assets/images/icons/bonus.png");
+const image2 = require("../../../assets/images/icons/bonus.png");
+const image3 = require("../../../assets/images/icons/bonus.png");
 class MyClass extends Component {
   static navigationOptions = {
     header: null

@@ -10,7 +10,7 @@ class InputButton extends Component {
   render() {
     return (
       <TouchableHighlight
-        underlayColor="#193441"
+        underlayColor="#e2e2e2"
         onPress={this.props.onPress}
         style={Style.inputButton}
       >
@@ -27,13 +27,13 @@ const Style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 0.5,
-    borderColor: "#193441"
+    borderColor: "#e2e2e2"
   },
 
   inputButtonText: {
     fontSize: 22,
-    fontWeight: "bold",
-    color: "white"
+    fontWeight: "300",
+    color: "#000"
   }
 });
 

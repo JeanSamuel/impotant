@@ -176,18 +176,39 @@ class Review extends Component {
         <ScrollView>
           <View style={styles.reviewBox}>
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.amountReview}>{formatedAmount}</Text>
-              <Text style={{ fontSize: 35, marginBottom: 30 }}>
+              <Text style={[styles.amountReview, styles.reviewText]}>
+                {formatedAmount}
+              </Text>
+              <Text
+                style={[
+                  { fontSize: 35, marginBottom: 30, color: "#fff" },
+                  styles.reviewText
+                ]}
+              >
                 {this.state.currency}
               </Text>
             </View>
             <View style={styles.informationBox}>
-              <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: "#fff"
+                  },
+                  styles.reviewText
+                ]}
+              >
                 Vous allez envoyer {formatedAmount} {this.state.currency} à{" "}
                 {this.state.receiver_name}
               </Text>
               <View style={{ marginTop: 10 }}>
-                <Text style={{ textAlign: "center", color: "#797979" }}>
+                <Text
+                  style={[
+                    { textAlign: "center", color: "#fff" },
+                    styles.reviewText
+                  ]}
+                >
                   L'argent sera envoyer dans le compte Ariary.net de la
                   personne. La personne recevra un email, ou une notification à
                   propos de la transaction.
@@ -201,9 +222,11 @@ class Review extends Component {
         <TouchableHighlight
           style={{
             justifyContent: "center",
-            backgroundColor: "#193441",
+            backgroundColor: "#00cf7e",
+            borderRadius: 30,
             height: 50,
-            width: width
+            width: width - 50,
+            marginBottom: 10
           }}
           onPress={() => {
             this._promptPin();
@@ -214,7 +237,7 @@ class Review extends Component {
               style={{
                 textAlign: "center",
                 fontSize: 18,
-                fontWeight: "bold",
+                fontWeight: "200",
                 color: "#fff"
               }}
             >
@@ -254,14 +277,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#fff"
   },
   reviewBox: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
+    marginTop: 10,
+    borderWidth: 0.5,
+    borderColor: "#00cf7e",
+    borderRadius: 50,
     paddingHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
@@ -276,7 +298,11 @@ const styles = StyleSheet.create({
   },
   amountReview: {
     textAlign: "center",
+    color: "#fff",
     fontSize: 75
+  },
+  reviewText: {
+    color: "#404040"
   }
 });
 

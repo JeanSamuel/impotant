@@ -115,17 +115,17 @@ class CustomKey extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 2, backgroundColor: "#193441" }}>
+        <View style={{ flex: 2, backgroundColor: "#e2e2e2" }}>
           <Text style={styles.displayText}>{this.state.inputValue}</Text>
         </View>
-        <View style={{ flex: 6, backgroundColor: "#3E606F" }}>
+        <View style={{ flex: 6, backgroundColor: "#fff" }}>
           {this._renderInputButtons()}
         </View>
         <View style={{ flex: 1 }}>
           <TouchableHighlight
             style={{
               justifyContent: "center",
-              backgroundColor: "#193441",
+              backgroundColor: "#fff",
               flex: 1
             }}
             onPress={() => {
@@ -135,9 +135,9 @@ class CustomKey extends Component {
             <Text
               style={{
                 textAlign: "center",
-                fontSize: 18,
-                fontWeight: "bold",
-                color: "#fff"
+                fontSize: 20,
+                fontWeight: "100",
+                color: "#00cf7e"
               }}
             >
               Continuer
@@ -155,16 +155,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#e2e2e2"
   },
   inputRow: {
     flex: 1,
     flexDirection: "row"
   },
   displayText: {
-    color: "white",
+    color: "#000",
     fontSize: 38,
-    fontWeight: "bold",
+    fontWeight: "300",
     textAlign: "right",
     padding: 20
   }

@@ -12,7 +12,7 @@ import Assistant_Step2 from "./steps/assistant_step2";
 import Assistant_Step3 from "./steps/assistant_step3";
 
 // create a component
-const imageSource = require("../../images/icons/settings2.png");
+const imageSource = require("../../assets/images/icons/settings2.png");
 class Assistant extends Component {
   static navigationOptions = {
     header: null

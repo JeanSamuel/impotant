@@ -5,7 +5,7 @@ import { Constants } from "expo";
 import { Permissions, Notifications } from "expo";
 import NotifServices from "./notificationServices";
 import Services from "./services";
-import configs from "../configs/data/dataM";
+import config from "../config/data/dataM";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;
 // create a component
@@ -27,18 +27,19 @@ class RegisterServices extends Component {
     var token = await new Services().getExpoToken();
     await notifServices.initForPushNotificationsAsync(accountId);
 
-    let url = configs.BASE_URL + "UserRestController.php";
+    let url = config.BASE_URL + "UserRestController.php";
     var formData = new FormData();
     formData.append("accountId", accountId);
     formData.append("expo_token", token);
-    var response = await new Services().myFetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data"
-      },
-      body: formData
-    })
+    var response = await new Services()
+      .myFetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data"
+        },
+        body: formData
+      })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           try {

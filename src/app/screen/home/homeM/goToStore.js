@@ -24,9 +24,9 @@ class GoToStore extends Component {
   }
 
   render() {
-    let store = require("../../../images/icons/appStore.jpg");
+    let store = require("../../../assets/images/icons/appStore.jpg");
     if (Platform.OS == "android") {
-      store = require("../../../images/icons/playStore.jpg");
+      store = require("../../../assets/images/icons/playStore.jpg");
     }
     return (
       <View style={[styleBase.centered, { paddingBottom: 10 }]}>

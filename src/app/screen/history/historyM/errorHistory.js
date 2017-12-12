@@ -5,7 +5,7 @@ import { Icon } from "react-native-elements";
 import { styleBase } from "../../../styles";
 import EStyleSheet from "react-native-extended-stylesheet";
 
-const errorIcon = require("../../../images/icons/no-conection-256.png");
+const errorIcon = require("../../../assets/images/icons/no-conection-256.png");
 // create a component
 class Error extends Component {
   render() {

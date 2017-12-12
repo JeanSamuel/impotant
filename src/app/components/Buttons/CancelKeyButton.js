@@ -7,12 +7,12 @@ class CancelKeyButton extends Component {
   render() {
     return (
       <TouchableHighlight
-        underlayColor="#193441"
+        underlayColor="#e2e2e2"
         onPress={this.props.onPress}
         style={styles.inputButton}
       >
         <View>
-          <Icon name="backspace" color="#fff" />
+          <Icon name="backspace" color="#000" />
         </View>
       </TouchableHighlight>
     );
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 0.5,
-    borderColor: "#193441"
+    borderColor: "#e2e2e2"
   }
 });
 

@@ -1,8 +1,8 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
-import config from "../configs/data/config";
-import configs from "../configs/data/dataM";
+import config from "../config/data/config";
+import configs from "../config/data/dataM";
 import moment from "moment";
 import Services from "./services";
 
@@ -11,8 +11,8 @@ import Services from "./services";
 const transaction_url = configs.NEW_BASE_URL + "src/transaction.php";
 class QrServices extends Component {
   /**
-   * 
-   * @param {*} data 
+   *
+   * @param {*} data
    */
   readQrData(data) {
     console.log("From service", data.a);
@@ -31,10 +31,10 @@ class QrServices extends Component {
   }
 
   /**
-   * 
-   * @param {*} qrData 
-   * @param {*} access_token 
-   * @param {*} user_id 
+   *
+   * @param {*} qrData
+   * @param {*} access_token
+   * @param {*} user_id
    */
   isDataValid(qrData) {
     if (qrData.type !== null && qrData.type == "trans") {

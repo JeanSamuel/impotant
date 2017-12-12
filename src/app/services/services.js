@@ -12,13 +12,13 @@ import {
   Platform
 } from "react-native";
 import { Fingerprint } from "expo";
-import configs from "../configs/data/dataM";
+import configs from "../config/data/dataM";
 import { FormValidationMessage } from "react-native-elements";
 import { Icon } from "react-native-elements";
 import FormData from "FormData";
 import Toast from "react-native-easy-toast";
 import { RegisterServices } from "./";
-import config from "../configs/data/config";
+import config from "../config/data/config";
 import { Notifications } from "expo";
 
 // create a component
@@ -85,9 +85,9 @@ class Services extends Component {
   }
 
   /**
-     * Mise en forme d'un nombre (sous format string)
-     * @param {*} number 
-     */
+   * Mise en forme d'un nombre (sous format string)
+   * @param {*} number
+   */
   static formatNumberM(number) {
     var dataformat = String(number).replace(/(.)(?=(\d{3})+$)/g, "$1 ");
     dataformat = dataformat.replace("-", "");
@@ -162,9 +162,9 @@ class Services extends Component {
   }
 
   /**
-     * liste  des webservices à faire et les données à stocké lors d'une connexion
-     * @param {*} webViewState : l'etat actuel dela fenetre de login (Webview)
-     */
+   * liste  des webservices à faire et les données à stocké lors d'une connexion
+   * @param {*} webViewState : l'etat actuel dela fenetre de login (Webview)
+   */
   async goLogin(webViewState) {
     try {
       let OauthCode = await this.extractOauthCode(webViewState.url);
@@ -198,10 +198,10 @@ class Services extends Component {
   }
 
   /**
-     * 
-     * @param {*} uri the url contains the Oauth Code 
-     * then save this into storage
-     */
+   *
+   * @param {*} uri the url contains the Oauth Code
+   * then save this into storage
+   */
   async extractOauthCode(uri) {
     var myData = uri.replace("=", " ").replace("&", " ");
     var dataArray = myData.split(" ");
@@ -210,8 +210,8 @@ class Services extends Component {
   }
 
   /**
-         * get token using Oauth code stored into AsynStorage
-         */
+   * get token using Oauth code stored into AsynStorage
+   */
   async getToken(oauthCode) {
     var url = configs.BASE_URL_Oauth + "oauth2/token";
     var formData = new FormData();
@@ -263,8 +263,8 @@ class Services extends Component {
 
   /**
    * Implémentation du fetch par défaut our ajouter un header avec token
-   * @param {*} url 
-   * @param {*} data 
+   * @param {*} url
+   * @param {*} data
    */
   async myFetch(url, data) {
     return this.getValidToken()
@@ -289,7 +289,7 @@ class Services extends Component {
 
   /**
    * get token using refresh_token after register or sync or expired token
-   * @param {*} refresh_token 
+   * @param {*} refresh_token
    */
   async getTokenByRefreshToken(refresh_token) {
     var url = configs.BASE_URL_Oauth + "oauth2/token";
@@ -386,7 +386,7 @@ class Services extends Component {
             username: responseJSON.username
           };
           this.saveData("user_id", JSON.stringify(userInfo));
-          this.saveData("userData",JSON.stringify(responseJSON))
+          this.saveData("userData", JSON.stringify(responseJSON));
 
           return userInfo;
         } else {
@@ -410,7 +410,7 @@ class Services extends Component {
 
   /**
    * Demander la solde d'un utilisateur
-   * @param {*} id_account 
+   * @param {*} id_account
    */
   checkSolde(id_account) {
     var url = configs.NEW_BASE_URL + "src/balance.php?account-id=" + id_account;

@@ -13,12 +13,12 @@ import { styleBase } from "../../../styles";
 import { RegisterServices } from "../../../services";
 import Services from "../../../services/services";
 import { Icon, Button } from "react-native-elements";
-import data from "../../../configs/data/dataM";
+import data from "../../../config/data/dataM";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { MyButton } from "../../../components/button";
 
-const vendorCheck = require("../../../images/icons/vendorCheck.png");
-const backHeader = require("../../../images/backHeader.jpg");
+const vendorCheck = require("../../../assets/images/icons/vendorCheck.png");
+const backHeader = require("../../../assets/images/backHeader.jpg");
 const color = "rgba(52, 73, 94,1.0)";
 
 // create a component
@@ -74,7 +74,6 @@ class Step2 extends Component {
       });
   }
 
-
   render() {
     return (
       <View style={styleBase.containerBase}>
@@ -113,7 +112,7 @@ class Step2 extends Component {
         >
           <View>
             <Text style={[styles.scrollText, styleBase.textCenter]}>
-              Votre compte a été enregistré sous le nom de : {" "}
+              Votre compte a été enregistré sous le nom de :{" "}
               <Text style={{ fontWeight: "bold", fontSize: 25 }}>
                 {this.state.user_id}
               </Text>
