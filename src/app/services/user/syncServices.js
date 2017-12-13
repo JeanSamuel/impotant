@@ -2,8 +2,8 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Constants } from "expo";
-import configs from "../config/data/dataM";
-import Services from "./services";
+import configs from "../../config/data/dataM";
+import Services from "../utils/services";
 
 // create a component
 class SyncServices extends Component {

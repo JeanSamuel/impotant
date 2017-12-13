@@ -1,6 +1,6 @@
 import { AsyncStorage } from "react-native";
-import { UserService, Utils } from "./";
-import config from "../config/data/dataM";
+import { UserService, Utils } from "../index";
+import config from "../../config/data/dataM";
 
 const BASEURL = config.ARIARY_BASE_URL;
 

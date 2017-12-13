@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { StackNavigator } from "react-navigation";
 import Drawer from "./drawer";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 import { Starter, Loader, AppSync } from "../../../screen/listScreenM";
 // import Starter from "../../../screen/starter";
 

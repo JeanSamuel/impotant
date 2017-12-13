@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import OneNotif from "../home/homeMerch/oneNotif";
 import { Icon, Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import { StackNavigator } from "react-navigation";
 // import { Assistant_Step1, Assistant_Step2, Assistant_Step3 } from "./";
 import Assistant_Step1 from "./steps/assistant_step1";

@@ -9,11 +9,10 @@ import {Button, Icon} from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
-import QrServices from "../../services/qrservices";
 import {InputLeftButton} from "../../components/TextInput";
 import {IconBadge} from "../../components/icon";
 import {BarCodeScanner, Permissions} from "expo";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import inputStyles from "../../components/TextInput/styles";
 import AutoComplete from "react-native-autocomplete-input";
 import {HistoryServices} from "../../services";
@@ -156,7 +155,6 @@ class Send extends Component {
     }
   };
   _handleBarCodeRead = data => {
-    services = new QrServices();
     let qdata = Object();
     qdata = data.data;
     // console.log(qdata);
@@ -225,8 +223,6 @@ class Send extends Component {
     const regex = new RegExp(query.trim(), "i");
     console.log(data.filter(item => item.key.search(regex) >= 0));
     return data.filter(item => item.key.search(regex) >= 0);
-    // console.log(data.filter(item => item.item.key.search(regex) >= 0));
-    // return data.filter(mot => mot.search(regex) >= 0);
   }
   render() {
     const { hasCameraPermission, user, data } = this.state;

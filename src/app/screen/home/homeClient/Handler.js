@@ -12,7 +12,7 @@ import { Notifications } from "expo";
 import Landing from "./Landing";
 import { Pin } from "../../login/index";
 import Intro from "../../../components/WelcomeIntro/Welcome";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 import { MinimLoading } from "../../../components/loader";
 
 // create a component

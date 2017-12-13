@@ -10,7 +10,7 @@ import {
   Alert
 } from "react-native";
 import { NotificationServices } from "../../../services";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 
 // create a component
 class Loader extends Component {

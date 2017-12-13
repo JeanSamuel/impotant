@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RowValue, Separator, RowTitle } from "../../../components/row";
 import { styleBase } from "../../../assets/styles";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 
 // create a component
 const self = null;

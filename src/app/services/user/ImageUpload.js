@@ -1,10 +1,10 @@
 import Exponent, { Constants, ImagePicker, registerRootComponent } from "expo";
 import { Alert } from "react-native";
-import config from "../config/data/dataM";
+import config from "../../config/data/dataM";
 let instance = null;
 
 const BASEURL = config.ARIARY_BASE_URL;
-import { Utils } from "../";
+import { Utils } from "../index";
 // create a component
 class ImageUpload {
   static getInstance() {

@@ -1,10 +1,10 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
-import config from "../config/data/config";
-import configs from "../config/data/dataM";
+import config from "../../config/data/config";
+import configs from "../../config/data/dataM";
 import moment from "moment";
-import Services from "./services";
+import Services from "../utils/services";
 
 // create a component
 // const transaction_url = config.CUSTOM_BASE_URL + "transaction";

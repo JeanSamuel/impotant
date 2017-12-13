@@ -15,7 +15,7 @@ import { Logo, LogoMini } from "../../components/Logo/index";
 import { InputWithButton, SimpleInput } from "../../components/TextInput/index";
 import { Container } from "../../components/ContainerC/index";
 import { FingerprintRequest } from "../../components/fingerprint/index";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import styles from "../../assets/styles/stylesC/registerStyles";
 
 const { width } = Dimensions.get("window");

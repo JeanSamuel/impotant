@@ -10,8 +10,8 @@ import {
   ScrollView
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
-import Services from "../../services/services";
-import NotificationServices from "../../services/notificationServices";
+import Services from "../../services/utils/services";
+import NotificationServices from "../../services/user/notificationServices";
 import styleBase from "../../assets/styles/styles";
 import { WarningConnexion } from "../../components/warning/index";
 import { Button } from "react-native-elements";

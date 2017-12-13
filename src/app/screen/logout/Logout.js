@@ -2,8 +2,8 @@
 import React, {Component} from "react";
 import {Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import regStyles from "../../assets/styles/stylesC/registerStyles";
-import Services from "../../services/services";
-import NotificationServices from "../../services/notificationServices";
+import Services from "../../services/utils/services";
+import NotificationServices from "../../services/user/notificationServices";
 
 const { width, height } = Dimensions.get("window");
 

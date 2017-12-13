@@ -3,8 +3,8 @@ import React, {Component} from "react";
 import {Dimensions, FlatList, StyleSheet, Text, View} from "react-native";
 import {List, ListItem} from "react-native-elements";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
-import UserServices from "../../services/userServices";
-import Services from "../../services/services";
+import UserServices from "../../services/utils/userServices";
+import Services from "../../services/utils/services";
 import timer from "react-native-timer";
 // create a component
 

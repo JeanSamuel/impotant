@@ -1,17 +1,17 @@
-import Services from "./services";
-import HomeServices from "./homeServices";
-import NotificationServices from "./notificationServices";
-import RegisterServices from "./registerServices";
-import HistoryServices from "./historyServices";
-import SyncServices from "./syncServices";
-import AchatService from "./AchatService";
-import AuthentificationService from "./AuthentificationService";
-import ImageUpload from "./ImageUpload";
-import InscriptionService from "./InscriptionService";
-import OffrirService from "./OffrirService";
-import ServiceHistorique from "./ServiceHistorique";
-import UserService from "./UserService";
-import Utils from "./Utils";
+import Services from "./utils/services";
+import HomeServices from "./utils/homeServices";
+import NotificationServices from "./user/notificationServices";
+import RegisterServices from "./user/registerServices";
+import HistoryServices from "./pay/historyServices";
+import SyncServices from "./user/syncServices";
+import AchatService from "./pay/AchatService";
+import AuthentificationService from "./user/AuthentificationService";
+import ImageUpload from "./user/ImageUpload";
+import InscriptionService from "./user/InscriptionService";
+import OffrirService from "./pay/OffrirService";
+import UserService from "./user/UserService";
+import Utils from "./utils/Utils";
+import QrService from './pay/qrservices';
 
 export {
   Services,
@@ -25,7 +25,7 @@ export {
 	ImageUpload,
 	InscriptionService,
 	OffrirService,
-	ServiceHistorique,
 	UserService,
+  QrService,
 	Utils
 };

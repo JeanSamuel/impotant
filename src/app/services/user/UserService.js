@@ -1,5 +1,5 @@
-import config from "../config/data/dataM";
-import Utils from "./Utils";
+import config from "../../config/data/dataM";
+import Utils from "../utils/Utils";
 
 const BASEURL = config.ARIARY_BASE_URL;
 let instance = null;

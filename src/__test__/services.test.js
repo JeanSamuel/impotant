@@ -1,7 +1,7 @@
 import "react-native";
 import React from "react";
 
-import Services from "../app/services/services";
+import Services from "../app/services/utils/services";
 
 import renderer from "react-test-renderer";
 

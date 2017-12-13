@@ -21,8 +21,8 @@ import { List, ListItem, Button, Header, Icon } from "react-native-elements";
 import { RoundedButton } from "../../components/Buttons";
 import Toast, { DURATION } from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
-import UserServices from "../../services/userServices";
-import Services from "../../services/services";
+import UserServices from "../../services/utils/userServices";
+import Services from "../../services/utils/services";
 import timer from "react-native-timer";
 
 const { width, height } = Dimensions.get("window");

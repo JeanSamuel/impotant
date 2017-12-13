@@ -1,11 +1,11 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Services from "./services";
+import Services from "../utils/services";
 import moment from "moment";
 import "moment/locale/fr";
 import _ from "lodash";
-import config from "../config/data/dataM";
+import config from "../../config/data/dataM";
 
 moment.locale("fr");
 // create a component

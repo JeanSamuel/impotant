@@ -1,25 +1,12 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from "react";
 import numeral from "numeral";
 import fr from "numeral/locales";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  AsyncStorage,
-  Share,
-  Platform
-} from "react-native";
-import { Fingerprint } from "expo";
-import configs from "../config/data/dataM";
-import { FormValidationMessage } from "react-native-elements";
-import { Icon } from "react-native-elements";
+import {AsyncStorage, Platform, Share, Text, View} from "react-native";
+import {Fingerprint, Notifications} from "expo";
+import configs from "../../config/data/dataM";
 import FormData from "FormData";
-import Toast from "react-native-easy-toast";
-import { RegisterServices } from "./";
-import config from "../config/data/config";
-import { Notifications } from "expo";
+import {RegisterServices} from "../index";
 
 // create a component
 class Services extends Component {

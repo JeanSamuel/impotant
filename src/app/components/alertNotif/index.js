@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Notifications } from "expo";
 import DropdownAlert from "react-native-dropdownalert";
-import Services from '../../services/services'
+import Services from '../../services/utils/services'
 
 // create a component
 

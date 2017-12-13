@@ -13,8 +13,8 @@ import { Container } from "../../../components/ContainerC";
 import { RoundedButton } from "../../../components/Buttons";
 import { Icon } from "react-native-elements";
 import { Footer } from "../../../components/Footer";
-import Services from "../../../services/services";
-import RegisterServices from "../../../services/registerServices";
+import Services from "../../../services/utils/services";
+import RegisterServices from "../../../services/user/registerServices";
 import { Loader } from "../../../components/loader";
 import styles from "../../../assets/styles/stylesC/registerStyles";
 

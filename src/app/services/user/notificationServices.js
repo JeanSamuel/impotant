@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Permissions, Notifications, Constants } from "expo";
-import Services from "./services";
+import Services from "../utils/services";
 import RegisterServices from "./registerServices";
-import config from "../config/data/dataM";
+import config from "../../config/data/dataM";
 
 const PUSH_INIT = config.NEW_BASE_URL + "src/initNotification.php";
 const PUSH_STOP = config.BASE_URL + "exp_token/disconnect.php";
@@ -15,18 +15,18 @@ export default class NotifServices extends Component {
   }
 
   async imBackNotification() {
-    var services = new Services();
-    var token = await services.getData("expo_token");
+    let services = new Services();
+    let token = await services.getData("expo_token");
   }
 
   async registerExpoToken(username) {
-    var havePermission = await this.getPermission();
+    let havePermission = await this.getPermission();
     if (havePermission) {
-      var reg_token = await new Services().getExpoToken();
-      var formData = new FormData();
+      let reg_token = await new Services().getExpoToken();
+      let formData = new FormData();
       formData.append("token", reg_token);
       formData.append("username", username);
-      var response = await fetch(PUSH_REGISTER, {
+      let response = await fetch(PUSH_REGISTER, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -58,7 +58,7 @@ export default class NotifServices extends Component {
   }
 
   async loginForExpoToken(username) {
-    var havePermission = await this.getPermission();
+    let havePermission = await this.getPermission();
     if (havePermission) {
       new Services().getExpoToken().then(response => {
         this.initForPushNotificationsAsync(username, response);
@@ -83,11 +83,11 @@ export default class NotifServices extends Component {
   }
 
   async initForPushNotificationsAsync() {
-    var services = new Services();
-    var formData = new FormData();
+    let services = new Services();
+    let formData = new FormData();
 
-    var expoToken = await services.getExpoToken();
-    var userData = await services.getData("userInfo");
+    let expoToken = await services.getExpoToken();
+    let userData = await services.getData("userInfo");
     if (userData == null) {
       return;
     }
@@ -115,17 +115,17 @@ export default class NotifServices extends Component {
   }
 
   async saveExpoToken(expo_token) {
-    var services = new Services();
+    let services = new Services();
     await services.saveData("expo_token", expo_token);
   }
 
   async stopNotification(username) {
-    var services = new Services();
-    var token = await services.getData("expo_token");
-    var formData = new FormData();
+    let services = new Services();
+    let token = await services.getData("expo_token");
+    let formData = new FormData();
     formData.append("token", token);
     formData.append("user", username);
-    var response = await fetch(PUSH_STOP, {
+    let response = await fetch(PUSH_STOP, {
       method: "POST",
       headers: {
         Accept: "application/json",

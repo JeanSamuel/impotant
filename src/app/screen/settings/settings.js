@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { RowValue } from "../../components/row";
 import { UserInfo, Security, Confidentiality } from "./";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import { Assistant } from "../assistance";
 import { styleBase } from "../../assets/styles";
 import { StackNavigator } from "react-navigation";

@@ -1,8 +1,8 @@
 //import liraries
 import React, {Component} from "react";
 import {Dimensions, ScrollView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
-import QrServices from "../../services/qrservices";
-import Services from "../../services/services";
+import QrServices from "../../services/pay/qrservices";
+import Services from "../../services/utils/services";
 import {MessagePrompt, PinModal} from "../../components/modal";
 import {FingerprintRequest} from "../../components/fingerprint";
 

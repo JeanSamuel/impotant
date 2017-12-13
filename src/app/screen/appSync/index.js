@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
 import MyQrCode from "../../components/qrCode";
 import { NotificationServices, SyncServices } from "../../services";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import { Notifications, Constants } from "expo";
 import { Button } from "react-native-elements";
 

@@ -18,7 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { Logo, LogoMini } from "../../../components/Logo";
 import { Container } from "../../../components/ContainerC";
 import { MyInput } from "../../../components/TextInput";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component

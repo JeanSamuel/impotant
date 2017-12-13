@@ -2,10 +2,10 @@ import TimerMixin from "react-timer-mixin";
 let PNF = require("google-libphonenumber").PhoneNumberFormat;
 import { Notifications } from "expo";
 import { Alert, AlertIOS } from "react-native";
-import config from "../config/data/dataM";
+import config from "../../config/data/dataM";
 
 let phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
-import { Utils } from "./";
+import { Utils } from "../index";
 const BASEURL = config.ARIARY_BASE_URL;
 
 // create a component

@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import Services from "../../../services/services";
+import Services from "../../../services/utils/services";
 import { styleBase } from "../../../assets/styles";
 import { IconBadge } from "../../../components/icon";
 import { Util } from "expo";

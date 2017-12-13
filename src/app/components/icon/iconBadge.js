@@ -10,7 +10,7 @@ import {
 import { Icon } from "react-native-elements";
 import IconBadge from "react-native-icon-badge"; // 1.1.3
 import { Notifications } from "expo";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 
 // create a component
 class MyClass extends Component {

@@ -6,7 +6,7 @@ import colors from "color";
 import EStyleSheet from "react-native-extended-stylesheet";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import {HistoryServices} from "../../services/index";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 import {styleBase} from "../../assets/styles/index";
 import styles from "../../assets/styles/stylesC/historyStyle";
 import moment from "moment";

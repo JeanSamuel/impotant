@@ -1,5 +1,5 @@
-import {Utils,UserService,ImageUpload} from './';
-import config from '../config/data/dataM'
+import {Utils,UserService,ImageUpload} from '../index';
+import config from '../../config/data/dataM'
 
 const BASEURL = config.ARIARY_BASE_URL
 let instance = null;

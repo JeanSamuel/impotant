@@ -6,7 +6,7 @@ import styles from "./styles";
 import I18n from "ex-react-native-i18n";
 import { Notifications } from "expo";
 import translation from "./translation";
-import Services from "../../services/services";
+import Services from "../../services/utils/services";
 
 // create a component
 const drawerCover = require("../../assets/images/imgC/4.jpg");

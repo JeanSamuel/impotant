@@ -1,11 +1,8 @@
 //import liraries
-import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Constants } from "expo";
-import { Permissions, Notifications } from "expo";
+import React, {Component} from "react";
 import NotifServices from "./notificationServices";
-import Services from "./services";
-import config from "../config/data/dataM";
+import Services from "../utils/services";
+import config from "../../config/data/dataM";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;
 // create a component
