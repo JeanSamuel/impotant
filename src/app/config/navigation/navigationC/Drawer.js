@@ -2,7 +2,7 @@
 import React from "react";
 import {Dimensions, ScrollView} from "react-native";
 import {DrawerItems, DrawerNavigator} from "react-navigation";
-import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send} from "../../../screen/indexScreen";
+import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send, History} from "../../../screen/indexScreen";
 import {Icon} from "react-native-elements";
 import About from "../../../screen/about";
 import DrawerContent from "../navigationM/drawerContent";
@@ -38,6 +38,12 @@ export default DrawerNavigator(
             color={tintColor}
           />
         ),
+        header: () => null
+      })
+    },
+    History: {
+      screen: History,
+      navigationOptions: ({ navigation }) => ({
         header: () => null
       })
     },

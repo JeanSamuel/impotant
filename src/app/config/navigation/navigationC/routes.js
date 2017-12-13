@@ -96,13 +96,6 @@ const MainNavigator = new StackNavigator(
         headerTitle: "Home"
       })
     },
-    History:{
-      screen: History,
-      navigationOptions: ({ navigation }) => ({
-        header: () => null,
-        headerTitle: "Historique"
-      })
-    },
     CustomKey: {
       screen: CustomKey,
       navigationOptions: ({ navigation }) => ({
