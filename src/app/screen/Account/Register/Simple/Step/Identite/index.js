@@ -16,7 +16,7 @@ import { Icon } from "react-native-elements";
 const deviceWidth = Dimensions.get("window").width;
 import DatePicker from "react-native-datepicker";
 
-import { loginCss } from "../../../../../../styles/index";
+import { loginCss } from "../../../../../../assets/styles/index";
 
 import styles from "./styles";
 

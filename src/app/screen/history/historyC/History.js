@@ -15,11 +15,11 @@ import {
 } from "react-native";
 import colors from "color";
 import EStyleSheet from "react-native-extended-stylesheet";
-import headStyle from "../../../styles/stylesC/headerStyle";
+import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import { HistoryServices } from "../../../services";
 import Services from "../../../services/services";
-import { styleBase } from "../../../styles";
-import styles from "../../../styles/stylesC/historyStyle";
+import { styleBase } from "../../../assets/styles";
+import styles from "../../../assets/styles/stylesC/historyStyle";
 import moment from "moment";
 import numeral from "numeral";
 import TimerMixin from "react-timer-mixin";

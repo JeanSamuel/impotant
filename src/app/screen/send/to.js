@@ -12,7 +12,7 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 import { List, ListItem } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
-import headStyle from "../../styles/stylesC/headerStyle";
+import headStyle from "../../assets/styles/stylesC/headerStyle";
 import UserServices from "../../services/userServices";
 import Services from "../../services/services";
 import timer from "react-native-timer";
@@ -166,13 +166,13 @@ class To extends Component {
   render() {
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
-        {this.state.online && this.state.loading ? (
-          this.renderLoadingMessage()
-        ) : null}
+        {this.state.online && this.state.loading
+          ? this.renderLoadingMessage()
+          : null}
         {!this.state.online ? this.renderErrorMessage() : null}
-        {this.state.online && !this.state.loading ? (
-          this.renderConnectedMessage()
-        ) : null}
+        {this.state.online && !this.state.loading
+          ? this.renderConnectedMessage()
+          : null}
         <View
           style={{
             height: 80,

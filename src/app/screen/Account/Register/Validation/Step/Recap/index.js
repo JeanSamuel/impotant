@@ -17,7 +17,7 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 import { Icon } from "react-native-elements";
 import { UserService, InscriptionService } from "../../../../../../services";
-import { loginCss } from "../../../../../../styles/index";
+import { loginCss } from "../../../../../../assets/styles/index";
 
 // create a component
 class ValidationCompte extends React.Component {

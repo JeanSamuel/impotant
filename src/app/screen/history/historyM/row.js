@@ -3,18 +3,18 @@ import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import { Icon, Badge } from "react-native-elements";
 import styles from "./RowStyles";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import Services from "../../../services/services";
 
 // create a component
 class Row extends Component {
   getCurrencyAndAmount(amount, currency, date) {
     let styleNegative = null;
-    let hour = "00:00:00"
+    let hour = "00:00:00";
     try {
       hour = date.split("T")[1].split("+")[0];
     } catch (error) {
-      new Services().createError(error, 'erreur getting hour row history')
+      new Services().createError(error, "erreur getting hour row history");
     }
     if (amount < 0) {
       styleNegative = styles.currencyNegative;

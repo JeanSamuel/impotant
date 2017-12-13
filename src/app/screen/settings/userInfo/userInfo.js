@@ -2,8 +2,8 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RowValue, Separator, RowTitle } from "../../../components/row";
-import { styleBase } from "../../../styles";
-import Services from '../../../services/services'
+import { styleBase } from "../../../assets/styles";
+import Services from "../../../services/services";
 
 // create a component
 const self = null;
@@ -12,42 +12,39 @@ class UserInfo extends Component {
     super(props);
     self = this;
     this.state = {
-      pseudo : '...',
-      nom : '...', 
-      email : '...', 
-      phone : '...'
-    }
+      pseudo: "...",
+      nom: "...",
+      email: "...",
+      phone: "..."
+    };
   }
 
   goBack() {
     this.props.navigation.navigate("Settings");
   }
 
-  
   componentDidMount() {
     this.getData();
   }
-  
 
-  getData(){
+  getData() {
     let services = new Services();
     services
-    .getData("userInfo")
-    .then(response => {
-      if (response != null) {
-        dataParsed = JSON.parse(response)
-        this.setState({ 
-          pseudo: dataParsed.pseudo,
-          nom: dataParsed.pseudo,
-          email: dataParsed.pseudo,
-          phone: dataParsed.pseudo,
-        
-        });
-      }
-    })
-    .catch(error => {
-      console.log("error", error);
-    });
+      .getData("userInfo")
+      .then(response => {
+        if (response != null) {
+          dataParsed = JSON.parse(response);
+          this.setState({
+            pseudo: dataParsed.pseudo,
+            nom: dataParsed.pseudo,
+            email: dataParsed.pseudo,
+            phone: dataParsed.pseudo
+          });
+        }
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
   }
 
   render() {

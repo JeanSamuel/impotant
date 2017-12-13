@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Icon } from "react-native-elements";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 const errorIcon = require("../../../assets/images/icons/no-conection-256.png");

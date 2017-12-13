@@ -18,9 +18,9 @@ import { StackNavigator } from "react-navigation";
 import { Icon, Button } from "react-native-elements";
 import Toast, { DURATION } from "react-native-easy-toast";
 import History from "../history/historyM";
-import headStyle from "../../styles/stylesC/headerStyle";
-import regStyles from "../../styles/stylesC/registerStyles";
-import sendStyle from "../../styles/stylesC/sendStyle";
+import headStyle from "../../assets/styles/stylesC/headerStyle";
+import regStyles from "../../assets/styles/stylesC/registerStyles";
+import sendStyle from "../../assets/styles/stylesC/sendStyle";
 import QrServices from "../../services/qrservices";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { PinModal, AmountModal } from "../../components/modal";
@@ -534,7 +534,8 @@ class Send extends Component {
                     this._toNextStep(this.state.user);
                   }}
                   onChangeText={amount =>
-                    this.setState({ amount: Services.formatNumber(amount) })}
+                    this.setState({ amount: Services.formatNumber(amount) })
+                  }
                   onEndEditing={this.handleDoneEditing}
                 />
               </View>

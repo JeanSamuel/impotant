@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator
 } from "react-native";
-import styleBase from "../../styles/Styles";
+import styleBase from "../../assets/styles/Styles";
 import { StackNavigator } from "react-navigation";
 import DrawerButton from "../navigation/drawerButton";
 import { Icon } from "react-native-elements";

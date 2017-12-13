@@ -10,7 +10,7 @@ import {
   Alert
 } from "react-native";
 import styles from "./starterStyles";
-import styleBase from "../../../styles/styles";
+import styleBase from "../../../assets/styles/styles";
 import StarterButton from "./starterButton";
 import moment from "moment";
 

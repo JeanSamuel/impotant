@@ -16,7 +16,7 @@ import { InputWithButton, SimpleInput } from "../../../components/TextInput";
 import { Container } from "../../../components/ContainerC";
 import { FingerprintRequest } from "../../../components/fingerprint";
 import Services from "../../../services/services";
-import styles from "../../../styles/stylesC/registerStyles";
+import styles from "../../../assets/styles/stylesC/registerStyles";
 
 const { width } = Dimensions.get("window");
 class Pin extends React.Component {

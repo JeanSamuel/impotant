@@ -13,17 +13,17 @@ import {
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon, List, Button } from "react-native-elements";
 import { StackNavigator } from "react-navigation";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { HistoryServices } from "../../../services";
 import Row from "./row";
 import HeaderHistory from "./header";
 import Error from "./errorHistory";
-import HeaderRight from './headerRight';
+import HeaderRight from "./headerRight";
 import { DrawerMenu } from "../../../components/drawerMenu";
 import { Download } from "../../../components/icon";
 import SearchBar from "react-native-searchbar";
 import { Notifications } from "expo";
-import RowEmpty from './rowEmpty';
+import RowEmpty from "./rowEmpty";
 
 // create a component
 const self = null;
@@ -40,7 +40,7 @@ class History extends Component {
       refreshing: false,
       error: null,
       extraMargin: null,
-      emptyData : null
+      emptyData: null
     };
     this._handleResults = this._handleResults.bind(this);
   }
@@ -51,9 +51,7 @@ class History extends Component {
       <Icon name="ios-paper-outline" size={25} type="ionicon" />
     ),
     titleStyle: styleBase.headerTitle,
-    headerRight: (
-      <HeaderRight action={() => self.showSearchBar() } />
-    )
+    headerRight: <HeaderRight action={() => self.showSearchBar()} />
   };
 
   componentWillMount() {
@@ -62,7 +60,7 @@ class History extends Component {
     );
     this.getOldHistory();
   }
-  
+
   componentWillUnmount() {
     this._notificationSubscription.remove();
   }
@@ -84,21 +82,21 @@ class History extends Component {
     });
   }
 
-  waiting(){
-    return(
+  waiting() {
+    return (
       <View>
         <Error isSynchronised={true} text="Synchronisation..." />
         <RowEmpty />
         <RowEmpty />
         <RowEmpty />
       </View>
-    )
+    );
   }
 
   isSynchronised() {
     this.setState({
       error: this.waiting(),
-      emptyData : null
+      emptyData: null
     });
   }
 
@@ -106,13 +104,12 @@ class History extends Component {
     this.setState({ error: null });
   }
 
-
   async getOldHistory() {
     let services = new HistoryServices();
     services
       .getOldHistory()
       .then(response => {
-        if(response != null){
+        if (response != null) {
           let dateChecked = services.checkHistoryError(response);
           this.setState({
             dataBrute: dateChecked,
@@ -137,7 +134,7 @@ class History extends Component {
         this.stopSynchronised();
       })
       .catch(error => {
-        console.log('error response getting history', error);
+        console.log("error response getting history", error);
         this.setState({
           error: (
             <Error isSynchronised={false} text="Erreur de synchronisation" />
@@ -147,9 +144,9 @@ class History extends Component {
   }
 
   setData(response) {
-    if(response.length == 0){
-      this.createEmptyText()
-    }else{
+    if (response.length == 0) {
+      this.createEmptyText();
+    } else {
       this.setState({
         dataBrute: response,
         data: this.refactHistory(response)
@@ -157,30 +154,29 @@ class History extends Component {
     }
   }
 
-  createEmptyText(){
+  createEmptyText() {
     this.setState({
-      emptyData : (
+      emptyData: (
         <View style={[style.dataEmpty, styleBase.centered]}>
-        <Icon
-          name="ios-close"
-          reverse
-          color="rgba(189, 195, 199,1.0)"
-          size={30}
-          type="ionicon"
-        />
-        <View style={styleBase.centered} >
-            <Text style={style.dataEmptyText} >
-            Liste de transaction vide</Text>
-        </View>
+          <Icon
+            name="ios-close"
+            reverse
+            color="rgba(189, 195, 199,1.0)"
+            size={30}
+            type="ionicon"
+          />
+          <View style={styleBase.centered}>
+            <Text style={style.dataEmptyText}>Liste de transaction vide</Text>
+          </View>
           <Button
-          small
-          title='RECHARGER'
-          buttonStyle = {[style.refreshBtnStyle]} 
-          onPress = {this._onRefresh.bind(this)}
+            small
+            title="RECHARGER"
+            buttonStyle={[style.refreshBtnStyle]}
+            onPress={this._onRefresh.bind(this)}
           />
         </View>
       )
-    })
+    });
   }
 
   _onRefresh() {
@@ -212,9 +208,7 @@ class History extends Component {
 
   render() {
     if (this.state.data == null) {
-      return (
-        this.waiting()
-      )
+      return this.waiting();
     } else {
       const ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2,
@@ -234,16 +228,12 @@ class History extends Component {
               onBack={() => this.reinitialiseData()}
               backButton={<Icon name="keyboard-arrow-up" size={30} />}
             />
-            
-          
 
             <View>{this.state.error}</View>
             <View style={[style.headerList, this.state.extraMargin]} />
-            
-              <View>
-                {this.state.emptyData}
-              </View>
-            
+
+            <View>{this.state.emptyData}</View>
+
             <ListView
               refreshControl={
                 <RefreshControl
@@ -261,12 +251,10 @@ class History extends Component {
                 />
               )}
             />
-            
           </ScrollView>
-          <View style={style.downloadContainer} >
-            <Download source={this.state.dataBrute}/>
+          <View style={style.downloadContainer}>
+            <Download source={this.state.dataBrute} />
           </View>
-          
         </View>
       );
     }
@@ -274,21 +262,21 @@ class History extends Component {
 }
 
 const style = EStyleSheet.create({
-  downloadContainer : {
-    flex : 1, 
-    position : 'absolute', 
-    bottom : 1,
-    width : '100%',
-    paddingVertical : 8,
-    backgroundColor : "rgba(236, 240, 241,1.0)",
-    marginBottom : -1
+  downloadContainer: {
+    flex: 1,
+    position: "absolute",
+    bottom: 1,
+    width: "100%",
+    paddingVertical: 8,
+    backgroundColor: "rgba(236, 240, 241,1.0)",
+    marginBottom: -1
   },
   headerList: {},
   greyText: {
     color: "rgba(52, 73, 94,1.0)"
   },
   listView: {
-    flex : 1
+    flex: 1
   },
   connexionError: {
     flexDirection: "row",
@@ -299,15 +287,15 @@ const style = EStyleSheet.create({
     color: "white",
     textAlign: "center"
   },
-  dataEmpty : {
-    marginTop : 20
+  dataEmpty: {
+    marginTop: 20
   },
-  dataEmptyText : {
-    fontSize : 25
+  dataEmptyText: {
+    fontSize: 25
   },
-  refreshBtnStyle : {
-    marginTop : 10 ,
-    backgroundColor : '$darkColor'
+  refreshBtnStyle: {
+    marginTop: 10,
+    backgroundColor: "$darkColor"
   }
 });
 

@@ -20,7 +20,7 @@ import Addresse from "./Step/Addresse";
 import Recuperation from "./Step/Recuperation";
 import { Utils, InscriptionService } from "../../../../services";
 import styles from "./styles";
-import { baseStyle } from "../../../../styles";
+import { baseStyle } from "../../../../assets/styles";
 
 const firstIndicatorStyles = {
   stepIndicatorSize: 30,

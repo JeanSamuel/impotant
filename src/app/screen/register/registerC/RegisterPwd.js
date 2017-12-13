@@ -16,7 +16,7 @@ import { Footer } from "../../../components/Footer";
 import Services from "../../../services/services";
 import RegisterServices from "../../../services/registerServices";
 import { Loader } from "../../../components/loader";
-import styles from "../../../styles/stylesC/registerStyles";
+import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component
 const { width } = Dimensions.get("window");

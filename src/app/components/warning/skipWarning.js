@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, ScrollView } from "react-native";
-import { styleBase } from "../../styles";
+import { styleBase } from "../../assets/styles";
 import { Icon, Button } from "react-native-elements";
 import EStyleSheet from "react-native-extended-stylesheet";
 

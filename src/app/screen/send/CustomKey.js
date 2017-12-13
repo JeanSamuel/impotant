@@ -12,7 +12,7 @@ import { StackNavigator } from "react-navigation";
 import { Button, Header, Icon } from "react-native-elements";
 import { InputButton } from "../../components/TextInput";
 import CancelKeyButton from "../../components/Buttons/CancelKeyButton";
-import headStyle from "../../styles/stylesC/headerStyle";
+import headStyle from "../../assets/styles/stylesC/headerStyle";
 // create a component
 const inputButtons = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [".", 0, ""]];
 class CustomKey extends Component {

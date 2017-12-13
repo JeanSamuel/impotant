@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RoundedButton } from "../../../components/Buttons";
 import { Footer } from "../../../components/Footer";
-import styles from "../../../styles/stylesC/registerStyles";
+import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component
 class Register extends Component {

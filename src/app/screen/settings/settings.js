@@ -12,7 +12,7 @@ import { RowValue } from "../../components/row";
 import { UserInfo, Security, Confidentiality } from "./";
 import Services from "../../services/services";
 import { Assistant } from "../assistance";
-import { styleBase } from "../../styles";
+import { styleBase } from "../../assets/styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu";
 import { Icon } from "react-native-elements";

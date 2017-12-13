@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
-import { styleBase } from "../../styles";
+import { styleBase } from "../../assets/styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import { Icon } from "react-native-elements";

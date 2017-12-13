@@ -20,7 +20,7 @@ import Securite from "./Step/Securite";
 import Validation from "./Step/Recap";
 import styles from "./styles";
 
-import { nbaseStyle } from "../../../../styles";
+import { nbaseStyle } from "../../../../assets/styles";
 import MyButton from "../../../../components/Buttons/SamButton";
 import { InscriptionService, Utils } from "../../../../services";
 

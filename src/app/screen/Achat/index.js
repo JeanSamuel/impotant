@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Header, Icon, Tabs, Tab } from "react-native-elements";
-import { loginCss, configStyles, baseStyle } from "../../styles";
+import { loginCss, configStyles, baseStyle } from "../../assets/styles";
 import styles from "./Styles";
 import { UserService, Utils } from "../../services";
 import ViaMobileMoney from "./Mobile";

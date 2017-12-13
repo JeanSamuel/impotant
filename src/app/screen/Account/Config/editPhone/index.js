@@ -11,7 +11,7 @@ import {
   Modal
 } from "react-native";
 import PropTypes from "prop-types";
-import { configStyles, loginCss } from "../../../../styles";
+import { configStyles, loginCss } from "../../../../assets/styles";
 import { Utils, UserService } from "../../../../services";
 // create a component
 class EditPhone extends Component {

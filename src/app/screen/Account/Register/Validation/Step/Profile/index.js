@@ -20,7 +20,7 @@ import { Icon } from "react-native-elements";
 import Exponent, { Constants, ImagePicker, registerRootComponent } from "expo";
 const deviceWidth = Dimensions.get("window").width;
 import DatePicker from "react-native-datepicker";
-import { loginCss } from "../../../../../../styles";
+import { loginCss } from "../../../../../../assets/styles";
 import { ImageUpload } from "../../../../../../services";
 import styles from "./styles";
 

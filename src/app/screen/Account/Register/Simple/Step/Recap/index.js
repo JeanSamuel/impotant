@@ -13,7 +13,7 @@ import {
 import PropTypes from "prop-types";
 import { Icon } from "react-native-elements";
 const deviceWidth = Dimensions.get("window").width;
-import { configStyles } from "../../../../../../styles";
+import configStyles from "../../../../../../assets/styles/css/configStyles";
 
 import { UserService, InscriptionService } from "../../../../../../services";
 

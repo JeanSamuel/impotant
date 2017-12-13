@@ -18,7 +18,7 @@ import { Icon } from "react-native-elements";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
 
-import { loginCss } from "../../../../../../styles/index";
+import { loginCss } from "../../../../../../assets/styles/index";
 
 import styles from "./styles";
 

@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Keyboard, Image } from "react-native";
 import AppIntro from "react-native-app-intro";
 import data from "../../../config/data/dataM";
 import Services from "../../../services/services";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 
 // create a component
 

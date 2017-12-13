@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import styles from "./registerStyles";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { RegisterServices } from "../../../services";
 import Services from "../../../services/services";
 import { Icon, Button } from "react-native-elements";

@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import Services from "../../../services/services";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { IconBadge } from "../../../components/icon";
-import { Util } from 'expo';
+import { Util } from "expo";
 
 // create a component
 class HeaderRight extends Component {
@@ -13,9 +13,7 @@ class HeaderRight extends Component {
     this.props.actionShare();
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     return (

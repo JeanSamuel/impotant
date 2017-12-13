@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
-import sendStyle from "../../styles/stylesC/sendStyle";
+import sendStyle from "../../assets/styles/stylesC/sendStyle";
 
 // create a component
 const { width, height } = Dimensions.get("screen");

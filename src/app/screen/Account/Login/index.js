@@ -17,7 +17,7 @@ import {
   Easing
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { loginCss } from "../../../styles";
+import { loginCss } from "../../../assets/styles";
 import PropTypes from "prop-types";
 import { Utils, UserService, AuthentificationService } from "../../../services";
 

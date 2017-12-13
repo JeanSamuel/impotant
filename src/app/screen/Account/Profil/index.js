@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import Mybutton from "../../../components/Buttons/SamButton";
 import { Icon, Header, Button } from "react-native-elements";
 import { Notifications } from "expo";
-import { loginCss, configStyles, baseStyle } from "../../../styles";
+import { loginCss, configStyles, baseStyle } from "../../../assets/styles";
 import { Utils, UserService, InscriptionService } from "../../../services";
 const deviceWidth = Dimensions.get("window").width;
 

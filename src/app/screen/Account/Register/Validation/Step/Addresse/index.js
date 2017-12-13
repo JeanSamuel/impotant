@@ -15,7 +15,7 @@ import {
 import { Icon } from "react-native-elements";
 import CountryPicker from "react-native-country-picker-modal";
 import PropTypes from "prop-types";
-import { loginCss } from "../../../../../../styles/index";
+import { loginCss } from "../../../../../../assets/styles/index";
 
 import styles from "./styles";
 

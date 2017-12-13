@@ -27,7 +27,7 @@ import {
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 import { AchatService, UserService, Utils } from "../../../services";
-import { configStyles, loginCss } from "../../../styles/index";
+import { configStyles, loginCss } from "../../../assets/styles/index";
 
 // create a component
 class ViaMobileMoney extends Component {

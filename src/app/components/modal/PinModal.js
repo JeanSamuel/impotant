@@ -10,7 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import { LogoMini } from "../Logo";
-import regStyles from "../../styles/stylesC/registerStyles";
+import regStyles from "../../assets/styles/stylesC/registerStyles";
 // create a component
 const { height, width } = Dimensions.get("window");
 class PinModal extends Component {

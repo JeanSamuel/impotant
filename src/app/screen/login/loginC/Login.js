@@ -12,7 +12,7 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 import Services from "../../../services/services";
 import NotificationServices from "../../../services/notificationServices";
-import styleBase from "../../../styles/styles";
+import styleBase from "../../../assets/styles/styles";
 import { WarningConnexion } from "../../../components/warning";
 import { Button } from "react-native-elements";
 import data from "../../../config/data/dataM";

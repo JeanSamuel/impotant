@@ -11,8 +11,8 @@ import {
   ActivityIndicator
 } from "react-native";
 import { Icon } from "react-native-elements";
-import { styleBase } from "../../../styles";
-import regStyles from "../../../styles/stylesC/registerStyles";
+import { styleBase } from "../../../assets/styles";
+import regStyles from "../../../assets/styles/stylesC/registerStyles";
 import Services from "../../../services/services";
 import NotificationServices from "../../../services/notificationServices";
 import LogoutText from "../logoutM/logoutText";

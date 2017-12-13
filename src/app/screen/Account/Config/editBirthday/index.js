@@ -10,7 +10,7 @@ import {
   Modal
 } from "react-native";
 import PropTypes from "prop-types";
-import { configStyles, loginCss } from "../../../../styles";
+import { configStyles, loginCss } from "../../../../assets/styles";
 import DatePicker from "react-native-datepicker";
 
 import { Utils, UserService } from "../../../../services";

@@ -19,7 +19,7 @@ import { Icon } from "react-native-elements";
 import { Login } from "../../login/loginC";
 
 import styles from "../../starter/starterM/starterStyles";
-import styleBase from "../../../styles/styles";
+import styleBase from "../../../assets/styles/styles";
 import StarterButton from "../../starter/starterM/starterButton";
 import moment from "moment";
 

@@ -10,7 +10,7 @@ import {
   Dimensions
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { Icon } from "react-native-elements";
 import Services from "../../../services/services";
 import * as Animatable from "react-native-animatable";

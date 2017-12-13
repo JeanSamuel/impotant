@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { LogoMini } from "../Logo";
 import Services from "../../services/services";
-import regStyles from "../../styles/stylesC/registerStyles";
+import regStyles from "../../assets/styles/stylesC/registerStyles";
 const { height, width } = Dimensions.get("window");
 
 // create a component

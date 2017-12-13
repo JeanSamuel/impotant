@@ -11,7 +11,7 @@ import {
 import { Icon } from "react-native-elements";
 import { NotificationServices } from "../../../services";
 import Services from "../../../services/services";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../../components/drawerMenu";
 import LogoutText from "./logoutText";

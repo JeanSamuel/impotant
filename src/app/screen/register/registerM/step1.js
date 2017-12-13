@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import styles from "./registerStyles";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import { RegisterServices } from "../../../services";
 import Services from "../../../services/services";
 import { Icon, Button } from "react-native-elements";

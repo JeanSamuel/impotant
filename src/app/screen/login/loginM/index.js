@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { NotificationServices } from "../../../services";
-import  Services  from "../../../services/services";
-import styleBase from "../../../styles/styles";
+import Services from "../../../services/services";
+import styleBase from "../../../assets/styles/styles";
 import { WarningConnexion } from "../../../components/warning";
 import { Button } from "react-native-elements";
 import data from "../../../config/data/dataM";
@@ -46,7 +46,7 @@ class Login extends Component {
           this.props.navigation.navigate("Drawer", response);
         })
         .catch(error => {
-         service.createError(error, 'error response login')
+          service.createError(error, "error response login");
         });
     }
   }

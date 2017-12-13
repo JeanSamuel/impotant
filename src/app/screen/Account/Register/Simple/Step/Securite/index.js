@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Icon, Button } from "react-native-elements";
-import { loginCss, configStyles } from "../../../../../../styles";
+import { loginCss, configStyles } from "../../../../../../assets/styles";
 import styles from "./styles";
 import { UserService, Utils } from "../../../../../../services";
 

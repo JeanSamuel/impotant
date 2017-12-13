@@ -9,7 +9,7 @@ import {
   Platform
 } from "react-native";
 import { width, height } from "Dimensions";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import AppLink from "react-native-app-link";
 // create a component
 class GoToStore extends Component {

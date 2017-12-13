@@ -23,7 +23,7 @@ import {
   Button
 } from "react-native-elements";
 import Mybutton from "../../components/Buttons/SamButton";
-import { loginCss, baseStyle, configStyles } from "../../styles/index";
+import { loginCss, baseStyle, configStyles } from "../../assets/styles/index";
 import { Utils, UserService, OffrirService } from "../../services";
 import config from "../../config/data/dataM";
 const BASE_URL = config.ARIARY_BASE_URL;

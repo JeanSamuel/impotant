@@ -20,7 +20,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { List, ListItem, Button, Header, Icon } from "react-native-elements";
 import { RoundedButton } from "../../components/Buttons";
 import Toast, { DURATION } from "react-native-easy-toast";
-import headStyle from "../../styles/stylesC/headerStyle";
+import headStyle from "../../assets/styles/stylesC/headerStyle";
 import UserServices from "../../services/userServices";
 import Services from "../../services/services";
 import timer from "react-native-timer";
@@ -218,13 +218,13 @@ class Adresses extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ backgroundColor: "#fff", flex: 1 }}>
-          {this.state.online && this.state.loading ? (
-            this.renderLoadingMessage()
-          ) : null}
+          {this.state.online && this.state.loading
+            ? this.renderLoadingMessage()
+            : null}
           {!this.state.online ? this.renderErrorMessage() : null}
-          {this.state.online && !this.state.loading ? (
-            this.renderConnectedMessage()
-          ) : null}
+          {this.state.online && !this.state.loading
+            ? this.renderConnectedMessage()
+            : null}
           <RoundedButton
             text="Importer une nouvelle adresse"
             buttonStyle={{ height: 40 }}

@@ -35,7 +35,7 @@ import {
   EditPseudo,
   Review
 } from "../../../screen/indexScreen";
-import headStyle from "../../../styles/stylesC/headerStyle";
+import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import RegisterPin from "../../../screen/register/registerC/RegisterPin";
 import Register from "../../../screen/register/registerC/Register";
 import RegisterName from "../../../screen/register/registerC/RegisterName";

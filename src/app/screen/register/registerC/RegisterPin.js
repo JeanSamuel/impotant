@@ -19,7 +19,7 @@ import { Logo, LogoMini } from "../../../components/Logo";
 import { Container } from "../../../components/ContainerC";
 import { MyInput } from "../../../components/TextInput";
 import Services from "../../../services/services";
-import styles from "../../../styles/stylesC/registerStyles";
+import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component
 const { width } = Dimensions.get("window");

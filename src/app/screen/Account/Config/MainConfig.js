@@ -16,7 +16,7 @@ import { Icon, Header, List, ListItem } from "react-native-elements";
 import PropTypes from "prop-types";
 
 import styles from "./styles";
-import { loginCss, baseStyle } from "../../../styles";
+import { loginCss, baseStyle } from "../../../assets/styles";
 import { Utils, UserService } from "../../../services";
 
 import MyButton from "../../../components/Buttons/SamButton";

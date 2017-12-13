@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import { height } from "Dimensions";
-import { styleBase } from "../../../styles";
+import { styleBase } from "../../../assets/styles";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 // create a component

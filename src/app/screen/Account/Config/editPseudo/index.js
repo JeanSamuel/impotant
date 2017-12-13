@@ -11,7 +11,7 @@ import {
   Modal
 } from "react-native";
 import PropTypes from "prop-types";
-import { loginCss, configStyles } from "../../../../styles";
+import { loginCss, configStyles } from "../../../../assets/styles";
 import { Utils, UserService } from "../../../../services";
 // create a component
 class EditPseudo extends Component {

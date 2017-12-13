@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Header, Button, Icon } from "react-native-elements";
 import MyButton from "../../../../components/Buttons/SamButton";
-import { baseStyle, loginCss } from "../../../../styles/index";
+import { baseStyle, loginCss } from "../../../../assets/styles/index";
 import ViewPager from "react-native-viewpager";
 import styles from "./styles";
 import Page1 from "./Page/Page1";

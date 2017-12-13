@@ -9,7 +9,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import { AuthentificationService } from "../../../services";
-import configStyles from "../../../styles";
+import configStyles from "../../../assets/styles";
 
 // create a component
 class LogOut extends Component {

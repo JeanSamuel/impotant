@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { Icon } from "react-native-elements";
-import { styleBase } from "../../styles";
+import { styleBase } from "../../assets/styles";
 
 // create a component
 class WarningInput extends Component {
