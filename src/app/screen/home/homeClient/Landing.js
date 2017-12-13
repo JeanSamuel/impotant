@@ -16,7 +16,7 @@ import { Logo } from "../../../components/Logo";
 import { RoundedButton } from "../../../components/Buttons";
 import { DoubleLineButton } from "../../../components/button";
 import { Icon } from "react-native-elements";
-import { Login } from "../../login/loginC";
+import { Login } from "../../login/index";
 
 import styles from "../../starter/starterM/starterStyles";
 import styleBase from "../../../assets/styles/styles";

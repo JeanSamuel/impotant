@@ -1,22 +1,13 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  Modal,
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Alert,
-  StatusBar,
-  ScrollView
-} from "react-native";
-import PropTypes from "prop-types";
-import { Header, Icon, Tabs, Tab } from "react-native-elements";
-import { loginCss, configStyles, baseStyle } from "../../assets/styles";
+import React, {Component} from "react";
+import {ActivityIndicator, StatusBar, StyleSheet, Text, View} from "react-native";
+import {Header} from "react-native-elements";
+import {baseStyle, configStyles} from "../../assets/styles";
 import styles from "./Styles";
-import { UserService, Utils } from "../../services";
+import {UserService, Utils} from "../../services";
 import ViaMobileMoney from "./Mobile";
 import Mybutton from "../../components/Buttons/SamButton";
+
 // create a component
 class MainAchat extends Component {
   constructor(props) {

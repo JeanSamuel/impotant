@@ -1,24 +1,13 @@
 import React from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-  StatusBar,
-  Alert,
-  ActivityIndicator,
-  ScrollView,
-  RefreshControl
+    ActivityIndicator, Dimensions, Image, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity,
+    View
 } from "react-native";
-
-import PropTypes from "prop-types";
 import Mybutton from "../../../components/Buttons/SamButton";
-import { Icon, Header, Button } from "react-native-elements";
-import { Notifications } from "expo";
-import { loginCss, configStyles, baseStyle } from "../../../assets/styles";
-import { Utils, UserService, InscriptionService } from "../../../services";
+import {Header, Icon} from "react-native-elements";
+import {baseStyle, configStyles, loginCss} from "../../../assets/styles";
+import {UserService, Utils} from "../../../services";
+
 const deviceWidth = Dimensions.get("window").width;
 
 // create a component

@@ -1,24 +1,9 @@
 //import liraries
-import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { DrawerNavigator, StackNavigator, DrawerItems } from "react-navigation";
-import {
-  Adresses,
-  AppStarter,
-  Send,
-  To,
-  History,
-  Logout,
-  ProfileAriary,
-  MainAchat,
-  Offrir
-} from "../../../screen/indexScreen";
-import { Icon } from "react-native-elements";
-import {
-  //History,
-  Settings,
-  Home
-} from "../../../screen/listScreenM";
+import React from "react";
+import {Dimensions, ScrollView} from "react-native";
+import {DrawerItems, DrawerNavigator} from "react-navigation";
+import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send} from "../../../screen/indexScreen";
+import {Icon} from "react-native-elements";
 import About from "../../../screen/about";
 import DrawerContent from "../navigationM/drawerContent";
 
@@ -57,7 +42,7 @@ export default DrawerNavigator(
       })
     },
     Wallet: {
-      screen: Home,
+      screen: Receive,
       navigationOptions: ({ navigation }) => ({
         title: "Recevoir",
         drawerIcon: ({ tintColor }) => (

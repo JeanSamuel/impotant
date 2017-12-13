@@ -10,12 +10,12 @@ import {
   ScrollView
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
-import Services from "../../../services/services";
-import NotificationServices from "../../../services/notificationServices";
-import styleBase from "../../../assets/styles/styles";
-import { WarningConnexion } from "../../../components/warning";
+import Services from "../../services/services";
+import NotificationServices from "../../services/notificationServices";
+import styleBase from "../../assets/styles/styles";
+import { WarningConnexion } from "../../components/warning/index";
 import { Button } from "react-native-elements";
-import data from "../../../config/data/dataM";
+import data from "../../config/data/dataM";
 
 // const { width, height } = Dimensions.get("window");
 const uri = data.uri;

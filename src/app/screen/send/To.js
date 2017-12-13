@@ -1,17 +1,7 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ListView,
-  Dimensions,
-  NetInfo
-} from "react-native";
-import Spinner from "react-native-loading-spinner-overlay";
-import { List, ListItem } from "react-native-elements";
-import { NavigationActions } from "react-navigation";
+import React, {Component} from "react";
+import {Dimensions, FlatList, StyleSheet, Text, View} from "react-native";
+import {List, ListItem} from "react-native-elements";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import UserServices from "../../services/userServices";
 import Services from "../../services/services";

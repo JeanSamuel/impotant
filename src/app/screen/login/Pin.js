@@ -11,12 +11,12 @@ import {
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Fingerprint } from "expo";
-import { Logo, LogoMini } from "../../../components/Logo";
-import { InputWithButton, SimpleInput } from "../../../components/TextInput";
-import { Container } from "../../../components/ContainerC";
-import { FingerprintRequest } from "../../../components/fingerprint";
-import Services from "../../../services/services";
-import styles from "../../../assets/styles/stylesC/registerStyles";
+import { Logo, LogoMini } from "../../components/Logo/index";
+import { InputWithButton, SimpleInput } from "../../components/TextInput/index";
+import { Container } from "../../components/ContainerC/index";
+import { FingerprintRequest } from "../../components/fingerprint/index";
+import Services from "../../services/services";
+import styles from "../../assets/styles/stylesC/registerStyles";
 
 const { width } = Dimensions.get("window");
 class Pin extends React.Component {

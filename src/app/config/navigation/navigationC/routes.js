@@ -1,47 +1,14 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {Icon} from "react-native-elements";
+import {StackNavigator} from "react-navigation";
 import {
-  StatusBar,
-  TouchableOpacity,
-  Platform,
-  View,
-  Button,
-  StyleSheet
-} from "react-native";
-import { Icon } from "react-native-elements";
-import { StackNavigator, DrawerNavigator } from "react-navigation";
-import { Ionicons } from "@expo/vector-icons";
-import {
-  Senf,
-  History,
-  Login,
-  Logout,
-  Pin,
-  To,
-  Adresses,
-  AppStarter,
-  Landing,
-  Send,
-  CustomKey,
-  Handler,
-  MainValidation,
-  Validation,
-  ValidationCompte,
-  MainConfig,
-  EditPassword,
-  EditBirthday,
-  EditMail,
-  EditName,
-  EditPhone,
-  EditPseudo,
-  Review
+  CustomKey, EditMail, EditName, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
+  MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte
 } from "../../../screen/indexScreen";
 import headStyle from "../../../assets/styles/stylesC/headerStyle";
-import RegisterPin from "../../../screen/register/registerC/RegisterPin";
-import Register from "../../../screen/register/registerC/Register";
-import RegisterName from "../../../screen/register/registerC/RegisterName";
-import RegisterPwd from "../../../screen/register/registerC/RegisterPwd";
 import Drawer from "./Drawer";
-import { Notifications } from "expo";
+import {Notifications} from "expo";
 import DropdownAlert from "react-native-dropdownalert";
 import StartStack from "./StartStack";
 
@@ -127,6 +94,13 @@ const MainNavigator = new StackNavigator(
       navigationOptions: ({ navigation }) => ({
         header: () => null,
         headerTitle: "Home"
+      })
+    },
+    History:{
+      screen: History,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null,
+        headerTitle: "Historique"
       })
     },
     CustomKey: {

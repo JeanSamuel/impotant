@@ -1,38 +1,25 @@
 //import liraries
-import React, { Component } from "react";
-import { List, ListItem, Icon, Button } from "react-native-elements";
-import {
-  SectionList,
-  View,
-  Text,
-  ActivityIndicator,
-  TouchableHighlight,
-  RefreshControl,
-  Keyboard,
-  StyleSheet,
-  TouchableOpacity,
-  NetInfo
-} from "react-native";
+import React from "react";
+import {Button, Icon} from "react-native-elements";
+import {Keyboard, RefreshControl, SectionList, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
 import colors from "color";
 import EStyleSheet from "react-native-extended-stylesheet";
-import headStyle from "../../../assets/styles/stylesC/headerStyle";
-import { HistoryServices } from "../../../services";
-import Services from "../../../services/services";
-import { styleBase } from "../../../assets/styles";
-import styles from "../../../assets/styles/stylesC/historyStyle";
+import headStyle from "../../assets/styles/stylesC/headerStyle";
+import {HistoryServices} from "../../services/index";
+import Services from "../../services/services";
+import {styleBase} from "../../assets/styles/index";
+import styles from "../../assets/styles/stylesC/historyStyle";
 import moment from "moment";
-import numeral from "numeral";
-import TimerMixin from "react-timer-mixin";
 import timer from "react-native-timer";
 import SearchBar from "react-native-searchbar";
-import { Notifications } from "expo";
-import { StackNavigator } from "react-navigation";
-import RowEmpty from "../historyM/rowEmpty";
-import { DrawerMenu } from "../../../components/drawerMenu";
-import HeaderRight from "../historyM/headerRight";
-import Error from "../historyM/errorHistory";
+import {Notifications} from "expo";
+import {StackNavigator} from "react-navigation";
+import RowEmpty from "./rowEmpty";
+import HeaderRight from "./headerRight";
+import Error from "./errorHistory";
 import _ from "lodash";
 import "moment/locale/fr";
+
 // create a component
 
 class History extends React.Component {

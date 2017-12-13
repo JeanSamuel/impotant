@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import OneNotif from "../home/homeM/oneNotif";
+import OneNotif from "../home/homeMerch/oneNotif";
 import { Icon, Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import Services from "../../services/services";

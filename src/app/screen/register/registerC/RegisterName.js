@@ -1,17 +1,9 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  KeyboardAvoidingView,
-  Dimensions
-} from "react-native";
-import { RoundedButton } from "../../../components/Buttons";
-import { Icon } from "react-native-elements";
-import { Footer } from "../../../components/Footer";
+import React, {Component} from "react";
+import {Dimensions, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {RoundedButton} from "../../../components/Buttons";
+import {Icon} from "react-native-elements";
+import {Footer} from "../../../components/Footer";
 import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component

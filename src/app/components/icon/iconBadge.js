@@ -69,7 +69,6 @@ class MyClass extends Component {
   }
 
   navigateToHistory(){
-    this.props.navigation.navigate('Third')
     this.props.navigation.navigate('History')
   }
 

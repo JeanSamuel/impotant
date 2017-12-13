@@ -1,18 +1,8 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  BackHandler
-} from "react-native";
-import { StackNavigator } from "react-navigation";
-import { Button, Header, Icon } from "react-native-elements";
-import { InputButton } from "../../components/TextInput";
+import React, {Component} from "react";
+import {BackHandler, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {InputButton} from "../../components/TextInput";
 import CancelKeyButton from "../../components/Buttons/CancelKeyButton";
-import headStyle from "../../assets/styles/stylesC/headerStyle";
 // create a component
 const inputButtons = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [".", 0, ""]];
 class CustomKey extends Component {

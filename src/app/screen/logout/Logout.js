@@ -1,21 +1,10 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Keyboard,
-  Modal,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
-import { Icon } from "react-native-elements";
-import { styleBase } from "../../../assets/styles";
-import regStyles from "../../../assets/styles/stylesC/registerStyles";
-import Services from "../../../services/services";
-import NotificationServices from "../../../services/notificationServices";
-import LogoutText from "../logoutM/logoutText";
+import React, {Component} from "react";
+import {Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import regStyles from "../../assets/styles/stylesC/registerStyles";
+import Services from "../../services/services";
+import NotificationServices from "../../services/notificationServices";
+
 const { width, height } = Dimensions.get("window");
 
 // create a component

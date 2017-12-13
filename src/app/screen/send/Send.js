@@ -1,38 +1,25 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  ActivityIndicator,
-  Platform,
-  Modal,
-  Alert,
-  Keyboard,
-  BackHandler,
-  ToastAndroid
+  ActivityIndicator, Alert, BackHandler, Dimensions, Keyboard, Platform, StyleSheet, Text, TouchableOpacity,
+  View
 } from "react-native";
-import { StackNavigator } from "react-navigation";
-import { Icon, Button } from "react-native-elements";
-import Toast, { DURATION } from "react-native-easy-toast";
-import History from "../history/historyM";
+import {StackNavigator} from "react-navigation";
+import {Button, Icon} from "react-native-elements";
+import Toast from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
-import regStyles from "../../assets/styles/stylesC/registerStyles";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
 import QrServices from "../../services/qrservices";
-import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
-import { PinModal, AmountModal } from "../../components/modal";
-import { IconBadge } from "../../components/icon";
-import { BarCodeScanner, Permissions } from "expo";
+import {InputLeftButton} from "../../components/TextInput";
+import {IconBadge} from "../../components/icon";
+import {BarCodeScanner, Permissions} from "expo";
 import Services from "../../services/services";
 import inputStyles from "../../components/TextInput/styles";
 import AutoComplete from "react-native-autocomplete-input";
-import { HistoryServices } from "../../services";
+import {HistoryServices} from "../../services";
 import _ from "lodash";
-import To from "./to";
-import { SendLoader } from "../../components/loader";
+import To from "./To";
+import {SendLoader} from "../../components/loader";
 // create a component
 const { height, width } = Dimensions.get("window");
 class Send extends Component {
@@ -142,123 +129,6 @@ class Send extends Component {
     this.setState({ modal: null });
   }
 
-  handleAmountInput = text => {
-    this.setState({ amount: Services.formatNumber(text) });
-  };
-
-  reformatNumber(number) {
-    return number.replace(/[ ,]/g, "");
-  }
-
-  performTransaction() {
-    this.setState({ loading: true });
-    this.removeModal();
-    let services = new QrServices();
-    services
-      .performTransation(
-        this.reformatNumber(this.state.amount),
-        this.state.user_id,
-        this.state.currency,
-        this.state.user,
-        ""
-      )
-      .then(rep => {
-        // console.log(JSON.stringify(rep));
-        let fservices = new Services();
-        fservices
-          .checkSolde(this.state.user_id)
-          .then(response => {
-            this.setState({
-              solde: response.value,
-              loading: false
-            });
-            Platform.OS == "android"
-              ? ToastAndroid.show("Transaction success", ToastAndroid.SHORT)
-              : this.refs.toast.show("Transaction success", 1000);
-            // this.promptConfirmationModal();
-            this.initState();
-          })
-          .catch(error => {
-            // console.log("error");
-          });
-      });
-  }
-
-  renderErrorMessage() {
-    return (
-      <View style={{ justifyContent: "center" }}>
-        <Text style={{ textAlign: "center" }}>
-          Le Pin que vous avez entrer n'est pas valide
-        </Text>
-      </View>
-    );
-  }
-
-  handlePinInput = text => {
-    this.setState({ errorMessage: null });
-    if (text.length === 4) {
-      let services = new Services();
-      services.getData("pin").then(pin => {
-        if (pin === text) {
-          // console.log("Ataovy le transaction");
-          this.performTransaction();
-        } else {
-          this.setState({ errorMessage: this.renderErrorMessage() });
-        }
-      });
-    }
-  };
-
-  async renderFingerPrintPromptAsync(messageIos) {
-    if (Plateform.OS === "android") {
-      (await Fingerprint.authenticateAsync())
-        ? this.performTransaction()
-        : alert("FingerPrint Authentication failed");
-    }
-    if (Platform.OS === "ios") {
-      (await Fingerprint.authenticateAsync(messageIos))
-        ? this.performTransaction()
-        : alert("TouchID Authentication failed");
-    }
-  }
-
-  promptPin() {
-    if (this.state.hasFingerPrint) {
-      this.renderFingerPrintPromptAsync();
-    } else {
-      this.setState({
-        modal: (
-          <PinModal
-            amount={Services.formatNumber(this.state.amount)}
-            user={this.state.user}
-            currency={this.state.currency}
-            onChangeText={this.handlePinInput}
-            errorMessage={this.state.errorMessage}
-            onRequestClose={() => {
-              this.removeModal();
-            }}
-          />
-        )
-      });
-    }
-  }
-
-  prompAmount() {
-    this.setState({
-      modal: (
-        <AmountModal
-          onRequestClose={() => {
-            this.removeModal();
-          }}
-          onChangeText={this.handleAmountInput}
-          onEndEditing={() => {
-            this.removeModal();
-            this.promptPin();
-          }}
-        />
-      )
-    });
-  }
 
   initState() {
     this.setState({
@@ -274,7 +144,6 @@ class Send extends Component {
   onResetAction = () => {
     this.initState();
   };
-  promptInformation() {}
 
   onContinueAction = () => {
     if (this.state.amount == 0 || this.state.user === "") {
@@ -286,39 +155,6 @@ class Send extends Component {
       this.promptPin();
     }
   };
-
-  promptConfirmationModal() {
-    this.setState({
-      modal: (
-        <Modal
-          visible={true}
-          transparent={true}
-          onRequestClose={() => {
-            this.removeModal();
-          }}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.webViewContainer}>
-              <Text style={[styles.text, regStyles.textWidth]}>
-                Vous avez transferer {this.state.amount} {this.state.currency} à{" "}
-                {this.state.user}. Votre soldes disponible est de{" "}
-                {Services.formatNumber(this.state.solde)} {this.state.currency}.
-              </Text>
-              <View style={styles.bottom}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.removeModal();
-                  }}
-                >
-                  <Text style={styles.bottomText}>Fermer</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
-      )
-    });
-  }
   _handleBarCodeRead = data => {
     services = new QrServices();
     let qdata = Object();
@@ -554,13 +390,6 @@ class Send extends Component {
                   }}
                   onPress={this.toggleFlash}
                 />
-                {/* <Button
-              buttonStyle={styles.controlButton}
-              onPress={this.promptInformation}
-              icon={{ name: "info", size: 25 }}
-            >
-              <Icon name="info" size={25} color="#fafafa" />
-            </Button> */}
                 <Button
                   buttonStyle={styles.controlButton}
                   icon={{ name: "send", size: 25, color: "#474B51" }}
@@ -593,15 +422,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center"
   },
-  // modalContainer: {
-  //   alignContent: "center",
-  //   alignItems: "center",
-  //   alignSelf: "center",
-  //   justifyContent: "center",
-  //   backgroundColor: "#FAFAFA",
-  //   height: height / 2,
-  //   width: width - 20
-  // },
   simpleInput: {
     flex: 1,
     textAlign: "center",

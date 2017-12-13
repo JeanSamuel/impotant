@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Notifications } from "expo";
 import Landing from "./Landing";
-import { Pin } from "../../login/loginC";
+import { Pin } from "../../login/index";
 import Intro from "../../../components/WelcomeIntro/Welcome";
 import Services from "../../../services/services";
 import { MinimLoading } from "../../../components/loader";
