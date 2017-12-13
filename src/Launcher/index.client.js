@@ -62,7 +62,7 @@ export default class Apk extends React.Component {
 
   async componentDidMount() {
     await Expo.Font.loadAsync({
-      Arial: require("./app/font/arial.ttf")
+      Arial: require("./app/assets/font/arial.ttf")
     });
     this.setState({ fontLoaded: true });
   }
