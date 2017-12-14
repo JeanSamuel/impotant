@@ -10,7 +10,7 @@ import {
 import { Notifications } from "expo";
 import AlertNotif from "./app/components/alertNotif";
 import EStyleSheet from "react-native-extended-stylesheet";
-import MainStack from "./app/config/navigation/navigationM/mainStack";
+import MainStack from "./app/config/navigation/navigationMerch/mainStack";
 import { setJSExceptionHandler } from "react-native-exception-handler";
 import { Container } from "./app/components/ContainerC";
 

@@ -5,7 +5,7 @@ import {StackNavigator} from "react-navigation";
 import {
   CustomKey, EditMail, EditName, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
   MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte
-} from "../../../screen/indexScreen";
+} from "../../../screen/index";
 import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import Drawer from "./Drawer";
 import {Notifications} from "expo";

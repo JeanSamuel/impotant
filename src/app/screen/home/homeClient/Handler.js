@@ -22,7 +22,6 @@ class Handler extends Component {
     this.state = {
       isLoading: true,
       notLoggedIn: true,
-      modalVisible: false,
       userData: null
     };
   }
@@ -43,19 +42,6 @@ class Handler extends Component {
     });
   }
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-  onDoneBtnClick = () => {
-    console.log("done");
-    this.setModalVisible(false);
-  };
-
-  onSkipBtnHandle = () => {
-    console.log("skip");
-    this.setModalVisible(false);
-  };
   render() {
     const { navigation } = this.props;
     return (

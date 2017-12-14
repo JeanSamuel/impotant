@@ -1,16 +1,9 @@
 import React from "react";
-import {
-  StatusBar,
-  ActivityIndicator,
-  Alert,
-  Text,
-  BackHandler,
-  View
-} from "react-native";
+import {ActivityIndicator, Alert, BackHandler, StatusBar, View} from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Container } from "./app/components/ContainerC";
-import { setJSExceptionHandler } from "react-native-exception-handler";
-import Navigator from "./app/config/navigation/navigationC/routes";
+import {Container} from "./app/components/ContainerC";
+import {setJSExceptionHandler} from "react-native-exception-handler";
+import Navigator from "./app/config/navigation/navigationClient/routes";
 
 EStyleSheet.build({
   $primaryBlue: "#34495e",

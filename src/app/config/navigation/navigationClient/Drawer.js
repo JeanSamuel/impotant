@@ -2,10 +2,10 @@
 import React from "react";
 import {Dimensions, ScrollView} from "react-native";
 import {DrawerItems, DrawerNavigator} from "react-navigation";
-import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send, History} from "../../../screen/indexScreen";
+import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send, History} from "../../../screen/index";
 import {Icon} from "react-native-elements";
 import About from "../../../screen/about";
-import DrawerContent from "../navigationM/drawerContent";
+import DrawerContent from "../navigationMerch/drawerContent";
 
 //make this component available to the app
 const { width } = Dimensions.get("screen");
