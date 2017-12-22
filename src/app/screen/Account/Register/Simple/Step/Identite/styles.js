@@ -1,26 +1,33 @@
-const React = require("react-native");
+const React = require('react-native');
 
-const { StyleSheet } = React;
+const { StyleSheet,Dimensions } = React;
+const {height, width} = Dimensions.get('window');
 
 export default {
   container: {
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent',
   },
   mb10: {
-    marginBottom: 10
+    marginBottom: 10,
   },
-  header:{
-    backgroundColor:"#00BF9A"
+  header: {
+    backgroundColor: '#00BF9A',
   },
-  footer:{
-    backgroundColor:"#00BF9A"
+  footer: {
+    backgroundColor: '#00BF9A',
   },
-  textbienvenue:{
-    flexDirection:'row',
-    flex: 1
+  textbienvenue: {
+    flexDirection: 'row',
+    flex: 1,
   },
-  textInfo:{
-    flexDirection:'row',
-    flex: 1
-  }
+  textInfo: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  datepicker: {alignItems: 'center', alignSelf: 'center'},
+  viewIdentite: {
+    width:width,
+    paddingHorizontal: 10,
+    paddingVertical: 0,
+  },
 };

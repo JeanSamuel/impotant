@@ -21,7 +21,7 @@ import Page3 from "./Page/Page3";
 
 const deviceWidth = Dimensions.get("window").width;
 const PAGES = [<Page1 />, <Page2 />, <Page3 />];
-const count = 0;
+let count = 0;
 
 const Bienvenue = React.createClass({
   getInitialState: function() {

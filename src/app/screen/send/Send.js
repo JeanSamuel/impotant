@@ -1,24 +1,36 @@
 //import liraries
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
-  ActivityIndicator, Alert, BackHandler, Dimensions, Keyboard, Platform, StyleSheet, Text, TouchableOpacity,
-  View
+  ActivityIndicator,
+  Alert,
+  BackHandler,
+  Dimensions,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView
 } from "react-native";
-import {StackNavigator} from "react-navigation";
-import {Button, Icon} from "react-native-elements";
+import { StackNavigator } from "react-navigation";
+import { Button, Icon } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
-import {InputLeftButton} from "../../components/TextInput";
-import {IconBadge} from "../../components/icon";
-import {BarCodeScanner, Permissions} from "expo";
+import { InputLeftButton } from "../../components/TextInput";
+import { IconBadge } from "../../components/icon";
+import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/utils/services";
 import inputStyles from "../../components/TextInput/styles";
 import AutoComplete from "react-native-autocomplete-input";
-import {HistoryServices} from "../../services";
+import { HistoryServices } from "../../services";
 import _ from "lodash";
 import To from "./To";
-import {SendLoader} from "../../components/loader";
+import { SendLoader } from "../../components/loader";
+import Header from "../../components/Header/Header";
+import HeaderRight from "../history/headerRight";
+import DrawerMenu from "../../components/drawerMenu/drawerMenu";
 // create a component
 const { height, width } = Dimensions.get("window");
 class Send extends Component {
@@ -128,7 +140,6 @@ class Send extends Component {
     this.setState({ modal: null });
   }
 
-
   initState() {
     this.setState({
       amount: "",
@@ -235,6 +246,11 @@ class Send extends Component {
     } else {
       return (
         <View style={styles.container}>
+          <Header
+            leftComponent={<DrawerMenu navigation={this.props.navigation} />}
+            headerText={"20 Ar"}
+            rightComponent={<IconBadge navigation={this.props.navigation} />}
+          />
           {this.state.loading ? (
             <SendLoader loading={this.state.loading} />
           ) : (
@@ -326,35 +342,6 @@ class Send extends Component {
                     )}
                   />
                 </View>
-
-                {/* <InputLeftIcon
-                  iconName="expand-more"
-                  onPress={() => {
-                     this.props.navigation.navigate("To", {
-                      onGoBack: data => {
-                        console.log(data);
-                        this.setState({ user: data });
-                      },
-                      user_id: this.state.user_id
-                    });
-                  }}
-                  data={users}
-                  autoComplete={true}
-                  placeholder="Envoyer à: Tel , Adresse ..."
-                  onChangeText={user => this.setState({ user })}
-                  value={this.state.user}
-                  returnKeyType="none"
-                  defaultValue={user}
-                  data={users}
-                  renderItem={data => (
-                    <TouchableOpacity
-                      onPress={() => this.setState({ user: data })}
-                    >
-                      <Text>{data}</Text>
-                    </TouchableOpacity>
-                  )}
-                  blurOnSubmit={false}
-                /> */}
                 <InputLeftButton
                   buttonText={this.state.currency}
                   value={"" + Services.formatNumber(this.state.amount)}
@@ -492,43 +479,14 @@ const NestedSendStack = StackNavigator({
   Send: {
     screen: Send,
     navigationOptions: ({ navigation }) => ({
-      drawerIcon: ({ tintColor }) => (
-        <Icon name="ios-home-outline" size={25} type="ionicon" />
-      ),
-      title: "Envoyer",
-      headerStyle: headStyle.headerBackground,
-      headerTitleStyle: headStyle.headerText,
-      headerTintColor: { color: "#fff" },
-      headerLeft: (
-        <View
-          style={{
-            alignContent: "center",
-            marginHorizontal: 10
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
-            <Icon
-              name="ios-menu-outline"
-              color="white"
-              size={30}
-              type="ionicon"
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-      headerRight: (
-        <View
-          style={{
-            alignContent: "center"
-          }}
-        >
-          <IconBadge navigation={navigation} />
-        </View>
-      )
+      header: () => null
     })
   },
   To: {
-    screen: To
+    screen: To,
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    })
   }
   // History: {
   //   screen: History,

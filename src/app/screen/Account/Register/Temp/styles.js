@@ -28,7 +28,7 @@ export default {
     flexDirection: 'row',
     flex: 1,
   },
-  contenuetmp: {flex: 1, justifyContent: 'center', paddingHorizontal: 10},
+  contenuetmp: {flex: 1, justifyContent: 'center', paddingHorizontal: 0},
   viewtmp: {backgroundColor: '#FFF', padding: 15, width: '100%'},
   titletmp: {
     flex: 1,
@@ -64,5 +64,17 @@ export default {
     fontWeight: '900',
     fontSize: 20,
     color: '#FFF',
+  },
+  headingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#00BF9A"
+  },
+  heading: {
+    color: "white",
+    marginTop: 10,
+    fontSize: 22,
+    textAlign: "center"
   },
 };

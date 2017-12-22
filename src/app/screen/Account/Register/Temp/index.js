@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
-import { Header, Button, Icon } from "react-native-elements";
+import { Header, Button, Icon, FormLabel, FormInput } from "react-native-elements";
 import PropTypes from "prop-types";
 import Mybutton from "../../../../components/Buttons/SamButton";
 import { baseStyle, loginCss } from "../../../../assets/styles/index";
@@ -24,70 +24,75 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pseudo: "",
-      phoneNumber: "",
-      password: "",
-      confpassword: "",
-      email: "",
-      compte: "",
+      pseudo: '',
+      phoneNumber: '',
+      password: '',
+      confpassword: '',
+      email: '',
+      compte: '',
       solde: 500,
-      error: "",
+      error: '',
       haserror: false,
-      loading: false
+      loading: false,
     };
   }
 
   loadInscription() {
-    this.props.navigation.navigate("Inscription", { data: null });
+    this.props.navigation.navigate('Inscription', {data: null});
   }
   componentDidMount() {
     this.setState({
-      email: this.state.pseudo + "@ariary.net"
+      email: this.state.pseudo + '@ariary.net',
     });
   }
 
   async _loginTemp() {
+    this.setState({loading: true});
     if (this._isEmptyField()) {
       try {
         await InscriptionService._registrationTemporaire(this);
+        this.setState({loading: false});
+        this.props.navigation.navigate('Pin');
       } catch (error) {
-        Alert.alert("Erreur d'inscription", error);
+        this.setState({loading: false});
+        Alert.alert("Erreur d'inscription", error.toString());
       }
     } else {
-      Alert.alert("Erreur", "Tous les champs sont requis");
+      this.setState({loading: false});
+      Alert.alert('Erreur', 'Tous les champs sont requis');
     }
   }
   _isEmptyField() {
     return (
       this.state.pseudo != null ||
       this.state.password != null ||
-      this.state.pseudo != "" ||
+      this.state.pseudo != '' ||
       this.state.confpassword != null ||
-      this.state.confpassword != "" ||
-      this.state.password != ""
+      this.state.confpassword != '' ||
+      this.state.password != ''
     );
   }
   _validatePass() {
     try {
       Utils._isValidPass(this.state.password);
-      this.setState({ haserror: false });
+      this.setState({haserror: false});
     } catch (error) {
-      Alert.alert("Erreur mot de passe", error.toString());
+      Alert.alert('Erreur mot de passe', error.toString());
     }
   }
   _confirmPass() {
     if (this.state.password == this.state.confpassword) {
-      this.setState({ haserror: false });
+      this.setState({haserror: false});
     } else {
       Alert.alert(
-        "Erreur mot de passe",
-        "Les mots de passe ne correspondent pas"
+        'Erreur mot de passe',
+        'Les mots de passe ne correspondent pas'
       );
     }
   }
 
   handleActionLeft() {
-    this.props.navigation.navigate("Loader");
+    this.props.navigation.goBack();
   }
   render() {
     return (
@@ -98,121 +103,77 @@ class Main extends Component {
           leftComponent={
             <Mybutton
               iconName="arrow-back"
+              type="material-icon"
               onPress={() => this.handleActionLeft()}
               styleBtn={baseStyle.btnLeftHeader}
             />
           }
           centerComponent={
             <View style={baseStyle.headerBodyView}>
-              <Text style={baseStyle.textHeader}>Compte Ariary.net</Text>
+              <Text style={baseStyle.textHeader}>Ariary.net</Text>
             </View>
           }
         />
         <ScrollView>
           <View style={styles.contenuetmp}>
-            <View style={styles.viewtmp}>
-              <View style={styles.titletmp}>
-                <View style={loginCss.imageLogin}>
-                  <Icon
-                    name="user-circle-o"
-                    size={120}
-                    color="#00BF9A"
-                    type="font-awesome"
-                  />
-                </View>
-                <View>
-                  <Text style={styles.textHead}>Compte temporaire</Text>
-                </View>
-              </View>
-            </View>
-            <View style={loginCss.inputWrap}>
-              <View style={loginCss.iconWrap}>
-                <View style={loginCss.iconWrap}>
-                  <Icon
-                    name="user"
-                    color="#00BF9A"
-                    size={20}
-                    type="font-awesome"
-                  />
-                </View>
-              </View>
-              <TextInput
-                placeholder="Pseudo"
-                value={this.state.pseudo}
-                style={loginCss.input}
-                autoFocus={false}
-                onChangeText={pseudo => this.setState({ pseudo })}
-                returnKeyType="next"
+            <View style={styles.headingContainer}>
+              <Icon
+                name="user-circle-o"
+                size={80}
+                color="#FFF"
+                type="font-awesome"
               />
+              <Text style={styles.heading}>Compte temporaire</Text>
             </View>
-            <View style={loginCss.inputWrap}>
-              <View style={loginCss.iconWrap}>
-                <Icon
-                  type="material-icon"
-                  name="lock"
-                  size={20}
-                  color="#00BF9A"
-                />
-              </View>
-              <TextInput
-                placeholder="Mot de passe"
-                onChangeText={password => this.setState({ password })}
-                secureTextEntry
-                style={loginCss.input}
-                onEndEditing={() => {
-                  this._validatePass();
-                }}
-              />
-            </View>
-            <View style={loginCss.inputWrap}>
-              <View style={loginCss.iconWrap}>
-                <Icon
-                  type="material-icon"
-                  name="lock"
-                  size={20}
-                  color="#00BF9A"
-                />
-              </View>
-              <TextInput
-                placeholder="Confirmer Mot de passe"
-                onChangeText={confpassword => this.setState({ confpassword })}
-                secureTextEntry
-                style={loginCss.input}
-                onEndEditing={() => {
-                  this._confirmPass();
-                }}
-              />
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <TouchableOpacity
-                success
-                onPress={() => this._loginTemp()}
-                style={{
-                  alignSelf: "center",
-                  padding: 15,
-                  backgroundColor: "#00BF9A"
-                }}
-              >
-                <Text style={styles.textValider}>Continuer</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ alignItems: "center", margin: 20 }}>
-              <TouchableOpacity
-                transparent
-                onPress={() => this.loadInscription()}
-                style={{ alignSelf: "center", padding: 15 }}
-              >
-                <Text style={styles.textInscrire}>Je veux m'inscrire</Text>
-              </TouchableOpacity>
-            </View>
+            <FormLabel containerStyle={{marginTop: 8}}>Votre pseudo</FormLabel>
+            <FormInput
+              placeholder="Entrer votre pseudo"
+              value={this.state.pseudo}
+              style={loginCss.input}
+              autoFocus={false}
+              onChangeText={pseudo => this.setState({pseudo})}
+              returnKeyType="next"
+            />
+            <FormLabel containerStyle={{marginTop: 8}}>Mot de passe</FormLabel>
+            <FormInput
+              placeholder="Entrer votre mot de passe"
+              onChangeText={password => this.setState({password})}
+              secureTextEntry
+              style={loginCss.input}
+              onEndEditing={() => {
+                this._validatePass();
+              }}
+            />
+            <FormLabel containerStyle={{marginTop: 8}}>
+              Confirmer votre mot de passe
+            </FormLabel>
+            <FormInput
+              placeholder="Entrer à nouveau votre mot de passe"
+              onChangeText={confpassword => this.setState({confpassword})}
+              secureTextEntry
+              style={loginCss.input}
+              onEndEditing={() => {
+                this._confirmPass();
+              }}
+            />
+            <Button
+              onPress={() => this._loginTemp()}
+              icon={{name: 'done'}}
+              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              title="Continuer"
+            />
+            <Button
+              onPress={() => this.loadInscription()}
+              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              title="Je veux m'inscrire"
+            />
           </View>
         </ScrollView>
-        {this.state.loading && (
-          <View style={styles.load}>
-            <ActivityIndicator size="large" animating={true} color="#FFF" />
-            <Text style={styles.textLoad}>Enregistrement encours...</Text>
-          </View>
-        )}
+        {this.state.loading &&
+        <View style={styles.load}>
+          <ActivityIndicator size="large" animating={true} color="#FFF" />
+          <Text style={styles.textLoad}>Enregistrement encours...</Text>
+        </View>}
       </View>
     );
   }

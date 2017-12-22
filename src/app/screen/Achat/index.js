@@ -19,12 +19,15 @@ class MainAchat extends Component {
     };
   }
   async loadConfig() {
+    this.setState({loading: true});
     try {
       await UserService.loadConfig(this);
     } catch (error) {
       console.log(error);
+    } finally {
+      this.setState({loading: false});
     }
-  }
+  }s
   handleActionLeft() {
     this.props.navigation.navigate("DrawerOpen");
   }
@@ -39,25 +42,26 @@ class MainAchat extends Component {
     return (
       <View style={baseStyle.headerRightView}>
         <Mybutton
-          iconName="share-alt"
-          type="font-awesome"
-          onPress={() => Utils.ShareApp()}
-          styleBtn={[baseStyle.btnLeftHeader]}
-        />
-        <Mybutton
           iconName="settings"
           type="material-icon"
           onPress={() => this.loadConfig()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
+        <Mybutton
+          iconName="share-alt"
+          type="font-awesome"
+          size={35}
+          onPress={() => Utils.ShareApp()}
+          styleBtn={[baseStyle.btnLeftHeader]}
+        />
       </View>
-    );
+    );s
   }
   renderLeftComponent() {
     return (
       <Mybutton
-        iconName="bars"
-        type="font-awesome"
+        iconName="ios-menu"
+        type="ionicon"
         onPress={() => this.handleActionLeft()}
         styleBtn={[baseStyle.btnLeftHeader]}
       />

@@ -12,7 +12,7 @@ EStyleSheet.build({
   $lightGray: "#E6E6E6",
   $border: "#E2E2E2",
   // $darkColor: "#1C2E48",
-  $darkColor: "#00d07f",
+  $darkColor: "#00cf7e",
   $primaryColor: "#128FB5",
   $inputText: "#797979",
   $darkText: "#343434",
@@ -61,13 +61,11 @@ export default class Apk extends React.Component {
   }
 
   render() {
-    const Main = Navigator;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor:"#00cf7e", paddingTop:StatusBar.currentHeight }} >
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
-            <StatusBar hidden={true} />
-
+            <StatusBar backgroundColor="blue" barStyle="light-content"/>
             <Navigator />
           </View>
         ) : (

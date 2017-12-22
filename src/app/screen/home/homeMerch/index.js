@@ -28,6 +28,7 @@ import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Intro from "./intro";
 import Test from "../../../components/qrCode";
+import MyHeader from "../../../components/Header/Header";
 
 const listText = data.message;
 const timer = null;
@@ -175,6 +176,12 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <MyHeader
+          leftComponent={<DrawerMenu navigation={this.props.navigation}/>}
+          headerText={this.props.navigation.state.params.username}
+          rightComponent={<HeaderRight navigation={this.props.navigation} actionShare={() =>
+            Services._shareMessage(this.generateQrCodeText())}/>}
+        />
         <ScrollView>
           <View>{this.state.sharing}</View>
           <Toast
@@ -231,19 +238,7 @@ export default new StackNavigator({
     screen: Home,
     navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.username,
-      headerStyle: headStyle.headerBackground,
-      headerTitleStyle: headStyle.headerText,
-      headerLeft: <DrawerMenu navigation={navigation} keyboard={Keyboard} />,
-      headerRight: (
-        <View style={{ flexDirection: "row" }}>
-          <HeaderRight
-            actionShare={() =>
-              Services._shareMessage(self.generateQrCodeText())
-            }
-            navigation={navigation}
-          />
-        </View>
-      )
+      header:()=>null
     })
   },
   Intro: {

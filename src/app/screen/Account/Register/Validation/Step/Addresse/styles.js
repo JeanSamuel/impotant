@@ -1,7 +1,7 @@
 const React = require("react-native");
 
-const { StyleSheet } = React;
-
+const { StyleSheet,Dimensions } = React;
+const {height, width} = Dimensions.get('window');
 export default {
   container: {
     backgroundColor: "transparent"
@@ -22,5 +22,6 @@ export default {
   textInfo:{
     flexDirection:'row',
     flex: 1
-  }
+  },
+  viewContainer:{justifyContent: 'center', paddingHorizontal: 10,width:width},
 };

@@ -10,7 +10,8 @@ import {
   StatusBar,
   Alert,
   ActivityIndicator,
-  Modal
+  Modal,
+  ScrollView
 } from "react-native";
 import PropTypes from "prop-types";
 const deviceWidth = Dimensions.get("window").width;
@@ -47,6 +48,7 @@ class ValidationCompte extends React.Component {
     };
   }
   async closeModal() {
+    this.setState({loading:true});
     try {
       await UserService.verifyUser(
         this.state.username,
@@ -54,9 +56,10 @@ class ValidationCompte extends React.Component {
         this
       );
       await this._saveUserValidation();
-      this.setState({ modalVisible: false });
     } catch (error) {
       Alert.alert("Erreur", error.toString());
+    }finally{
+      this.setState({loading:false});
     }
   }
   _renderPasswordView() {
@@ -68,30 +71,27 @@ class ValidationCompte extends React.Component {
     this.setState({ data: data, username: pseudo });
   }
   loadConfig() {
-    this.props.navigation.navigate("Profile", { avatar: null });
+    this.props.navigation.navigate("Profile");
   }
   async _saveUserValidation() {
-    this.setState({ loading: false });
     try {
       await InscriptionService._saveUserValidation(this.state.data, this);
       this.props.navigation.navigate("Profile");
     } catch (error) {
       Alert.alert("Erreur", error.toString());
-    } finally {
-      this.setState({ loading: false });
     }
   }
 
   render() {
     return (
-      <Container style={{ backgroundColor: "#eee" }}>
+      <ScrollView style={{ backgroundColor: "#eee" }}>
         <StatusBar hidden={true} />
         <View style={styles.container}>
           <View
             style={{
               justifyContent: "center",
               alignContent: "center",
-              width: deviceWidth - 10,
+              width: deviceWidth,
               backgroundColor: "#eee"
             }}
           >
@@ -108,7 +108,7 @@ class ValidationCompte extends React.Component {
               </Text>
             </View>
             <View style={{ height: deviceHeight - 150 }}>
-              <Content padder>
+              <ScrollView>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <View
                     style={{
@@ -147,7 +147,6 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
                     />
                   </View>
                   <View style={styles.w2}>
@@ -168,7 +167,6 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
                     />
                   </View>
                   <View style={styles.w2}>
@@ -186,7 +184,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -204,7 +202,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -225,7 +223,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -243,7 +241,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -261,7 +259,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -279,7 +277,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -300,7 +298,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -318,7 +316,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -336,7 +334,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-                      style={{ color: "rgba(22, 160, 133,1.0)" }}
+
                     />
                   </View>
                   <View style={styles.w2}>
@@ -348,7 +346,7 @@ class ValidationCompte extends React.Component {
                     </Text>
                   </View>
                 </View>
-              </Content>
+              </ScrollView>
             </View>
             <View
               style={{
@@ -488,7 +486,7 @@ class ValidationCompte extends React.Component {
             </View>
           )}
         </Modal>
-      </Container>
+      </ScrollView>
     );
   }
 }

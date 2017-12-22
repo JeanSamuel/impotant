@@ -1,11 +1,13 @@
 //import liraries
 import React, {Component} from "react";
-import {Dimensions, ScrollView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {Dimensions, ScrollView, StyleSheet, Text, TouchableHighlight, View, Keyboard} from "react-native";
 import QrServices from "../../services/pay/qrservices";
 import Services from "../../services/utils/services";
 import {MessagePrompt, PinModal} from "../../components/modal";
 import {FingerprintRequest} from "../../components/fingerprint";
-
+import MyHeader from "../../components/Header/Header";
+import {HeaderButton} from '../../components/drawerMenu'
+import EStyleSheet from 'react-native-extended-stylesheet'
 // create a component
 const { height, width } = Dimensions.get("window");
 
@@ -158,6 +160,15 @@ class Review extends Component {
     const formatedAmount = Services.formatNumber(this.state.amount);
     return (
       <View style={styles.container}>
+        <MyHeader
+          leftComponent={<HeaderButton iconName={"ios-arrow-back"} color={"#fff"} type={"ionicon"} action={
+            ()=>{
+              Keyboard.dismiss();
+              this.props.navigation.goBack();
+            }
+          }/>}
+          headerText={"Vérifier et envoyer"}
+        />
         {this.state.haveFingerprint && this.state.makeTransaction ? (
           <FingerprintRequest
             waitTextColor="rgba(22, 160, 133,1.0)"
@@ -256,7 +267,7 @@ class Review extends Component {
 }
 
 // define your styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   modalContainer: {
     flex: 1,
     flexDirection: "column",
@@ -273,7 +284,7 @@ const styles = StyleSheet.create({
   reviewBox: {
     marginTop: 10,
     borderWidth: 0.5,
-    borderColor: "#00cf7e",
+    borderColor: "$border",
     borderRadius: 50,
     paddingHorizontal: 20,
     justifyContent: "center",

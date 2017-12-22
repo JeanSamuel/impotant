@@ -1,10 +1,9 @@
 //import liraries
 import React from "react";
 import {Button, Icon} from "react-native-elements";
-import {Keyboard, RefreshControl, SectionList, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
+import {Keyboard, RefreshControl, SectionList, Text, TouchableHighlight, View} from "react-native";
 import colors from "color";
 import EStyleSheet from "react-native-extended-stylesheet";
-import headStyle from "../../assets/styles/stylesC/headerStyle";
 import {HistoryServices} from "../../services/index";
 import Services from "../../services/utils/services";
 import {styleBase} from "../../assets/styles/index";
@@ -15,10 +14,13 @@ import SearchBar from "react-native-searchbar";
 import {Notifications} from "expo";
 import {StackNavigator} from "react-navigation";
 import RowEmpty from "./rowEmpty";
-import HeaderRight from "./headerRight";
+import IconBadge from '../../components/icon/iconBadge'
 import Error from "./errorHistory";
 import _ from "lodash";
 import "moment/locale/fr";
+import MyHeader from "../../components/Header/Header";
+import DrawerMenu from "../../components/drawerMenu/drawerMenu";
+import HeaderRight from "./headerRight";
 
 // create a component
 
@@ -92,7 +94,7 @@ class History extends React.Component {
   showSearchBar() {
     this.searchBar.show();
     this.setState({
-      extraMargin: { marginTop: 60 }
+      extraMargin: { marginTop: 0 }
     });
   }
 
@@ -326,7 +328,7 @@ class History extends React.Component {
   };
 
   _onRefresh = () => {
-    this.setState({ refreshing: true, loading: true });
+    this.setState({ refreshing: true });
     this.getHistory();
   };
 
@@ -414,6 +416,11 @@ class History extends React.Component {
     const underlayColor = colors("#fff").darken(0.1);
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
+        <MyHeader
+          leftComponent={<DrawerMenu navigation={this.props.navigation}/>}
+          headerText={"Historique"}
+          rightComponent={<HeaderRight action={()=>this.showSearchBar()}/> }
+        />
         <View style={style.tab}>
           <TouchableHighlight
             underlayColor={underlayColor}
@@ -543,12 +550,6 @@ const style = EStyleSheet.create({
   }
 });
 
-const navigationOptions = {
-  headerStyle: headStyle.headerBackground,
-  headerTitleStyle: headStyle.headerText,
-  headerTintColor: "#fff"
-};
-
 const stackHistory = new StackNavigator({
   History: {
     screen: History,
@@ -557,27 +558,7 @@ const stackHistory = new StackNavigator({
       drawerIcon: ({ tintColor }) => (
         <Icon name="ios-clock-outline" size={28} type="ionicon" color={tintColor} />
       ),
-      headerStyle: headStyle.headerBackground,
-      headerTitleStyle: headStyle.headerText,
-      headerTintColor: "#fff",
-      headerRight: <HeaderRight action={() => self.showSearchBar()} />,
-      headerLeft: (
-        <View
-          style={{
-            alignContent: "center",
-            marginHorizontal: 10
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.navigate("DrawerOpen")}>
-            <Icon
-              name="ios-menu-outline"
-              color="white"
-              size={30}
-              type="ionicon"
-            />
-          </TouchableOpacity>
-        </View>
-      )
+      header: () =>null
     })
   }
 });

@@ -41,7 +41,7 @@ class Validation extends React.Component {
     this.setState({ data: data });
   }
   loadConfig() {
-    this.props.activity.props.navigation.navigate("Profile");
+    this.props.navigation.navigate("Profile");
   }
   componentWillUnmount() {
     this.setState({ loading: false });
@@ -50,20 +50,20 @@ class Validation extends React.Component {
     this.setState({ loading: true });
     try {
       if (this.state.data.role != null) {
-        this.setState({ loading: true });
         await UserService.updateUserInfo(this.state.data, this);
       } else {
-        this.setState({ loading: true });
         await InscriptionService._registerUser(this.state.data, this);
+        this.props.navigation.navigate('Pin');
       }
     } catch (error) {
-      this.setState({ loading: false });
       Alert.alert("Erreur", error.toString());
+    }finally{
+      this.setState({ loading: false });
     }
   }
   render() {
     return (
-      <View style={{ backgroundColor: "#eee" }}>
+      <View style={{ flex:1,backgroundColor: "green" }}>
         <StatusBar hidden={true} />
         <View style={configStyles.container}>
           <View style={configStyles.content}>
@@ -77,7 +77,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -95,7 +95,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -113,7 +113,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -131,7 +131,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -149,7 +149,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -167,7 +167,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>
@@ -185,7 +185,7 @@ class Validation extends React.Component {
                     type="material-icon"
                     name="done"
                     size={20}
-                    style={{ color: "rgba(22, 160, 133,1.0)" }}
+                    color="green"
                   />
                 </View>
                 <View style={styles.w2}>

@@ -12,174 +12,100 @@ import {
   Text
 } from "react-native";
 import PropTypes from "prop-types";
-import { Icon } from "react-native-elements";
-import PhoneInput from "react-native-phone-input";
-import CountryPicker from "react-native-country-picker-modal";
+import { Icon, FormInput, FormLabel, Button } from "react-native-elements";
 import { loginCss } from "../../../../../../assets/styles/index";
 import styles from "./styles";
-import Utils from "../../../../../../services";
+import {Utils} from "../../../../../../services";
 class Contact extends Component {
   constructor(props) {
     super(props);
-    this.onPressFlag = this.onPressFlag.bind(this);
-    this.selectCountry = this.selectCountry.bind(this);
     this.state = {
-      cca2: "mg",
-      email: "",
-      phone: "+261",
+      cca2: 'mg',
+      email: '',
+      phone: '+261',
       loading: false,
-      erreur: "",
+      erreur: '',
       haserror: false,
-      phoneNumber: ""
+      phoneNumber: '',
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      pickerData: this.refs.phone.getPickerData()
-    });
-  }
-
-  onPressFlag() {
-    this.refs.countryPicker.openModal();
-  }
-
-  selectCountry(country) {
-    this.refs.phone.selectCountry(country.cca2.toLowerCase());
-    this.setState({ cca2: country.cca2 });
   }
 
   updateContact(value) {
     let contact = null;
-    if (!this._isEmptyField()) {
-      try {
-        Utils._isValidMail(this.state.email);
-        contact = {
-          email: this.state.email,
-          tel: Utils.getNumeric(value)
-        };
-      } catch (error) {
-        this.setState({ haserror: true, erreur: error.toString() });
-      }
-    } else {
-      Alert.alert("Info", "Assurez-vous que tous les champs sont remplis");
+    try {
+      Utils._isValidMail(this.state.email);
+      contact = {
+        email: this.state.email,
+        tel: Utils.getNumeric(value),
+      };
+      this.props.updateContactState(contact);
+    } catch (error) {
+      Alert.alert('Erreur', error.toString());
     }
-    this.props.updateContactState(contact);
-  }
-
-  _isEmptyField() {
-    return this.state.email == null || this.state.email == "";
   }
 
   validateContact() {
     try {
-      this.setState({ haserror: false });
-      let value = this.refs.phone.getValue();
-      let ret = Utils._parsePhone(value, this.state.cca2);
-      this.setState({ phone: value });
-      if (this.refs.phone.isValidNumber()) {
-        this.updateContact(value);
-      } else {
-        this.setState({
-          haserror: true,
-          erreur: "Veuillez entrer un numéro téléphone valide"
-        });
-      }
+      this.setState({haserror: false});
+      let value = this.state.phone;
+      let ret = Utils._parsePhone(value, 'mg');
+      this.setState({phone: value});
+      this.updateContact(value);
     } catch (error) {
-      this.setState({ haserror: true, erreur: error.toString() });
+      Alert.alert('Erreur', error.toString());
     }
   }
 
   changeTextPhone(text) {
     try {
-      var ret = Utils._parsePhone(text, this.state.cca2);
-      this.setState({ phone: ret });
+      var ret = Utils._parsePhone(text, 'mg');
+      this.setState({phone: ret});
     } catch (error) {
-      this.setState({ phone: text });
+      this.setState({phone: text});
+    }
+  }
+  validatePhoneNumer() {
+    try {
+      Utils.validatePhoneNumer(this.state.phone);
+    } catch (error) {
+      this.setState({phone: null});
+      Alert.alert('Erreur', error.toString());
     }
   }
   render() {
     return (
-      <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            paddingHorizontal: 10,
-            paddingVertical: 10
+      <View style={styles.viewIdentite}>
+        <FormLabel containerStyle={{marginTop: 0}}>Numéro Téléphone</FormLabel>
+        <FormInput
+          keyboardType="phone-pad"
+          placeholder="Entrer un numéro tél"
+          onChangeText={this.changeTextPhone.bind(this)}
+          onEndEditing={this.validatePhoneNumer.bind(this)}
+          value={this.state.phone}
+          returnKeyLabel="next"
+          onEndEditing={() => {
+            try {
+              Utils._isValidMail(this.state.email);
+              this.validateContact();
+            } catch (error) {
+              Alert.alert('Erreur Mail', error.toString());
+            }
           }}
-        >
-          {this.state.haserror && (
-            <Text
-              style={{
-                textAlign: "center",
-                padding: 20,
-                color: "white",
-                fontWeight: "800",
-                backgroundColor: "#ef9a9a",
-                marginBottom: 10
-              }}
-            >
-              {this.state.erreur}
-            </Text>
-          )}
-          <Text
-            style={{
-              textAlign: "center",
-              padding: 5,
-              color: "white",
-              fontWeight: "800",
-              backgroundColor: "#1de9b6",
-              marginBottom: 10
-            }}
-          >
-            Entrer le code universel de votre pays d'abord, puis votre numéro
-            téléphone(ex:Madagascar=>+261,France=>+33) ou cliquer sur le drapeau
-            et choisissez votre pays;
-          </Text>
-
-          <Text style={{ color: "#666" }}>Numéro Téléphone</Text>
-          <View
-            style={{
-              alignItems: "center",
-              paddingVertical: 20
-            }}
-          >
-            <PhoneInput
-              ref="phone"
-              onPressFlag={() => {
-                this.onPressFlag();
-              }}
-              onChangePhoneNumber={this.changeTextPhone.bind(this)}
-              value={this.state.phone}
-            />
-            <CountryPicker
-              ref="countryPicker"
-              onChange={value => this.selectCountry(value)}
-              translation="fra"
-              cca2={this.state.cca2}
-            >
-              <View />
-            </CountryPicker>
-          </View>
-          <Text style={{ color: "#666" }}>E-mail</Text>
-          <View style={loginCss.inputWrap}>
-            <TextInput
-              placeholder="example@email.com"
-              style={[loginCss.input, { backgroundColor: "transparent" }]}
-              keyboardType="email-address"
-              onChangeText={email => this.setState({ email })}
-              onEndEditing={() => {
-                this.validateContact();
-              }}
-            />
-          </View>
-        </View>
-      </ScrollView>
+        />
+        <FormLabel containerStyle={{marginTop: 8}}>E-mail</FormLabel>
+        <FormInput
+          onChangeText={email => this.setState({email})}
+          placeholder="example@email.com"
+          value={this.state.email}
+          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          onEndEditing={() => this.validateContact()}
+        />
+      </View>
     );
   }
 }
 Contact.propTypes = {
-  updateContactState: PropTypes.func
+  updateContactState: PropTypes.func,
+  activity: PropTypes.object,
 };
 export default Contact;

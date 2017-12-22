@@ -1,20 +1,10 @@
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  Image,
-  TouchableOpacity,
-  Animated,
-  Easing,
-  Dimensions
-} from "react-native";
+import React, {Component} from "react";
+import {Animated, Text, View, StatusBar} from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { styleBase } from "../../../assets/styles";
-import { Icon } from "react-native-elements";
+import {Icon} from "react-native-elements";
 import Services from "../../../services/utils/services";
-import * as Animatable from "react-native-animatable";
-import { Notifications } from "expo";
+import {Notifications} from "expo";
+
 const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
 
@@ -214,7 +204,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     height: 150,
     borderBottomWidth: 2,
-    borderBottomColor: "$border"
+    borderBottomColor: "$border",
+    '@media android':{
+      marginTop: StatusBar.currentHeight
+    }
   },
   imageBack: {
     flex: 1,

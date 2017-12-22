@@ -7,19 +7,14 @@ import { Icon } from "react-native-elements";
 class DrawerMenu extends Component {
   render() {
     return (
-      <View>
+      <View style={{ paddingLeft: 10 }}>
         <TouchableOpacity
           onPress={() => {
             Keyboard.dismiss();
             this.props.navigation.navigate("DrawerOpen");
           }}
         >
-          <Icon
-            name="ios-menu-outline"
-            color="white"
-            size={30}
-            type="ionicon"
-          />
+          <Icon name="ios-menu" color="white" size={30} type="ionicon" />
         </TouchableOpacity>
       </View>
     );

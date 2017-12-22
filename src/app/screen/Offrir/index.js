@@ -73,10 +73,10 @@ class Offrir extends Component {
       Alert.alert(
         "Confirmation",
         "Voulez-vous  transferer " +
-          this.getAmount() +
-          " au numéro de compte " +
-          this.state.recipient +
-          " ?",
+        this.getAmount() +
+        " au numéro de compte " +
+        this.state.recipient +
+        " ?",
         [
           { text: "Annuller", onPress: () => _cancelTransfer() },
           { text: "Je Confirme", onPress: () => this._validerOffre() }
@@ -164,8 +164,8 @@ class Offrir extends Component {
       Alert.alert(
         "Annuelation",
         "Voulez-vous bien annuler le transfert de  " +
-          this.getAmount() +
-          " Ariary ?",
+        this.getAmount() +
+        " Ariary ?",
         [
           { text: "non", onPress: () => this.setState({ modalVisible: true }) },
           { text: "Oui", onPress: () => this.Annuler() }

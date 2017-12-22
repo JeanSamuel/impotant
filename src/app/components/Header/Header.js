@@ -1,21 +1,27 @@
 //import liraries
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet } from "react-native";
+import {Header} from "react-native-elements"
 import styles from "./styles";
 
+
 // create a component
-const Header = ({ headerText }) => {
+const MyHeader = ({ headerText, leftComponent, rightComponent }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>{headerText}</Text>
-    </View>
+    <Header
+      style={styles.header}
+      leftComponent = {leftComponent}
+      centerComponent = {{text: headerText, style:styles.headerText}}
+      rightComponent={rightComponent}
+    />
   );
 };
 
-Header.propTypes = {
-  headerText: PropTypes.string
+MyHeader.propTypes = {
+  headerText: PropTypes.string,
+  leftComponent: PropTypes.any,
+  rightComponent: PropTypes.any
 };
 
 //make this component available to the app
-export default Header;
+export default MyHeader;

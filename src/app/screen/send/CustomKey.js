@@ -3,6 +3,8 @@ import React, {Component} from "react";
 import {BackHandler, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {InputButton} from "../../components/TextInput";
 import CancelKeyButton from "../../components/Buttons/CancelKeyButton";
+import MyHeader from "../../components/Header/Header";
+import HeaderButton from "../../components/drawerMenu/headerButton";
 // create a component
 const inputButtons = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [".", 0, ""]];
 class CustomKey extends Component {
@@ -105,6 +107,18 @@ class CustomKey extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <MyHeader
+          headerText={"Montant à envoyer"}
+          rightComponent={null}
+          leftComponent={
+          <HeaderButton type={"ionicon"} color={"#fff"} iconName={"ios-arrow-back"} action={()=> {
+              this.props.navigation.state.params.onGoBack();
+              this.props.navigation.goBack()
+            }
+          }
+          />
+        }
+        />
         <View style={{ flex: 2, backgroundColor: "#e2e2e2" }}>
           <Text style={styles.displayText}>{this.state.inputValue}</Text>
         </View>
@@ -113,9 +127,12 @@ class CustomKey extends Component {
         </View>
         <View style={{ flex: 1 }}>
           <TouchableHighlight
+            underlayColor={"#E2E2E2"}
             style={{
               justifyContent: "center",
               backgroundColor: "#fff",
+              borderTopWidth:1,
+              borderTopColor: "#E2E2E2",
               flex: 1
             }}
             onPress={() => {

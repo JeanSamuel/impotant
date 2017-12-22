@@ -1,6 +1,12 @@
 import EStyleSheet from "react-native-extended-stylesheet";
-import { StatusBar } from "react-native";
+import { StatusBar, Platform} from "react-native";
 export default EStyleSheet.create({
+  header: {
+    backgroundColor: "$darkColor",
+    paddingVertical: 15,
+    paddingTop: StatusBar.currentHeight,
+    flexDirection: 'row',
+  },
   container: {
     position: "absolute",
     top: 0,
@@ -10,10 +16,8 @@ export default EStyleSheet.create({
     paddingHorizontal: 10
   },
   headerText: {
-    textAlign: "center",
     fontSize: 20,
     fontWeight: "500",
-    color: "$white",
-    letterSpacing: 1
+    color: "$white"
   }
 });

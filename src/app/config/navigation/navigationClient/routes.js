@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View, StatusBar, Platform} from "react-native";
 import {Icon} from "react-native-elements";
 import {StackNavigator} from "react-navigation";
 import {
@@ -99,48 +99,13 @@ const MainNavigator = new StackNavigator(
     CustomKey: {
       screen: CustomKey,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Envoyer à " + navigation.state.params.receiver_name,
-        headerStyle: headStyle.headerBackground,
-        headerTintColor: { color: "#fff" },
-        headerTitleStyle: { color: "#fff" },
-        headerLeft: (
-          <View
-            style={{
-              alignContent: "center",
-              marginHorizontal: 10
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.state.params.onGoBack();
-                navigation.goBack();
-              }}
-            >
-              <Icon name="navigate-before" size={30} color="#fff" />
-            </TouchableOpacity>
-          </View>
-        )
+        header:()=>null
       })
     },
     Review: {
       screen: Review,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Vérifier et envoyer ",
-        headerStyle: headStyle.headerBackground,
-        headerTintColor: { color: "#fff" },
-        headerTitleStyle: { color: "#fff" },
-        headerLeft: (
-          <View
-            style={{
-              alignContent: "center",
-              marginHorizontal: 10
-            }}
-          >
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="navigate-before" size={30} color="#fff" />
-            </TouchableOpacity>
-          </View>
-        )
+        header:()=>null
       })
     },
     Drawer: {
@@ -242,5 +207,10 @@ const MainNavigator = new StackNavigator(
       })
     }
   },
-  { initialRouteName: "Handler" }
+  {
+    initialRouteName: "Handler",
+    /*cardStyle: {
+      paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+    }*/
+  }
 );

@@ -13,7 +13,7 @@ class HeaderRight extends Component {
           activeOpacity={0.3}
         >
           <Icon
-            name="ios-search-outline"
+            name="ios-search"
             color="#ecf0f1"
             size={30}
             type="ionicon"

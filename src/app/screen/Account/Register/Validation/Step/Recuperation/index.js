@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 import PropTypes from "prop-types";
-import { Icon } from "react-native-elements";
+import { Icon, FormInput, FormLabel } from "react-native-elements";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
 
@@ -30,69 +30,52 @@ class Recuperation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: "",
-      beneficiaire: "aa147",
-      numrec: "+261 348400278",
-      mailrec: "dd@bb.com",
+      password: '',
+      beneficiaire: 'aa147',
+      numrec: '+261 34 84 002 78',
+      mailrec: 'dd@bb.com',
       loading: false,
-      cca2: "mg",
+      cca2: 'mg',
       haserror: false,
-      erreur: "",
-      modalVisible: false
+      erreur: '',
+      modalVisible: false,
     };
   }
-  onPressFlag() {
-    this.refs.countryPicker.openModal();
-  }
-
-  selectCountry(country) {
-    this.refs.phone.selectCountry(country.cca2.toLowerCase());
-    this.setState({ cca2: country.cca2 });
-  }
   updateRecuperation() {
-    this.setState({ modalVisible: false });
+    this.setState({modalVisible: false});
     this.updateStateRec();
-  }
-
-  _isEmptyField() {
-    return (
-      this.state.beneficiaire == null ||
-      this.state.beneficiaire == "" ||
-      this.state.numrec == "" ||
-      this.state.numrec == null ||
-      this.state.mailrec == "" ||
-      this.state.mailrec == null
-    );
   }
   validatePhone() {
     try {
-      this.setState({ haserror: false });
-      let value = this.refs.phone.getValue();
-      let ret = Utils._parsePhone(value, this.state.cca2);
+      this.setState({haserror: false});
+      let ret = Utils._parsePhone(this.state.numrec, 'mg');
       if (this.refs.phone.isValidNumber()) {
-        this.setState({ numrec: value });
+        this.setState({numrec: value});
       } else {
         this.setState({
           haserror: true,
-          erreur: "Veuillez entrer un numéro téléphone valide"
+          erreur: 'Veuillez entrer un numéro téléphone valide',
         });
       }
     } catch (error) {
-      this.setState({ haserror: true, erreur: error.toString() });
+      Alert.alert('Erreur',error.toString());
     }
   }
   changeTextPhone(text) {
     try {
-      var ret = Utils._parsePhone(text, this.state.cca2);
-      this.setState({ numrec: ret });
+      var ret = Utils._parsePhone(text, 'mg');
+      this.setState({numrec: ret});
     } catch (error) {
-      this.setState({ numrec: text });
+      this.setState({numrec: text});
     }
   }
-  componentDidMount() {
-    this.setState({
-      pickerData: this.refs.phone.getPickerData()
-    });
+  validatePhoneNumer() {
+    try {
+      Utils.validatePhoneNumer(this.state.phone);
+    } catch (error) {
+      this.setState({numrec: null});
+      Alert.alert('Erreur', error.toString());
+    }
   }
   updateStateRec() {
     let profile = this.props.activity.state.profile;
@@ -115,90 +98,54 @@ class Recuperation extends Component {
       numrec: this.state.numrec,
       mailrec: this.state.mailrec,
       pickerResultCin: profile.pickerResultCin,
-      pickerResultAvatar: profile.pickerResultAvatar
+      pickerResultAvatar: profile.pickerResultAvatar,
     };
     this.props.updateRecuperation(data);
   }
   render() {
     return (
-      <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            paddingHorizontal: 10,
-            paddingVertical: 30
+      <View style={styles.cont}>
+        <FormLabel containerStyle={{marginTop: 0}}>
+          Téléphone de récupération
+        </FormLabel>
+        <FormInput
+          keyboardType="phone-pad"
+          placeholder="Entrer un numéro tél"
+          onChangeText={this.changeTextPhone.bind(this)}
+          onEndEditing={this.validatePhoneNumer.bind(this)}
+          value={this.state.numrec}
+          returnKeyLabel="next"
+        />
+        <FormLabel containerStyle={{marginTop: 8}}>
+          Mail de récupération
+        </FormLabel>
+        <FormInput
+          placeholder="Mail de récupération"
+          keyboardType="email-address"
+          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          onChangeText={mailrec => this.setState({mailrec})}
+          returnKeyType="next"
+          onEndEditing={() => {
+            this.updateStateRec();
           }}
-        >
-          {this.state.haserror && (
-            <Text
-              style={{
-                textAlign: "center",
-                padding: 20,
-                color: "white",
-                fontWeight: "800",
-                backgroundColor: "#ef9a9a",
-                marginBottom: 10
-              }}
-            >
-              {this.state.erreur}
-            </Text>
-          )}
-          <Text style={{ color: "#666" }}>Numéro de récupération</Text>
-          <View
-            style={{
-              alignItems: "center",
-              paddingVertical: 20
-            }}
-          >
-            <PhoneInput
-              ref="phone"
-              onPressFlag={() => this.onPressFlag()}
-              onChangePhoneNumber={this.changeTextPhone.bind(this)}
-            />
-            <CountryPicker
-              ref="countryPicker"
-              onChange={value => this.selectCountry(value)}
-              translation="fra"
-              cca2={this.state.cca2}
-            >
-              <View />
-            </CountryPicker>
-          </View>
-          <Text style={{ color: "#666" }}>Mail de récupération</Text>
-          <View style={loginCss.inputWrap}>
-            <TextInput
-              placeholder="Mail de récupération"
-              keyboardType="email-address"
-              style={[loginCss.input, { backgroundColor: "transparent" }]}
-              onChangeText={mailrec => this.setState({ mailrec })}
-              returnKeyType="next"
-              onEndEditing={() => {
-                this.updateStateRec();
-              }}
-            />
-          </View>
-
-          <Text style={{ color: "#666" }}>
-            Personne/Compte bénéficiaire en cas de déces
-          </Text>
-          <View style={loginCss.inputWrap}>
-            <TextInput
-              placeholder="Personne/Compte bénéficiaire en cas de déces"
-              style={[loginCss.input, { backgroundColor: "transparent" }]}
-              onChangeText={beneficiaire => this.setState({ beneficiaire })}
-              returnKeyType="next"
-              onEndEditing={() => {
-                this.updateRecuperation();
-              }}
-            />
-          </View>
-        </View>
-      </ScrollView>
+        />
+        <FormLabel containerStyle={{marginTop: 8}}>
+          Personne/Compte bénéficiaire en cas de déces
+        </FormLabel>
+        <FormInput
+          placeholder="Personne/Compte bénéficiaire en cas de déces"
+          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          onChangeText={beneficiaire => this.setState({beneficiaire})}
+          returnKeyType="next"
+          onEndEditing={() => {
+            this.updateRecuperation();
+          }}
+        />
+      </View>
     );
   }
 }
 Recuperation.propTypes = {
-  updateRecuperation: PropTypes.func
+  updateRecuperation: PropTypes.func,
 };
 export default Recuperation;
