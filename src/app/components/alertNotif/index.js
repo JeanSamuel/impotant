@@ -43,9 +43,9 @@ class Alert extends Component {
       }
 
       showAlert(notification) {
-          console.log('====================================');
-          console.log('ty le notificatoin', notification);
-          console.log('====================================');
+          //console.log('====================================');
+          //console.log('ty le notificatoin', notification);
+          //console.log('====================================');
         const title = data.title;
         const amount = data.amount;
         const sender = data.otherUser;
@@ -59,7 +59,7 @@ class Alert extends Component {
       };
 
       onClose(data) {
-        console.log(data);
+        //console.log(data);
       }
 
     render() {

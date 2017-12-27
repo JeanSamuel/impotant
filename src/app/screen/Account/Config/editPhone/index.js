@@ -40,7 +40,7 @@ class EditPhone extends Component {
         username: pseudo
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   async _validateChangePhone() {
@@ -101,8 +101,8 @@ class EditPhone extends Component {
   }
   render() {
     return (
-      <View style={configStyles.container}>
-        <View style={configStyles.content}>
+      <View style={{}}>
+        <View style={{}}>
           <View style={configStyles.header}>
             <Text style={configStyles.textHeader}>Editer numéro tél</Text>
           </View>
@@ -131,7 +131,7 @@ class EditPhone extends Component {
               onPress={() => this.props.navigation.goBack()}
               style={configStyles.touch}
             >
-              <Text style={configStyles.touchtext}>Annuler</Text>
+              <Text style={configStyles.touchtext}>Retour</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this._renderPasswordView()}

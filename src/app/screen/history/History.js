@@ -183,7 +183,7 @@ class History extends React.Component {
       })
       .catch(error => {
         this.getHistory();
-        console.log("error error getting oldHistory", error);
+        //console.log("error error getting oldHistory", error);
       });
   }
 
@@ -203,12 +203,12 @@ class History extends React.Component {
     services
       .getHistory(this.state.user_id)
       .then(response => {
-        console.log(response);
+        //console.log(response);
         this.setData(response);
         this.stopSynchronised();
       })
       .catch(error => {
-        console.log("error response getting history", error);
+        //console.log("error response getting history", error);
         this.setState({
           online: false,
           syncing: false,
@@ -227,7 +227,7 @@ class History extends React.Component {
   formatCurrencyAndAmount(currency, amount, senderId) {
     //#4caf50
     let sign = "+";
-    console.log("ty le amount", amount);
+    //console.log("ty le amount", amount);
     if (amount < 0) {
       sign = "-";
       amount = amount.replace("-", "");

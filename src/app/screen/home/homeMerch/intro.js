@@ -23,17 +23,17 @@ class MyClass extends Component {
   }
 
   onSkipBtnHandle = index => {
-    console.log(index);
+    //console.log(index);
     this.props.navigation.goBack();
   };
   doneBtnHandle = () => {
     this.props.navigation.goBack();
   };
   nextBtnHandle = index => {
-    console.log(index);
+    //console.log(index);
   };
   onSlideChangeHandle = (index, total) => {
-    console.log(index, total);
+    //console.log(index, total);
   };
   render() {
     return (

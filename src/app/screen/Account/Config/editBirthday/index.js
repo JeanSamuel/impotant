@@ -7,12 +7,13 @@ import {
   Alert,
   ActivityIndicator,
   TouchableOpacity,
-  Modal
+  Modal,
+  Dimensions
 } from "react-native";
 import PropTypes from "prop-types";
 import { configStyles, loginCss } from "../../../../assets/styles";
 import DatePicker from "react-native-datepicker";
-
+const {height,deviceWidth}=Dimensions.get('window');
 import { Utils, UserService } from "../../../../services";
 
 // create a component
@@ -61,7 +62,7 @@ class EditBirthday extends Component {
         username: pseudo
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   _isEmptyField() {
@@ -105,10 +106,10 @@ class EditBirthday extends Component {
   }
   render() {
     return (
-      <View style={configStyles.container}>
-        <View style={configStyles.content}>
+      <View style={{}}>
+        <View style={{}}>
           <View style={configStyles.header}>
-            <Text style={configStyles.textHeader}>Editer votre e-mail</Text>
+            <Text style={configStyles.textHeader}>Editer votre date de naissance</Text>
           </View>
           <View style={{ padding: 15 }}>
             <TextInput
@@ -157,7 +158,7 @@ class EditBirthday extends Component {
               onPress={() => this.props.navigation.goBack()}
               style={configStyles.touch}
             >
-              <Text style={configStyles.touchtext}>Annuler</Text>
+              <Text style={configStyles.touchtext}>Retour</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {

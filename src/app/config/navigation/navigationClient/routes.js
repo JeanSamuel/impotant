@@ -4,7 +4,7 @@ import {Icon} from "react-native-elements";
 import {StackNavigator} from "react-navigation";
 import {
   CustomKey, EditMail, EditName, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
-  MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte
+  MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte,EditBirthday
 } from "../../../screen/index";
 import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import Drawer from "./Drawer";
@@ -36,9 +36,6 @@ class Navigateur extends Component {
   }
 
   showAlert(notification) {
-    console.log("====================================");
-    console.log(notification);
-    console.log("====================================");
     let data = notification.data;
     if (data.type == "reception") {
       let title = "Nouveau transfert";
@@ -55,7 +52,7 @@ class Navigateur extends Component {
   };
 
   onClose(data) {
-    console.log(data);
+    //console.log(data);
   }
 
   render() {
@@ -196,6 +193,12 @@ const MainNavigator = new StackNavigator(
     },
     EditName: {
       screen: EditName,
+      navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    EditBirthday: {
+      screen: EditBirthday,
       navigationOptions: ({ navigation }) => ({
         header: () => null
       })

@@ -56,7 +56,7 @@ const errorHandler = (e, isFatal) => {
       ]
     );
   } else {
-    console.log(e); // So that we can see it in the ADB logs in case of Android if needed
+    //console.log(e); // So that we can see it in the ADB logs in case of Android if needed
   }
 };
 
@@ -82,7 +82,7 @@ export default class Apk extends React.Component {
       <View style={{ flex: 1 }}>
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
-            <StatusBar hidden={true} />
+            
             <MainStack />
             <AlertNotif />
           </View>

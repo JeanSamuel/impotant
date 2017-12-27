@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   StatusBar,
   View,
@@ -9,13 +9,15 @@ import {
   TextInput,
   AsyncStorage,
   Alert,
-  Text
-} from "react-native";
-import PropTypes from "prop-types";
-import { Icon, FormInput, FormLabel, Button } from "react-native-elements";
-import { loginCss } from "../../../../../../assets/styles/index";
-import styles from "./styles";
-import {Utils} from "../../../../../../services";
+  Text,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {Icon, FormInput, FormLabel, Button} from 'react-native-elements';
+import PhoneInput from 'react-native-phone-input';
+import CountryPicker from 'react-native-country-picker-modal';
+import {loginCss} from '../../../../../../assets/styles/index';
+import styles from './styles';
+import {Utils} from '../../../../../../services';
 class Contact extends Component {
   constructor(props) {
     super(props);

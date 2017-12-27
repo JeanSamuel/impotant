@@ -16,7 +16,7 @@ class GoToStore extends Component {
   goToStore() {
     AppLink.openInStore("id529379082", "me.lyft.android")
       .then(() => {
-        console.log("vita");
+        //console.log("vita");
       })
       .catch(err => {
         // handle error

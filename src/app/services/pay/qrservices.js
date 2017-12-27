@@ -15,7 +15,7 @@ class QrServices extends Component {
    * @param {*} data
    */
   readQrData(data) {
-    console.log("From service", data.a);
+    //console.log("From service", data.a);
     const qrData = data;
     let type = qrData.t;
     let currency = qrData.c;
@@ -72,16 +72,16 @@ class QrServices extends Component {
       method: "POST",
       body: formData
     };
-    console.log("Transaction data: " + JSON.stringify(data));
+    //console.log("Transaction data: " + JSON.stringify(data));
     return await services
       .myFetch(url, data)
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
+        //console.log(responseJson);
         return responseJson;
       })
       .catch(error => {
-        console.log("erreur aty aloha", error);
+        //console.log("erreur aty aloha", error);
         throw error;
       });
 
@@ -89,13 +89,13 @@ class QrServices extends Component {
     //   return responseJson;
     // })
     // .catch(error => {
-    //   console.log("erreur aty aloha", error);
+    //   //console.log("erreur aty aloha", error);
     //   throw error;
     // });
   }
 
   async handleTransactionResponse(responseJson) {
-    console.log(JSON.stringify(responseJson));
+    //console.log(JSON.stringify(responseJson));
   }
 }
 export default QrServices;

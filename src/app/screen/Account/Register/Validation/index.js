@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,20 +10,37 @@ import {
   Alert,
   Modal,
   ScrollView
-} from "react-native";
-import ViewPager from "react-native-viewpager";
-import { Icon, Button, Header } from "react-native-elements";
-import Mybutton from "../../../../components/Buttons/SamButton";
-const deviceWidth = Dimensions.get("window").width;
-import StepIndicator from "react-native-step-indicator";
-import Profile from "./Step/Profile";
-import Addresse from "./Step/Addresse";
-import Recuperation from "./Step/Recuperation";
-import { Utils, InscriptionService } from "../../../../services";
-import styles from "./styles";
-import { baseStyle } from "../../../../assets/styles";
+} from 'react-native';
+import ViewPager from 'react-native-viewpager';
+import {Icon, Button, Header} from 'react-native-elements';
+import Mybutton from '../../../../components/Buttons/SamButton';
+const deviceWidth = Dimensions.get('window').width;
+import StepIndicator from 'react-native-step-indicator';
+import Profile from './Step/Profile';
+import Addresse from './Step/Addresse';
+import Recuperation from './Step/Recuperation';
+import {Utils, InscriptionService} from '../../../../services';
+import styles from './styles';
+import {baseStyle} from '../../../../assets/styles';
 
 const firstIndicatorStyles = {
+  // stepIndicatorSize: 30,
+  // currentStepIndicatorSize: 40,
+  // separatorStrokeWidth: 3,
+  // currentStepStrokeWidth: 3,
+  // separatorFinishedColor: '#4aae4f',
+  // separatorUnFinishedColor: '#a4d4a5',
+  // stepIndicatorFinishedColor: '#4aae4f',
+  // stepIndicatorUnFinishedColor: '#a4d4a5',
+  // stepIndicatorCurrentColor: '#ffffff',
+  // stepIndicatorLabelFontSize: 15,
+  // currentStepIndicatorLabelFontSize: 15,
+  // stepIndicatorLabelCurrentColor: '#000000',
+  // stepIndicatorLabelFinishedColor: '#ffffff',
+  // stepIndicatorLabelUnFinishedColor: 'rgba(255,255,255,0.5)',
+  // labelColor: '#666666',
+  // labelSize: 15,
+  // currentStepLabelColor: '#4aae4f',
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 40,
   separatorStrokeWidth: 3,
@@ -151,7 +168,7 @@ class MainValidation extends React.Component {
         this.setState({account_id: datajson.code, username: datajson.pseudo});
       }
     } catch (error) {
-      Console.log(error);
+      //console.log(error);
     }
   }
   handleActionLeft() {
@@ -160,7 +177,7 @@ class MainValidation extends React.Component {
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
-        <StatusBar hidden={true} />
+        
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -201,7 +218,7 @@ class MainValidation extends React.Component {
           <View style={{width: '50%'}}>
             <Button
               icon={{name: 'ios-arrow-back', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00BF9A',paddingVertical:15}}
+              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
               title="Précédent"
               onPress={() => this._goBack()}
             />
@@ -209,7 +226,7 @@ class MainValidation extends React.Component {
           <View style={{width: '50%'}}>
             <Button
               iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00BF9A',paddingVertical:15}}
+              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
               title="Suivant"
               onPress={() => this._goNext()}
             />
@@ -230,7 +247,7 @@ const style = StyleSheet.create({
   button: {
     padding: 10,
     margin: 2,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
   },
   buttonText: {
     color: '#fff',
@@ -240,7 +257,7 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -277,7 +294,7 @@ const style = StyleSheet.create({
   headingContainer: {
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
   },
   heading: {
     color: 'white',

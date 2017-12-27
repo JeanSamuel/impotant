@@ -65,7 +65,7 @@ class EditPseudo extends Component {
         userInfo: userinfo
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   _renderPasswordView() {

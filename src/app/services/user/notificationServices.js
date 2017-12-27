@@ -36,7 +36,7 @@ export default class NotifServices extends Component {
       })
         .then(response => {
           if (response.status === 200) {
-            console.log("eto ah");
+            //console.log("eto ah");
           }
           if (response.status == 405) {
             let error = new Error(response.error);
@@ -103,14 +103,14 @@ export default class NotifServices extends Component {
     return await services
       .myFetch(PUSH_INIT, data)
       .then(response => {
-        console.log("====================================");
-        console.log("response", response);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("response", response);
+        //console.log("====================================");
       })
       .catch(error => {
-        console.log("====================================");
-        console.log(error);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log(error);
+        //console.log("====================================");
       });
   }
 
@@ -133,7 +133,7 @@ export default class NotifServices extends Component {
       },
       body: formData
     }).catch(error => {
-      console.log("error", error);
+      //console.log("error", error);
     });
     await services.removeData("expo_token");
   }

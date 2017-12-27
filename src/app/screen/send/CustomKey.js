@@ -57,7 +57,7 @@ class CustomKey extends Component {
     this.setState({ inputValue: stripped });
   }
   _handleContinue() {
-    console.log("continue");
+    //console.log("continue");
     this.props.navigation.navigate("Review", {
       user: this.state.user,
       username: this.state.accountName,

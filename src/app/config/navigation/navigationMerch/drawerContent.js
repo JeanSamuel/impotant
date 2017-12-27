@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {Animated, Text, View, StatusBar} from "react-native";
+import {Animated, Text, View, StatusBar,TouchableOpacity} from "react-native";
+import * as Animatable from "react-native-animatable";
 import EStyleSheet from "react-native-extended-stylesheet";
 import {Icon} from "react-native-elements";
 import Services from "../../../services/utils/services";
@@ -7,7 +8,7 @@ import {Notifications} from "expo";
 
 const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
-
+import {styleBase} from '../../../assets/styles';
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -37,11 +38,10 @@ export default class DrawerContent extends Component {
   getUserInfo() {
     let services = new Services();
     services
-      .getData("userData")
+      .getData("userInfo")
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
-          console.log(dataParsed);
           this.setState({
             username: dataParsed.nom,
             account_id: dataParsed.code
@@ -144,7 +144,7 @@ export default class DrawerContent extends Component {
                   flexDirection: "row"
                 }}
               >
-                {/* <Text style={styleBase.textWhiteBold}>
+                <Text style={styleBase.textWhiteBold}>
                   <Text style={{ fontSize: 30 }}>{soldeFormated} Ar</Text>
                 </Text>
                 <TouchableOpacity
@@ -164,12 +164,12 @@ export default class DrawerContent extends Component {
                   >
                     <Icon
                       name="refresh"
-                      size={23}
-                      color="#FFF"
+                      size={30}
+                      color="#000"
                       containerStyle={styleBase.centered}
                     />
                   </Animatable.View>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -201,7 +201,6 @@ export default class DrawerContent extends Component {
 
 const styles = EStyleSheet.create({
   container: {
-    flex: 1,
     height: 150,
     borderBottomWidth: 2,
     borderBottomColor: "$border",

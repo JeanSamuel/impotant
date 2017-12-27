@@ -65,7 +65,7 @@ class EditName extends Component {
         username: pseudo
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   _isEmptyPass() {

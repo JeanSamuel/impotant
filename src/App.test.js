@@ -14,9 +14,9 @@ class MyClass extends Component {
   }
 
   testIci(){
-    console.log('====================================');
-    console.log('ato am test ');
-    console.log('====================================');
+    //console.log('====================================');
+    //console.log('ato am test ');
+    //console.log('====================================');
     return true
   }
 
@@ -24,12 +24,12 @@ class MyClass extends Component {
     // MultipeerConnectivity.browse('channel1', {name : 'manaka02'})
     // MultipeerConnectivity.addListener('listener', this.testIci())
     MultipeerConnectivity.browse('channel1')
-    console.log('====================================');
-    console.log(MultipeerConnectivity);
-    console.log('====================================');
-    console.log('====================================');
-    console.log(_.values(MultipeerConnectivity.getAllPeers()));
-    console.log('====================================');
+    //console.log('====================================');
+    //console.log(MultipeerConnectivity);
+    //console.log('====================================');
+    //console.log('====================================');
+    //console.log(_.values(MultipeerConnectivity.getAllPeers()));
+    //console.log('====================================');
     // MultipeerConnectivity.on('peerFound', this._onChange());
     // MultipeerConnectivity.on('peerLost', this._onChange());
     // MultipeerConnectivity.on('invite', ((event) => {
@@ -59,9 +59,9 @@ class MyClass extends Component {
   }
   
   _onChange() {
-    console.log('====================================');
-    console.log('nankato am on Change');
-    console.log('====================================');
+    //console.log('====================================');
+    //console.log('nankato am on Change');
+    //console.log('====================================');
   }
 
   render() {

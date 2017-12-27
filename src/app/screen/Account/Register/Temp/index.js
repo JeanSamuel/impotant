@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   StatusBar,
   View,
@@ -11,14 +11,20 @@ import {
   Alert,
   Text,
   ActivityIndicator,
-  TouchableOpacity
-} from "react-native";
-import { Header, Button, Icon, FormLabel, FormInput } from "react-native-elements";
-import PropTypes from "prop-types";
-import Mybutton from "../../../../components/Buttons/SamButton";
-import { baseStyle, loginCss } from "../../../../assets/styles/index";
-import styles from "./styles";
-import { Utils, InscriptionService } from "../../../../services";
+  TouchableOpacity,
+} from 'react-native';
+import {
+  Header,
+  Button,
+  Icon,
+  FormInput,
+  FormLabel,
+} from 'react-native-elements';
+import PropTypes from 'prop-types';
+import Mybutton from '../../../../components/Buttons/SamButton';
+import {baseStyle, loginCss} from '../../../../assets/styles/index';
+import styles from './styles';
+import {Utils, InscriptionService} from '../../../../services';
 
 class Main extends Component {
   constructor(props) {
@@ -50,9 +56,9 @@ class Main extends Component {
     this.setState({loading: true});
     if (this._isEmptyField()) {
       try {
-        await InscriptionService._registrationTemporaire(this);
+        let response=await InscriptionService._registrationTemporaire(this);
         this.setState({loading: false});
-        this.props.navigation.navigate('Pin');
+        this.props.navigation.navigate("RegisterPin", response);
       } catch (error) {
         this.setState({loading: false});
         Alert.alert("Erreur d'inscription", error.toString());
@@ -97,7 +103,7 @@ class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
+        
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -159,21 +165,21 @@ class Main extends Component {
             <Button
               onPress={() => this._loginTemp()}
               icon={{name: 'done'}}
-              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              buttonStyle={{marginTop: 15, backgroundColor: '#00d07f'}}
               title="Continuer"
             />
             <Button
               onPress={() => this.loadInscription()}
-              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              buttonStyle={{marginTop: 15, backgroundColor: '#00d07f'}}
               title="Je veux m'inscrire"
             />
           </View>
         </ScrollView>
         {this.state.loading &&
-        <View style={styles.load}>
-          <ActivityIndicator size="large" animating={true} color="#FFF" />
-          <Text style={styles.textLoad}>Enregistrement encours...</Text>
-        </View>}
+          <View style={styles.load}>
+            <ActivityIndicator size="large" animating={true} color="#FFF" />
+            <Text style={styles.textLoad}>Enregistrement encours...</Text>
+          </View>}
       </View>
     );
   }

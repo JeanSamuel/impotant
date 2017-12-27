@@ -57,7 +57,7 @@ class Adresses extends Component {
     userServices
       .getAdresses(this.props.navigation.state.params.user_id)
       .then(response => {
-        console.log(response);
+        //console.log(response);
         if (response.status === 200) {
           response.json().then(responseJson => {
             this.setState({
@@ -69,16 +69,16 @@ class Adresses extends Component {
               services
                 .saveData("adress", JSON.stringify(this.state.list))
                 .then(respose => {
-                  console.log("Nety le izy");
+                  //console.log("Nety le izy");
                 });
             } catch (error) {
-              console.log(error);
+              //console.log(error);
               throw "something went wrong when saving data";
             }
           });
         }
         if (response.status === 405) {
-          console.log("erreur", response.status);
+          //console.log("erreur", response.status);
           this.setState({
             loading: false,
             online: false,
@@ -96,14 +96,14 @@ class Adresses extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.navigation.state.params.user_id);
+    //console.log(this.props.navigation.state.params.user_id);
     services = new Services();
     services.getData("adress").then(response => {
       if (response !== null) {
         this.setState({ list: JSON.parse(response) });
         this.setState({ loading: false });
       } else {
-        console.log("Empty adress from local storage");
+        //console.log("Empty adress from local storage");
       }
     });
     this.fetchAdress();
@@ -133,22 +133,22 @@ class Adresses extends Component {
   }
 
   _handleBarCodeRead = data => {
-    console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
     userServices = new UserServices();
     qdata = data.data;
     if (qdata.includes("vola")) {
       readData = JSON.parse(qdata);
       if (readData.u === "") {
-        console.log("Adresse invalide");
+        //console.log("Adresse invalide");
       } else {
         if (this.listContainObject(readData.u.trim())) {
-          console.log("Efa misy io");
+          //console.log("Efa misy io");
           Platform.OS == "android"
             ? ToastAndroid.show("Adress already exist", ToastAndroid.SHORT)
             : this.refs.toast.show("Adress already exist", 1000);
         } else {
           this.setState({ loading: true });
-          console.log(this.state.list);
+          //console.log(this.state.list);
           tempList = [];
           tempList.push({
             account_id: this.props.navigation.state.params.user_id,
@@ -234,7 +234,7 @@ class Adresses extends Component {
               marginVertical: 15
             }}
             onPress={() => {
-              console.log("Show modal");
+              //console.log("Show modal");
               this.changeModalVisibility(true);
             }}
           />

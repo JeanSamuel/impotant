@@ -36,7 +36,7 @@ class RegisterPin extends Component {
   }
 
   handlePinInput_1 = text => {
-    console.log("ddata#########");
+    //console.log("ddata#########");
     this.setState({ pin1: text });
     if (text.length === 4) {
       this.setState({
@@ -48,8 +48,8 @@ class RegisterPin extends Component {
 
   handlePinInput_2 = text => {
     this.setState({ pin2: text });
-    console.log("input 2 toggled");
-    console.log("Toggle input2", this.state.pin1);
+    //console.log("input 2 toggled");
+    //console.log("Toggle input2", this.state.pin1);
     if (text.length === 4) {
       Keyboard.dismiss();
       if (text == this.state.pin1) {
@@ -59,12 +59,12 @@ class RegisterPin extends Component {
           services.getData("user_id").then(userdata => {
             user = JSON.parse(userdata);
             this.setState({ isLoading: !this.state.isLoading });
-            console.log(userdata);
+            //console.log(userdata);
             this.props.navigation.navigate("Drawer", user);
           });
         });
       } else {
-        console.log("Tsy mitovy");
+        //console.log("Tsy mitovy");
         this.setState({ pin2: "" });
         if (Platform.OS === "android") {
           ToastAndroid.show("Pin non correspondant", ToastAndroid.SHORT);

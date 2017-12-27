@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,23 +8,23 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
-  ScrollView
-} from "react-native";
-import PropTypes from "prop-types";
-import ViewPager from "react-native-viewpager";
-import { Header, Icon } from "react-native-elements";
-import StepIndicator from "react-native-step-indicator";
-import Indentite from "./Step/Identite/";
-import Contact from "./Step/Contact";
-import Securite from "./Step/Securite";
-import Validation from "./Step/Recap";
-import styles from "./styles";
+  ScrollView,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import ViewPager from 'react-native-viewpager';
+import {Header, Icon, ButtonGroup, Button} from 'react-native-elements';
+import StepIndicator from 'react-native-step-indicator';
+import Indentite from './Step/Identite/';
+import Contact from './Step/Contact';
+import Securite from './Step/Securite';
+import Validation from './Step/Recap';
+import styles from './styles';
 
-import { baseStyle } from "../../../../assets/styles";
-import MyButton from "../../../../components/Buttons/SamButton";
-import { InscriptionService, Utils } from "../../../../services";
+import {baseStyle} from '../../../../assets/styles';
+import Mybutton from '../../../../components/Buttons/SamButton';
+import {InscriptionService, Utils} from '../../../../services';
 
-const deviceWidth = Dimensions.get("window").width;
+const deviceWidth = Dimensions.get('window').width;
 
 const firstIndicatorStyles = {
   stepIndicatorSize: 30,
@@ -144,7 +144,7 @@ class MainInscription extends React.Component {
         this.setState({account_id: datajson.code});
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   handleActionLeft() {
@@ -181,7 +181,7 @@ class MainInscription extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
-        <StatusBar hidden={true} />
+        
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -222,7 +222,7 @@ class MainInscription extends React.Component {
           <View style={{width: '50%'}}>
             <Button
               icon={{name: 'ios-arrow-back', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00BF9A',paddingVertical:15}}
+              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
               title="Précédent"
               onPress={() => this._goBack()}
             />
@@ -230,17 +230,17 @@ class MainInscription extends React.Component {
           <View style={{width: '50%'}}>
             <Button
               iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00BF9A',paddingVertical:15}}
+              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
               title="Suivant"
               onPress={() => this._goNext()}
             />
           </View>
         </View>
         {this.state.loading &&
-        <View style={styles.indicator}>
-          <ActivityIndicator size="large" animating={true} color="blue" />
-          <Text style={styles.textindicator}>Enregistrement encours...</Text>
-        </View>}
+          <View style={styles.indicator}>
+            <ActivityIndicator size="large" animating={true} color="blue" />
+            <Text style={styles.textindicator}>Enregistrement encours...</Text>
+          </View>}
       </View>
     );
   }
@@ -258,7 +258,7 @@ const style = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: 150,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
   },
   buttonText: {
     color: '#fff',
@@ -268,7 +268,7 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -280,7 +280,7 @@ const style = StyleSheet.create({
   headingContainer: {
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
   },
   heading: {
     color: 'white',

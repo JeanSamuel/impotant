@@ -16,7 +16,7 @@ import {
 import PropTypes from "prop-types";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-import { Icon } from "react-native-elements";
+import { Icon,Button } from "react-native-elements";
 import { UserService, InscriptionService } from "../../../../../../services";
 import { loginCss } from "../../../../../../assets/styles/index";
 
@@ -85,7 +85,7 @@ class ValidationCompte extends React.Component {
   render() {
     return (
       <ScrollView style={{ backgroundColor: "#eee" }}>
-        <StatusBar hidden={true} />
+        
         <View style={styles.container}>
           <View
             style={{
@@ -95,7 +95,7 @@ class ValidationCompte extends React.Component {
               backgroundColor: "#eee"
             }}
           >
-            <View style={{ padding: 15, backgroundColor: "green" }}>
+            <View style={{ padding: 15}}>
               <Text
                 style={{
                   textAlign: "center",
@@ -184,7 +184,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -202,7 +202,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -223,7 +223,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -241,7 +241,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -259,7 +259,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -277,7 +277,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -298,7 +298,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -316,7 +316,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>
@@ -334,7 +334,7 @@ class ValidationCompte extends React.Component {
                       type="material-icon"
                       name="done"
                       size={20}
-
+                      
                     />
                   </View>
                   <View style={styles.w2}>

@@ -1,22 +1,22 @@
-import config from "../../config/data/dataM";
-import Utils from "../utils/Utils";
-const BASEURL = config.ARIARY_BASE_URL;
+import config from '../../config/data/dataM'
+import {Utils} from '../'
+const BASEURL = config.ARIARY_BASE_URL
 
 // create a component
-let instance = null;
+let instance = null
 class OffrirService {
-  static getInstance() {
+  static getInstance () {
     if (!instance) {
-      instance = new OffrirService();
+      instance = new OffrirService()
     }
-    return instance;
+    return instance
   }
-  async _validerOffre(activity) {
-    let url = BASEURL + "transaction";
-    var type_expo = "expo";
-    let success = null;
+  async _validerOffre (activity) {
+    let url = BASEURL + 'transaction'
+    var type_expo = 'expo'
+    let success = null
     try {
-      let device_token = await Utils.registerForPushNotificationsAsync();
+      let device_token = await Utils.registerForPushNotificationsAsync()
       let param_to_send = {
         senderId: activity.state.sender,
         recipientId: activity.state.recipient,
@@ -24,28 +24,33 @@ class OffrirService {
         comment: activity.state.message,
         type: type_expo,
         token: device_token
-      };
+      }
       let options = {
-        method: "POST",
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(param_to_send)
-      };
+      }
       await fetch(url, options)
         .then(response => response.json())
         .then(responseJson => {
           if (responseJson.error_message != null) {
-            throw responseJson.error_message;
+            throw responseJson.error_message
           } else {
-            success = responseJson;
+            success = responseJson
           }
-        });
+        })
+        .catch(error => {
+          //console.log('erreur', error)
+          throw error
+        })
     } catch (error) {
-      throw error.toString();
+      throw error.toString()
     }
+    return success
   }
 }
-//make this component available to the app
-export default OffrirService.getInstance();
+// make this component available to the app
+export default OffrirService.getInstance()

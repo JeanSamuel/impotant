@@ -14,7 +14,7 @@ export default DrawerNavigator(
     Profile: {
       screen: ProfileAriary,
       navigationOptions: ({ navigation }) => ({
-        title: "Profile",
+        title: "Profil",
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="ios-contact-outline"
@@ -129,7 +129,7 @@ export default DrawerNavigator(
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Profile",
     drawerWidth: width - 50,
     contentOptions: {
       activeTintColor: "#00cf7e",

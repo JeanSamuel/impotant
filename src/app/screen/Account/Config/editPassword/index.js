@@ -43,8 +43,8 @@ class EditPassword extends Component {
   }
   componentWillMount() {
     this.setState({
-      account_id: this.props.navigation.state.params.data.account_id,
-      username: this.props.navigation.state.params.data.pseudo
+      account_id: this.props.navigation.state.params.account_id,
+      username: this.props.navigation.state.params.pseudo
     });
   }
   _isEmptyField() {
@@ -105,8 +105,8 @@ class EditPassword extends Component {
   }
   render() {
     return (
-      <View style={configStyles.container}>
-        <View style={configStyles.content}>
+      <View style={{}}>
+        <View style={{}}>
           {this.state.haserror && (
             <View style={{ padding: 15, backgroundColor: "red" }}>
               <Text style={{ color: "white", textAlign: "center" }}>
@@ -148,7 +148,7 @@ class EditPassword extends Component {
               onPress={() => this.props.navigation.goBack()}
               style={configStyles.touch}
             >
-              <Text style={configStyles.touchtext}>Annuler</Text>
+              <Text style={configStyles.touchtext}>Retour</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this._confirmPass()}

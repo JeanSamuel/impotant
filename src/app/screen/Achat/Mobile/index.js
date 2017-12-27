@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,21 +13,21 @@ import {
   AsyncStorage,
   Alert,
   Modal,
-  Platform
-} from "react-native";
-import FlagResource from "../../../assets/flags";
+  Platform,
+} from 'react-native';
+import FlagResource from '../../../assets/flags';
 import {
   FormInput,
   FormLabel,
   CheckBox,
   SearchBar,
   Button,
-  Icon
-} from "react-native-elements";
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-import { AchatService, UserService, Utils } from "../../../services";
-import { configStyles, loginCss } from "../../../assets/styles/index";
+  Icon,
+} from 'react-native-elements';
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+import {AchatService, UserService, Utils} from '../../../services';
+import {configStyles, loginCss} from '../../../assets/styles/index';
 
 // create a component
 class ViaMobileMoney extends Component {
@@ -93,11 +93,10 @@ class ViaMobileMoney extends Component {
   }
   async componentWillMount() {
     try {
-      const dataUser = await Utils.getItem('userData');
+      const dataUser = await Utils.getItem('userInfo');
       if (dataUser == null) {
         this.props.navigation.navigate('Loader');
       }
-      console.log(JSON.parse(dataUser));
       let userData = JSON.parse(dataUser);
       this.setState({
         userinfo: userData,
@@ -113,8 +112,8 @@ class ViaMobileMoney extends Component {
     Alert.alert(
       'Confirmation',
       "Voulez-vous bien confirmer l'achat de  " +
-      this.getAmount() +
-      ' Ariary ?',
+        this.getAmount() +
+        ' Ariary ?',
       [
         {
           text: 'Annuller',
@@ -190,8 +189,8 @@ class ViaMobileMoney extends Component {
       Alert.alert(
         'Annulation',
         "Voulez-vous bien annuler l'achat de  " +
-        this.getAmount() +
-        ' Ariary ?',
+          this.getAmount() +
+          ' Ariary ?',
         [
           {text: 'non', onPress: () => this.setState({modalVisible: true})},
           {text: 'Oui', onPress: () => this.Annuler()},
@@ -279,9 +278,9 @@ class ViaMobileMoney extends Component {
           </View>
         </TouchableOpacity>
         {this.state.loading &&
-        <View style={configStyles.indicator}>
-          <ActivityIndicator size="large" animating={true} color="#666" />
-        </View>}
+          <View style={configStyles.indicator}>
+            <ActivityIndicator size="large" animating={true} color="#666" />
+          </View>}
       </Modal>
     );
   }
@@ -312,7 +311,7 @@ class ViaMobileMoney extends Component {
         <Button
           onPress={() => this._renderPasswordView()}
           icon={{name: 'done'}}
-          buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+          buttonStyle={{marginTop: 15, backgroundColor: '#00d07f'}}
           title="Valider"
         />
       </View>
@@ -322,7 +321,8 @@ class ViaMobileMoney extends Component {
     return (
       <ScrollView style={{backgroundColor: 'white'}}>
         <View style={stl.headingContainer}>
-          <Icon color="white" name="pets" size={42} />
+          <Icon color="white" name="ios-filing-outline"
+            type="ionicon" size={42} />
           <Text style={stl.heading}>Via Mobile Money</Text>
           <Text style={[stl.heading, {fontSize: 12}]}>
             Avec Ariary.net, acheter des bons d'achat via votre compte mobile
@@ -332,9 +332,9 @@ class ViaMobileMoney extends Component {
         <View style={stl.ctn}>
           <View>
             {this.state.haserror &&
-            <Text style={{color: 'red', textAlign: 'center', padding: 20}}>
-              {this.state.erreur}
-            </Text>}
+              <Text style={{color: 'red', textAlign: 'center', padding: 20}}>
+                {this.state.erreur}
+              </Text>}
           </View>
         </View>
         {this.renderFormsAchat()}
@@ -349,7 +349,7 @@ const stl = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '#00d07f',
   },
   heading: {
     color: 'white',

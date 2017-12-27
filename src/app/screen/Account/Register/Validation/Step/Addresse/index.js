@@ -1,10 +1,14 @@
-import React, {Component} from "react";
-import {View} from "react-native";
-import {FormInput, FormLabel} from "react-native-elements";
-import PropTypes from "prop-types";
-import {loginCss} from "../../../../../../assets/styles/index";
+/**
+ * Jean Samuel RANDRIANASOLO
+ */
+import React, {Component} from 'react';
+import {View, ScrollView, Text, Modal} from 'react-native';
+import {Icon, FormInput, FormLabel, Button} from 'react-native-elements';
+import CountryPicker from 'react-native-country-picker-modal';
+import PropTypes from 'prop-types';
+import {loginCss} from '../../../../../../assets/styles/index';
 
-import styles from "./styles";
+import styles from './styles';
 
 class Addresse extends Component {
   constructor(props) {
@@ -49,20 +53,20 @@ class Addresse extends Component {
   }
   render() {
     return (
-      <View style={styles.viewContainer}>
-        <FormLabel containerStyle={{marginTop: 8}}>Pays</FormLabel>
-        <FormInput
-          placeholder="Entrer votre pays"
-          onChangeText={pays => this.setState({pays})}
-          style={[
-            loginCss.input,
-            {backgroundColor: 'transparent'},
-          ]}
-          returnKeyType="done"
-          onEndEditing={() => {
-            this.updateStateAdresse();
-          }}
-        />
+        <View style={styles.viewContainer}>
+          <FormLabel containerStyle={{marginTop: 8}}>Pays</FormLabel>
+          <FormInput
+            placeholder="Entrer votre pays"
+            onChangeText={pays => this.setState({pays})}
+            style={[
+              loginCss.input,
+              {backgroundColor: 'transparent'},
+            ]}
+            returnKeyType="done"
+            onEndEditing={() => {
+              this.updateStateAdresse();
+            }}
+          />
         <FormLabel containerStyle={{marginTop: 8}}>Ville</FormLabel>
         <FormInput
           placeholder="Entrer votre ville"
@@ -150,7 +154,7 @@ class Addresse extends Component {
             this.updateStateAdresse();
           }}
         />
-      </View>
+        </View>
     );
   }
 }

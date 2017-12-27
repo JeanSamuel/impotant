@@ -33,9 +33,9 @@ class Logout extends Component {
         this.props.navigation.navigate("Landing");
       })
       .catch(error => {
-        console.log("====================================");
-        console.log("erruer ato disconnect", erreur);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("erruer ato disconnect", erreur);
+        //console.log("====================================");
       });
   }
 

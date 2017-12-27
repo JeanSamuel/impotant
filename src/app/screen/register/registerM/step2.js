@@ -70,7 +70,7 @@ class Step2 extends Component {
         this.props.navigation.navigate("Drawer", data);
       })
       .catch(error => {
-        console.log("error", error);
+        //console.log("error", error);
       });
   }
 

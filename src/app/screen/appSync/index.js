@@ -50,16 +50,16 @@ class AppSync extends Component {
         })
         
       }).catch(error => {
-        console.log('misy erreur synchronisation', error);
+        //console.log('misy erreur synchronisation', error);
 
       })
       
   };
 
   synchronisation(notification) {
-    console.log('====================================');
-    console.log(notification);
-    console.log('====================================');
+    //console.log('====================================');
+    //console.log(notification);
+    //console.log('====================================');
     let syncServices = new SyncServices();
     let services = new Services();
     let isDataOk = syncServices.checkDataNotification(notification);

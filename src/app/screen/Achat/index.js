@@ -1,13 +1,22 @@
 //import liraries
-import React, {Component} from "react";
-import {ActivityIndicator, StatusBar, StyleSheet, Text, View} from "react-native";
-import {Header} from "react-native-elements";
-import {baseStyle, configStyles} from "../../assets/styles";
+import React, { Component } from "react";
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Alert,
+  StatusBar,
+  ScrollView
+} from "react-native";
+import PropTypes from "prop-types";
+import { Header, Icon, Tabs, Tab } from "react-native-elements";
+import { loginCss, configStyles, baseStyle } from "../../assets/styles";
 import styles from "./Styles";
-import {UserService, Utils} from "../../services";
+import { UserService, Utils } from "../../services";
 import ViaMobileMoney from "./Mobile";
 import Mybutton from "../../components/Buttons/SamButton";
-
 // create a component
 class MainAchat extends Component {
   constructor(props) {
@@ -23,7 +32,7 @@ class MainAchat extends Component {
     try {
       await UserService.loadConfig(this);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     } finally {
       this.setState({loading: false});
     }
@@ -41,15 +50,15 @@ class MainAchat extends Component {
   renderRightComponent() {
     return (
       <View style={baseStyle.headerRightView}>
-        <Mybutton
-          iconName="settings"
+      <Mybutton
+        iconName="settings"
           type="material-icon"
-          onPress={() => this.loadConfig()}
-          styleBtn={[baseStyle.btnLeftHeader]}
-        />
+        onPress={() => this.loadConfig()}
+        styleBtn={[baseStyle.btnLeftHeader]}
+      />
         <Mybutton
-          iconName="share-alt"
-          type="font-awesome"
+           iconName="share-alt"
+           type="font-awesome"
           size={35}
           onPress={() => Utils.ShareApp()}
           styleBtn={[baseStyle.btnLeftHeader]}
@@ -70,7 +79,7 @@ class MainAchat extends Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: "#fff", flex: 1 }]}>
-        <StatusBar hidden={true} />
+        
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}

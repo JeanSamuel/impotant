@@ -35,7 +35,7 @@ class FingerprintRequest extends Component {
           authStatus: "fail",
           authError: result.error
         });
-        console.log("Fingerprint Auth Failed", result);
+        //console.log("Fingerprint Auth Failed", result);
       }
     } catch (err) {
       console.error("authFunction Error", err);

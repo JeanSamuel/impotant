@@ -1,30 +1,29 @@
-import React, { Component } from "react";
+/**
+ * Jean Samuel RANDRIANASOLO
+ */
+import React, {Component} from 'react';
 import {
   StatusBar,
   View,
-  TouchableOpacity,
-  Dimensions,
   Image,
   ScrollView,
-  TextInput,
-  AsyncStorage,
   Alert,
   Text,
-  Modal
-} from "react-native";
+  Modal,
+} from 'react-native';
 
-import PropTypes from "prop-types";
-import { Icon, FormInput, FormLabel } from "react-native-elements";
-import PhoneInput from "react-native-phone-input";
-import CountryPicker from "react-native-country-picker-modal";
+import PropTypes from 'prop-types';
+import {Icon,FormInput,FormLabel} from 'react-native-elements';
+import PhoneInput from 'react-native-phone-input';
+import CountryPicker from 'react-native-country-picker-modal';
 
-import { loginCss } from "../../../../../../assets/styles/index";
+import {loginCss} from '../../../../../../assets/styles/index';
 
-import styles from "./styles";
+import styles from './styles';
 
-import { Utils } from "../../../../../../services";
+import {Utils} from '../../../../../../services';
 
-const regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{6,}$/";
+const regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{6,}$/';
 
 class Recuperation extends Component {
   constructor(props) {
@@ -104,44 +103,44 @@ class Recuperation extends Component {
   }
   render() {
     return (
-      <View style={styles.cont}>
-        <FormLabel containerStyle={{marginTop: 0}}>
-          Téléphone de récupération
-        </FormLabel>
-        <FormInput
-          keyboardType="phone-pad"
-          placeholder="Entrer un numéro tél"
-          onChangeText={this.changeTextPhone.bind(this)}
-          onEndEditing={this.validatePhoneNumer.bind(this)}
-          value={this.state.numrec}
-          returnKeyLabel="next"
-        />
-        <FormLabel containerStyle={{marginTop: 8}}>
-          Mail de récupération
-        </FormLabel>
-        <FormInput
-          placeholder="Mail de récupération"
-          keyboardType="email-address"
-          style={[loginCss.input, {backgroundColor: 'transparent'}]}
-          onChangeText={mailrec => this.setState({mailrec})}
-          returnKeyType="next"
-          onEndEditing={() => {
-            this.updateStateRec();
-          }}
-        />
-        <FormLabel containerStyle={{marginTop: 8}}>
-          Personne/Compte bénéficiaire en cas de déces
-        </FormLabel>
-        <FormInput
-          placeholder="Personne/Compte bénéficiaire en cas de déces"
-          style={[loginCss.input, {backgroundColor: 'transparent'}]}
-          onChangeText={beneficiaire => this.setState({beneficiaire})}
-          returnKeyType="next"
-          onEndEditing={() => {
-            this.updateRecuperation();
-          }}
-        />
-      </View>
+        <View style={styles.cont}>
+          <FormLabel containerStyle={{marginTop: 0}}>
+            Téléphone de récupération
+          </FormLabel>
+          <FormInput
+            keyboardType="phone-pad"
+            placeholder="Entrer un numéro tél"
+            onChangeText={this.changeTextPhone.bind(this)}
+            onEndEditing={this.validatePhoneNumer.bind(this)}
+            value={this.state.numrec}
+            returnKeyLabel="next"
+          />
+          <FormLabel containerStyle={{marginTop: 8}}>
+            Mail de récupération
+          </FormLabel>
+          <FormInput
+            placeholder="Mail de récupération"
+            keyboardType="email-address"
+            style={[loginCss.input, {backgroundColor: 'transparent'}]}
+            onChangeText={mailrec => this.setState({mailrec})}
+            returnKeyType="next"
+            onEndEditing={() => {
+              this.updateStateRec();
+            }}
+          />
+          <FormLabel containerStyle={{marginTop: 8}}>
+            Personne/Compte bénéficiaire en cas de déces
+          </FormLabel>
+          <FormInput
+            placeholder="Personne/Compte bénéficiaire en cas de déces"
+            style={[loginCss.input, {backgroundColor: 'transparent'}]}
+            onChangeText={beneficiaire => this.setState({beneficiaire})}
+            returnKeyType="next"
+            onEndEditing={() => {
+              this.updateRecuperation();
+            }}
+          />
+        </View>
     );
   }
 }

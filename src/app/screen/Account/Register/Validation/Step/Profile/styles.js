@@ -1,8 +1,8 @@
 const React = require("react-native");
-
-const { StyleSheet,Dimensions} = React;
+import EStyleSheet from "react-native-extended-stylesheet";
+const { Dimensions} = React;
 const {height, width} = Dimensions.get('window');
-export default {
+export default EStyleSheet.create({
   container: {
     backgroundColor: "transparent"
   },
@@ -10,10 +10,10 @@ export default {
     marginBottom: 10
   },
   header:{
-    backgroundColor:"#00BF9A"
+    backgroundColor:"$darkColor"
   },
   footer:{
-    backgroundColor:"#00BF9A"
+    backgroundColor:"$darkColor"
   },
   textbienvenue:{
     flexDirection:'row',
@@ -52,7 +52,7 @@ export default {
   btn:{
     flexDirection: 'row',
     alignSelf: 'center',
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
     width: '100%',
   },
   text:{
@@ -85,7 +85,7 @@ export default {
   imgo:{
     overflow: 'hidden',
     justifyContent: 'center',
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 10,
@@ -93,4 +93,4 @@ export default {
   width:{
     width:width
   }
-};
+});

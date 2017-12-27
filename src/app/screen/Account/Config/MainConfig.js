@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,16 +10,16 @@ import {
   Image,
   Alert,
   RefreshControl,
-  ScrollView
-} from "react-native";
-import { Icon, Header, List, ListItem } from "react-native-elements";
-import PropTypes from "prop-types";
+  ScrollView,
+} from 'react-native';
+import {Icon, Header, List, ListItem, Button} from 'react-native-elements';
+import PropTypes from 'prop-types';
 
-import styles from "./styles";
-import { loginCss, baseStyle } from "../../../assets/styles";
-import { Utils, UserService } from "../../../services";
+import styles from './styles';
+import {loginCss, baseStyle} from '../../../assets/styles';
+import {Utils, UserService} from '../../../services';
 
-import MyButton from "../../../components/Buttons/SamButton";
+import Mybutton from '../../../components/Buttons/SamButton';
 
 // create a component
 class MainConfig extends Component {
@@ -29,61 +29,64 @@ class MainConfig extends Component {
       loading: false,
       ispinner: false,
       data: {
-        code: "",
-        mail: "",
-        nom: "",
-        phone: "",
-        solde: "",
-        username: "",
-        birthday: "",
-        roles: ""
+        code: '',
+        mail: '',
+        nom: '',
+        phone: '',
+        solde: '',
+        username: '',
+        birthday: '',
+        roles: '',
       },
       params: null,
       allparams: null,
-      isTemp: true
+      isTemp: true,
     };
   }
 
   onValueChange(value) {
     this.setState({
-      selected1: value
+      selected1: value,
     });
   }
   async componentWillMount() {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     let data = this.props.navigation.state.params.dataUser;
     this.setState({
       data: data.dataUser,
       params: data.params,
       isTemp: data.isTemp,
-      allparams: data
+      allparams: data,
     });
-    this.setState({ loading: false });
+    this.setState({loading: false});
   }
   async setDataOnrefresh() {
+    this.setState({loading: true});
     try {
-      const dataUser = await Utils.getItem("dataUser");
+      const dataUser = await Utils.getItem('userInfo');
       let userData = JSON.parse(dataUser);
       let account_id = userData.code;
       const userinfo = await UserService.getUserInfo(account_id, this);
       let test = userinfo.roles[0];
       let params = {
         account_id: userinfo.code,
-        pseudo: userinfo.username
+        pseudo: userinfo.username,
       };
       this.setState({
         data: userinfo,
         isTemp: UserService.getRoles(test),
-        params: params
+        params: params,
       });
     } catch (error) {
-      Alert.alert("Erreur", error.toString());
+      Alert.alert('Erreur', error.toString());
+    } finally {
+      this.setState({loading: false});
     }
   }
   async _onRefresh() {
-    this.setState({ ispinner: true });
+    this.setState({ispinner: true});
     await this.setDataOnrefresh();
-    this.setState({ ispinner: false });
+    this.setState({ispinner: false});
   }
   getAmount() {
     return Utils.formatNumber(this.state.data.solde);
@@ -102,27 +105,35 @@ class MainConfig extends Component {
         return "Actuellement, vous pouvez déjà acheter des bons d'achat, payer en ligne ou en envoyer à vos amis. Mais pour pouvoir recevoir des bons d'achat, il vous faudra valider votre compte.";
         break;
       case 3:
-        return "Felicitation, votre compte est  désormais validé. Vous avez un accès total aux services offert par Arairy.net. Vous pouvez modifier vos identité où vous êtes, quand vous voulez.";
+        return 'Felicitation, votre compte est  désormais validé. Vous avez un accès total aux services offert par Arairy.net. Vous pouvez modifier vos identité où vous êtes, quand vous voulez.';
         break;
     }
   }
   onPressAction(url, params) {
-    if (this.state.isTemp == 3) {
+    if (this.state.isTemp == 1) {
       Alert.alert(
-        "Information",
-        "Nous vous invitons à mettre à jour votre compte pour pouvoir modifier vos informations"
+        'Information',
+        'Nous vous invitons à mettre à jour votre compte pour pouvoir modifier vos informations'
       );
     } else {
       if (params != null) {
-        this.props.navigation.navigate(url, { data: params });
+        this.props.navigation.navigate(url, {data: params});
       }
       this.props.navigation.navigate(url, this.state.params);
     }
   }
+  loadInscription() {
+    this.props.navigation.navigate('Inscription', {
+      data: this.state.data.username,
+    });
+  }
+  loadValidCompteConfig() {
+    this.props.navigation.navigate('Validation');
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBar hidden={true} />
+      <View style={[styles.container, {backgroundColor: '#fff'}]}>
+        
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -162,53 +173,51 @@ class MainConfig extends Component {
             />
           }
         >
-          <View style={test.headingContainer}>
-            <Icon color="white" name="settings" size={42} />
-            <Text style={test.heading}>Configuration du compte</Text>
-            <Text style={[test.heading, { fontSize: 12 }]}>
+          <View style={styles.headingContainer}>
+            <Icon color="white" name="gears" type="font-awesome" size={42} />
+            <Text style={styles.heading}>Configuration du compte</Text>
+            <Text style={[styles.heading, {fontSize: 12}]}>
               {this.getMessage()}
             </Text>
           </View>
           {this.renderListConfig(
-            "Pseudo",
+            'Pseudo',
             this.state.data.username,
             <View
               style={[
-                test.leftIcon,
+                styles.leftIcon,
                 {
-                  backgroundColor: "green"
-                }
+                  backgroundColor: 'green',
+                },
               ]}
             >
               <Icon size={20} color="#fff" name="person" type="material-icon" />
             </View>,
-            "MainConfig",
+            'MainConfig',
             null
           )}
           {this.renderListConfig(
-            "Email",
+            'Email',
             this.state.data.mail,
-            <View style={[test.leftIcon, { backgroundColor: "#FF9501" }]}>
+            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
               <Icon size={20} color="#fff" name="mail" type="material-icon" />
             </View>,
-            "EditMail",
+            'EditMail',
             null
           )}
-
           {this.renderListConfig(
-            "Téléphone",
+            'Téléphone',
             this.state.data.phone,
-            <View style={[test.leftIcon, { backgroundColor: "#4CDA64" }]}>
+            <View style={[styles.leftIcon, {backgroundColor: '#4CDA64'}]}>
               <Icon type="material-icon" size={20} color="#fff" name="call" />
             </View>,
-            "EditPhone",
+            'EditPhone',
             null
           )}
-
           {this.renderListConfig(
-            "Date de naissance",
+            'Date de naissance',
             this.state.data.birthday,
-            <View style={[test.leftIcon, { backgroundColor: "#FF9501" }]}>
+            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
               <Icon
                 type="material-icon"
                 size={20}
@@ -216,76 +225,60 @@ class MainConfig extends Component {
                 name="date-range"
               />
             </View>,
-            "EditBirthday",
+            'EditBirthday',
             null
           )}
-
           {this.renderListConfig(
-            "Mot de passe",
-            "......",
+            'Mot de passe',
+            '......',
             <View
               style={[
-                test.leftIcon,
-                { backgroundColor: "rgba(231, 76, 60,1.0)" }
+                styles.leftIcon,
+                {backgroundColor: 'rgba(231, 76, 60,1.0)'},
               ]}
             >
               <Icon type="material-icon" size={20} color="#fff" name="lock" />
             </View>,
-            "EditPassword",
-            null
+            'EditPassword',
+            null,
           )}
-
-          {this.state.isTemp != 3 && (
-            <View style={{ backgroundColor: "#eee", padding: 15 }}>
-              <Text style={test.textDevider}>Avancée</Text>
-            </View>
-          )}
-          {this.state.isTemp == 1 && (
-            <View>
-              {this.renderListConfig(
-                "Completer mes informations",
-                "Veuillez completer votre inscription en vous inscrivant sur Ariary.net",
-                <View
-                  style={[
-                    test.leftIcon,
-                    { backgroundColor: "rgba(231, 76, 60,1.0)" }
-                  ]}
-                >
-                  <Icon
-                    type="material-icon"
-                    size={20}
-                    color="#fff"
-                    name="person"
-                  />
-                </View>,
-                "Inscription",
-                this.state.pseudo
-              )}
-            </View>
-          )}
-          {this.state.isTemp == 2 && (
-            <View>
-              {this.renderListConfig(
-                "Validation compte",
-                "Pour bénéficier de tous les services,veuillez compléter vos informations et valider votre compte",
-                <View
-                  style={[
-                    test.leftIcon,
-                    { backgroundColor: "rgba(231, 76, 60,1.0)" }
-                  ]}
-                >
-                  <Icon
-                    type="material-icon"
-                    size={20}
-                    color="#fff"
-                    name="done"
-                  />
-                </View>,
-                "Validation",
-                null
-              )}
-            </View>
-          )}
+           {/* {this.renderListConfig(
+            'Modifier tout',
+            'Modifier un ensemble d\'informations',
+            <View
+              style={[
+                styles.leftIcon,
+                {backgroundColor: 'rgba(231, 76, 60,1.0)'},
+              ]}
+            >
+              <Icon type="material-icon" size={20} color="#fff" name="lock" />
+            </View>,
+            'EditAll',
+            null,
+          )} */}
+          {this.state.isTemp == 1 &&
+            <View style={[styles.bottom]}>
+              <View style={{width: '100%'}}>
+                <Button
+                  iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
+                  buttonStyle={styles.buttonStyle}
+                  title="Completer mes informations"
+                  onPress={()=>this.loadInscription()}
+                />
+              </View>
+            </View>}
+          {this.state.isTemp == 2 &&
+            <View style={[styles.bottom]}>
+              <View style={{width: '100%'}}>
+                <Button
+                  iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
+                  buttonStyle={styles.buttonStyle}
+                  title="Valider mon compte"
+                  onPress={()=>this.loadValidCompteConfig()}
+                />
+              </View>
+            </View>}
+          <View />
         </ScrollView>
       </View>
     );
@@ -298,7 +291,9 @@ class MainConfig extends Component {
         title={title}
         subtitle={
           <View style={styles.subtitleView}>
-            <Text style={styles.ratingText}>{subtitle}</Text>
+            <Text style={styles.ratingText}>
+              {subtitle}
+            </Text>
           </View>
         }
         leftIcon={lefticon}
@@ -306,59 +301,5 @@ class MainConfig extends Component {
     );
   }
 }
-
-// define your styles
-const test = StyleSheet.create({
-  leftIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    marginRight: 5,
-    borderRadius: 5
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2c3e50"
-  },
-  textDevider: {
-    alignSelf: "flex-end",
-    fontSize: 18,
-    color: "#666",
-    paddingRight: 15
-  },
-  subtitleView: {
-    flexDirection: "row",
-    paddingLeft: 15,
-    paddingTop: 10
-  },
-  ratingImage: {
-    height: 19.21,
-    width: 100
-  },
-  ratingText: {
-    paddingLeft: 10,
-    color: "#666"
-  },
-  textEdit: {
-    color: "rgba(52, 152, 219, 1.0)"
-  },
-  headingContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#00BF9A"
-  },
-  heading: {
-    color: "white",
-    marginTop: 10,
-    fontSize: 22,
-    textAlign: "center"
-  },
-  labelContainerStyle: {
-    marginTop: 8
-  }
-});
 //make this component available to the app
 export default MainConfig;

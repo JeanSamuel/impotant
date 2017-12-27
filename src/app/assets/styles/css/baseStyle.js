@@ -1,14 +1,15 @@
-import {StyleSheet, Dimensions} from 'react-native';
-const baseStyle = StyleSheet.create({
+import {Dimensions} from 'react-native';
+import EStyleSheet from "react-native-extended-stylesheet";
+
+const baseStyle = EStyleSheet.create({
   header: {
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
     paddingVertical: 15,
     flexDirection: 'row',
   },
   textHeader: {
     color: 'white',
-    fontWeight: '800',
-    justifyContent: 'center',
+    fontWeight: '900',
     fontSize: 18,
     paddingVertical:5
   },
@@ -18,6 +19,7 @@ const baseStyle = StyleSheet.create({
   },
   headerRightView: {
     flexDirection: 'row',
+    justifyContent:'center'
   },
   headerBodyView: {
   },

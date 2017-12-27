@@ -1,8 +1,9 @@
 const React = require("react-native");
 
-const { StyleSheet,Dimensions } = React;
+const {Dimensions } = React;
+import EStyleSheet from "react-native-extended-stylesheet";
 const deviceWidth = Dimensions.get('window').width;
-export default {
+export default EStyleSheet.create({
   container: {
     backgroundColor: "#FFF"
   },
@@ -10,10 +11,10 @@ export default {
     marginBottom: 10
   },
   header: {
-    backgroundColor: "#00BF9A"
+    backgroundColor: "$darkColor"
   },
   footer: {
-    backgroundColor: "#00BF9A"
+    backgroundColor: "$darkColor"
   },
   textbienvenue: {
     flexDirection: "row",
@@ -29,7 +30,7 @@ export default {
   button: {
     padding: 10,
     margin: 2,
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
   },
   buttonText: {
     color: '#fff',
@@ -70,4 +71,4 @@ export default {
     backgroundColor: 'white',
     margin: '0.5%',
   },
-};
+});

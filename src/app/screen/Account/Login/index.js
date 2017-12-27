@@ -5,9 +5,7 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
-  TextInput,
   ScrollView,
-  Image,
   ActivityIndicator,
   AsyncStorage,
   Alert,
@@ -79,7 +77,7 @@ class Login extends React.Component {
         this.setState({ token: token, account_id: code });
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   renderErrorConnection() {
@@ -137,7 +135,7 @@ class Login extends React.Component {
               onPress={() => this.Cancel()}
               style={{
                 width: "49%",
-                backgroundColor: "#00BF9A",
+                backgroundColor: "#00d07f",
                 marginRight: "1%"
               }}
             >
@@ -151,7 +149,7 @@ class Login extends React.Component {
               }}
               style={{
                 width: "49%",
-                backgroundColor: "#00BF9A",
+                backgroundColor: "#00d07f",
                 marginLeft: "1%"
               }}
             >
