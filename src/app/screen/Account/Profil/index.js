@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,21 +10,21 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
-  RefreshControl,
-} from 'react-native';
+  RefreshControl
+} from 'react-native'
 
-import PropTypes from 'prop-types';
-import Mybutton from '../../../components/Buttons/SamButton';
-import {Icon, Header, Button} from 'react-native-elements';
-import {Notifications} from 'expo';
-import {loginCss, configStyles, baseStyle} from '../../../assets/styles';
-import {Utils, UserService, InscriptionService} from '../../../services';
-const deviceWidth = Dimensions.get('window').width;
+import PropTypes from 'prop-types'
+import Mybutton from '../../../components/Buttons/SamButton'
+import {Icon, Header, Button} from 'react-native-elements'
+import {Notifications} from 'expo'
+import {loginCss, configStyles, baseStyle} from '../../../assets/styles'
+import {Utils, UserService, InscriptionService} from '../../../services'
+const deviceWidth = Dimensions.get('window').width
 
 // create a component
 class ProfileAriary extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       loading: false,
       data: {
@@ -37,114 +37,113 @@ class ProfileAriary extends React.Component {
         phone: '',
         password: '',
         solde: '0',
-        avatar: null,
+        avatar: null
       },
       isTemp: null,
-      spinner: false,
-    };
-  }
-  async componentWillMount() {
-    try {
-      let data = await Utils.getItem('userInfo');
-      data = JSON.parse(data);
-      let role = UserService.getRoles(data.roles[0]);
-      this.setState({data: data, isTemp: role});
-    } catch (error) {
-      //console.log(error);
+      spinner: false
     }
   }
-  getAmount() {
-    return Utils.formatNumber(this.state.data.solde);
-  }
-  async loadConfig() {
-    this.setState({loading: true});
+  async componentWillMount () {
     try {
-      await UserService.loadConfig(this);
+      let data = await Utils.getItem('userInfo')
+      data = JSON.parse(data)
+      let role = UserService.getRoles(data.roles[0])
+      this.setState({data: data, isTemp: role})
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
+    }
+  }
+  getAmount () {
+    return Utils.formatNumber(this.state.data.solde)
+  }
+  async loadConfig () {
+    this.setState({loading: true})
+    try {
+      await UserService.loadConfig(this)
+    } catch (error) {
+      // console.log(error);
     } finally {
-      this.setState({loading: false});
+      this.setState({loading: false})
     }
   }
-  async refreshData() {
-    this.setState({spinner: true});
+  async refreshData () {
+    this.setState({spinner: true})
     try {
-      await UserService.refreshData(this.state.data.code, this);
-      let data = await Utils.getItem('userInfo');
-      data = JSON.parse(data);
-      let role = UserService.getRoles(data.roles[0]);
-      this.setState({data: data, isTemp: role,spinner:false});
-
+      await UserService.refreshData(this.state.data.code, this)
+      let data = await Utils.getItem('userInfo')
+      data = JSON.parse(data)
+      let role = UserService.getRoles(data.roles[0])
+      this.setState({data: data, isTemp: role, spinner: false})
     } catch (error) {
-      this.setState({spinner: false});
-      //console.log(error);
+      this.setState({spinner: false})
+      // console.log(error);
     }
   }
-  loadInscription() {
+  loadInscription () {
     this.props.navigation.navigate('Inscription', {
-      data: this.state.data.username,
-    });
+      data: this.state.data.username
+    })
   }
-  loadValidCompteConfig() {
-    this.props.navigation.navigate('Validation');
+  loadValidCompteConfig () {
+    this.props.navigation.navigate('Validation')
   }
-  getRoles() {
-    let ret = null;
+  getRoles () {
+    let ret = null
     switch (this.state.isTemp) {
       case 1:
-        ret = 'Temporaire';
-        break;
+        ret = 'Temporaire'
+        break
       case 2:
-        ret = 'Simple';
-        break;
+        ret = 'Simple'
+        break
       case 3:
-        ret = 'Validé';
-        break;
+        ret = 'Validé'
+        break
     }
-    return ret;
+    return ret
   }
-  handleActionLeft() {
-    this.props.navigation.navigate('DrawerOpen');
+  handleActionLeft () {
+    this.props.navigation.navigate('DrawerOpen')
   }
-  renderCenterComponent() {
+  renderCenterComponent () {
     return (
       <View style={baseStyle.headerBodyView}>
         <Text style={baseStyle.textHeader}>Mon Profil</Text>
       </View>
-    );
+    )
   }
-  renderRightComponent() {
+  renderRightComponent () {
     return (
       <View style={baseStyle.headerRightView}>
         <Mybutton
-          iconName="settings"
-          type="material-icon"
+          iconName='settings'
+          type='material-icon'
           onPress={() => this.loadConfig()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
         <Mybutton
-          iconName="share-alt"
-          type="font-awesome"
+          iconName='share-alt'
+          type='font-awesome'
           size={25}
           onPress={() => Utils.ShareApp()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
       </View>
-    );
+    )
   }
-  renderLeftComponent() {
+  renderLeftComponent () {
     return (
       <Mybutton
-        iconName="ios-menu"
-        type="ionicon"
+        iconName='ios-menu'
+        type='ionicon'
         onPress={() => this.handleActionLeft()}
         styleBtn={[baseStyle.btnLeftHeader]}
       />
-    );
+    )
   }
-  render() {
+  render () {
     return (
-      <View style={{backgroundColor: '#eee'}}>
+      <View style={{backgroundColor: '#eee',flex:1}}>
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}
@@ -155,37 +154,37 @@ class ProfileAriary extends React.Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.spinner}
-              onRefresh={()=>this.refreshData()}
+              onRefresh={() => this.refreshData()}
             />
           }
         >
-          <View style={[configStyles.container, {backgroundColor: '#eee'}]}>
-            <View style={[configStyles.content, {marginTop: '0%'}]}>
+          <View style={{backgroundColor: '#eee'}}>
+            <View style={{marginTop: '0%'}}>
               <View
                 style={[
                   configStyles.header,
-                  {padding: 0, width: '100%', backgroundColor: 'transparent'},
+                  {padding: 0, width: '100%', backgroundColor: 'transparent'}
                 ]}
               >
                 <View
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',
-                    paddingVertical: 15,
+                    paddingVertical: 15
                   }}
                 >
                   <View style={loginCss.imageLogin}>
                     {this.state.data.avatar == null &&
                       <Icon
-                        name="user-circle-o"
+                        name='user-circle-o'
                         size={100}
-                        color="#00d07f"
-                        type="font-awesome"
+                        color='#00d07f'
+                        type='font-awesome'
                       />}
                     {this.state.data.avatar != null &&
                       <TouchableOpacity
                         onPress={() => {
-                          //console.log('Avatar');
+                          // console.log('Avatar');
                         }}
                       >
                         <Image
@@ -271,92 +270,90 @@ class ProfileAriary extends React.Component {
                   </View>
                 </View>
               </View>
-              {this.state.isTemp == 2 &&
-                <View style={[configStyles.footer, {flexDirection: 'column'}]}>
-                  <TouchableOpacity
-                    onPress={() => this.loadValidCompteConfig()}
-                    style={[
-                      configStyles.touch,
-                      {
-                        width: '100%',
-                        backgroundColor: '#00d07f',
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                      }}
-                    >
-                      <Icon
-                        size={30}
-                        name="ios-settings-outline"
-                        color="white"
-                        style={{paddingVertical: 10}}
-                        type="ionicon"
-                      />
-                      <Text style={[configStyles.touchtext, {color: 'white'}]}>
-                        Valider mon compte
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>}
-              {this.state.isTemp == 1 &&
-                <View style={[configStyles.footer, {flexDirection: 'column'}]}>
-                  <TouchableOpacity
-                    onPress={() => this.loadInscription()}
-                    style={[
-                      configStyles.touch,
-                      {
-                        width: '100%',
-                        backgroundColor: '#00d07f',
-                      },
-                    ]}
-                  >
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                      }}
-                    >
-                      <Image
-                        source={require('../../..//assets/images/ariary.png')}
-                        style={{width: 25, height: 25, marginVertical: 10}}
-                        resizeMode="contain"
-                      />
-                      <Text style={[configStyles.touchtext, {color: 'white'}]}>
-                        Inscription simple
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>}
             </View>
           </View>
-          {this.state.loading &&
-            <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
-            </View>}
         </ScrollView>
+        <View style={[configStyles.footer, {flexDirection: 'column',justifyContent:'flex-end'}]}>
+          {this.state.isTemp == 2 &&
+            <TouchableOpacity
+              onPress={() => this.loadValidCompteConfig()}
+              style={[
+                configStyles.touch,
+                {
+                  width: '100%',
+                  backgroundColor: '#00d07f'
+                }
+              ]}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignContent: 'center'
+                }}
+              >
+                <Icon
+                  size={30}
+                  name='ios-settings-outline'
+                  color='white'
+                  style={{paddingVertical: 10}}
+                  type='ionicon'
+                />
+                <Text style={[configStyles.touchtext, {color: 'white'}]}>
+                  Valider mon compte
+                </Text>
+              </View>
+            </TouchableOpacity>}
+          {this.state.isTemp == 1 &&
+            <TouchableOpacity
+              onPress={() => this.loadInscription()}
+              style={[
+                configStyles.touch,
+                {
+                  width: '100%',
+                  backgroundColor: '#00d07f'
+                }
+              ]}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignContent: 'center'
+                }}
+              >
+                <Image
+                  source={require('../../..//assets/images/ariary.png')}
+                  style={{width: 25, height: 25, marginVertical: 10}}
+                  resizeMode='contain'
+                />
+                <Text style={[configStyles.touchtext, {color: 'white'}]}>
+                  Inscription simple
+                </Text>
+              </View>
+            </TouchableOpacity>}
+        </View>
+        {this.state.loading &&
+          <View style={configStyles.indicator}>
+            <ActivityIndicator size='large' animating color='#666' />
+          </View>}
       </View>
-    );
+    )
   }
 }
 const styles = StyleSheet.create({
   w1: {
     width: '10%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   w2: {
-    width: '40%',
+    width: '40%'
   },
   w3: {
-    width: '50%',
-  },
-});
+    width: '50%'
+  }
+})
 
-//make this component available to the app
-export default ProfileAriary;
+// make this component available to the app
+export default ProfileAriary

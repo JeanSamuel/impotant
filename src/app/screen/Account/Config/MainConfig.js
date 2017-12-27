@@ -242,20 +242,20 @@ class MainConfig extends Component {
             'EditPassword',
             null,
           )}
-           {/* {this.renderListConfig(
+           {this.renderListConfig(
             'Modifier tout',
-            'Modifier un ensemble d\'informations',
+            'Modifier mes informations',
             <View
               style={[
                 styles.leftIcon,
                 {backgroundColor: 'rgba(231, 76, 60,1.0)'},
               ]}
             >
-              <Icon type="material-icon" size={20} color="#fff" name="lock" />
+              <Icon type="font-awesome" size={20} color="#fff" name="account-circle" />
             </View>,
             'EditAll',
             null,
-          )} */}
+          )}
           {this.state.isTemp == 1 &&
             <View style={[styles.bottom]}>
               <View style={{width: '100%'}}>

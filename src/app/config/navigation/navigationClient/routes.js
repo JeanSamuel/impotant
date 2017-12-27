@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity, View, StatusBar, Platform} from "react-nat
 import {Icon} from "react-native-elements";
 import {StackNavigator} from "react-navigation";
 import {
-  CustomKey, EditMail, EditName, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
+  CustomKey, EditMail, EditAll, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
   MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte,EditBirthday
 } from "../../../screen/index";
 import headStyle from "../../../assets/styles/stylesC/headerStyle";
@@ -191,8 +191,8 @@ const MainNavigator = new StackNavigator(
         header: () => null
       })
     },
-    EditName: {
-      screen: EditName,
+    EditAll: {
+      screen: EditAll,
       navigationOptions: ({ navigation }) => ({
         header: () => null
       })

@@ -1,5 +1,5 @@
-//import liraries
-import React, {Component} from 'react';
+// import liraries
+import React, {Component} from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,9 @@ import {
   ActivityIndicator,
   Alert,
   StatusBar,
-  Modal,
-} from 'react-native';
+  Dimensions,
+  Modal
+} from 'react-native'
 import {
   Header,
   Icon,
@@ -21,18 +22,18 @@ import {
   CheckBox,
   SearchBar,
   Button,
-} from 'react-native-elements';
-import Mybutton from '../../components/Buttons/SamButton';
-import {loginCss, baseStyle, configStyles} from '../../assets/styles/index';
-import {Utils, UserService, OffrirService} from '../../services';
-//import config from '../../config/data/dataM';
-//const BASE_URL = config.ARIARY_BASE_URL;
+} from 'react-native-elements'
+import Mybutton from '../../components/Buttons/SamButton'
+import {loginCss, baseStyle, configStyles} from '../../assets/styles/index'
+import {Utils, UserService, OffrirService} from '../../services'
+// import config from '../../config/data/dataM';
+// const BASE_URL = config.ARIARY_BASE_URL;
 
-import styles from './style';
+import styles from './style'
 // create a component
 class Offrir extends Component {
-  constructor() {
-    super();
+  constructor () {
+    super()
     this.state = {
       loading: false,
       amount: 0,
@@ -44,31 +45,31 @@ class Offrir extends Component {
       modalVisible: false,
       userinfo: null,
       message: '',
-      username: '',
-    };
+      username: ''
+    }
   }
-  async componentWillMount() {
+  async componentWillMount () {
     try {
-      let dataUser = await Utils.getItem('userInfo');
+      let dataUser = await Utils.getItem('userInfo')
       if (dataUser == null) {
-        this.props.navigation.navigate('Loader');
+        this.props.navigation.navigate('Loader')
       }
-      let userData = JSON.parse(dataUser);
+      let userData = JSON.parse(dataUser)
       this.setState({
         userinfo: userData,
         sender: userData.code,
-        username: userData.username,
-      });
+        username: userData.username
+      })
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
     }
   }
 
-  _cancelTransfer() {
-    this.props.navigation.navigate('Profile');
+  _cancelTransfer () {
+    this.props.navigation.navigate('Profile')
   }
 
-  _confirmTransfer() {
+  _confirmTransfer () {
     if (!this._isEmptyField()) {
       Alert.alert(
         'Confirmation',
@@ -79,98 +80,98 @@ class Offrir extends Component {
           ' ?',
         [
           {text: 'Annuller', onPress: () => _cancelTransfer()},
-          {text: 'Je Confirme', onPress: () => this._validerOffre()},
+          {text: 'Je Confirme', onPress: () => this._validerOffre()}
         ]
-      );
+      )
     } else {
-      this.setState({loading: false});
-      Alert.alert('Erreur survennue', 'Tous les champs sont requis');
+      this.setState({loading: false})
+      Alert.alert('Erreur survennue', 'Tous les champs sont requis')
     }
   }
-  _isEmptyField() {
-    return this._isEmptyAmount() || this._isEmptyRecipient();
+  _isEmptyField () {
+    return this._isEmptyAmount() || this._isEmptyRecipient()
   }
-  _isEmptyAmount() {
-    return this.state.amount == null || this.state.amount == '';
+  _isEmptyAmount () {
+    return this.state.amount == null || this.state.amount == ''
   }
-  _isEmptyRecipient() {
-    return this.state.recipient == null || this.state.recipient == '';
+  _isEmptyRecipient () {
+    return this.state.recipient == null || this.state.recipient == ''
   }
-  _isEmptyPassword() {
-    return this.state.password == null || this.state.password == '';
+  _isEmptyPassword () {
+    return this.state.password == null || this.state.password == ''
   }
-  async _validerOffre() {
-    //let url = BASE_URL + 'transaction';
-    //console.log(this.state.userinfo);
-    this.setState({loading: true});
+  async _validerOffre () {
+    // let url = BASE_URL + 'transaction';
+    // console.log(this.state.userinfo);
+    this.setState({loading: true})
     try {
-      let r = UserService.getRoles(this.state.userinfo.roles[0]);
+      let r = UserService.getRoles(this.state.userinfo.roles[0])
       if (r == 1) {
         Alert.alert(
           'Inscrivez-vous',
           'Vous devez vous inscrire si vous voulez utiliser cette service',
           [
             {text: 'Pas maintenant', onPress: () => this.Annuler()},
-            {text: "S'inscrire", onPress: () => this.goToInscriptionPage()},
+            {text: "S'inscrire", onPress: () => this.goToInscriptionPage()}
           ]
-        );
+        )
       } else {
         await UserService.verifyUser(
           this.state.username,
           this.state.password,
           this
-        );
-        let success=await OffrirService._validerOffre(this);
-        if(success!=null){
-          this.setState({loading: false});
-          this.setState({modalVisible: false});
-          this.props.navigation.navigate('Profile');
+        )
+        let success = await OffrirService._validerOffre(this)
+        if (success != null) {
+          this.setState({loading: false})
+          this.setState({modalVisible: false})
+          this.props.navigation.navigate('Profile')
         }
       }
     } catch (error) {
-      this.setState({modalVisible: false});
-      this.setState({loading: false});
-      Alert.alert('Erreur survennue', error.toString());
+      this.setState({modalVisible: false})
+      this.setState({loading: false})
+      Alert.alert('Erreur survennue', error.toString())
     }
   }
-  async loadConfig() {
-    this.setState({loading: true});
+  async loadConfig () {
+    this.setState({loading: true})
     try {
-      await UserService.loadConfig(this);
+      await UserService.loadConfig(this)
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
     } finally {
-      this.setState({loading: false});
+      this.setState({loading: false})
     }
   }
 
-  goToInscriptionPage() {
-    this.setState({modalVisible: false});
+  goToInscriptionPage () {
+    this.setState({modalVisible: false})
     this.props.navigation.navigate('Inscription', {
-      data: this.state.username,
-    });
+      data: this.state.username
+    })
   }
 
-  _renderPasswordView() {
+  _renderPasswordView () {
     if (!this._isEmptyField()) {
-      this.setState({modalVisible: true});
+      this.setState({modalVisible: true})
     } else {
       Alert.alert(
         'Info',
         "Veuillez compléter les informations démandées s'il vous plait"
-      );
+      )
     }
   }
-  Annuler() {
+  Annuler () {
     this.setState({
       modalVisible: false,
       amount: '',
       recipient: '',
-      message: '',
-    });
-    this._cancelTransfer();
+      message: ''
+    })
+    this._cancelTransfer()
   }
-  async closeModal() {
+  async closeModal () {
     if (this.state.password == null || this.state.password == '') {
       Alert.alert(
         'Annuelation',
@@ -179,98 +180,91 @@ class Offrir extends Component {
           ' Ariary ?',
         [
           {text: 'non', onPress: () => this.setState({modalVisible: true})},
-          {text: 'Oui', onPress: () => this.Annuler()},
+          {text: 'Oui', onPress: () => this.Annuler()}
         ]
-      );
+      )
     } else {
-      this._confirmTransfer();
+      this._confirmTransfer()
     }
   }
-  async initTransfer() {
+  async initTransfer () {
     try {
-      await this._validerOffre();
+      await this._validerOffre()
     } catch (error) {
-      Alert.alert('Erreur', error.toString());
+      Alert.alert('Erreur', error.toString())
     }
   }
-  getAmount() {
-    return Utils.formatNumber(this.state.amount);
+  getAmount () {
+    return Utils.formatNumber(this.state.amount)
   }
-  handleActionLeft() {
-    this.props.navigation.navigate('DrawerOpen');
+  handleActionLeft () {
+    this.props.navigation.navigate('DrawerOpen')
   }
-  renderCenterComponent() {
+  renderCenterComponent () {
     return (
       <View style={baseStyle.headerBodyView}>
         <Text style={baseStyle.textHeader}>Transfert</Text>
       </View>
-    );
+    )
   }
-  renderRightComponent() {
+  renderRightComponent () {
     return (
       <View style={baseStyle.headerRightView}>
-      <Mybutton
-          iconName="settings"
-          type="material-icon"
+        <Mybutton
+          iconName='settings'
+          type='material-icon'
           onPress={() => this.loadConfig()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
         <Mybutton
-           iconName="share-alt"
-           type="font-awesome"
+          iconName='share-alt'
+          type='font-awesome'
           size={35}
           onPress={() => Utils.ShareApp()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
       </View>
-    );
+    )
   }
-  renderLeftComponent() {
+  renderLeftComponent () {
     return (
       <Mybutton
-        iconName="ios-menu"
-        type="ionicon"
+        iconName='ios-menu'
+        type='ionicon'
         onPress={() => this.handleActionLeft()}
         styleBtn={[baseStyle.btnLeftHeader]}
       />
-    );
+    )
   }
-  renderFormsTransfert() {
+  renderFormsTransfert () {
     return (
       <View>
         <FormLabel containerStyle={{marginTop: 8}}>Montant</FormLabel>
         <FormInput
           onChangeText={amount => this.setState({amount})}
-          keyboardType="phone-pad"
-          placeholder="Entrer le montant"
+          keyboardType='phone-pad'
+          placeholder='Entrer le montant'
           value={this.state.montant}
-          returnKeyLabel="next"
+          returnKeyLabel='next'
         />
         <FormLabel containerStyle={{marginTop: 8}}>Envoyé à</FormLabel>
         <FormInput
-          placeholder="Numéro de compte Ariary.net"
+          placeholder='Numéro de compte Ariary.net'
           onChangeText={recipient => this.setState({recipient})}
           value={this.state.recipient}
         />
         <FormLabel containerStyle={{marginTop: 8}}>Commentaire</FormLabel>
         <FormInput
           onChangeText={message => this.setState({message})}
-          placeholder="Ajouter un commentaire"
+          placeholder='Ajouter un commentaire'
           value={this.state.message}
         />
-        <Button
-          onPress={() => this._renderPasswordView()}
-          icon={{name: 'done'}}
-          buttonStyle={{marginTop: 15, backgroundColor: '#00d07f'}}
-          title="Valider"
-        />
       </View>
-    );
+    )
   }
-  render() {
+  render () {
     return (
       <View style={[styles.container, {backgroundColor: '#fff', flex: 1}]}>
-        
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}
@@ -279,19 +273,30 @@ class Offrir extends Component {
         />
         <ScrollView>
           <View style={styles.headingContainer}>
-            <Icon color="white"  name="present"
-            type="simple-line-icon" size={42} />
+            <Icon
+              color='white'
+              name='present'
+              type='simple-line-icon'
+              size={42}
+            />
             <Text style={styles.heading}>Offrir à un ami</Text>
           </View>
           {this.renderFormsTransfert()}
         </ScrollView>
-
+        <View style={{justifyContent: 'flex-end'}}>
+          <Button
+            onPress={() => this._renderPasswordView()}
+            icon={{name: 'done'}}
+            buttonStyle={{backgroundColor: '#00d07f',width:Dimensions.get('window').width}}
+            title='Valider'
+          />
+        </View>
         <Modal
-          animationType="slide"
-          transparent={true}
+          animationType='slide'
+          transparent
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({modalVisible: false});
+            this.setState({modalVisible: false})
           }}
         >
           <TouchableOpacity
@@ -308,18 +313,18 @@ class Offrir extends Component {
               </View>
               <View style={[{padding: 10, height: 60}]}>
                 <TextInput
-                  placeholder="Mot de passe de confirmation"
-                  autoFocus={true}
+                  placeholder='Mot de passe de confirmation'
+                  autoFocus
                   secureTextEntry
                   style={[
                     loginCss.input,
-                    {textAlign: 'center', borderRadius: 10, height: 50},
+                    {textAlign: 'center', borderRadius: 10, height: 50}
                   ]}
                   onChangeText={password => {
-                    this.setState({password: password});
+                    this.setState({password: password})
                   }}
                   onEndEditing={() => {
-                    this.closeModal();
+                    this.closeModal()
                   }}
                 />
               </View>
@@ -328,19 +333,19 @@ class Offrir extends Component {
           {this.state.loading &&
             <View style={configStyles.indicator}>
               <ActivityIndicator
-                size="large"
-                animating={true}
-                color="#00d07f"
+                size='large'
+                animating
+                color='#00d07f'
               />
             </View>}
         </Modal>
         {this.state.loading &&
           <View style={configStyles.indicator}>
-            <ActivityIndicator size="large" animating={true} color="#00d07f" />
+            <ActivityIndicator size='large' animating color='#00d07f' />
           </View>}
       </View>
-    );
+    )
   }
 }
-//make this component available to the app
-export default Offrir;
+// make this component available to the app
+export default Offrir

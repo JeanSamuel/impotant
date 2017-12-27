@@ -13,7 +13,7 @@ import EditPhone from './Account/Config/editPhone'
 import EditBirthday from './Account/Config/editBirthday'
 import MainConfig from './Account/Config/MainConfig'
 import EditMail from './Account/Config/editMail'
-import EditName from './Account/Config/editName'
+import EditAll from './Account/Config/EditAll'
 import EditPseudo from './Account/Config/editPseudo'
 import MainInscription from './Account/Register/Simple'
 import MainValidation from './Account/Register/Validation'
@@ -57,7 +57,7 @@ export {
   EditPhone,
   MainConfig,
   EditMail,
-  EditName,
+  EditAll,
   EditPseudo,
   EditBirthday,
   MainInscription,

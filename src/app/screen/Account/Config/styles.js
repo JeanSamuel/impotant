@@ -56,7 +56,7 @@ const styles = EStyleSheet.create({
   },
   subtitleView: {
     flexDirection: 'row',
-    paddingTop: 10
+    paddingTop: 5
   },
   ratingImage: {
     height: 19.21,

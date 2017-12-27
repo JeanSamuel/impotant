@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Modal,
   StyleSheet,
@@ -8,15 +8,15 @@ import {
   ActivityIndicator,
   Alert,
   StatusBar,
-  ScrollView
-} from "react-native";
-import PropTypes from "prop-types";
-import { Header, Icon, Tabs, Tab } from "react-native-elements";
-import { loginCss, configStyles, baseStyle } from "../../assets/styles";
-import styles from "./Styles";
-import { UserService, Utils } from "../../services";
-import ViaMobileMoney from "./Mobile";
-import Mybutton from "../../components/Buttons/SamButton";
+  ScrollView,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {Header, Icon, Tabs, Tab} from 'react-native-elements';
+import {loginCss, configStyles, baseStyle} from '../../assets/styles';
+import styles from './Styles';
+import {UserService, Utils} from '../../services';
+import ViaMobileMoney from './Mobile';
+import Mybutton from '../../components/Buttons/SamButton';
 // create a component
 class MainAchat extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class MainAchat extends Component {
     this.state = {
       loading: false,
       isVisible: false,
-      result: ""
+      result: '',
     };
   }
   async loadConfig() {
@@ -36,9 +36,10 @@ class MainAchat extends Component {
     } finally {
       this.setState({loading: false});
     }
-  }s
+  }
+  s;
   handleActionLeft() {
-    this.props.navigation.navigate("DrawerOpen");
+    this.props.navigation.navigate('DrawerOpen');
   }
   renderCenterComponent() {
     return (
@@ -50,21 +51,22 @@ class MainAchat extends Component {
   renderRightComponent() {
     return (
       <View style={baseStyle.headerRightView}>
-      <Mybutton
-        iconName="settings"
-          type="material-icon"
-        onPress={() => this.loadConfig()}
-        styleBtn={[baseStyle.btnLeftHeader]}
-      />
         <Mybutton
-           iconName="share-alt"
-           type="font-awesome"
+          iconName="settings"
+          type="material-icon"
+          onPress={() => this.loadConfig()}
+          styleBtn={[baseStyle.btnLeftHeader]}
+        />
+        <Mybutton
+          iconName="share-alt"
+          type="font-awesome"
           size={35}
           onPress={() => Utils.ShareApp()}
           styleBtn={[baseStyle.btnLeftHeader]}
         />
       </View>
-    );s
+    );
+    s;
   }
   renderLeftComponent() {
     return (
@@ -78,8 +80,7 @@ class MainAchat extends Component {
   }
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: "#fff", flex: 1 }]}>
-        
+      <View style={[styles.container, {backgroundColor: '#fff', flex: 1}]}>
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}
@@ -87,11 +88,10 @@ class MainAchat extends Component {
           rightComponent={this.renderRightComponent()}
         />
         <ViaMobileMoney navigation={this.props.navigation} activity={this} />
-        {this.state.loading && (
+        {this.state.loading &&
           <View style={configStyles.indicator}>
             <ActivityIndicator size="large" animating={true} color="#666" />
-          </View>
-        )}
+          </View>}
       </View>
     );
   }
@@ -100,42 +100,42 @@ class MainAchat extends Component {
 //make this component available to the app
 const modal = StyleSheet.create({
   annuler: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 50,
-    backgroundColor: "#FFC107",
-    paddingHorizontal: 20
+    backgroundColor: '#FFC107',
+    paddingHorizontal: 20,
   },
   header: {
-    backgroundColor: "#009688",
+    backgroundColor: '#009688',
     padding: 10,
-    width: "90%"
+    width: '90%',
   },
   content: {
     flex: 1,
-    backgroundColor: "#eee"
+    backgroundColor: '#eee',
   },
   footer: {
-    backgroundColor: "#009688",
-    padding: 20
+    backgroundColor: '#009688',
+    padding: 20,
   },
   contenuemodal: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   page: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   main: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
-  }
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
 });
 export default MainAchat;

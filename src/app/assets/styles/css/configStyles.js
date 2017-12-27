@@ -37,11 +37,11 @@ const configStyles = EStyleSheet.create({
   textHeader: {
     textAlign: 'center',
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: 18,
     color: '#fff'
   },
   indicator: {
-    backgroundColor: 'rgba(44, 62, 80,0.1)',
+    backgroundColor: '$darkColor',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
