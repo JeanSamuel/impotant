@@ -1,5 +1,5 @@
 //import liraries
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Modal,
   StyleSheet,
@@ -11,10 +11,10 @@ import {
   ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Header, Icon, Tabs, Tab} from 'react-native-elements';
-import {loginCss, configStyles, baseStyle} from '../../assets/styles';
+import { Header, Icon, Tabs, Tab } from 'react-native-elements';
+import { loginCss, configStyles, baseStyle } from '../../assets/styles';
 import styles from './Styles';
-import {UserService, Utils} from '../../services';
+import { UserService, Utils } from '../../services';
 import ViaMobileMoney from './Mobile';
 import Mybutton from '../../components/Buttons/SamButton';
 // create a component
@@ -28,13 +28,13 @@ class MainAchat extends Component {
     };
   }
   async loadConfig() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     try {
       await UserService.loadConfig(this);
     } catch (error) {
       //console.log(error);
     } finally {
-      this.setState({loading: false});
+      this.setState({ loading: false });
     }
   }
   s;
@@ -80,7 +80,7 @@ class MainAchat extends Component {
   }
   render() {
     return (
-      <View style={[styles.container, {backgroundColor: '#fff', flex: 1}]}>
+      <View style={[styles.container, { backgroundColor: '#fff', flex: 1 }]}>
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}
@@ -90,7 +90,7 @@ class MainAchat extends Component {
         <ViaMobileMoney navigation={this.props.navigation} activity={this} />
         {this.state.loading &&
           <View style={configStyles.indicator}>
-            <ActivityIndicator size="large" animating={true} color="#666" />
+            <ActivityIndicator size="large" animating={true} color="#1C2E48" />
           </View>}
       </View>
     );

@@ -19,7 +19,7 @@ class EditPhone extends Component {
     super();
     this.state = {
       oldphone: "",
-      newphone: "",
+      newphone: "+261 ",
       password: "",
       username: "",
       userInfo: "",
@@ -34,7 +34,7 @@ class EditPhone extends Component {
       let pseudo = this.props.navigation.state.params.pseudo;
       const userinfo = await UserService.getUserInfo(account_id, this);
       this.setState({
-        oldphone: userinfo.phone,
+        oldphone: Utils._parsePhone(userinfo.phone, 'mg'),
         account_id: account_id,
         userInfo: userinfo,
         username: pseudo
@@ -55,6 +55,7 @@ class EditPhone extends Component {
           firstname: this.state.userInfo.prenom,
           birthday: this.state.userInfo.birthday
         };
+        Utils.validatePhoneNumer(this.state.newphone);
         await UserService.updateUserInfo(dataUser, this);
       } catch (error) {
         Alert.alert("Erreur", error.toString());
@@ -99,47 +100,53 @@ class EditPhone extends Component {
       Alert.alert("Erreur", error.toString());
     }
   }
+  changeTextPhone(text) {
+    try {
+      var ret = Utils._parsePhone(text, 'mg')
+      this.setState({ newphone: ret })
+    } catch (error) {
+      this.setState({ newphone: text })
+    }
+  }
   render() {
     return (
-      <View style={{}}>
-        <View style={{}}>
-          <View style={configStyles.header}>
-            <Text style={configStyles.textHeader}>Editer numéro tél</Text>
-          </View>
-          <View style={{ padding: 15 }}>
-            <TextInput
-              style={configStyles.input}
-              value={this.state.oldphone}
-              editable={false}
-            />
-          </View>
-          <View style={{ padding: 15 }}>
-            <TextInput
-              placeholder="Nouveau Numero"
-              keyboardType="phone-pad"
-              onChangeText={nom => this.setState({ nom })}
-              style={configStyles.input}
-              onChangeText={newphone => this.setState({ newphone })}
-              returnKeyType="done"
-              onEndEditing={() => {
-                this._renderPasswordView();
-              }}
-            />
-          </View>
-          <View style={configStyles.footer}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Retour</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this._renderPasswordView()}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Valider</Text>
-            </TouchableOpacity>
-          </View>
+      <View style={{ flex: 1 }}>
+        <View style={configStyles.header}>
+          <Text style={configStyles.textHeader}>Editer numéro tél</Text>
+        </View>
+        <View style={{ padding: 15 }}>
+          <TextInput
+            style={configStyles.input}
+            value={this.state.oldphone}
+            editable={false}
+          />
+        </View>
+        <View style={{ padding: 15 }}>
+          <TextInput
+            placeholder="Nouveau Numero"
+            keyboardType="phone-pad"
+            style={configStyles.input}
+            value={this.state.newphone}
+            onChangeText={newphone => this.changeTextPhone(newphone)}
+            returnKeyType="done"
+            onEndEditing={() => {
+              this._renderPasswordView();
+            }}
+          />
+        </View>
+        <View style={configStyles.footer}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Retour</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this._renderPasswordView()}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Valider</Text>
+          </TouchableOpacity>
         </View>
         <Modal
           animationType="slide"
@@ -200,7 +207,7 @@ class EditPhone extends Component {
           </TouchableOpacity>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </Modal>

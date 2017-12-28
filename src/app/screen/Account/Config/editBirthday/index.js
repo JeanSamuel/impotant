@@ -8,12 +8,13 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Modal,
+  ScrollView,
   Dimensions
 } from "react-native";
 import PropTypes from "prop-types";
 import { configStyles, loginCss } from "../../../../assets/styles";
 import DatePicker from "react-native-datepicker";
-const {height,deviceWidth}=Dimensions.get('window');
+const { height, deviceWidth } = Dimensions.get('window');
 import { Utils, UserService } from "../../../../services";
 
 // create a component
@@ -106,11 +107,11 @@ class EditBirthday extends Component {
   }
   render() {
     return (
-      <View style={{}}>
-        <View style={{}}>
-          <View style={configStyles.header}>
-            <Text style={configStyles.textHeader}>Editer votre date de naissance</Text>
-          </View>
+      <View style={{ flex: 1 }}>
+        <View style={configStyles.header}>
+          <Text style={configStyles.textHeader}>Editer votre date de naissance</Text>
+        </View>
+        <ScrollView>
           <View style={{ padding: 15 }}>
             <TextInput
               value={this.state.oldbirthday}
@@ -119,14 +120,6 @@ class EditBirthday extends Component {
             />
           </View>
           <View style={{ padding: 15 }}>
-            <TextInput
-              placeholder="Nouveau date de naissance"
-              onChangeText={birthday => this.setState({ birthday })}
-              style={configStyles.input}
-              onEndEditing={() => {
-                this._renderPasswordView();
-              }}
-            />
             <DatePicker
               style={{ width: deviceWidth - 22 }}
               date={this.state.date}
@@ -153,22 +146,22 @@ class EditBirthday extends Component {
               }}
             />
           </View>
-          <View style={configStyles.footer}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Retour</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this._renderPasswordView();
-              }}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Valider</Text>
-            </TouchableOpacity>
-          </View>
+        </ScrollView>
+        <View style={configStyles.footer}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Retour</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this._renderPasswordView();
+            }}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Valider</Text>
+          </TouchableOpacity>
         </View>
 
         <Modal
@@ -230,7 +223,7 @@ class EditBirthday extends Component {
           </TouchableOpacity>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </Modal>

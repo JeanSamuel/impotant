@@ -1,7 +1,7 @@
 /**
  * Jean Samuel RANDRIANASOLO
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StatusBar,
   View,
@@ -13,15 +13,15 @@ import {
 } from 'react-native';
 
 import PropTypes from 'prop-types';
-import {Icon,FormInput,FormLabel} from 'react-native-elements';
+import { Icon, FormInput, FormLabel } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
 
-import {loginCss} from '../../../../../../assets/styles/index';
+import { loginCss } from '../../../../../../assets/styles/index';
 
 import styles from './styles';
 
-import {Utils} from '../../../../../../services';
+import { Utils } from '../../../../../../services';
 
 const regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{6,}$/';
 
@@ -41,15 +41,15 @@ class Recuperation extends Component {
     };
   }
   updateRecuperation() {
-    this.setState({modalVisible: false});
+    this.setState({ modalVisible: false });
     this.updateStateRec();
   }
   validatePhone() {
     try {
-      this.setState({haserror: false});
+      this.setState({ haserror: false });
       let ret = Utils._parsePhone(this.state.numrec, 'mg');
       if (this.refs.phone.isValidNumber()) {
-        this.setState({numrec: value});
+        this.setState({ numrec: value });
       } else {
         this.setState({
           haserror: true,
@@ -57,22 +57,22 @@ class Recuperation extends Component {
         });
       }
     } catch (error) {
-      Alert.alert('Erreur',error.toString());
+      Alert.alert('Erreur', error.toString());
     }
   }
   changeTextPhone(text) {
     try {
       var ret = Utils._parsePhone(text, 'mg');
-      this.setState({numrec: ret});
+      this.setState({ numrec: ret });
     } catch (error) {
-      this.setState({numrec: text});
+      this.setState({ numrec: text });
     }
   }
   validatePhoneNumer() {
     try {
       Utils.validatePhoneNumer(this.state.phone);
     } catch (error) {
-      this.setState({numrec: null});
+      this.setState({ numrec: null });
       Alert.alert('Erreur', error.toString());
     }
   }
@@ -103,44 +103,44 @@ class Recuperation extends Component {
   }
   render() {
     return (
-        <View style={styles.cont}>
-          <FormLabel containerStyle={{marginTop: 0}}>
-            Téléphone de récupération
+      <View style={styles.cont}>
+        <FormLabel containerStyle={{ marginTop: 0 }}>
+          Téléphone de récupération
           </FormLabel>
-          <FormInput
-            keyboardType="phone-pad"
-            placeholder="Entrer un numéro tél"
-            onChangeText={this.changeTextPhone.bind(this)}
-            onEndEditing={this.validatePhoneNumer.bind(this)}
-            value={this.state.numrec}
-            returnKeyLabel="next"
-          />
-          <FormLabel containerStyle={{marginTop: 8}}>
-            Mail de récupération
+        <FormInput
+          keyboardType="phone-pad"
+          placeholder="Entrer un numéro tél"
+          onChangeText={this.changeTextPhone.bind(this)}
+          onEndEditing={this.validatePhoneNumer.bind(this)}
+          value={this.state.numrec}
+          returnKeyLabel="next"
+        />
+        <FormLabel containerStyle={{ marginTop: 8 }}>
+          Mail de récupération
           </FormLabel>
-          <FormInput
-            placeholder="Mail de récupération"
-            keyboardType="email-address"
-            style={[loginCss.input, {backgroundColor: 'transparent'}]}
-            onChangeText={mailrec => this.setState({mailrec})}
-            returnKeyType="next"
-            onEndEditing={() => {
-              this.updateStateRec();
-            }}
-          />
-          <FormLabel containerStyle={{marginTop: 8}}>
-            Personne/Compte bénéficiaire en cas de déces
+        <FormInput
+          placeholder="Mail de récupération"
+          keyboardType="email-address"
+          style={[loginCss.input, { backgroundColor: 'transparent' }]}
+          onChangeText={mailrec => this.setState({ mailrec })}
+          returnKeyType="next"
+          onEndEditing={() => {
+            this.updateStateRec();
+          }}
+        />
+        <FormLabel containerStyle={{ marginTop: 8 }}>
+          Personne/Compte bénéficiaire en cas de déces
           </FormLabel>
-          <FormInput
-            placeholder="Personne/Compte bénéficiaire en cas de déces"
-            style={[loginCss.input, {backgroundColor: 'transparent'}]}
-            onChangeText={beneficiaire => this.setState({beneficiaire})}
-            returnKeyType="next"
-            onEndEditing={() => {
-              this.updateRecuperation();
-            }}
-          />
-        </View>
+        <FormInput
+          placeholder="Personne/Compte bénéficiaire en cas de déces"
+          style={[loginCss.input, { backgroundColor: 'transparent' }]}
+          onChangeText={beneficiaire => this.setState({ beneficiaire })}
+          returnKeyType="next"
+          onEndEditing={() => {
+            this.updateRecuperation();
+          }}
+        />
+      </View>
     );
   }
 }

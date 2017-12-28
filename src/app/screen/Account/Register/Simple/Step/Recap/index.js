@@ -57,14 +57,14 @@ class Validation extends React.Component {
       }
     } catch (error) {
       Alert.alert("Erreur", error.toString());
-    }finally{
+    } finally {
       this.setState({ loading: false });
     }
   }
   render() {
     return (
-      <View style={{ flex:1,backgroundColor: "green" }}>
-        
+      <View style={{ flex: 1, backgroundColor: "green" }}>
+
         <View style={{}}>
           <View style={{}}>
             <View style={configStyles.header}>
@@ -215,7 +215,7 @@ class Validation extends React.Component {
           </View>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </View>

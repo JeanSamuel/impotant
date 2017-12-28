@@ -1,7 +1,7 @@
 /**
  * Jean Samuel RANDRIANASOLO
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
@@ -15,12 +15,12 @@ import {
 } from 'react-native';
 
 import PropTypes from 'prop-types';
-import {Icon, FormInput, FormLabel, Button} from 'react-native-elements';
-import Exponent, {Constants, ImagePicker, registerRootComponent} from 'expo';
+import { Icon, FormInput, FormLabel, Button } from 'react-native-elements';
+import Exponent, { Constants, ImagePicker, registerRootComponent } from 'expo';
 const deviceWidth = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker';
-import {loginCss} from '../../../../../../assets/styles';
-import {ImageUpload} from '../../../../../../services';
+import { loginCss } from '../../../../../../assets/styles';
+import { ImageUpload } from '../../../../../../services';
 import styles from './styles';
 
 const avatar = 'avatar/';
@@ -45,33 +45,33 @@ class Profile extends Component {
   }
   updateProfile() {
     let profile = null;
-      profile = {
-        cin: this.state.cin,
-        pickerResultCin: this.state.pickerResultCin,
-        pickerResultAvatar: this.state.pickerResultAvatar,
-        image_cin: this.state.image + '',
-        avatar: this.state.profile + '',
-      };
-      //console.log(profile);
+    profile = {
+      cin: this.state.cin,
+      pickerResultCin: this.state.pickerResultCin,
+      pickerResultAvatar: this.state.pickerResultAvatar,
+      image_cin: this.state.image + '',
+      avatar: this.state.profile + '',
+    };
+    //console.log(profile);
     this.props.updateProfile(profile);
   }
   componentWillMount() {
-    this.setState({account_id: this.props.activity.state.account_id});
+    this.setState({ account_id: this.props.activity.state.account_id });
   }
   setCIN() {
     let cin = this.state.cin;
     if (cin.length != 12) {
       Alert.alert('Erreur', 'Veuillez entrez un numéro cin valide');
     } else {
-      this.setState({cin: cin, error: null});
-      this.setState({showCin: true});
+      this.setState({ cin: cin, error: null });
+      this.setState({ showCin: true });
     }
   }
   render() {
     return (
       <View style={styles.width}>
         <View style={styles.viewP}>
-          <FormLabel containerStyle={{marginTop: 8}}>
+          <FormLabel containerStyle={{ marginTop: 8 }}>
             N° CIN ou Passeport
           </FormLabel>
           <FormInput
@@ -79,16 +79,16 @@ class Profile extends Component {
             keyboardType="numeric"
             style={[
               loginCss.input,
-              {backgroundColor: 'transparent'},
+              { backgroundColor: 'transparent' },
             ]}
-            onChangeText={cin => this.setState({cin})}
+            onChangeText={cin => this.setState({ cin })}
             onEndEditing={() => {
               this.setCIN();
             }}
             returnKeyType="done"
           />
           {this.state.showCin &&
-            <View style={{backgroundColor: '#00d07f'}}>
+            <View style={{ backgroundColor: '#00d07f' }}>
               <Text style={styles.textCin}>
                 CIN ou Passeport recto-verso(JPEG,PNG)
               </Text>
@@ -109,7 +109,7 @@ class Profile extends Component {
                         size={40}
                         color="#fff"
                       />
-                      <Text style={{color: 'white'}} />
+                      <Text style={{ color: 'white' }} />
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -123,14 +123,14 @@ class Profile extends Component {
                         size={40}
                         color="#fff"
                       />
-                      <Text style={{color: 'white'}} />
+                      <Text style={{ color: 'white' }} />
                     </View>
                   </TouchableOpacity>
                 </View>}
             </View>}
 
           {this.state.showprofile &&
-            <View style={{backgroundColor: '#00d07f', marginTop: 10}}>
+            <View style={{ backgroundColor: '#00d07f', marginTop: 10 }}>
               <Text style={styles.text}>Ajouter votre Photo de profile</Text>
               <View style={styles.viewrender}>
                 {this._maybeRenderImageProfile()}
@@ -170,7 +170,7 @@ class Profile extends Component {
     );
   }
   _maybeRenderImage = () => {
-    let {image} = this.state;
+    let { image } = this.state;
     if (!image) {
       return;
     }
@@ -179,8 +179,8 @@ class Profile extends Component {
       <View style={styles.imagerend}>
         <View style={styles.imgo}>
           <Image
-            source={{uri: image}}
-            style={{width: 300, height: 250, borderRadius: 10}}
+            source={{ uri: image }}
+            style={{ width: 300, height: 250, borderRadius: 10 }}
           />
           {/* <Text style={{textAlign:'center',color:'white',padding:20}}>Image cin/pasport</Text> */}
         </View>
@@ -188,7 +188,7 @@ class Profile extends Component {
     );
   };
   _maybeRenderImageProfile = () => {
-    let {profile} = this.state;
+    let { profile } = this.state;
     if (!profile) {
       return;
     }
@@ -196,8 +196,8 @@ class Profile extends Component {
       <View style={styles.imagerend}>
         <View style={styles.imgo}>
           <Image
-            source={{uri: profile}}
-            style={{width: 300, height: 250, borderRadius: 10}}
+            source={{ uri: profile }}
+            style={{ width: 300, height: 250, borderRadius: 10 }}
           />
           {/* <Text style={{textAlign:'center',color:'white',padding:20}}>Photos de Profil</Text> */}
         </View>
@@ -219,7 +219,7 @@ class Profile extends Component {
           ]}
         >
           <ActivityIndicator color="white" animating size="large" />
-          <Text style={{color: 'white'}}>Upload encours</Text>
+          <Text style={{ color: 'white' }}>Upload encours</Text>
         </View>
       );
     }

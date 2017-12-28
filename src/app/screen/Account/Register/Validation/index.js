@@ -12,35 +12,18 @@ import {
   ScrollView
 } from 'react-native';
 import ViewPager from 'react-native-viewpager';
-import {Icon, Button, Header} from 'react-native-elements';
+import { Icon, Button, Header } from 'react-native-elements';
 import Mybutton from '../../../../components/Buttons/SamButton';
 const deviceWidth = Dimensions.get('window').width;
 import StepIndicator from 'react-native-step-indicator';
 import Profile from './Step/Profile';
 import Addresse from './Step/Addresse';
 import Recuperation from './Step/Recuperation';
-import {Utils, InscriptionService} from '../../../../services';
+import { Utils, InscriptionService } from '../../../../services';
 import styles from './styles';
-import {baseStyle} from '../../../../assets/styles';
+import { baseStyle } from '../../../../assets/styles';
 
 const firstIndicatorStyles = {
-  // stepIndicatorSize: 30,
-  // currentStepIndicatorSize: 40,
-  // separatorStrokeWidth: 3,
-  // currentStepStrokeWidth: 3,
-  // separatorFinishedColor: '#4aae4f',
-  // separatorUnFinishedColor: '#a4d4a5',
-  // stepIndicatorFinishedColor: '#4aae4f',
-  // stepIndicatorUnFinishedColor: '#a4d4a5',
-  // stepIndicatorCurrentColor: '#ffffff',
-  // stepIndicatorLabelFontSize: 15,
-  // currentStepIndicatorLabelFontSize: 15,
-  // stepIndicatorLabelCurrentColor: '#000000',
-  // stepIndicatorLabelFinishedColor: '#ffffff',
-  // stepIndicatorLabelUnFinishedColor: 'rgba(255,255,255,0.5)',
-  // labelColor: '#666666',
-  // labelSize: 15,
-  // currentStepLabelColor: '#4aae4f',
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 40,
   separatorStrokeWidth: 3,
@@ -92,18 +75,18 @@ class MainValidation extends React.Component {
     try {
       InscriptionService._goBack(this);
     } catch (error) {
-      this.setState({error_message: error.toString()});
-      Alert.alert('Erreur',);
+      this.setState({ error_message: error.toString() });
+      Alert.alert('Erreur', );
     }
   }
   updateProfile(profile) {
-    this.setState({profile: profile});
+    this.setState({ profile: profile });
   }
   updateAddresse(addresse) {
-    this.setState({addresse: addresse});
+    this.setState({ addresse: addresse });
   }
   updateRecuperation(validationdata) {
-    this.setState({data: validationdata});
+    this.setState({ data: validationdata });
   }
   renderViewPagerPage(data) {
     return data;
@@ -165,7 +148,7 @@ class MainValidation extends React.Component {
       let data = await Utils.getItem('userInfo');
       if (data != null) {
         let datajson = JSON.parse(data);
-        this.setState({account_id: datajson.code, username: datajson.pseudo});
+        this.setState({ account_id: datajson.code, username: datajson.pseudo });
       }
     } catch (error) {
       //console.log(error);
@@ -176,8 +159,8 @@ class MainValidation extends React.Component {
   }
   render() {
     return (
-      <View style={{flex: 1,backgroundColor: '#fff'}}>
-        
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -208,25 +191,25 @@ class MainValidation extends React.Component {
             dataSource={this.getDataPages()}
             renderPageIndicator={this.renderPageIndicators}
             onChangePage={page => {
-              this.setState({page: page});
+              this.setState({ page: page });
             }}
             locked
             renderPage={this.renderViewPagerPage.bind(this)}
           />
         </ScrollView>
         <View style={[style.bottom]}>
-          <View style={{width: '50%'}}>
+          <View style={{ width: '50%' }}>
             <Button
-              icon={{name: 'ios-arrow-back', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
+              icon={{ name: 'ios-arrow-back', type: 'ionicon' }}
+              buttonStyle={{ marginTop: 0, backgroundColor: '#00d07f', paddingVertical: 15 }}
               title="Précédent"
               onPress={() => this._goBack()}
             />
           </View>
-          <View style={{width: '50%'}}>
+          <View style={{ width: '50%' }}>
             <Button
-              iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
-              buttonStyle={{marginTop: 0, backgroundColor: '#00d07f',paddingVertical:15}}
+              iconRight={{ name: 'ios-arrow-forward', type: 'ionicon' }}
+              buttonStyle={{ marginTop: 0, backgroundColor: '#00d07f', paddingVertical: 15 }}
               title="Suivant"
               onPress={() => this._goNext()}
             />

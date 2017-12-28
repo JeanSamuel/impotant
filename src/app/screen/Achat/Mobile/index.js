@@ -1,5 +1,5 @@
 // import liraries
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -26,12 +26,12 @@ import {
 } from 'react-native-elements'
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
-import {AchatService, UserService, Utils} from '../../../services'
-import {configStyles, loginCss} from '../../../assets/styles/index'
+import { AchatService, UserService, Utils } from '../../../services'
+import { configStyles, loginCss } from '../../../assets/styles/index'
 
 // create a component
 class ViaMobileMoney extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       montant: '',
@@ -55,43 +55,43 @@ class ViaMobileMoney extends Component {
     }
   }
 
-  async _proceedSell () {
+  async _proceedSell() {
     try {
       await AchatService._initAchat(this.props.activity, this)
       let inst = AchatService.getInstructionByMobileMoneyPhoneNumber(
         this.state.phone
       )
-      this.setState({modalInstruction: true, instruction: inst})
+      this.setState({ modalInstruction: true, instruction: inst })
     } catch (error) {
       Alert.alert('Erreur', error.toString())
     }
   }
-  validatePhoneNumer () {
+  validatePhoneNumer() {
     try {
-      this.setState({haserror: false})
+      this.setState({ haserror: false })
       AchatService.validatePhoneNumer(this.state.phone)
     } catch (error) {
       Alert.alert('Erreur', error.toString())
     }
   }
 
-  changeTextPhone (text) {
+  changeTextPhone(text) {
     try {
       var ret = AchatService._parsePhone(text, 'mg')
-      this.setState({phone: ret})
+      this.setState({ phone: ret })
     } catch (error) {
-      this.setState({phone: text})
+      this.setState({ phone: text })
     }
   }
-  changeTextMontant (text) {
+  changeTextMontant(text) {
     try {
       var ret = Utils.formatNumber(text)
-      this.setState({montant: ret})
+      this.setState({ montant: ret })
     } catch (error) {
-      this.setState({phone: text})
+      this.setState({ phone: text })
     }
   }
-  async componentWillMount () {
+  async componentWillMount() {
     try {
       const dataUser = await Utils.getItem('userInfo')
       if (dataUser == null) {
@@ -103,28 +103,28 @@ class ViaMobileMoney extends Component {
         account_id: userData.code,
         username: userData.username
       })
-      this.setState({data: userData})
+      this.setState({ data: userData })
     } catch (error) {
       Alert.alert('Erreur', error.message)
     }
   }
-  _confirmAchat () {
+  _confirmAchat() {
     Alert.alert(
       'Confirmation',
       "Voulez-vous bien confirmer l'achat de  " +
-        this.getAmount() +
-        ' Ariary ?',
+      this.getAmount() +
+      ' Ariary ?',
       [
         {
           text: 'Annuller',
           onPress: () =>
             this.props.activity.props.navigation.navigate('Profile')
         },
-        {text: 'Je Confirme', onPress: async () => await this.initAchat()}
+        { text: 'Je Confirme', onPress: async () => await this.initAchat() }
       ]
     )
   }
-  isEmptyFiled () {
+  isEmptyFiled() {
     return (
       this.state.montant != '' &&
       this.state.phone != null &&
@@ -132,22 +132,22 @@ class ViaMobileMoney extends Component {
       this.state.phone != ''
     )
   }
-  _renderPasswordView () {
+  _renderPasswordView() {
     let r = UserService.getRoles(this.state.userinfo.roles[0])
     if (r == 1) {
       Alert.alert(
         'Inscrivez-vous',
         'Vous devez vous inscrire si vous voulez bénéficier cette service',
         [
-          {text: 'Pas maintenant', onPress: () => this.Annuler()},
-          {text: "S'inscrire", onPress: () => this.goToInscriptionPage()}
+          { text: 'Pas maintenant', onPress: () => this.Annuler() },
+          { text: "S'inscrire", onPress: () => this.goToInscriptionPage() }
         ]
       )
     } else {
       if (this.isEmptyFiled()) {
         try {
           AchatService.validatePhoneNumer(this.state.phone)
-          this.setState({modalVisible: true})
+          this.setState({ modalVisible: true })
         } catch (error) {
           Alert.alert('Erreur', error.toString())
         }
@@ -159,62 +159,62 @@ class ViaMobileMoney extends Component {
       }
     }
   }
-  async initAchat () {
-    this.setState({loading: true})
+  async initAchat() {
+    this.setState({ loading: true })
     try {
       await UserService.verifyUser(
         this.state.username,
         this.state.password,
         this
       )
-      this.setState({modalVisible: false})
+      this.setState({ modalVisible: false })
       await this._proceedSell()
     } catch (error) {
       Alert.alert('Erreur', error.toString())
     } finally {
-      this.setState({loading: false})
+      this.setState({ loading: false })
     }
   }
-  goToInscriptionPage () {
-    this.setState({modalVisible: false})
+  goToInscriptionPage() {
+    this.setState({ modalVisible: false })
     this.props.navigation.navigate('Inscription', {
       data: this.state.username
     })
   }
-  Annuler () {
-    this.setState({modalVisible: false, montant: '', phone: ''})
+  Annuler() {
+    this.setState({ modalVisible: false, montant: '', phone: '' })
   }
-  async closeModal () {
+  async closeModal() {
     if (this.state.password == null || this.state.password == '') {
       Alert.alert(
         'Annulation',
         "Voulez-vous bien annuler l'achat de  " +
-          this.getAmount() +
-          ' Ariary ?',
+        this.getAmount() +
+        ' Ariary ?',
         [
-          {text: 'non', onPress: () => this.setState({modalVisible: true})},
-          {text: 'Oui', onPress: () => this.Annuler()}
+          { text: 'non', onPress: () => this.setState({ modalVisible: true }) },
+          { text: 'Oui', onPress: () => this.Annuler() }
         ]
       )
     } else {
       this._confirmAchat()
     }
   }
-  getAmount () {
+  getAmount() {
     return Utils.formatNumber(this.state.montant)
   }
-  renderInstructionView () {
+  renderInstructionView() {
     return (
       <Modal
         animationType='slide'
         transparent
         visible={this.state.modalInstruction}
         onRequestClose={() => {
-          this.setState({modalInstruction: false})
+          this.setState({ modalInstruction: false })
         }}
       >
         <TouchableOpacity
-          onPress={() => this.setState({modalInstruction: false})}
+          onPress={() => this.setState({ modalInstruction: false })}
           style={stl.modalContainer}
         >
           <View style={stl.modalViewContainer}>
@@ -223,7 +223,7 @@ class ViaMobileMoney extends Component {
                 {this.state.instruction.title}
               </Text>
             </View>
-            <View style={{padding: 20}}>
+            <View style={{ padding: 20 }}>
               <Text>
                 {this.state.instruction.contenue}
               </Text>
@@ -239,28 +239,28 @@ class ViaMobileMoney extends Component {
       </Modal>
     )
   }
-  renderModal () {
+  renderModal() {
     return (
       <Modal
         animationType='slide'
         transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setState({modalVisible: false})
+          this.setState({ modalVisible: false })
         }}
       >
         <TouchableOpacity
-          onPress={() => this.setState({modalVisible: false})}
+          onPress={() => this.setState({ modalVisible: false })}
           style={stl.showModal}
         >
           <View style={stl.mv1}>
             <View style={stl.mv2}>
-              <Text style={{textAlign: 'center'}}>
+              <Text style={{ textAlign: 'center' }}>
                 Entrer votre mot de passe pour confirmer l'achat de
                 {this.getAmount()} Ariary
               </Text>
             </View>
-            <View style={[{padding: 10, height: 60}]}>
+            <View style={[{ padding: 10, height: 60 }]}>
               <TextInput
                 ref={ref => this.password}
                 placeholder='Mot de passe de confirmation'
@@ -268,7 +268,7 @@ class ViaMobileMoney extends Component {
                 secureTextEntry
                 style={[loginCss.input, stl.mv3]}
                 onChangeText={password => {
-                  this.setState({password: password})
+                  this.setState({ password: password })
                 }}
                 onEndEditing={() => {
                   this.closeModal()
@@ -284,20 +284,20 @@ class ViaMobileMoney extends Component {
       </Modal>
     )
   }
-  renderFormsAchat () {
+  renderFormsAchat() {
     return (
       <View>
         <FormLabel>
           Montant (en Ariary)
         </FormLabel>
         <FormInput
-          onChangeText={montant => this.setState({montant})}
+          onChangeText={montant => this.setState({ montant })}
           keyboardType='phone-pad'
           placeholder='en Ariary(1 Bon = 1 Ariary)'
           value={this.state.montant}
           returnKeyLabel='next'
         />
-        <FormLabel containerStyle={{marginTop: 8}}>
+        <FormLabel containerStyle={{ marginTop: 8 }}>
           Numéro mobile money
         </FormLabel>
         <FormInput
@@ -311,10 +311,10 @@ class ViaMobileMoney extends Component {
       </View>
     )
   }
-  render () {
+  render() {
     return (
-      <View style={{flex: 1}}>
-        <ScrollView style={{backgroundColor: 'white'}}>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ backgroundColor: 'white', flex: 1 }}>
           <View style={stl.headingContainer}>
             <Icon
               color='white'
@@ -323,7 +323,7 @@ class ViaMobileMoney extends Component {
               size={42}
             />
             <Text style={stl.heading}>Via Mobile Money</Text>
-            <Text style={[stl.heading, {fontSize: 12}]}>
+            <Text style={[stl.heading, { fontSize: 12 }]}>
               Avec Ariary.net, acheter des bons d'achat via votre compte mobile
               money
             </Text>
@@ -331,23 +331,23 @@ class ViaMobileMoney extends Component {
           <View style={stl.ctn}>
             <View>
               {this.state.haserror &&
-                <Text style={{color: 'red', textAlign: 'center', padding: 20}}>
+                <Text style={{ color: 'red', textAlign: 'center', padding: 20 }}>
                   {this.state.erreur}
                 </Text>}
             </View>
           </View>
           {this.renderFormsAchat()}
-          {this.renderModal()}
-          {this.renderInstructionView()}
         </ScrollView>
-        <View style={{justifyContent: 'flex-end'}}>
+        <View style={{ justifyContent: 'flex-end' }}>
           <Button
             onPress={() => this._renderPasswordView()}
-            icon={{name: 'done'}}
-            buttonStyle={{backgroundColor: '#00d07f',width:Dimensions.get('window').width,right:0,left:0}}
+            icon={{ name: 'done' }}
+            buttonStyle={{ backgroundColor: '#00d07f', width: Dimensions.get('window').width }}
             title='Valider'
           />
         </View>
+        {this.renderModal()}
+        {this.renderInstructionView()}
       </View>
     )
   }
@@ -410,7 +410,7 @@ const stl = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.4)'
   },
-  mv1: {width: '80%', backgroundColor: 'white', borderRadius: 10},
+  mv1: { width: '80%', backgroundColor: 'white', borderRadius: 10 },
   mv2: {
     alignItems: 'center',
     backgroundColor: '#eee',
@@ -418,7 +418,7 @@ const stl = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
   },
-  mv3: {textAlign: 'center', borderRadius: 10, height: 50},
+  mv3: { textAlign: 'center', borderRadius: 10, height: 50 },
   ctn: {
     justifyContent: 'center',
     alignContent: 'center',

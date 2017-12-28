@@ -16,9 +16,10 @@ import {
 import PropTypes from "prop-types";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-import { Icon,Button } from "react-native-elements";
+import { Icon, Button } from "react-native-elements";
 import { UserService, InscriptionService } from "../../../../../../services";
 import { loginCss } from "../../../../../../assets/styles/index";
+import configStyles from "../../../../../../assets/styles/css/configStyles";
 
 // create a component
 class ValidationCompte extends React.Component {
@@ -48,7 +49,7 @@ class ValidationCompte extends React.Component {
     };
   }
   async closeModal() {
-    this.setState({loading:true});
+    this.setState({ loading: true });
     try {
       await UserService.verifyUser(
         this.state.username,
@@ -58,8 +59,8 @@ class ValidationCompte extends React.Component {
       await this._saveUserValidation();
     } catch (error) {
       Alert.alert("Erreur", error.toString());
-    }finally{
-      this.setState({loading:false});
+    } finally {
+      this.setState({ loading: false });
     }
   }
   _renderPasswordView() {
@@ -84,321 +85,312 @@ class ValidationCompte extends React.Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: "#eee" }}>
-        
-        <View style={styles.container}>
-          <View
-            style={{
-              justifyContent: "center",
-              alignContent: "center",
-              width: deviceWidth,
-              backgroundColor: "#eee"
-            }}
-          >
-            <View style={{ padding: 15}}>
-              <Text
+      <View style={{ backgroundColor: "#eee", flex: 1 }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignContent: "center",
+            width: Dimensions.get('window').width,
+            backgroundColor: "#eee"
+          }}
+        >
+          <View style={{ padding: 15 }}>
+            <Text
+              style={{
+                textAlign: "center",
+                textAlign: "center",
+                fontSize: 25,
+                color: "#fff"
+              }}
+            >
+              Validation Compte Info
+              </Text>
+          </View>
+          <ScrollView>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View
                 style={{
-                  textAlign: "center",
-                  textAlign: "center",
-                  fontSize: 25,
-                  color: "#fff"
+                  width: "48%",
+                  marginRight: "2%",
+                  backgroundColor: "black"
                 }}
               >
-                Validation Compte Info
-              </Text>
+                <Image
+                  source={{ uri: this.state.data.pickerResultCin.uri }}
+                  style={{ width: "100%", height: 150 }}
+                />
+                <Text style={{ textAlign: "center", color: "white" }}>
+                  cin/passport
+                    </Text>
+              </View>
+              <View
+                style={{
+                  width: "48%",
+                  marginLeft: "2%",
+                  backgroundColor: "black"
+                }}
+              >
+                <Image
+                  source={{ uri: this.state.data.pickerResultAvatar.uri }}
+                  style={{ width: "100%", height: 150 }}
+                />
+                <Text style={{ textAlign: "center", color: "white" }}>
+                  Profil
+                    </Text>
+              </View>
             </View>
-            <View style={{ height: deviceHeight - 150 }}>
-              <ScrollView>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <View
-                    style={{
-                      width: "48%",
-                      marginRight: "2%",
-                      backgroundColor: "black"
-                    }}
-                  >
-                    <Image
-                      source={{ uri: this.state.data.pickerResultCin.uri }}
-                      style={{ width: "100%", height: 150 }}
-                    />
-                    <Text style={{ textAlign: "center", color: "white" }}>
-                      cin/passport
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      width: "48%",
-                      marginLeft: "2%",
-                      backgroundColor: "black"
-                    }}
-                  >
-                    <Image
-                      source={{ uri: this.state.data.pickerResultAvatar.uri }}
-                      style={{ width: "100%", height: 150 }}
-                    />
-                    <Text style={{ textAlign: "center", color: "white" }}>
-                      Profil
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>CIN ou Passport</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.cin}
-                    </Text>
-                  </View>
-                </View>
-                {/**
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>CIN ou Passport</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.cin}
+                </Text>
+              </View>
+            </View>
+            {/**
                  * Info Pays
                  */}
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Pays</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.pays}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Code postale</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.codepostal}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Ville</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.ville}
-                    </Text>
-                  </View>
-                </View>
-                {/**
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Pays</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.pays}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Code postale</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.codepostal}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Ville</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.ville}
+                </Text>
+              </View>
+            </View>
+            {/**
                  * Adresse du client
                  */}
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Rue</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.rue}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Lot</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.lot}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Numéro d'adresse</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.numadresses}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Précision adresse</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.precision_addr}
-                    </Text>
-                  </View>
-                </View>
-                {/* /**
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Rue</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.rue}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Lot</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.lot}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Numéro d'adresse</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.numadresses}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Précision adresse</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.precision_addr}
+                </Text>
+              </View>
+            </View>
+            {/* /**
 								 * Récupération compte
 								 */}
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Numéro de récupération</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.numrec}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Mail de récupération</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.mailrec}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                  <View style={styles.w1}>
-                    <Icon
-                      type="material-icon"
-                      name="done"
-                      size={20}
-                      
-                    />
-                  </View>
-                  <View style={styles.w2}>
-                    <Text>Bénéficiaire</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{ color: "#666", textAlign: "right" }}>
-                      {this.state.data.beneficiaire}
-                    </Text>
-                  </View>
-                </View>
-              </ScrollView>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                padding: 15,
-                alignContent: "center"
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => this.loadConfig()}
-                style={{
-                  width: "49%",
-                  backgroundColor: "#fff",
-                  marginRight: "1%"
-                }}
-              >
-                <Text style={{ textAlign: "center", padding: 15 }}>
-                  Annuler
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Numéro de récupération</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.numrec}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this._renderPasswordView()}
-                style={{
-                  width: "49%",
-                  backgroundColor: "#fff",
-                  marginLeft: "1%"
-                }}
-              >
-                <Text style={{ textAlign: "center", padding: 15 }}>
-                  Valider
+              </View>
+            </View>
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Mail de récupération</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.mailrec}
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          {this.state.loading && (
-            <View
-              style={{
-                backgroundColor: "rgba(44, 62, 80,0.1)",
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0
-              }}
-            >
-              <ActivityIndicator size="large" animating={true} color="#666" />
+            <View style={{ flexDirection: "row", paddingVertical: 10 }}>
+              <View style={styles.w1}>
+                <Icon
+                  type="material-icon"
+                  name="done"
+                  size={20}
+
+                />
+              </View>
+              <View style={styles.w2}>
+                <Text>Bénéficiaire</Text>
+              </View>
+              <View style={styles.w3}>
+                <Text style={{ color: "#666", textAlign: "right" }}>
+                  {this.state.data.beneficiaire}
+                </Text>
+              </View>
             </View>
-          )}
+          </ScrollView>
         </View>
+        <View
+          style={configStyles.footer}
+        >
+          <TouchableOpacity
+            onPress={() => this.loadConfig()}
+            style={{
+              width: "49%",
+              backgroundColor: "#fff",
+              marginRight: "1%"
+            }}
+          >
+            <Text style={{ textAlign: "center", padding: 15 }}>
+              Annuler
+                </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this._renderPasswordView()}
+            style={{
+              width: "49%",
+              backgroundColor: "#fff",
+              marginLeft: "1%"
+            }}
+          >
+            <Text style={{ textAlign: "center", padding: 15 }}>
+              Valider
+                </Text>
+          </TouchableOpacity>
+        </View>
+        {this.state.loading && (
+          <View
+            style={{
+              backgroundColor: "rgba(44, 62, 80,0.1)",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0
+            }}
+          >
+            <ActivityIndicator size="large" animating={true} color="#1C2E48" />
+          </View>
+        )}
         <Modal
           animationType="slide"
           transparent={true}
@@ -486,7 +478,7 @@ class ValidationCompte extends React.Component {
             </View>
           )}
         </Modal>
-      </ScrollView>
+      </View >
     );
   }
 }

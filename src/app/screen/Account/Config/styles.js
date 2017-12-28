@@ -1,4 +1,5 @@
-import EStyleSheet from 'react-native-extended-stylesheet'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Dimensions } from 'react-native';
 const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#FFF',
@@ -35,7 +36,8 @@ const styles = EStyleSheet.create({
   buttonStyle: {
     marginTop: 0,
     backgroundColor: '$darkColor',
-    paddingVertical: 15
+    paddingVertical: 15,
+    width: Dimensions.get('window').width
   },
 
   leftIcon: {
@@ -88,7 +90,7 @@ const styles = EStyleSheet.create({
     right: 0,
     backgroundColor: '$darkColor',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-end'
   }
 })
 export default styles

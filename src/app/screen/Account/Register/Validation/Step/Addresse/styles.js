@@ -1,7 +1,7 @@
 const React = require("react-native");
 import EStyleSheet from "react-native-extended-stylesheet";
-const {Dimensions } = React;
-const {height, width} = Dimensions.get('window');
+const { Dimensions } = React;
+const { height, width } = Dimensions.get('window');
 export default EStyleSheet.create({
   container: {
     backgroundColor: "transparent"
@@ -9,19 +9,19 @@ export default EStyleSheet.create({
   mb10: {
     marginBottom: 10
   },
-  header:{
-    backgroundColor:"$darkColor"
+  header: {
+    backgroundColor: "$darkColor"
   },
-  footer:{
-    backgroundColor:"$darkColor"
+  footer: {
+    backgroundColor: "$darkColor"
   },
-  textbienvenue:{
-    flexDirection:'row',
+  textbienvenue: {
+    flexDirection: 'row',
     flex: 1
   },
-  textInfo:{
-    flexDirection:'row',
+  textInfo: {
+    flexDirection: 'row',
     flex: 1
   },
-  viewContainer:{justifyContent: 'center', paddingHorizontal: 10,width:width},
+  viewContainer: { paddingHorizontal: 10, width: width },
 });

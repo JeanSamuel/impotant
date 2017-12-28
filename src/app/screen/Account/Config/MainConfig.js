@@ -1,5 +1,5 @@
 //import liraries
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,12 +12,12 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import {Icon, Header, List, ListItem, Button} from 'react-native-elements';
+import { Icon, Header, List, ListItem, Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import {loginCss, baseStyle} from '../../../assets/styles';
-import {Utils, UserService} from '../../../services';
+import { loginCss, baseStyle } from '../../../assets/styles';
+import { Utils, UserService } from '../../../services';
 
 import Mybutton from '../../../components/Buttons/SamButton';
 
@@ -50,7 +50,7 @@ class MainConfig extends Component {
     });
   }
   async componentWillMount() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let data = this.props.navigation.state.params.dataUser;
     this.setState({
       data: data.dataUser,
@@ -58,10 +58,10 @@ class MainConfig extends Component {
       isTemp: data.isTemp,
       allparams: data,
     });
-    this.setState({loading: false});
+    this.setState({ loading: false });
   }
   async setDataOnrefresh() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     try {
       const dataUser = await Utils.getItem('userInfo');
       let userData = JSON.parse(dataUser);
@@ -80,13 +80,13 @@ class MainConfig extends Component {
     } catch (error) {
       Alert.alert('Erreur', error.toString());
     } finally {
-      this.setState({loading: false});
+      this.setState({ loading: false });
     }
   }
   async _onRefresh() {
-    this.setState({ispinner: true});
+    this.setState({ ispinner: true });
     await this.setDataOnrefresh();
-    this.setState({ispinner: false});
+    this.setState({ ispinner: false });
   }
   getAmount() {
     return Utils.formatNumber(this.state.data.solde);
@@ -117,7 +117,7 @@ class MainConfig extends Component {
       );
     } else {
       if (params != null) {
-        this.props.navigation.navigate(url, {data: params});
+        this.props.navigation.navigate(url, { data: params });
       }
       this.props.navigation.navigate(url, this.state.params);
     }
@@ -132,8 +132,8 @@ class MainConfig extends Component {
   }
   render() {
     return (
-      <View style={[styles.container, {backgroundColor: '#fff'}]}>
-        
+      <View style={[styles.container, { backgroundColor: '#fff' }]}>
+
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -176,7 +176,7 @@ class MainConfig extends Component {
           <View style={styles.headingContainer}>
             <Icon color="white" name="gears" type="font-awesome" size={42} />
             <Text style={styles.heading}>Configuration du compte</Text>
-            <Text style={[styles.heading, {fontSize: 12}]}>
+            <Text style={[styles.heading, { fontSize: 12 }]}>
               {this.getMessage()}
             </Text>
           </View>
@@ -199,7 +199,7 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Email',
             this.state.data.mail,
-            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
+            <View style={[styles.leftIcon, { backgroundColor: '#FF9501' }]}>
               <Icon size={20} color="#fff" name="mail" type="material-icon" />
             </View>,
             'EditMail',
@@ -208,7 +208,7 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Téléphone',
             this.state.data.phone,
-            <View style={[styles.leftIcon, {backgroundColor: '#4CDA64'}]}>
+            <View style={[styles.leftIcon, { backgroundColor: '#4CDA64' }]}>
               <Icon type="material-icon" size={20} color="#fff" name="call" />
             </View>,
             'EditPhone',
@@ -217,7 +217,7 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Date de naissance',
             this.state.data.birthday,
-            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
+            <View style={[styles.leftIcon, { backgroundColor: '#FF9501' }]}>
               <Icon
                 type="material-icon"
                 size={20}
@@ -234,7 +234,7 @@ class MainConfig extends Component {
             <View
               style={[
                 styles.leftIcon,
-                {backgroundColor: 'rgba(231, 76, 60,1.0)'},
+                { backgroundColor: 'rgba(231, 76, 60,1.0)' },
               ]}
             >
               <Icon type="material-icon" size={20} color="#fff" name="lock" />
@@ -242,44 +242,45 @@ class MainConfig extends Component {
             'EditPassword',
             null,
           )}
-           {this.renderListConfig(
+          {this.renderListConfig(
             'Modifier tout',
             'Modifier mes informations',
             <View
               style={[
                 styles.leftIcon,
-                {backgroundColor: 'rgba(231, 76, 60,1.0)'},
+                { backgroundColor: 'rgba(231, 76, 60,1.0)' },
               ]}
             >
-              <Icon type="font-awesome" size={20} color="#fff" name="account-circle" />
+              <Icon type="material-icon" size={20} color="#fff" name="edit" />
             </View>,
             'EditAll',
             null,
           )}
-          {this.state.isTemp == 1 &&
-            <View style={[styles.bottom]}>
-              <View style={{width: '100%'}}>
-                <Button
-                  iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
-                  buttonStyle={styles.buttonStyle}
-                  title="Completer mes informations"
-                  onPress={()=>this.loadInscription()}
-                />
-              </View>
-            </View>}
-          {this.state.isTemp == 2 &&
-            <View style={[styles.bottom]}>
-              <View style={{width: '100%'}}>
-                <Button
-                  iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
-                  buttonStyle={styles.buttonStyle}
-                  title="Valider mon compte"
-                  onPress={()=>this.loadValidCompteConfig()}
-                />
-              </View>
-            </View>}
           <View />
         </ScrollView>
+
+        {this.state.isTemp == 1 &&
+          <View style={[styles.bottom]}>
+            <View style={{ width: '100%' }}>
+              <Button
+                iconRight={{ name: 'ios-arrow-forward', type: 'ionicon' }}
+                buttonStyle={styles.buttonStyle}
+                title="Completer mes informations"
+                onPress={() => this.loadInscription()}
+              />
+            </View>
+          </View>}
+        {this.state.isTemp == 2 &&
+          <View style={[styles.bottom]}>
+            <View style={{ width: '100%' }}>
+              <Button
+                iconRight={{ name: 'ios-arrow-forward', type: 'ionicon' }}
+                buttonStyle={styles.buttonStyle}
+                title="Valider mon compte"
+                onPress={() => this.loadValidCompteConfig()}
+              />
+            </View>
+          </View>}
       </View>
     );
   }

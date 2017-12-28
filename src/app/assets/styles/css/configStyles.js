@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native'
+import { Dimensions } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 const configStyles = EStyleSheet.create({
   container: {
@@ -19,7 +19,8 @@ const configStyles = EStyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    alignContent: 'center'
+    alignContent: 'center',
+    justifyContent: 'flex-end'
   },
   input: {
     height: 50,
@@ -27,7 +28,7 @@ const configStyles = EStyleSheet.create({
   },
   touch: {
     width: '49%',
-    backgroundColor: '#fff',
+    backgroundColor: '$darkColor',
     marginRight: '1%'
   },
   touchtext: {
@@ -41,7 +42,7 @@ const configStyles = EStyleSheet.create({
     color: '#fff'
   },
   indicator: {
-    backgroundColor: '$darkColor',
+    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

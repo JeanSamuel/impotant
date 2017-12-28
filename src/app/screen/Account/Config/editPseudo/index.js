@@ -192,7 +192,7 @@ class EditPseudo extends Component {
           </TouchableOpacity>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </Modal>

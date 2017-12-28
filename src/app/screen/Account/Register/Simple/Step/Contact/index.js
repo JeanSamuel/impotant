@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StatusBar,
   View,
@@ -12,12 +12,12 @@ import {
   Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Icon, FormInput, FormLabel, Button} from 'react-native-elements';
+import { Icon, FormInput, FormLabel, Button } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-input';
 import CountryPicker from 'react-native-country-picker-modal';
-import {loginCss} from '../../../../../../assets/styles/index';
+import { loginCss } from '../../../../../../assets/styles/index';
 import styles from './styles';
-import {Utils} from '../../../../../../services';
+import { Utils } from '../../../../../../services';
 class Contact extends Component {
   constructor(props) {
     super(props);
@@ -48,36 +48,34 @@ class Contact extends Component {
 
   validateContact() {
     try {
-      this.setState({haserror: false});
       let value = this.state.phone;
       let ret = Utils._parsePhone(value, 'mg');
-      this.setState({phone: value});
+      this.setState({ phone: value });
       this.updateContact(value);
     } catch (error) {
       Alert.alert('Erreur', error.toString());
     }
   }
-
   changeTextPhone(text) {
     try {
       var ret = Utils._parsePhone(text, 'mg');
-      this.setState({phone: ret});
+      this.setState({ phone: ret });
     } catch (error) {
-      this.setState({phone: text});
+      this.setState({ phone: text });
     }
   }
   validatePhoneNumer() {
     try {
       Utils.validatePhoneNumer(this.state.phone);
     } catch (error) {
-      this.setState({phone: null});
+      this.setState({ phone: null });
       Alert.alert('Erreur', error.toString());
     }
   }
   render() {
     return (
       <View style={styles.viewIdentite}>
-        <FormLabel containerStyle={{marginTop: 0}}>Numéro Téléphone</FormLabel>
+        <FormLabel containerStyle={{ marginTop: 0 }}>Numéro Téléphone</FormLabel>
         <FormInput
           keyboardType="phone-pad"
           placeholder="Entrer un numéro tél"
@@ -94,12 +92,12 @@ class Contact extends Component {
             }
           }}
         />
-        <FormLabel containerStyle={{marginTop: 8}}>E-mail</FormLabel>
+        <FormLabel containerStyle={{ marginTop: 8 }}>E-mail</FormLabel>
         <FormInput
-          onChangeText={email => this.setState({email})}
+          onChangeText={email => this.setState({ email })}
           placeholder="example@email.com"
           value={this.state.email}
-          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          style={[loginCss.input, { backgroundColor: 'transparent' }]}
           onEndEditing={() => this.validateContact()}
         />
       </View>
