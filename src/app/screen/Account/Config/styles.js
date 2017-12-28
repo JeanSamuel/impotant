@@ -1,5 +1,5 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet'
+import {Dimensions} from 'react-native'
 const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#FFF',
@@ -9,7 +9,7 @@ const styles = EStyleSheet.create({
     marginBottom: 10
   },
   header: {
-    backgroundColor: '$darkColor',
+    backgroundColor: 'white',
     height: 60
   },
   modeaba: {
@@ -71,16 +71,18 @@ const styles = EStyleSheet.create({
     color: 'rgba(52, 152, 219, 1.0)'
   },
   headingContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: '$border',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '$darkColor'
+    backgroundColor: 'white'
   },
   heading: {
-    color: 'white',
     marginTop: 10,
     fontSize: 22,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: '500'
   },
   labelContainerStyle: {
     marginTop: 8

@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-  Modal
+  Modal,
+  ScrollView
 } from "react-native";
 import PropTypes from "prop-types";
 import { configStyles, loginCss } from "../../../../assets/styles";
@@ -114,6 +115,7 @@ class EditPhone extends Component {
         <View style={configStyles.header}>
           <Text style={configStyles.textHeader}>Editer numéro tél</Text>
         </View>
+        <ScrollView>
         <View style={{ padding: 15 }}>
           <TextInput
             style={configStyles.input}
@@ -134,6 +136,7 @@ class EditPhone extends Component {
             }}
           />
         </View>
+        </ScrollView>
         <View style={configStyles.footer}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}

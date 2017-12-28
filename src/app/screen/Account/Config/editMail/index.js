@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
   View,
   StyleSheet,
@@ -7,15 +7,16 @@ import {
   Alert,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
   Modal
 } from 'react-native'
 import PropTypes from 'prop-types'
-import { configStyles, loginCss } from '../../../../assets/styles'
-import { Utils, UserService } from '../../../../services'
+import {configStyles, loginCss} from '../../../../assets/styles'
+import {Utils, UserService} from '../../../../services'
 
 // create a component
 class EditMail extends Component {
-  constructor() {
+  constructor () {
     super()
     this.state = {
       oldmail: '',
@@ -28,8 +29,8 @@ class EditMail extends Component {
       modalVisible: false
     }
   }
-  async _validateChangeMail() {
-    this.setState({ loading: true })
+  async _validateChangeMail () {
+    this.setState({loading: true})
     this._isEmptyPass()
     try {
       let dataUser = {
@@ -43,11 +44,11 @@ class EditMail extends Component {
       }
       const updated = await UserService.updateUserInfo(dataUser, this)
     } catch (error) {
-      this.setState({ loading: false })
+      this.setState({loading: false})
       Alert.alert('Erreur de modification', error.toString())
     }
   }
-  async componentWillMount() {
+  async componentWillMount () {
     try {
       let account_id = this.props.navigation.state.params.account_id
       let pseudo = this.props.navigation.state.params.pseudo
@@ -62,33 +63,33 @@ class EditMail extends Component {
       // console.log(error);
     }
   }
-  _isEmptyField() {
+  _isEmptyField () {
     if (this.state.mail == '' || this.state.mail == null) {
       throw ''
     }
   }
-  _isEmptyPass() {
+  _isEmptyPass () {
     if (this.state.password == '' || this.state.password == null) {
       throw 'Veuillez entrer votre mot de passe pour confirmer le changement'
     }
   }
 
-  _renderPasswordView() {
+  _renderPasswordView () {
     if (!this._isEmptyField()) {
-      this.setState({ modalVisible: true })
+      this.setState({modalVisible: true})
     } else {
       Alert.alert(
         'Info',
         "Il semble qu'aucune information n'est saisie. Voulez-vous annuler le changement?",
         [
-          { text: 'Editer' },
-          { text: 'Oui', onPress: () => this.props.navigation.goBack() }
+          {text: 'Editer'},
+          {text: 'Oui', onPress: () => this.props.navigation.goBack()}
         ]
       )
     }
   }
 
-  async closeModal() {
+  async closeModal () {
     try {
       await UserService.verifyUser(
         this.state.username,
@@ -96,29 +97,29 @@ class EditMail extends Component {
         this
       )
       await this._validateChangeMail()
-      this.setState({ modalVisible: false })
+      this.setState({modalVisible: false})
     } catch (error) {
       Alert.alert('Erreur', error.toString())
     }
   }
-  render() {
+  render () {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{}}>
-          <View style={configStyles.header}>
-            <Text style={configStyles.textHeader}>Editer votre e-mail</Text>
-          </View>
-          <View style={{ padding: 15 }}>
+      <View style={{flex: 1}}>
+        <View style={configStyles.header}>
+          <Text style={configStyles.textHeader}>Editer votre e-mail</Text>
+        </View>
+        <ScrollView>
+          <View style={{padding: 15}}>
             <TextInput
               value={this.state.oldmail}
               style={configStyles.input}
               editable={false}
             />
           </View>
-          <View style={{ padding: 15 }}>
+          <View style={{padding: 15}}>
             <TextInput
               placeholder='Nouveau mail'
-              onChangeText={mail => this.setState({ mail })}
+              onChangeText={mail => this.setState({mail})}
               keyboardType='email-address'
               style={configStyles.input}
               onEndEditing={() => {
@@ -126,26 +127,22 @@ class EditMail extends Component {
               }}
             />
           </View>
-          <View
-            style={[
-              configStyles.footer
-            ]}
+        </ScrollView>
+        <View style={configStyles.footer}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            style={[configStyles.touch]}
           >
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={[configStyles.touch, { marginLeft: '1%' }]}
-            >
-              <Text style={configStyles.touchtext}>Retour</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                this._renderPasswordView()
-              }}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Valider</Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={configStyles.touchtext}>Retour</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this._renderPasswordView()
+            }}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Valider</Text>
+          </TouchableOpacity>
         </View>
 
         <Modal
@@ -153,11 +150,11 @@ class EditMail extends Component {
           transparent
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({ modalVisible: false })
+            this.setState({modalVisible: false})
           }}
         >
           <TouchableOpacity
-            onPress={() => this.setState({ modalVisible: false })}
+            onPress={() => this.setState({modalVisible: false})}
             style={{
               flex: 1,
               justifyContent: 'center',
@@ -181,22 +178,22 @@ class EditMail extends Component {
                   borderTopRightRadius: 10
                 }}
               >
-                <Text style={{ textAlign: 'center', paddingHorizontal: 20 }}>
+                <Text style={{textAlign: 'center', paddingHorizontal: 20}}>
                   Entrer votre mot de passe pour confirmer le changement de
                   votre mail
                 </Text>
               </View>
-              <View style={[{ padding: 10, height: 60 }]}>
+              <View style={[{padding: 10, height: 60}]}>
                 <TextInput
                   placeholder='Mot de passe de confirmation'
                   autoFocus
                   secureTextEntry
                   style={[
                     loginCss.input,
-                    { textAlign: 'center', borderRadius: 10, height: 50 }
+                    {textAlign: 'center', borderRadius: 10, height: 50}
                   ]}
                   onChangeText={password => {
-                    this.setState({ password: password })
+                    this.setState({password: password})
                   }}
                   onEndEditing={() => {
                     this.closeModal()

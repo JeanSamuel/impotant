@@ -8,7 +8,8 @@ import {
   Alert,
   ActivityIndicator,
   TouchableOpacity,
-  Modal
+  Modal,
+  ScrollView
 } from "react-native";
 import PropTypes from "prop-types";
 import { loginCss, configStyles } from "../../../../assets/styles";
@@ -111,6 +112,7 @@ class EditPassword extends Component {
             Chenger votre mot de passe
             </Text>
         </View>
+        <ScrollView>
         <View style={{ padding: 15 }}>
           <TextInput
             placeholder="Nouveau mot de passe"
@@ -135,6 +137,7 @@ class EditPassword extends Component {
             }}
           />
         </View>
+        </ScrollView>
         <View style={configStyles.footer}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}

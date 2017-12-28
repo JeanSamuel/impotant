@@ -157,30 +157,24 @@ class InscriptionService {
 	 * Inscription Temporaire
 	 * @param {*} activity 
 	 */
-  async _registrationTemporaire(activity) {
-    let dataInscription = {
-      username: activity.state.pseudo,
-      password: activity.state.password,
-    };
-    let url = BASEURL + 'register1';
+  async _registrationTemporaire() {
+    let url = BASEURL + 'register0';
     let responseJson = null;
     let user_info = null;
     try {
-      Utils._isValidPass(activity.state.password);
       await fetch(url, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dataInscription),
       })
         .then(response => response.json())
         .then(responseJson => {
           if (responseJson.error_message != null) {
             throw responseJson.error_message;
           } else {
-            //console.log('tempInfo', responseJson);
+            console.log('tempInfo', responseJson);
             resp = responseJson;
             user_info = {
               username: responseJson.username,
@@ -189,13 +183,12 @@ class InscriptionService {
           }
         })
         .catch(error => {
-          //console.log('erreur', error);
           throw error.toString();
         });
       await AuthentificationService._logout(1);
       await Utils._saveItem('user_id', JSON.stringify(user_info));
-      await Utils._saveItem('userData', JSON.stringify(resp));
-      await Utils._saveItem('userInfo', JSON.stringify(resp));
+      await Utils._saveItem('userData', resp);
+      await Utils._saveItem('userInfo', resp);
     } catch (error) {
       throw error.toString();
     }

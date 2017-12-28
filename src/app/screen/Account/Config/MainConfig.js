@@ -1,5 +1,5 @@
-//import liraries
-import React, { Component } from 'react';
+// import liraries
+import React, {Component} from 'react'
 import {
   View,
   StyleSheet,
@@ -10,21 +10,21 @@ import {
   Image,
   Alert,
   RefreshControl,
-  ScrollView,
-} from 'react-native';
-import { Icon, Header, List, ListItem, Button } from 'react-native-elements';
-import PropTypes from 'prop-types';
+  ScrollView
+} from 'react-native'
+import {Icon, Header, List, ListItem, Button} from 'react-native-elements'
+import PropTypes from 'prop-types'
 
-import styles from './styles';
-import { loginCss, baseStyle } from '../../../assets/styles';
-import { Utils, UserService } from '../../../services';
+import styles from './styles'
+import {loginCss, baseStyle} from '../../../assets/styles'
+import {Utils, UserService} from '../../../services'
 
-import Mybutton from '../../../components/Buttons/SamButton';
+import Mybutton from '../../../components/Buttons/SamButton'
 
 // create a component
 class MainConfig extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       loading: false,
       ispinner: false,
@@ -36,109 +36,108 @@ class MainConfig extends Component {
         solde: '',
         username: '',
         birthday: '',
-        roles: '',
+        roles: ''
       },
       params: null,
       allparams: null,
-      isTemp: true,
-    };
+      isTemp: true
+    }
   }
 
-  onValueChange(value) {
+  onValueChange (value) {
     this.setState({
-      selected1: value,
-    });
+      selected1: value
+    })
   }
-  async componentWillMount() {
-    this.setState({ loading: true });
-    let data = this.props.navigation.state.params.dataUser;
+  async componentWillMount () {
+    this.setState({loading: true})
+    let data = this.props.navigation.state.params.dataUser
     this.setState({
       data: data.dataUser,
       params: data.params,
       isTemp: data.isTemp,
-      allparams: data,
-    });
-    this.setState({ loading: false });
+      allparams: data
+    })
+    this.setState({loading: false})
   }
-  async setDataOnrefresh() {
-    this.setState({ loading: true });
+  async setDataOnrefresh () {
+    this.setState({loading: true})
     try {
-      const dataUser = await Utils.getItem('userInfo');
-      let userData = JSON.parse(dataUser);
-      let account_id = userData.code;
-      const userinfo = await UserService.getUserInfo(account_id, this);
-      let test = userinfo.roles[0];
+      const dataUser = await Utils.getItem('userInfo')
+      let userData = JSON.parse(dataUser)
+      let account_id = userData.code
+      const userinfo = await UserService.getUserInfo(account_id, this)
+      let test = userinfo.roles[0]
       let params = {
         account_id: userinfo.code,
-        pseudo: userinfo.username,
-      };
+        pseudo: userinfo.username
+      }
       this.setState({
         data: userinfo,
         isTemp: UserService.getRoles(test),
-        params: params,
-      });
+        params: params
+      })
     } catch (error) {
-      Alert.alert('Erreur', error.toString());
+      Alert.alert('Erreur', error.toString())
     } finally {
-      this.setState({ loading: false });
+      this.setState({loading: false})
     }
   }
-  async _onRefresh() {
-    this.setState({ ispinner: true });
-    await this.setDataOnrefresh();
-    this.setState({ ispinner: false });
+  async _onRefresh () {
+    this.setState({ispinner: true})
+    await this.setDataOnrefresh()
+    this.setState({ispinner: false})
   }
-  getAmount() {
-    return Utils.formatNumber(this.state.data.solde);
+  getAmount () {
+    return Utils.formatNumber(this.state.data.solde)
   }
-  handleActionLeft() {
-    this.props.navigation.goBack();
+  handleActionLeft () {
+    this.props.navigation.goBack()
   }
 
-  getMessage() {
-    let key = this.state.isTemp;
+  getMessage () {
+    let key = this.state.isTemp
     switch (key) {
       case 1:
-        return "Actuellement, vous utilisez un compte temporaire. Pour l'instant, vous pouvez recevoir de l'argent. Veuillez completer vos informations pour bénéficier tous les services d'Ariary.net.";
-        break;
+        return "Actuellement, vous utilisez un compte temporaire. Pour l'instant, vous pouvez recevoir de l'argent. Veuillez completer vos informations pour bénéficier tous les services d'Ariary.net."
+        break
       case 2:
-        return "Actuellement, vous pouvez déjà acheter des bons d'achat, payer en ligne ou en envoyer à vos amis. Mais pour pouvoir recevoir des bons d'achat, il vous faudra valider votre compte.";
-        break;
+        return "Actuellement, vous pouvez déjà acheter des bons d'achat, payer en ligne ou en envoyer à vos amis. Mais pour pouvoir recevoir des bons d'achat, il vous faudra valider votre compte."
+        break
       case 3:
-        return 'Felicitation, votre compte est  désormais validé. Vous avez un accès total aux services offert par Arairy.net. Vous pouvez modifier vos identité où vous êtes, quand vous voulez.';
-        break;
+        return 'Felicitation, votre compte est  désormais validé. Vous avez un accès total aux services offert par Arairy.net. Vous pouvez modifier vos identité où vous êtes, quand vous voulez.'
+        break
     }
   }
-  onPressAction(url, params) {
+  onPressAction (url, params) {
     if (this.state.isTemp == 1) {
       Alert.alert(
         'Information',
         'Nous vous invitons à mettre à jour votre compte pour pouvoir modifier vos informations'
-      );
+      )
     } else {
       if (params != null) {
-        this.props.navigation.navigate(url, { data: params });
+        this.props.navigation.navigate(url, {data: params})
       }
-      this.props.navigation.navigate(url, this.state.params);
+      this.props.navigation.navigate(url, this.state.params)
     }
   }
-  loadInscription() {
+  loadInscription () {
     this.props.navigation.navigate('Inscription', {
-      data: this.state.data.username,
-    });
+      data: this.state.data.username
+    })
   }
-  loadValidCompteConfig() {
-    this.props.navigation.navigate('Validation');
+  loadValidCompteConfig () {
+    this.props.navigation.navigate('Validation')
   }
-  render() {
+  render () {
     return (
-      <View style={[styles.container, { backgroundColor: '#fff' }]}>
-
+      <View style={[styles.container, {backgroundColor: '#fff'}]}>
         <Header
           style={baseStyle.header}
           leftComponent={
             <Mybutton
-              iconName="arrow-back"
+              iconName='arrow-back'
               onPress={() => this.handleActionLeft()}
               styleBtn={baseStyle.btnLeftHeader}
             />
@@ -151,14 +150,14 @@ class MainConfig extends Component {
           rightComponent={
             <View style={baseStyle.headerRightView}>
               <Mybutton
-                type="font-awesome"
-                iconName="share-alt"
+                type='font-awesome'
+                iconName='share-alt'
                 onPress={() => Utils.ShareApp()}
                 styleBtn={baseStyle.btnLeftHeader}
               />
               <Mybutton
-                iconName="md-refresh"
-                type="ionicon"
+                iconName='md-refresh'
+                type='ionicon'
                 onPress={() => this._onRefresh()()}
                 styleBtn={baseStyle.btnLeftHeader}
               />
@@ -174,9 +173,9 @@ class MainConfig extends Component {
           }
         >
           <View style={styles.headingContainer}>
-            <Icon color="white" name="gears" type="font-awesome" size={42} />
+            <Icon  color="#00cf7e" name='gears' type='font-awesome' size={42} />
             <Text style={styles.heading}>Configuration du compte</Text>
-            <Text style={[styles.heading, { fontSize: 12 }]}>
+            <Text style={[styles.heading, {fontSize: 12, color: '#aaa'}]}>
               {this.getMessage()}
             </Text>
           </View>
@@ -187,11 +186,11 @@ class MainConfig extends Component {
               style={[
                 styles.leftIcon,
                 {
-                  backgroundColor: 'green',
-                },
+                  backgroundColor: 'green'
+                }
               ]}
             >
-              <Icon size={20} color="#fff" name="person" type="material-icon" />
+              <Icon size={20} color='#fff' name='person' type='material-icon' />
             </View>,
             'MainConfig',
             null
@@ -199,8 +198,8 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Email',
             this.state.data.mail,
-            <View style={[styles.leftIcon, { backgroundColor: '#FF9501' }]}>
-              <Icon size={20} color="#fff" name="mail" type="material-icon" />
+            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
+              <Icon size={20} color='#fff' name='mail' type='material-icon' />
             </View>,
             'EditMail',
             null
@@ -208,8 +207,8 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Téléphone',
             this.state.data.phone,
-            <View style={[styles.leftIcon, { backgroundColor: '#4CDA64' }]}>
-              <Icon type="material-icon" size={20} color="#fff" name="call" />
+            <View style={[styles.leftIcon, {backgroundColor: '#4CDA64'}]}>
+              <Icon type='material-icon' size={20} color='#fff' name='call' />
             </View>,
             'EditPhone',
             null
@@ -217,12 +216,12 @@ class MainConfig extends Component {
           {this.renderListConfig(
             'Date de naissance',
             this.state.data.birthday,
-            <View style={[styles.leftIcon, { backgroundColor: '#FF9501' }]}>
+            <View style={[styles.leftIcon, {backgroundColor: '#FF9501'}]}>
               <Icon
-                type="material-icon"
+                type='material-icon'
                 size={20}
-                color="#fff"
-                name="date-range"
+                color='#fff'
+                name='date-range'
               />
             </View>,
             'EditBirthday',
@@ -234,13 +233,13 @@ class MainConfig extends Component {
             <View
               style={[
                 styles.leftIcon,
-                { backgroundColor: 'rgba(231, 76, 60,1.0)' },
+                {backgroundColor: 'rgba(231, 76, 60,1.0)'}
               ]}
             >
-              <Icon type="material-icon" size={20} color="#fff" name="lock" />
+              <Icon type='material-icon' size={20} color='#fff' name='lock' />
             </View>,
             'EditPassword',
-            null,
+            null
           )}
           {this.renderListConfig(
             'Modifier tout',
@@ -248,43 +247,43 @@ class MainConfig extends Component {
             <View
               style={[
                 styles.leftIcon,
-                { backgroundColor: 'rgba(231, 76, 60,1.0)' },
+                {backgroundColor: 'rgba(231, 76, 60,1.0)'}
               ]}
             >
-              <Icon type="material-icon" size={20} color="#fff" name="edit" />
+              <Icon type='material-icon' size={20} color='#fff' name='edit' />
             </View>,
             'EditAll',
-            null,
+            null
           )}
           <View />
         </ScrollView>
 
         {this.state.isTemp == 1 &&
           <View style={[styles.bottom]}>
-            <View style={{ width: '100%' }}>
+            <View style={{width: '100%'}}>
               <Button
-                iconRight={{ name: 'ios-arrow-forward', type: 'ionicon' }}
+                iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
                 buttonStyle={styles.buttonStyle}
-                title="Completer mes informations"
+                title='Completer mes informations'
                 onPress={() => this.loadInscription()}
               />
             </View>
           </View>}
         {this.state.isTemp == 2 &&
           <View style={[styles.bottom]}>
-            <View style={{ width: '100%' }}>
+            <View style={{width: '100%'}}>
               <Button
-                iconRight={{ name: 'ios-arrow-forward', type: 'ionicon' }}
+                iconRight={{name: 'ios-arrow-forward', type: 'ionicon'}}
                 buttonStyle={styles.buttonStyle}
-                title="Valider mon compte"
+                title='Valider mon compte'
                 onPress={() => this.loadValidCompteConfig()}
               />
             </View>
           </View>}
       </View>
-    );
+    )
   }
-  renderListConfig(title, subtitle, lefticon, url, params) {
+  renderListConfig (title, subtitle, lefticon, url, params) {
     return (
       <ListItem
         onPress={() => this.onPressAction(url, params)}
@@ -299,8 +298,8 @@ class MainConfig extends Component {
         }
         leftIcon={lefticon}
       />
-    );
+    )
   }
 }
-//make this component available to the app
-export default MainConfig;
+// make this component available to the app
+export default MainConfig

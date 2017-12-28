@@ -59,7 +59,7 @@ class RegisterPin extends Component {
           services.getData("user_id").then(userdata => {
             user = JSON.parse(userdata);
             this.setState({ isLoading: !this.state.isLoading });
-            //console.log(userdata);
+            console.log(user);
             this.props.navigation.navigate("Drawer", user);
           });
         });

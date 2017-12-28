@@ -163,7 +163,7 @@ class ProfileAriary extends React.Component {
               <View
                 style={[
                   configStyles.header,
-                  {padding: 0, width: '100%', backgroundColor: 'transparent'}
+                  {padding: 0, width: '100%', backgroundColor: 'transparent',borderBottomWidth:2,borderBottomColor:'#aaa'}
                 ]}
               >
                 <View
@@ -193,7 +193,10 @@ class ProfileAriary extends React.Component {
                         />
                       </TouchableOpacity>}
                   </View>
-                  <Text style={[configStyles.textHeader, {color: '#00d07f'}]}>
+                  <Text style={[configStyles.textHeader, {fontSize:22,fontWeight:'500',color:'#000'}]}>
+                    Compte {this.getRoles()}
+                  </Text>
+                  <Text style={[configStyles.textHeader, {color: '#aaa',fontWeight:'500'}]}>
                     Solde : {this.getAmount()} Ar
                   </Text>
                 </View>
@@ -256,16 +259,6 @@ class ProfileAriary extends React.Component {
                   <View style={styles.w3}>
                     <Text style={{color: '#666', textAlign: 'right'}}>
                       {this.state.data.phone}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{flexDirection: 'row', paddingVertical: 10}}>
-                  <View style={styles.w2}>
-                    <Text>Type de compte</Text>
-                  </View>
-                  <View style={styles.w3}>
-                    <Text style={{color: '#666', textAlign: 'right'}}>
-                      {this.getRoles()}
                     </Text>
                   </View>
                 </View>

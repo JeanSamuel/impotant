@@ -24,6 +24,7 @@ import {
   Button,
   Icon
 } from 'react-native-elements'
+import EStyleSheet from 'react-native-extended-stylesheet'
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
 import { AchatService, UserService, Utils } from '../../../services'
@@ -317,13 +318,13 @@ class ViaMobileMoney extends Component {
         <ScrollView style={{ backgroundColor: 'white', flex: 1 }}>
           <View style={stl.headingContainer}>
             <Icon
-              color='white'
+              color='#00cf7e'
               name='ios-filing-outline'
               type='ionicon'
               size={42}
             />
             <Text style={stl.heading}>Via Mobile Money</Text>
-            <Text style={[stl.heading, { fontSize: 12 }]}>
+            <Text style={[stl.heading, {fontSize: 12, color: '#aaa'}]}>
               Avec Ariary.net, acheter des bons d'achat via votre compte mobile
               money
             </Text>
@@ -352,15 +353,17 @@ class ViaMobileMoney extends Component {
     )
   }
 }
-const stl = StyleSheet.create({
+const stl = EStyleSheet.create({
   headingContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: '$border',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#00d07f'
+    backgroundColor: 'white'
   },
   heading: {
-    color: 'white',
+    fontWeight:'500',
     marginTop: 10,
     fontSize: 22,
     textAlign: 'center'

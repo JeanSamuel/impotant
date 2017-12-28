@@ -274,7 +274,7 @@ class Offrir extends Component {
         <ScrollView>
           <View style={styles.headingContainer}>
             <Icon
-              color='white'
+              color='#00cf7e'
               name='present'
               type='simple-line-icon'
               size={42}

@@ -143,7 +143,7 @@ export default DrawerNavigator(
     },
     contentComponent: props => (
       <ScrollView>
-        <DrawerContent />
+        <DrawerContent/>
         <DrawerItems {...props} />
       </ScrollView>
     )

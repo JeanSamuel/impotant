@@ -1,27 +1,27 @@
-import React, {Component} from "react";
-import {Animated, Text, View, StatusBar,TouchableOpacity} from "react-native";
-import * as Animatable from "react-native-animatable";
-import EStyleSheet from "react-native-extended-stylesheet";
-import {Icon} from "react-native-elements";
-import Services from "../../../services/utils/services";
-import {Notifications} from "expo";
+import React, {Component} from 'react';
+import {Animated, Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import {Icon} from 'react-native-elements';
+import Services from '../../../services/utils/services';
+import {Notifications} from 'expo';
 
-const back = require("../../../assets/images/backHeader.jpg");
-const logoFromFile = require("../../../assets/images/icons/user.png");
+const back = require('../../../assets/images/backHeader.jpg');
+const logoFromFile = require('../../../assets/images/icons/user.png');
 import {styleBase} from '../../../assets/styles';
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
     this.spinValue = new Animated.Value(0);
     this.state = {
-      solde: "",
+      solde: '',
       account_id: 0,
-      alias: "",
-      username: "",
-      date: "",
-      animation: "",
+      alias: '',
+      username: '',
+      date: '',
+      animation: '',
       isrefreshing: false,
-      notification: {}
+      notification: {},
     };
   }
 
@@ -38,24 +38,24 @@ export default class DrawerContent extends Component {
   getUserInfo() {
     let services = new Services();
     services
-      .getData("userInfo")
+      .getData('userInfo')
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
           this.setState({
             username: dataParsed.nom,
-            account_id: dataParsed.code
+            account_id: dataParsed.code,
           });
           this.checkSolde();
         } else {
           this.setState({
-            username: "unassigned",
-            account_id: 0
+            username: 'unassigned',
+            account_id: 0,
           });
         }
       })
       .catch(error => {
-        services.createError(error, "erreur response getting solde");
+        services.createError(error, 'erreur response getting solde');
       });
   }
 
@@ -79,7 +79,7 @@ export default class DrawerContent extends Component {
         this.setState({
           solde: response.value,
           date: response.date,
-          isrefreshing: false
+          isrefreshing: false,
         });
       })
       .catch(error => {
@@ -90,27 +90,27 @@ export default class DrawerContent extends Component {
   checkOldSolde() {
     let services = new Services();
     services
-      .getData("solde")
+      .getData('solde')
       .then(response => {
         if (response.value != null) {
           this.setState({
             solde: response.value,
             date: response.date,
-            isrefreshing: false
+            isrefreshing: false,
           });
         } else {
           this.setState({
-            solde: "N/A",
-            date: "N/A",
-            isrefreshing: false
+            solde: 'N/A',
+            date: 'N/A',
+            isrefreshing: false,
           });
         }
       })
       .catch(error => {
         this.setState({
-          solde: "N/A",
-          date: "N/A",
-          isrefreshing: false
+          solde: 'N/A',
+          date: 'N/A',
+          isrefreshing: false,
         });
       });
   }
@@ -128,39 +128,41 @@ export default class DrawerContent extends Component {
             style={[
               styles.logoContainer,
               {
-                flexDirection: "row"
-              }
+                flexDirection: 'row',
+              },
             ]}
           >
             <Icon name="account-circle" size={70} color="#00d07f" />
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={{ fontSize: 16, color: "#000" }}>
+              <Text style={{fontSize: 16, color: '#000'}}>
                 {this.state.username}
               </Text>
               <View
                 style={{
-                  flexDirection: "row"
+                  flexDirection: 'row',
                 }}
               >
                 <Text style={styleBase.textWhiteBold}>
-                  <Text style={{ fontSize: 30 }}>{soldeFormated} Ar</Text>
+                  <Text style={{fontSize: 30}}>
+                    {soldeFormated} Ar
+                  </Text>
                 </Text>
                 <TouchableOpacity
                   style={[
                     styleBase.centered,
                     styles.refreshContainer,
-                    { alignContent: "flex-end" }
+                    {alignContent: 'flex-end'},
                   ]}
                   activeOpacity={0.4}
                   onPress={this.refresh.bind(this)}
                 >
                   <Animatable.View
                     ref="spinner"
-                    animation={this.state.isrefreshing ? "rotate" : ""}
-                    iterationCount={"infinite"}
-                    Easing={"linear"}
+                    animation={this.state.isrefreshing ? 'rotate' : ''}
+                    iterationCount={'infinite'}
+                    Easing={'linear'}
                   >
                     <Icon
                       name="refresh"
@@ -174,26 +176,6 @@ export default class DrawerContent extends Component {
             </View>
           </View>
         </View>
-        {/* <View
-          style={[
-            {
-              borderTopWidth: 2,
-              borderTopColor: "#E2E2E2",
-              height: 40,
-              justifyContent: "center"
-            }
-          ]}
-        >
-          <View
-            style={{
-              marginHorizontal: 10,
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
-          >
-            <Text>{soldeFormated} Ar</Text>
-          </View>
-        </View> */}
       </View>
     );
   }
@@ -202,39 +184,40 @@ export default class DrawerContent extends Component {
 const styles = EStyleSheet.create({
   container: {
     height: 150,
+    marginTop:-50,
     borderBottomWidth: 2,
-    borderBottomColor: "$border",
-    '@media android':{
-      marginTop: StatusBar.currentHeight
-    }
+    borderBottomColor: '$border',
+    '@media android': {
+      marginTop: StatusBar.currentHeight,
+    },
   },
   imageBack: {
     flex: 1,
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     paddingHorizontal: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   logoContainer: {
-    height: "100%"
+    height: '100%',
   },
   logo: {
-    height: "100%"
+    height: '100%',
   },
-  textWhiteRight: { fontSize: 20, color: "#fff", textAlign: "right" },
+  textWhiteRight: {fontSize: 20, color: '#fff', textAlign: 'right'},
   dataContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginLeft: 20
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: 20,
   },
   textContainer: {
-    width: "80%"
+    width: '80%',
   },
   refreshContainer: {
-    width: "20%"
-  }
+    width: '20%',
+  },
 });

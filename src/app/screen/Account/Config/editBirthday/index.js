@@ -124,7 +124,7 @@ class EditBirthday extends Component {
               style={{ width: deviceWidth - 22 }}
               date={this.state.date}
               mode="date"
-              placeholder="Selectionner une date"
+              placeholder="Selectionner une nouvelle date"
               format="YYYY-MM-DD"
               confirmBtnText="Confirmer"
               cancelBtnText="Annuler"

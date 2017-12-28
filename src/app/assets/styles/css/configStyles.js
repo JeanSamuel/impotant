@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import {Dimensions} from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 const configStyles = EStyleSheet.create({
   container: {
@@ -27,13 +27,13 @@ const configStyles = EStyleSheet.create({
     textAlign: 'center'
   },
   touch: {
-    width: '49%',
-    backgroundColor: '$darkColor',
-    marginRight: '1%'
+    width: '50%',
+    backgroundColor: '$darkColor'
   },
   touchtext: {
     textAlign: 'center',
-    padding: 15
+    padding: 15,
+    color: 'white'
   },
   textHeader: {
     textAlign: 'center',

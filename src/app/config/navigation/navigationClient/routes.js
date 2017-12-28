@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, TouchableOpacity, View, StatusBar, Platform} from "react-native";
+import {StyleSheet, TouchableOpacity, View, StatusBar, Platform,Alert} from "react-native";
 import {Icon} from "react-native-elements";
 import {StackNavigator} from "react-navigation";
 import {
@@ -11,6 +11,7 @@ import Drawer from "./Drawer";
 import {Notifications} from "expo";
 import DropdownAlert from "react-native-dropdownalert";
 import StartStack from "./StartStack";
+import {Utils} from '../../../services';
 
 class Navigateur extends Component {
   componentWillMount() {

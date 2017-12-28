@@ -53,20 +53,21 @@ class Main extends Component {
   }
 
   async _loginTemp() {
-    this.setState({ loading: true });
-    if (this._isEmptyField()) {
-      try {
-        let response = await InscriptionService._registrationTemporaire(this);
-        this.setState({ loading: false });
-        this.props.navigation.navigate("RegisterPin", response);
-      } catch (error) {
-        this.setState({ loading: false });
-        Alert.alert("Erreur d'inscription", error.toString());
-      }
-    } else {
-      this.setState({ loading: false });
-      Alert.alert('Erreur', 'Tous les champs sont requis');
-    }
+    // this.setState({ loading: true });
+    // if (this._isEmptyField()) {
+    //   try {
+    //     let response = await InscriptionService._registrationTemporaire(this);
+    //     this.setState({ loading: false });
+    //     console.log('repTemp',response);
+    //     this.props.navigation.navigate("RegisterPin", response);
+    //   } catch (error) {
+    //     this.setState({ loading: false });
+    //     Alert.alert("Erreur d'inscription", error.toString());
+    //   }
+    // } else {
+    //   this.setState({ loading: false });
+    //   Alert.alert('Erreur', 'Tous les champs sont requis');
+    // }
   }
   _isEmptyField() {
     return (
