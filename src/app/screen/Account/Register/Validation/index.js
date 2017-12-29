@@ -59,6 +59,7 @@ class MainValidation extends React.Component {
       username: '',
       optionRequest: false,
       message: '',
+      params:null,
     };
   }
   _getPage() {
@@ -148,7 +149,7 @@ class MainValidation extends React.Component {
       let data = await Utils.getItem('userInfo');
       if (data != null) {
         let datajson = JSON.parse(data);
-        this.setState({ account_id: datajson.code, username: datajson.pseudo });
+        this.setState({ account_id: datajson.code, username: datajson.username, params: datajson });
       }
     } catch (error) {
       //console.log(error);

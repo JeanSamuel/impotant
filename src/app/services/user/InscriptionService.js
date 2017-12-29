@@ -142,6 +142,7 @@ class InscriptionService {
             activity.props.navigation.navigate('ValidationCompte', {
               data: activity.state.data,
               pseudo: activity.state.username,
+              params: activity.state.params,
             });
           } else {
             msg = 'Assurez-vous que toutes informations sont exactes!!!';

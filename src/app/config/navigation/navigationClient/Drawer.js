@@ -14,7 +14,7 @@ export default DrawerNavigator(
     Profile: {
       screen: ProfileAriary,
       navigationOptions: ({ navigation }) => ({
-        title: "Profil",
+        title: "Profile",
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="ios-contact-outline"

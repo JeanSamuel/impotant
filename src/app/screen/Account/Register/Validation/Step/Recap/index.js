@@ -45,6 +45,7 @@ class ValidationCompte extends React.Component {
       },
       password: '',
       modalVisible: false,
+      params: '',
       username: ''
     }
   }
@@ -69,16 +70,18 @@ class ValidationCompte extends React.Component {
   componentWillMount () {
     let data = this.props.navigation.state.params.data
     let pseudo = this.props.navigation.state.params.pseudo
-    console.log("===>"+pseudo,data);
-    this.setState({data: data, username: pseudo})
+    let params = this.props.navigation.state.params.params
+    console.log("===>"+pseudo,data, params);
+    this.setState({data: data, username: pseudo, params: params})
   }
   loadConfig () {
-    this.props.navigation.navigate('Profile')
+    console.log(this.props.navigation);
+    this.props.navigation.navigate('Drawer', this.state.params);
   }
   async _saveUserValidation () {
     try {
-      await InscriptionService._saveUserValidation(this.state.data, this)
-      this.props.navigation.navigate('Profile')
+      await InscriptionService._saveUserValidation(this.state.data, this);
+      this.props.navigation.navigate('Drawer', this.state.params)
     } catch (error) {
       Alert.alert('Erreur', error.toString())
     }
