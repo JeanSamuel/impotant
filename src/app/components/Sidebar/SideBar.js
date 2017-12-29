@@ -110,7 +110,7 @@ export default class SideBar extends Component {
   async getSoldes() {
     let services = new Services();
     this.setState({ loading: true });
-    console.log(this.props.navigation.state.params.user_id);
+    //console.log(this.props.navigation.state.params.user_id);
     services
       .checkSolde(this.props.navigation.state.params.user_id)
       .then(response => {

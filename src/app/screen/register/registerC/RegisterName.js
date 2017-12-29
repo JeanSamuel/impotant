@@ -19,7 +19,7 @@ class RegisterName extends Component {
     };
   }
   handleContinue() {
-    console.log("continue");
+    //console.log("continue");
     if (this.state.username.length === 0) {
       this.setState({ hasError: true });
       errorMessage = "Ne laisser pas le champ vide";
@@ -33,11 +33,11 @@ class RegisterName extends Component {
     this.setState({ username: text });
   };
   handleRefresh() {
-    console.log("refesshh");
+    //console.log("refesshh");
     this.setState({ username: "", hasError: false });
   }
   handleEndEditing() {
-    console.log("End editing", this.state.username.length);
+    //console.log("End editing", this.state.username.length);
     if (this.state.username.length === 0) {
       this.setState({ hasError: true });
       errorMessage = "Ne laisser pas le champ vide";
@@ -100,7 +100,7 @@ class RegisterName extends Component {
                 placeholder="Nom d'utilisateur"
                 onChangeText={username => {
                   this.setState({ username: username, hasError: false });
-                  console.log(username);
+                  //console.log(username);
                 }}
                 onEndEditing={() => {
                   this.handleEndEditing();

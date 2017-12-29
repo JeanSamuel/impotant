@@ -10,11 +10,11 @@ export default {
 		marginBottom: 10
 	},
 	header: {
-		backgroundColor: '#00BF9A',
+		backgroundColor: '$darkColor',
 		height: 60
 	},
 	modeaba: {
-		backgroundColor: '#00BF9A'
+		backgroundColor: '$darkColor'
 	},
 	centeredVerticale: {
 		justifyContent: 'center'

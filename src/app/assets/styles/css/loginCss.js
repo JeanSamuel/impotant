@@ -1,5 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
-const loginCss = StyleSheet.create({
+import {Dimensions } from 'react-native';
+import EStyleSheet from "react-native-extended-stylesheet";
+const loginCss = EStyleSheet.create({
     loginScreen: {
         flex: 1,
         paddingBottom: 0,
@@ -27,7 +28,8 @@ const loginCss = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 0,
         backgroundColor: '#FFF',
-        height:40
+        height:40,
+        marginLeft:5
     },
     iconWrap: {
         paddingHorizontal: 7,
@@ -48,7 +50,7 @@ const loginCss = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 50,
-        backgroundColor: '#00BF9A',
+        backgroundColor: '$darkColor',
         paddingHorizontal: 20
     },
     signUp: {
@@ -65,7 +67,7 @@ const loginCss = StyleSheet.create({
     toutchable: {
     },
     textforgot: {
-        color: '#00BF9A',
+        color: '$darkColor',
         textAlign:'right',
     },
     imageLogin: {

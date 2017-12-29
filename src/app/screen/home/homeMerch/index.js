@@ -131,11 +131,11 @@ class Home extends Component {
         if (response != null) {
           this.props.navigation.navigate("Intro");
         } else {
-          console.log("ol efa membre hatry ny ela");
+          //console.log("ol efa membre hatry ny ela");
         }
       })
       .catch(error => {
-        console.log("error maka anle iz ao");
+        //console.log("error maka anle iz ao");
       });
   }
 

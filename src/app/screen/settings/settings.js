@@ -38,7 +38,7 @@ class Settings extends Component {
         }
       })
       .catch(error => {
-        console.log("ol efa membre hatry ny ela");
+        //console.log("ol efa membre hatry ny ela");
       });
   }
 

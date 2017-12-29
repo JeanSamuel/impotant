@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StatusBar,
   View,
@@ -10,13 +10,19 @@ import {
   AsyncStorage,
   Alert,
   Text,
-  ActivityIndicator
-} from "react-native";
-import PropTypes from "prop-types";
-import { Icon, Button, FormInput, FormLabel, CheckBox } from "react-native-elements";
-import { loginCss, configStyles } from "../../../../../../assets/styles";
-import styles from "./styles";
-import { UserService, Utils } from "../../../../../../services";
+  ActivityIndicator,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  Icon,
+  Button,
+  FormInput,
+  FormLabel,
+  CheckBox,
+} from 'react-native-elements';
+import { loginCss, configStyles } from '../../../../../../assets/styles';
+import styles from './styles';
+import { UserService, Utils } from '../../../../../../services';
 
 class Securite extends Component {
   constructor(props) {
@@ -79,7 +85,7 @@ class Securite extends Component {
     }
   }
   onCheckField() {
-    this.setState({checked: !this.state.checked});
+    this.setState({ checked: !this.state.checked });
   }
   _confirmPass() {
     if (this.state.password != this.state.confirmpassword) {
@@ -100,34 +106,42 @@ class Securite extends Component {
     return (
       <View style={styles.viewContainer}>
         {this.state.description != null &&
-        <CheckBox
-          title="Enregistrer un nouveau mot de passe"
-          checked={this.state.checked}
-          onPress={() => this.onCheckField()}
-        />}
-        <FormLabel containerStyle={{marginTop: 8}}>Prénom</FormLabel>
+          <CheckBox
+            title="Enregistrer un nouveau mot de passe"
+            checked={this.state.checked}
+            onPress={() => this.onCheckField()}
+          />}
+        <FormLabel containerStyle={{ marginTop: 8 }}>Prénom</FormLabel>
         <FormInput
           placeholder="Entrer mot de passe"
-          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          style={[loginCss.input, { backgroundColor: 'transparent' }]}
           secureTextEntry
-          onChangeText={password => this.setState({password})}
+          onChangeText={password => this.setState({ password })}
+          onEndEditing={() => {
+            try {
+              Utils._isValidPass(this.state.password);
+            } catch (error) {
+              this.setState({ password: null });
+              Alert.alert('Erreur', error.toString());
+            }
+          }}
           returnKeyType="done"
         />
-        <FormLabel containerStyle={{marginTop: 8}}>
+        <FormLabel containerStyle={{ marginTop: 8 }}>
           Confirmation mot de passe
-        </FormLabel>
+          </FormLabel>
         <FormInput
           placeholder="Entrer à nouveau votre mot de passe"
-          onChangeText={confirmpassword => this.setState({confirmpassword})}
-          style={[loginCss.input, {backgroundColor: 'transparent'}]}
+          onChangeText={confirmpassword => this.setState({ confirmpassword })}
+          style={[loginCss.input, { backgroundColor: 'transparent' }]}
           secureTextEntry
           returnKeyType="done"
           onEndEditing={() => this.updateSecurity()}
         />
         {this.state.loading &&
-        <View style={configStyles.indicator}>
-          <ActivityIndicator size="large" animating={true} color="#666" />
-        </View>}
+          <View style={configStyles.indicator}>
+            <ActivityIndicator size="large" animating={true} color="#1C2E48" />
+          </View>}
       </View>
     );
   }

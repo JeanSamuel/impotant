@@ -47,7 +47,7 @@ class Review extends Component {
     services
       .getUserDetails(this.state.user)
       .then(user_info => {
-        console.log(user_info);
+        //console.log(user_info);
         this.setState({ receiver_name: user_info.nom });
       })
       .catch(error => {
@@ -65,15 +65,15 @@ class Review extends Component {
   }
   _handlePinInput = text => {
     this.setState({ errorMessage: null });
-    console.log(text);
+    //console.log(text);
     if (text.length === 4) {
       let services = new Services();
       if (this.state.pin === text) {
-        // console.log("Ataovy le transaction");
+        // //console.log("Ataovy le transaction");
         this.removeModal();
         this._handleContinue();
       } else {
-        console.log("error");
+        //console.log("error");
         this.setState({ errorMessage: this.renderErrorMessage() });
       }
     }
@@ -119,7 +119,7 @@ class Review extends Component {
         ""
       )
       .then(rep => {
-        console.log(rep);
+        //console.log(rep);
         if (rep.resultat == "success") {
           this.setState({
             loading: false,

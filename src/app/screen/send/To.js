@@ -44,7 +44,7 @@ class To extends Component {
     userServices
       .getAdresses(this.props.navigation.state.params.user_id)
       .then(response => {
-        console.log(response);
+        //console.log(response);
         if (response.status === 200) {
           response.json().then(responseJson => {
             this.setState({
@@ -56,16 +56,16 @@ class To extends Component {
               services
                 .saveData("adress", JSON.stringify(this.state.list))
                 .then(respose => {
-                  console.log("Nety le izy");
+                  //console.log("Nety le izy");
                 });
             } catch (error) {
-              console.log(error);
+              //console.log(error);
               throw "something went wrong when saving data";
             }
           });
         }
         if (response.status === 405) {
-          console.log("erreur", response.status);
+          //console.log("erreur", response.status);
           this.setState({
             loading: false,
             online: false,
@@ -89,7 +89,7 @@ class To extends Component {
         this.setState({ list: JSON.parse(response) });
         this.setState({ loading: false });
       } else {
-        console.log("Empty adress from local storage");
+        //console.log("Empty adress from local storage");
       }
     });
     this.fetchAdress();

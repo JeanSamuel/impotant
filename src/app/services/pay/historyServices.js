@@ -35,9 +35,9 @@ class HistorySevices extends Component {
       return [];
     }
     let url = config.NEW_BASE_URL + "src/transaction.php?account-id=" + user_id;
-    console.log("====================================");
-    console.log("début maka history ", user_id);
-    console.log("====================================");
+    //console.log("====================================");
+    //console.log("début maka history ", user_id);
+    //console.log("====================================");
 
     try {
       return new Services()
@@ -49,9 +49,9 @@ class HistorySevices extends Component {
             this.saveHistory(JSON.stringify(dataChecked));
             return dataChecked;
           } else {
-            console.log("====================================");
-            console.log("erreur de données getHistory", responseJSON);
-            console.log("====================================");
+            //console.log("====================================");
+            //console.log("erreur de données getHistory", responseJSON);
+            //console.log("====================================");
             return [];
           }
         })
@@ -62,7 +62,7 @@ class HistorySevices extends Component {
           );
         });
     } catch (error) {
-      console.log("erreur getHistory", error);
+      //console.log("erreur getHistory", error);
       throw error;
     }
   }
@@ -84,7 +84,7 @@ class HistorySevices extends Component {
       try {
         services.removeData("numberBadge");
       } catch (error) {
-        console.log("il n'y a pas de nouveau transaction");
+        //console.log("il n'y a pas de nouveau transaction");
       }
     } catch (error) {
       throw error;

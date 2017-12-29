@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,15 @@ import {
   WebView,
   ActivityIndicator,
   KeyboardAvoidingView,
-  ScrollView
-} from "react-native";
-import Spinner from "react-native-loading-spinner-overlay";
-import Services from "../../services/utils/services";
-import NotificationServices from "../../services/user/notificationServices";
-import styleBase from "../../assets/styles/styles";
-import { WarningConnexion } from "../../components/warning/index";
-import { Button } from "react-native-elements";
-import data from "../../config/data/dataM";
+  ScrollView,
+} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import Services from '../../services/utils/services';
+import NotificationServices from '../../services/user/notificationServices';
+import styleBase from '../../assets/styles/styles';
+import {WarningConnexion} from '../../components/warning/index';
+import {Button} from 'react-native-elements';
+import data from '../../config/data/dataM';
 
 // const { width, height } = Dimensions.get("window");
 const uri = data.uri;
@@ -26,12 +26,12 @@ class Login extends Component {
     this.state = {
       spinnerVisibility: false,
       saving: false,
-      data: null
+      data: null,
     };
   }
 
   changeSpinnerVisibility(value) {
-    this.setState({ spinnerVisibility: value });
+    this.setState({spinnerVisibility: value});
   }
 
   async _onNavigationStateChange(webViewState) {
@@ -39,19 +39,16 @@ class Login extends Component {
     var notif = new NotificationServices();
     this.changeSpinnerVisibility(true);
     if (webViewState.url != uri && !this.state.saving) {
-      this.setState({ saving: true });
+      this.setState({saving: true});
       service
         .goLogin(webViewState)
         .then(response => {
-          console.log("====================================");
-          console.log("ty le response aty am login", response);
-          console.log("====================================");
           this.setState({
-            data: response
+            data: response,
           });
           this.changeSpinnerVisibility(false);
           notif.loginForExpoToken(response.username);
-          this.props.navigation.navigate("RegisterPin", response);
+          this.props.navigation.navigate('RegisterPin', response);
         })
         .catch(error => {});
     }
@@ -59,9 +56,8 @@ class Login extends Component {
 
   onErrorLoading(webViewState) {}
 
-  webviewRenderError = (errorDomain, errorCode, errorDesc) => (
-    <WarningConnexion />
-  );
+  webviewRenderError = (errorDomain, errorCode, errorDesc) =>
+    <WarningConnexion />;
 
   return() {
     this.props.navigation.goBack();
@@ -75,12 +71,12 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={{
               flex: 1,
-              justifyContent: "center",
-              alignContent: "center"
+              justifyContent: 'center',
+              alignContent: 'center',
             }}
           >
             <ActivityIndicator
@@ -88,7 +84,7 @@ class Login extends Component {
               size="large"
             />
             <WebView
-              source={{ uri: uri }}
+              source={{uri: uri}}
               style={styles.webview}
               onNavigationStateChange={this._onNavigationStateChange.bind(this)}
               renderLoading={this.renderLoading}
@@ -117,14 +113,14 @@ class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
-  webview: { flex: 1 },
+  webview: {flex: 1},
   buttonContainer: {},
   buttonText: {
     fontSize: 20,
-    color: "rgba(52, 73, 94,1.0)"
-  }
+    color: 'rgba(52, 73, 94,1.0)',
+  },
 });
 
 //make this component available to the app

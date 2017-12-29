@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StatusBar,
   View,
@@ -11,14 +11,20 @@ import {
   Alert,
   Text,
   ActivityIndicator,
-  TouchableOpacity
-} from "react-native";
-import { Header, Button, Icon, FormLabel, FormInput } from "react-native-elements";
-import PropTypes from "prop-types";
-import Mybutton from "../../../../components/Buttons/SamButton";
-import { baseStyle, loginCss } from "../../../../assets/styles/index";
-import styles from "./styles";
-import { Utils, InscriptionService } from "../../../../services";
+  TouchableOpacity,
+} from 'react-native';
+import {
+  Header,
+  Button,
+  Icon,
+  FormInput,
+  FormLabel,
+} from 'react-native-elements';
+import PropTypes from 'prop-types';
+import Mybutton from '../../../../components/Buttons/SamButton';
+import { baseStyle, loginCss } from '../../../../assets/styles/index';
+import styles from './styles';
+import { Utils, InscriptionService } from '../../../../services';
 
 class Main extends Component {
   constructor(props) {
@@ -38,7 +44,7 @@ class Main extends Component {
   }
 
   loadInscription() {
-    this.props.navigation.navigate('Inscription', {data: null});
+    this.props.navigation.navigate('Inscription', { data: null });
   }
   componentDidMount() {
     this.setState({
@@ -47,20 +53,21 @@ class Main extends Component {
   }
 
   async _loginTemp() {
-    this.setState({loading: true});
-    if (this._isEmptyField()) {
-      try {
-        await InscriptionService._registrationTemporaire(this);
-        this.setState({loading: false});
-        this.props.navigation.navigate('Pin');
-      } catch (error) {
-        this.setState({loading: false});
-        Alert.alert("Erreur d'inscription", error.toString());
-      }
-    } else {
-      this.setState({loading: false});
-      Alert.alert('Erreur', 'Tous les champs sont requis');
-    }
+    // this.setState({ loading: true });
+    // if (this._isEmptyField()) {
+    //   try {
+    //     let response = await InscriptionService._registrationTemporaire(this);
+    //     this.setState({ loading: false });
+    //     console.log('repTemp',response);
+    //     this.props.navigation.navigate("RegisterPin", response);
+    //   } catch (error) {
+    //     this.setState({ loading: false });
+    //     Alert.alert("Erreur d'inscription", error.toString());
+    //   }
+    // } else {
+    //   this.setState({ loading: false });
+    //   Alert.alert('Erreur', 'Tous les champs sont requis');
+    // }
   }
   _isEmptyField() {
     return (
@@ -75,14 +82,13 @@ class Main extends Component {
   _validatePass() {
     try {
       Utils._isValidPass(this.state.password);
-      this.setState({haserror: false});
     } catch (error) {
       Alert.alert('Erreur mot de passe', error.toString());
     }
   }
   _confirmPass() {
     if (this.state.password == this.state.confpassword) {
-      this.setState({haserror: false});
+      this.setState({ haserror: false });
     } else {
       Alert.alert(
         'Erreur mot de passe',
@@ -97,7 +103,6 @@ class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -125,31 +130,31 @@ class Main extends Component {
               />
               <Text style={styles.heading}>Compte temporaire</Text>
             </View>
-            <FormLabel containerStyle={{marginTop: 8}}>Votre pseudo</FormLabel>
+            <FormLabel containerStyle={{ marginTop: 8 }}>Votre pseudo</FormLabel>
             <FormInput
               placeholder="Entrer votre pseudo"
               value={this.state.pseudo}
               style={loginCss.input}
               autoFocus={false}
-              onChangeText={pseudo => this.setState({pseudo})}
+              onChangeText={pseudo => this.setState({ pseudo })}
               returnKeyType="next"
             />
-            <FormLabel containerStyle={{marginTop: 8}}>Mot de passe</FormLabel>
+            <FormLabel containerStyle={{ marginTop: 8 }}>Mot de passe</FormLabel>
             <FormInput
               placeholder="Entrer votre mot de passe"
-              onChangeText={password => this.setState({password})}
+              onChangeText={password => this.setState({ password })}
               secureTextEntry
               style={loginCss.input}
               onEndEditing={() => {
                 this._validatePass();
               }}
             />
-            <FormLabel containerStyle={{marginTop: 8}}>
+            <FormLabel containerStyle={{ marginTop: 8 }}>
               Confirmer votre mot de passe
             </FormLabel>
             <FormInput
               placeholder="Entrer à nouveau votre mot de passe"
-              onChangeText={confpassword => this.setState({confpassword})}
+              onChangeText={confpassword => this.setState({ confpassword })}
               secureTextEntry
               style={loginCss.input}
               onEndEditing={() => {
@@ -158,22 +163,22 @@ class Main extends Component {
             />
             <Button
               onPress={() => this._loginTemp()}
-              icon={{name: 'done'}}
-              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              icon={{ name: 'done' }}
+              buttonStyle={{ marginTop: 15, backgroundColor: '#00d07f' }}
               title="Continuer"
             />
             <Button
               onPress={() => this.loadInscription()}
-              buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
+              buttonStyle={{ marginTop: 15, backgroundColor: '#00d07f' }}
               title="Je veux m'inscrire"
             />
           </View>
         </ScrollView>
         {this.state.loading &&
-        <View style={styles.load}>
-          <ActivityIndicator size="large" animating={true} color="#FFF" />
-          <Text style={styles.textLoad}>Enregistrement encours...</Text>
-        </View>}
+          <View style={styles.load}>
+            <ActivityIndicator size="large" animating={true} color="#FFF" />
+            <Text style={styles.textLoad}>Enregistrement encours...</Text>
+          </View>}
       </View>
     );
   }

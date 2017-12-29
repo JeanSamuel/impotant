@@ -127,7 +127,7 @@ class Send extends Component {
 
   handleDoneEditing = () => {
     if (this.state.amount > 0 && this.state.user.length != 0) {
-      // console.log("End Entering amount", this.state.user);
+      // //console.log("End Entering amount", this.state.user);
       this.promptPin();
     }
   };
@@ -168,7 +168,7 @@ class Send extends Component {
   _handleBarCodeRead = data => {
     let qdata = Object();
     qdata = data.data;
-    // console.log(qdata);
+    // //console.log(qdata);
     if (qdata.includes("trans")) {
       this.setState({ cameraEnabled: false });
       readData = JSON.parse(qdata);
@@ -181,7 +181,7 @@ class Send extends Component {
       this.setState({ isEditable: false });
       if (readData.a == 0) {
         // // this.prompAmount();
-        // console.log(readData);
+        // //console.log(readData);
         this.setState({ cameraEnabled: false });
         this._toNextStep(readData.u, readData.n);
       }
@@ -232,7 +232,7 @@ class Send extends Component {
     }
     const { data } = this.state;
     const regex = new RegExp(query.trim(), "i");
-    console.log(data.filter(item => item.key.search(regex) >= 0));
+    //console.log(data.filter(item => item.key.search(regex) >= 0));
     return data.filter(item => item.key.search(regex) >= 0);
   }
   render() {

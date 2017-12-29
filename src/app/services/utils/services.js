@@ -64,10 +64,10 @@ class Services extends Component {
     ];
     try {
       await AsyncStorage.multiRemove(keys, err => {
-        console.log("after logout");
+        //console.log("after logout");
       });
     } catch (error) {
-      console.log("la clé n'existe plus");
+      //console.log("la clé n'existe plus");
     }
   }
 
@@ -91,22 +91,22 @@ class Services extends Component {
     try {
       await AsyncStorage.setItem(key, value);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       throw "something went wrong when saving data" + key;
     }
   }
 
   createError(error, message) {
-    console.log("erreur auto :", error);
-    console.log("erreur perso :", message);
+    //console.log("erreur auto :", error);
+    //console.log("erreur perso :", message);
     let myerror = new Error(error);
     myerror.message = message;
     return myerror;
   }
 
   createErrorWithoutThrow(error, message) {
-    console.log("erreur auto :", error);
-    console.log("erreur perso :", message);
+    //console.log("erreur auto :", error);
+    //console.log("erreur perso :", message);
     let myerror = new Error(error);
     myerror.message = message;
   }
@@ -130,7 +130,7 @@ class Services extends Component {
     try {
       await AsyncStorage.removeAll();
     } catch (error) {
-      console.log("Erreur lors de la supression");
+      //console.log("Erreur lors de la supression");
     }
   }
 
@@ -138,7 +138,7 @@ class Services extends Component {
     try {
       await AsyncStorage.removeItem(key);
     } catch (error) {
-      console.log("Erreur lors de la supression");
+      //console.log("Erreur lors de la supression");
     }
   }
 
@@ -236,9 +236,9 @@ class Services extends Component {
       let expiration = tokenDataJson.expire_in;
       let now = new Date();
       if (expiration > now) {
-        console.log("====================================");
-        console.log("token actuel", tokenDataJson.access_token);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("token actuel", tokenDataJson.access_token);
+        //console.log("====================================");
         return tokenDataJson.access_token;
       } else {
         this.getTokenByRefreshToken(tokenDataJson.refresh_token).then(token => {
@@ -334,9 +334,9 @@ class Services extends Component {
         }
       })
       .catch(error => {
-        console.log("====================================");
-        console.log("Error getting user data", error);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("Error getting user data", error);
+        //console.log("====================================");
         throw this.createError(error, "erreur services getting userData");
       });
   }
@@ -365,7 +365,7 @@ class Services extends Component {
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-        console.log(responseJSON);
+        //console.log(responseJSON);
         if (!responseJSON.error) {
           this.saveData("userInfo", JSON.stringify(responseJSON));
           userInfo = {
@@ -407,9 +407,9 @@ class Services extends Component {
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("solde", responseJSON);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("solde", responseJSON);
+        //console.log("====================================");
         if (!responseJSON.error) {
           this.saveData("solde", JSON.stringify(responseJSON.value));
           return responseJSON;

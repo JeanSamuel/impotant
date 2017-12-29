@@ -74,17 +74,17 @@ class Pin extends React.Component {
 
   async renderFingerPrintPromptAsync(messageIos) {
     if (Plateform.OS === "android") {
-      console.log("====================================");
-      console.log("user_id aty am PIN", this.state.user_id);
-      console.log("====================================");
+      //console.log("====================================");
+      //console.log("user_id aty am PIN", this.state.user_id);
+      //console.log("====================================");
       (await Fingerprint.authenticateAsync())
         ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("FingerPrint Authentication failed");
     }
     if (Platform.OS === "ios") {
-      console.log("====================================");
-      console.log("user_id aty am PIN", this.state.user_id);
-      console.log("====================================");
+      //console.log("====================================");
+      //console.log("user_id aty am PIN", this.state.user_id);
+      //console.log("====================================");
       (await Fingerprint.authenticateAsync(messageIos))
         ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("TouchID Authentication failed");

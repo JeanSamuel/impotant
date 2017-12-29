@@ -21,7 +21,7 @@ import Page3 from "./Page/Page3";
 
 const deviceWidth = Dimensions.get("window").width;
 const PAGES = [<Page1 />, <Page2 />, <Page3 />];
-let count = 0;
+const count = 0;
 
 const Bienvenue = React.createClass({
   getInitialState: function() {
@@ -51,7 +51,7 @@ const Bienvenue = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
+        
         <Header
           style={baseStyle.header}
           leftComponent={
@@ -113,7 +113,7 @@ const Bienvenue = React.createClass({
               style={[
                 loginCss.buttonLogin,
                 {
-                  backgroundColor: "#00BF9A",
+                  backgroundColor: "#00d07f",
                   borderWidth: 1,
                   borderColor: "#fff",
                   padding: 10
@@ -134,7 +134,7 @@ const Bienvenue = React.createClass({
             onPress={() => {
               if (count == PAGES.length - 1) {
                 this.state.text = "Continuer";
-                this.props.navigation.navigate("App");
+                this.props.navigation.navigate("Profile");
               } else {
                 this.viewpager.goToPage(count + 1);
                 count = count + 1;
@@ -145,7 +145,7 @@ const Bienvenue = React.createClass({
               style={[
                 loginCss.buttonLogin,
                 {
-                  backgroundColor: "#00BF9A",
+                  backgroundColor: "#00d07f",
                   borderWidth: 1,
                   borderColor: "#fff",
                   padding: 10

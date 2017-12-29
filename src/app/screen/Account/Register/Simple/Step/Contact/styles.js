@@ -1,50 +1,51 @@
 const React = require("react-native");
 
-const { StyleSheet,Dimensions } = React;
-const {height, width} = Dimensions.get('window');
-export default {
+const { Dimensions } = React;
+import EStyleSheet from "react-native-extended-stylesheet";
+const { height, width } = Dimensions.get('window');
+export default EStyleSheet.create({
   container: {
     backgroundColor: "transparent"
   },
   mb10: {
     marginBottom: 10
   },
-  header:{
-    backgroundColor:"#00BF9A"
+  header: {
+    backgroundColor: "$darkColor"
   },
-  footer:{
-    backgroundColor:"#00BF9A"
+  footer: {
+    backgroundColor: "$darkColor"
   },
-  textbienvenue:{
-    flexDirection:'row',
+  textbienvenue: {
+    flexDirection: 'row',
     flex: 1
   },
-  textInfo:{
-    flexDirection:'row',
+  textInfo: {
+    flexDirection: 'row',
     flex: 1
   },
-  ctn:{
+  ctn: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 40,
   },
-  errorText:{
+  errorText: {
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#ef9a9a',
     marginBottom: 10,
   },
-  textInfo:{
+  textInfo: {
     alignItems: 'center',
     padding: 5,
     backgroundColor: '#1de9b6',
     marginBottom: 10,
   },
-  viewForm:{
+  viewForm: {
   },
-  viewIdentite:{
-    widht:width,
+  viewIdentite: {
+    width: width,
     paddingHorizontal: 0,
     paddingVertical: 0,
   },
@@ -52,7 +53,7 @@ export default {
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#00BF9A"
+    backgroundColor: "$darkColor"
   },
   heading: {
     color: "white",
@@ -60,4 +61,4 @@ export default {
     fontSize: 22,
     textAlign: "center"
   },
-};
+});

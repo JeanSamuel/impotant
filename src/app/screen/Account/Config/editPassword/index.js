@@ -8,7 +8,8 @@ import {
   Alert,
   ActivityIndicator,
   TouchableOpacity,
-  Modal
+  Modal,
+  ScrollView
 } from "react-native";
 import PropTypes from "prop-types";
 import { loginCss, configStyles } from "../../../../assets/styles";
@@ -43,8 +44,8 @@ class EditPassword extends Component {
   }
   componentWillMount() {
     this.setState({
-      account_id: this.props.navigation.state.params.data.account_id,
-      username: this.props.navigation.state.params.data.pseudo
+      account_id: this.props.navigation.state.params.account_id,
+      username: this.props.navigation.state.params.pseudo
     });
   }
   _isEmptyField() {
@@ -60,12 +61,12 @@ class EditPassword extends Component {
       Utils._isValidPass(this.state.newpassword);
       this.setState({ haserror: false });
     } catch (error) {
-      this.setState({ haserror: true, erreur: error.toString() });
+      Alert.alert('Erreur', error.toString());
+      //this.setState({ haserror: true, erreur: error.toString() });
     }
   }
   _confirmPass() {
     if (this.state.newpassword == this.state.confirmpassword) {
-      this.setState({ haserror: false });
       this._renderPasswordView();
     } else {
       this.setState({
@@ -105,58 +106,51 @@ class EditPassword extends Component {
   }
   render() {
     return (
-      <View style={configStyles.container}>
-        <View style={configStyles.content}>
-          {this.state.haserror && (
-            <View style={{ padding: 15, backgroundColor: "red" }}>
-              <Text style={{ color: "white", textAlign: "center" }}>
-                {this.state.erreur}
-              </Text>
-            </View>
-          )}
-          <View style={configStyles.header}>
-            <Text style={configStyles.textHeader}>
-              Chenger votre mot de passe
+      <View style={{ flex: 1 }}>
+        <View style={configStyles.header}>
+          <Text style={configStyles.textHeader}>
+            Chenger votre mot de passe
             </Text>
-          </View>
-          <View style={{ padding: 15 }}>
-            <TextInput
-              placeholder="Nouveau mot de passe"
-              secureTextEntry
-              onChangeText={newpassword => this.setState({ newpassword })}
-              style={configStyles.input}
-              onEndEditing={() => {
-                this._validatePass();
-              }}
-            />
-          </View>
-          <View style={{ padding: 15 }}>
-            <TextInput
-              placeholder="Confirmer votre nouveau mot de passe"
-              secureTextEntry
-              onChangeText={confirmpassword =>
-                this.setState({ confirmpassword })
-              }
-              style={configStyles.input}
-              onEndEditing={() => {
-                this._confirmPass();
-              }}
-            />
-          </View>
-          <View style={configStyles.footer}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Annuler</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this._confirmPass()}
-              style={configStyles.touch}
-            >
-              <Text style={configStyles.touchtext}>Valider</Text>
-            </TouchableOpacity>
-          </View>
+        </View>
+        <ScrollView>
+        <View style={{ padding: 15 }}>
+          <TextInput
+            placeholder="Nouveau mot de passe"
+            secureTextEntry
+            onChangeText={newpassword => this.setState({ newpassword })}
+            style={configStyles.input}
+            onEndEditing={() => {
+              this._validatePass();
+            }}
+          />
+        </View>
+        <View style={{ padding: 15 }}>
+          <TextInput
+            placeholder="Confirmer votre nouveau mot de passe"
+            secureTextEntry
+            onChangeText={confirmpassword =>
+              this.setState({ confirmpassword })
+            }
+            style={configStyles.input}
+            onEndEditing={() => {
+              this._confirmPass();
+            }}
+          />
+        </View>
+        </ScrollView>
+        <View style={configStyles.footer}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Retour</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this._confirmPass()}
+            style={configStyles.touch}
+          >
+            <Text style={configStyles.touchtext}>Valider</Text>
+          </TouchableOpacity>
         </View>
         <Modal
           animationType="slide"
@@ -217,7 +211,7 @@ class EditPassword extends Component {
           </TouchableOpacity>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </Modal>

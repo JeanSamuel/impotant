@@ -56,20 +56,20 @@ class RegisterPwd extends Component {
       this.setState({ hasError: true });
       errorMessage = "Doit comporter au moins 4 caractères";
     } else {
-      console.log("continue");
+      //console.log("continue");
       this.createLoader("Enregistrement en cours");
       let regServices = new RegisterServices();
       regServices
         .saveAccount(this.state.username)
         .then(response => {
-          console.log(response);
+          //console.log(response);
           this.removeLoader();
           this.props.navigation.navigate("RegisterPin", {
             user_id: this.state.username
           });
         })
         .catch(error => {
-          console.log(error, "Ato tsika zao");
+          //console.log(error, "Ato tsika zao");
           this.removeLoader();
           this.setState({ errorMessage: error.message });
         });
@@ -144,7 +144,7 @@ class RegisterPwd extends Component {
                 underlineColorAndroid="transparent"
                 placeholder="Mot de passe"
                 onChangeText={text => {
-                  console.log(text);
+                  //console.log(text);
                   this.setState({
                     hasError: false,
                     password: text

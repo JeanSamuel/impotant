@@ -1,13 +1,22 @@
 //import liraries
-import React, {Component} from "react";
-import {ActivityIndicator, StatusBar, StyleSheet, Text, View} from "react-native";
-import {Header} from "react-native-elements";
-import {baseStyle, configStyles} from "../../assets/styles";
-import styles from "./Styles";
-import {UserService, Utils} from "../../services";
-import ViaMobileMoney from "./Mobile";
-import Mybutton from "../../components/Buttons/SamButton";
-
+import React, { Component } from 'react';
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Alert,
+  StatusBar,
+  ScrollView,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import { Header, Icon, Tabs, Tab } from 'react-native-elements';
+import { loginCss, configStyles, baseStyle } from '../../assets/styles';
+import styles from './Styles';
+import { UserService, Utils } from '../../services';
+import ViaMobileMoney from './Mobile';
+import Mybutton from '../../components/Buttons/SamButton';
 // create a component
 class MainAchat extends Component {
   constructor(props) {
@@ -15,21 +24,22 @@ class MainAchat extends Component {
     this.state = {
       loading: false,
       isVisible: false,
-      result: ""
+      result: '',
     };
   }
   async loadConfig() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     try {
       await UserService.loadConfig(this);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     } finally {
-      this.setState({loading: false});
+      this.setState({ loading: false });
     }
-  }s
+  }
+  s;
   handleActionLeft() {
-    this.props.navigation.navigate("DrawerOpen");
+    this.props.navigation.navigate('DrawerOpen');
   }
   renderCenterComponent() {
     return (
@@ -55,7 +65,8 @@ class MainAchat extends Component {
           styleBtn={[baseStyle.btnLeftHeader]}
         />
       </View>
-    );s
+    );
+    s;
   }
   renderLeftComponent() {
     return (
@@ -69,8 +80,7 @@ class MainAchat extends Component {
   }
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: "#fff", flex: 1 }]}>
-        <StatusBar hidden={true} />
+      <View style={[styles.container, { backgroundColor: '#fff', flex: 1 }]}>
         <Header
           style={baseStyle.header}
           leftComponent={this.renderLeftComponent()}
@@ -78,11 +88,10 @@ class MainAchat extends Component {
           rightComponent={this.renderRightComponent()}
         />
         <ViaMobileMoney navigation={this.props.navigation} activity={this} />
-        {this.state.loading && (
+        {this.state.loading &&
           <View style={configStyles.indicator}>
-            <ActivityIndicator size="large" animating={true} color="#666" />
-          </View>
-        )}
+            <ActivityIndicator size="large" animating={true} color="#1C2E48" />
+          </View>}
       </View>
     );
   }
@@ -91,42 +100,42 @@ class MainAchat extends Component {
 //make this component available to the app
 const modal = StyleSheet.create({
   annuler: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 50,
-    backgroundColor: "#FFC107",
-    paddingHorizontal: 20
+    backgroundColor: '#FFC107',
+    paddingHorizontal: 20,
   },
   header: {
-    backgroundColor: "#009688",
+    backgroundColor: '#009688',
     padding: 10,
-    width: "90%"
+    width: '90%',
   },
   content: {
     flex: 1,
-    backgroundColor: "#eee"
+    backgroundColor: '#eee',
   },
   footer: {
-    backgroundColor: "#009688",
-    padding: 20
+    backgroundColor: '#009688',
+    padding: 20,
   },
   contenuemodal: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   page: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   main: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
-  }
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
 });
 export default MainAchat;

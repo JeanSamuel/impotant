@@ -1,8 +1,7 @@
 const React = require('react-native');
+import EStyleSheet from "react-native-extended-stylesheet";
 
-const {StyleSheet} = React;
-
-export default {
+export default EStyleSheet.create({
   container: {
     backgroundColor: '#FFF',
   },
@@ -10,14 +9,14 @@ export default {
     marginBottom: 10,
   },
   header: {
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
     paddingVertical:15,
     flexDirection: 'row'
   },
   footer: {
     flexDirection: 'row',
     alignContent: 'center',
-    backgroundColor: '#00BF9A',
+    backgroundColor: '$darkColor',
   },
   textbienvenue: {
     flexDirection: 'row',
@@ -45,7 +44,7 @@ export default {
   textInscrire: {
     color: '#ffffff',
     paddingRight: 5,
-    color: '#00BF9A',
+    color: '$darkColor',
     fontSize: 25,
   },
   load: {
@@ -69,7 +68,7 @@ export default {
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#00BF9A"
+    backgroundColor: "$darkColor"
   },
   heading: {
     color: "white",
@@ -77,4 +76,4 @@ export default {
     fontSize: 22,
     textAlign: "center"
   },
-};
+});

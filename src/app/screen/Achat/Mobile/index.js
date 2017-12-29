@@ -1,5 +1,5 @@
-//import liraries
-import React, { Component } from "react";
+// import liraries
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -14,8 +14,8 @@ import {
   Alert,
   Modal,
   Platform
-} from "react-native";
-import FlagResource from "../../../assets/flags";
+} from 'react-native'
+import FlagResource from '../../../assets/flags'
 import {
   FormInput,
   FormLabel,
@@ -23,16 +23,17 @@ import {
   SearchBar,
   Button,
   Icon
-} from "react-native-elements";
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-import { AchatService, UserService, Utils } from "../../../services";
-import { configStyles, loginCss } from "../../../assets/styles/index";
+} from 'react-native-elements'
+import EStyleSheet from 'react-native-extended-stylesheet'
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+import { AchatService, UserService, Utils } from '../../../services'
+import { configStyles, loginCss } from '../../../assets/styles/index'
 
 // create a component
 class ViaMobileMoney extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       montant: '',
       password: '',
@@ -50,63 +51,62 @@ class ViaMobileMoney extends Component {
       modalInstruction: false,
       instruction: {
         title: '',
-        contenue: '',
-      },
-    };
+        contenue: ''
+      }
+    }
   }
 
   async _proceedSell() {
     try {
-      await AchatService._initAchat(this.props.activity, this);
+      await AchatService._initAchat(this.props.activity, this)
       let inst = AchatService.getInstructionByMobileMoneyPhoneNumber(
         this.state.phone
-      );
-      this.setState({modalInstruction: true, instruction: inst});
+      )
+      this.setState({ modalInstruction: true, instruction: inst })
     } catch (error) {
-      Alert.alert('Erreur', error.toString());
+      Alert.alert('Erreur', error.toString())
     }
   }
   validatePhoneNumer() {
     try {
-      this.setState({haserror: false});
-      AchatService.validatePhoneNumer(this.state.phone);
+      this.setState({ haserror: false })
+      AchatService.validatePhoneNumer(this.state.phone)
     } catch (error) {
-      Alert.alert('Erreur', error.toString());
+      Alert.alert('Erreur', error.toString())
     }
   }
 
   changeTextPhone(text) {
     try {
-      var ret = AchatService._parsePhone(text, 'mg');
-      this.setState({phone: ret});
+      var ret = AchatService._parsePhone(text, 'mg')
+      this.setState({ phone: ret })
     } catch (error) {
-      this.setState({phone: text});
+      this.setState({ phone: text })
     }
   }
   changeTextMontant(text) {
     try {
-      var ret = Utils.formatNumber(text);
-      this.setState({montant: ret});
+      var ret = Utils.formatNumber(text)
+      this.setState({ montant: ret })
     } catch (error) {
-      this.setState({phone: text});
+      this.setState({ phone: text })
     }
   }
   async componentWillMount() {
     try {
-      const dataUser = await Utils.getItem('userData');
+      const dataUser = await Utils.getItem('userInfo')
       if (dataUser == null) {
-        this.props.navigation.navigate('Loader');
+        this.props.navigation.navigate('Loader')
       }
-      console.log(JSON.parse(dataUser));
-      let userData = JSON.parse(dataUser);
+      let userData = JSON.parse(dataUser)
       this.setState({
         userinfo: userData,
         account_id: userData.code,
-        username: userData.username,
-      });
-      this.setState({data: userData});
+        username: userData.username
+      })
+      this.setState({ data: userData })
     } catch (error) {
-      Alert.alert('Erreur', error.message);
+      Alert.alert('Erreur', error.message)
     }
   }
   _confirmAchat() {
@@ -119,11 +119,11 @@ class ViaMobileMoney extends Component {
         {
           text: 'Annuller',
           onPress: () =>
-            this.props.activity.props.navigation.navigate('Profile'),
+            this.props.activity.props.navigation.navigate('Profile')
         },
-        {text: 'Je Confirme', onPress: async () => await this.initAchat()},
+        { text: 'Je Confirme', onPress: async () => await this.initAchat() }
       ]
-    );
+    )
   }
   isEmptyFiled() {
     return (
@@ -131,59 +131,59 @@ class ViaMobileMoney extends Component {
       this.state.phone != null &&
       this.state.montant != null &&
       this.state.phone != ''
-    );
+    )
   }
   _renderPasswordView() {
-    let r = UserService.getRoles(this.state.userinfo.roles[0]);
+    let r = UserService.getRoles(this.state.userinfo.roles[0])
     if (r == 1) {
       Alert.alert(
         'Inscrivez-vous',
         'Vous devez vous inscrire si vous voulez bénéficier cette service',
         [
-          {text: 'Pas maintenant', onPress: () => this.Annuler()},
-          {text: "S'inscrire", onPress: () => this.goToInscriptionPage()},
+          { text: 'Pas maintenant', onPress: () => this.Annuler() },
+          { text: "S'inscrire", onPress: () => this.goToInscriptionPage() }
         ]
-      );
+      )
     } else {
       if (this.isEmptyFiled()) {
         try {
-          AchatService.validatePhoneNumer(this.state.phone);
-          this.setState({modalVisible: true});
+          AchatService.validatePhoneNumer(this.state.phone)
+          this.setState({ modalVisible: true })
         } catch (error) {
-          Alert.alert('Erreur', error.toString());
+          Alert.alert('Erreur', error.toString())
         }
       } else {
         Alert.alert(
           'Info',
           'Veuillez compléter les information démandées avant de valider'
-        );
+        )
       }
     }
   }
   async initAchat() {
-    this.setState({loading: true});
+    this.setState({ loading: true })
     try {
       await UserService.verifyUser(
         this.state.username,
         this.state.password,
         this
-      );
-      this.setState({modalVisible: false});
-      await this._proceedSell();
+      )
+      this.setState({ modalVisible: false })
+      await this._proceedSell()
     } catch (error) {
-      Alert.alert('Erreur', error.toString());
+      Alert.alert('Erreur', error.toString())
     } finally {
-      this.setState({loading: false});
+      this.setState({ loading: false })
     }
   }
   goToInscriptionPage() {
-    this.setState({modalVisible: false});
+    this.setState({ modalVisible: false })
     this.props.navigation.navigate('Inscription', {
-      data: this.state.username,
-    });
+      data: this.state.username
+    })
   }
   Annuler() {
-    this.setState({modalVisible: false, montant: '', phone: ''});
+    this.setState({ modalVisible: false, montant: '', phone: '' })
   }
   async closeModal() {
     if (this.state.password == null || this.state.password == '') {
@@ -193,29 +193,29 @@ class ViaMobileMoney extends Component {
         this.getAmount() +
         ' Ariary ?',
         [
-          {text: 'non', onPress: () => this.setState({modalVisible: true})},
-          {text: 'Oui', onPress: () => this.Annuler()},
+          { text: 'non', onPress: () => this.setState({ modalVisible: true }) },
+          { text: 'Oui', onPress: () => this.Annuler() }
         ]
-      );
+      )
     } else {
-      this._confirmAchat();
+      this._confirmAchat()
     }
   }
   getAmount() {
-    return Utils.formatNumber(this.state.montant);
+    return Utils.formatNumber(this.state.montant)
   }
   renderInstructionView() {
     return (
       <Modal
-        animationType="slide"
-        transparent={true}
+        animationType='slide'
+        transparent
         visible={this.state.modalInstruction}
         onRequestClose={() => {
-          this.setState({modalInstruction: false});
+          this.setState({ modalInstruction: false })
         }}
       >
         <TouchableOpacity
-          onPress={() => this.setState({modalInstruction: false})}
+          onPress={() => this.setState({ modalInstruction: false })}
           style={stl.modalContainer}
         >
           <View style={stl.modalViewContainer}>
@@ -224,7 +224,7 @@ class ViaMobileMoney extends Component {
                 {this.state.instruction.title}
               </Text>
             </View>
-            <View style={{padding: 20}}>
+            <View style={{ padding: 20 }}>
               <Text>
                 {this.state.instruction.contenue}
               </Text>
@@ -238,184 +238,195 @@ class ViaMobileMoney extends Component {
           </View>
         </TouchableOpacity>
       </Modal>
-    );
+    )
   }
   renderModal() {
     return (
       <Modal
-        animationType="slide"
-        transparent={true}
+        animationType='slide'
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setState({modalVisible: false});
+          this.setState({ modalVisible: false })
         }}
       >
         <TouchableOpacity
-          onPress={() => this.setState({modalVisible: false})}
+          onPress={() => this.setState({ modalVisible: false })}
           style={stl.showModal}
         >
           <View style={stl.mv1}>
             <View style={stl.mv2}>
-              <Text style={{textAlign: 'center'}}>
+              <Text style={{ textAlign: 'center' }}>
                 Entrer votre mot de passe pour confirmer l'achat de
                 {this.getAmount()} Ariary
               </Text>
             </View>
-            <View style={[{padding: 10, height: 60}]}>
+            <View style={[{ padding: 10, height: 60 }]}>
               <TextInput
                 ref={ref => this.password}
-                placeholder="Mot de passe de confirmation"
-                autoFocus={true}
+                placeholder='Mot de passe de confirmation'
+                autoFocus
                 secureTextEntry
                 style={[loginCss.input, stl.mv3]}
                 onChangeText={password => {
-                  this.setState({password: password});
+                  this.setState({ password: password })
                 }}
                 onEndEditing={() => {
-                  this.closeModal();
+                  this.closeModal()
                 }}
               />
             </View>
           </View>
         </TouchableOpacity>
         {this.state.loading &&
-        <View style={configStyles.indicator}>
-          <ActivityIndicator size="large" animating={true} color="#666" />
-        </View>}
+          <View style={configStyles.indicator}>
+            <ActivityIndicator size='large' animating color='#666' />
+          </View>}
       </Modal>
-    );
+    )
   }
   renderFormsAchat() {
     return (
       <View>
-        <FormLabel containerStyle={{marginTop: 8}}>
+        <FormLabel>
           Montant (en Ariary)
         </FormLabel>
         <FormInput
-          onChangeText={montant => this.setState({montant})}
-          keyboardType="phone-pad"
-          placeholder="en Ariary(1 Bon = 1 Ariary)"
+          onChangeText={montant => this.setState({ montant })}
+          keyboardType='phone-pad'
+          placeholder='en Ariary(1 Bon = 1 Ariary)'
           value={this.state.montant}
-          returnKeyLabel="next"
+          returnKeyLabel='next'
         />
-        <FormLabel containerStyle={{marginTop: 8}}>
+        <FormLabel containerStyle={{ marginTop: 8 }}>
           Numéro mobile money
         </FormLabel>
         <FormInput
-          keyboardType="phone-pad"
-          placeholder="Entrer numéro mobile money"
+          keyboardType='phone-pad'
+          placeholder='Entrer numéro mobile money'
           onChangeText={this.changeTextPhone.bind(this)}
           onEndEditing={this.validatePhoneNumer.bind(this)}
           value={this.state.phone}
-          returnKeyLabel="next"
-        />
-        <Button
-          onPress={() => this._renderPasswordView()}
-          icon={{name: 'done'}}
-          buttonStyle={{marginTop: 15, backgroundColor: '#00BF9A'}}
-          title="Valider"
+          returnKeyLabel='next'
         />
       </View>
-    );
+    )
   }
   render() {
     return (
-      <ScrollView style={{backgroundColor: 'white'}}>
-        <View style={stl.headingContainer}>
-          <Icon color="white" name="pets" size={42} />
-          <Text style={stl.heading}>Via Mobile Money</Text>
-          <Text style={[stl.heading, {fontSize: 12}]}>
-            Avec Ariary.net, acheter des bons d'achat via votre compte mobile
-            money
-          </Text>
-        </View>
-        <View style={stl.ctn}>
-          <View>
-            {this.state.haserror &&
-            <Text style={{color: 'red', textAlign: 'center', padding: 20}}>
-              {this.state.erreur}
-            </Text>}
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ backgroundColor: 'white', flex: 1 }}>
+          <View style={stl.headingContainer}>
+            <Icon
+              color='#00cf7e'
+              name='ios-filing-outline'
+              type='ionicon'
+              size={42}
+            />
+            <Text style={stl.heading}>Via Mobile Money</Text>
+            <Text style={[stl.heading, {fontSize: 12, color: '#aaa'}]}>
+              Avec Ariary.net, acheter des bons d'achat via votre compte mobile
+              money
+            </Text>
           </View>
+          <View style={stl.ctn}>
+            <View>
+              {this.state.haserror &&
+                <Text style={{ color: 'red', textAlign: 'center', padding: 20 }}>
+                  {this.state.erreur}
+                </Text>}
+            </View>
+          </View>
+          {this.renderFormsAchat()}
+        </ScrollView>
+        <View style={{ justifyContent: 'flex-end' }}>
+          <Button
+            onPress={() => this._renderPasswordView()}
+            icon={{ name: 'done' }}
+            buttonStyle={{ backgroundColor: '#00d07f', width: Dimensions.get('window').width }}
+            title='Valider'
+          />
         </View>
-        {this.renderFormsAchat()}
         {this.renderModal()}
         {this.renderInstructionView()}
-      </ScrollView>
-    );
+      </View>
+    )
   }
 }
-const stl = StyleSheet.create({
+const stl = EStyleSheet.create({
   headingContainer: {
+    borderBottomWidth: 2,
+    borderBottomColor: '$border',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#00BF9A',
+    backgroundColor: 'white'
   },
   heading: {
-    color: 'white',
+    fontWeight:'500',
     marginTop: 10,
     fontSize: 22,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   labelContainerStyle: {
-    marginTop: 8,
+    marginTop: 8
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
   modalViewContainer: {
     width: '80%',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 10
   },
   v1: {
     alignItems: 'center',
     backgroundColor: '#eee',
     paddingVertical: 20,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopRightRadius: 10
   },
   text1: {
     textAlign: 'center',
     paddingHorizontal: 20,
-    color: '#009688',
+    color: '#009688'
   },
   btnOk: {
     justifyContent: 'center',
     backgroundColor: '#eee',
     borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderBottomRightRadius: 10
   },
   textOk: {
     textAlign: 'center',
     color: '#009688',
     alignSelf: 'center',
-    padding: 15,
+    padding: 15
   },
 
   showModal: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
-  mv1: {width: '80%', backgroundColor: 'white', borderRadius: 10},
+  mv1: { width: '80%', backgroundColor: 'white', borderRadius: 10 },
   mv2: {
     alignItems: 'center',
     backgroundColor: '#eee',
     paddingVertical: 10,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopRightRadius: 10
   },
-  mv3: {textAlign: 'center', borderRadius: 10, height: 50},
+  mv3: { textAlign: 'center', borderRadius: 10, height: 50 },
   ctn: {
     justifyContent: 'center',
     alignContent: 'center',
-    padding: 15,
-  },
-});
-//make this component available to the app
-export default ViaMobileMoney;
+    padding: 15
+  }
+})
+// make this component available to the app
+export default ViaMobileMoney

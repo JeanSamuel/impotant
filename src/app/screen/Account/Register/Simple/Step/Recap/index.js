@@ -13,7 +13,7 @@ import {
 import PropTypes from "prop-types";
 import { Icon } from "react-native-elements";
 const deviceWidth = Dimensions.get("window").width;
-import configStyles from "../../../../../../assets/styles/css/configStyles";
+import { configStyles } from "../../../../../../assets/styles";
 
 import { UserService, InscriptionService } from "../../../../../../services";
 
@@ -57,16 +57,16 @@ class Validation extends React.Component {
       }
     } catch (error) {
       Alert.alert("Erreur", error.toString());
-    }finally{
+    } finally {
       this.setState({ loading: false });
     }
   }
   render() {
     return (
-      <View style={{ flex:1,backgroundColor: "green" }}>
-        <StatusBar hidden={true} />
-        <View style={configStyles.container}>
-          <View style={configStyles.content}>
+      <View style={{ flex: 1, backgroundColor: "green" }}>
+
+        <View style={{}}>
+          <View style={{}}>
             <View style={configStyles.header}>
               <Text style={configStyles.textHeader}>Mes informations</Text>
             </View>
@@ -215,7 +215,7 @@ class Validation extends React.Component {
           </View>
           {this.state.loading && (
             <View style={configStyles.indicator}>
-              <ActivityIndicator size="large" animating={true} color="#666" />
+              <ActivityIndicator size="large" animating={true} color="#1C2E48" />
             </View>
           )}
         </View>

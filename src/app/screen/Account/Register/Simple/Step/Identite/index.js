@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   StatusBar,
   View,
@@ -9,16 +9,16 @@ import {
   TextInput,
   AsyncStorage,
   Alert,
-  Text
-} from "react-native";
-import PropTypes from "prop-types";
-import { Icon, FormLabel, FormInput, Button } from "react-native-elements";
-const deviceWidth = Dimensions.get("window").width;
-import DatePicker from "react-native-datepicker";
+  Text,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {Icon, FormInput, FormLabel, Button} from 'react-native-elements';
+const deviceWidth = Dimensions.get('window').width;
+import DatePicker from 'react-native-datepicker';
 
-import { loginCss } from "../../../../../../assets/styles/index";
+import {loginCss} from '../../../../../../assets/styles/index';
 
-import styles from "./styles";
+import styles from './styles';
 
 class Identite extends Component {
   constructor(props) {

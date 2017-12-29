@@ -58,9 +58,9 @@ class SyncServices extends Component {
       .myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("allDevices", responseJSON);
-        console.log("====================================");
+        //console.log("====================================");
+        //console.log("allDevices", responseJSON);
+        //console.log("====================================");
         if (!responseJSON.error) {
           return responseJSON;
         } else {
