@@ -11,21 +11,6 @@ import DrawerContent from "../navigationMerch/drawerContent";
 const { width } = Dimensions.get("screen");
 export default DrawerNavigator(
   {
-    Profile: {
-      screen: ProfileAriary,
-      navigationOptions: ({ navigation }) => ({
-        title: "Profile",
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="ios-contact-outline"
-            type="ionicon"
-            color={tintColor}
-            size={28}
-          />
-        ),
-        header: () => null
-      })
-    },
     Home: {
       screen: Send,
       navigationOptions: ({ navigation }) => ({
@@ -38,12 +23,6 @@ export default DrawerNavigator(
             color={tintColor}
           />
         ),
-        header: () => null
-      })
-    },
-    History: {
-      screen: History,
-      navigationOptions: ({ navigation }) => ({
         header: () => null
       })
     },
@@ -62,34 +41,9 @@ export default DrawerNavigator(
         header: () => null
       })
     },
-
-    Achat: {
-      screen: MainAchat,
+    History: {
+      screen: History,
       navigationOptions: ({ navigation }) => ({
-        title: "Dépôt",
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="ios-filing-outline"
-            type="ionicon"
-            color={tintColor}
-            size={28}
-          />
-        ),
-        header: () => null
-      })
-    },
-    Offrir: {
-      screen: Offrir,
-      navigationOptions: ({ navigation }) => ({
-        title: "Offrir",
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="present"
-            type="simple-line-icon"
-            color={tintColor}
-            size={24}
-          />
-        ),
         header: () => null
       })
     },
