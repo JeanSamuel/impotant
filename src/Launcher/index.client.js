@@ -62,10 +62,10 @@ export default class Apk extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor:"#00cf7e", paddingTop:StatusBar.currentHeight }} >
+      <View style={{ flex: 1 }} >
         {this.state.fontLoaded ? (
           <View style={{ flex: 1 }}>
-            <StatusBar backgroundColor="blue" barStyle="light-content"/>
+            <StatusBar hidden={true} />
             <Navigator />
           </View>
         ) : (

@@ -4,7 +4,6 @@ export default EStyleSheet.create({
   header: {
     backgroundColor: "$darkColor",
     paddingVertical: 15,
-    paddingTop: StatusBar.currentHeight,
     flexDirection: 'row',
   },
   container: {
