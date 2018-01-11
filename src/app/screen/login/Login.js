@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+import {AuthSession} from 'expo'
 import Spinner from 'react-native-loading-spinner-overlay';
 import Services from '../../services/utils/services';
 import NotificationServices from '../../services/user/notificationServices';
@@ -18,7 +19,8 @@ import {Button} from 'react-native-elements';
 import data from '../../config/data/dataM';
 
 // const { width, height } = Dimensions.get("window");
-const uri = data.uri;
+const uri = `${data.BASE_URL_Oauth}oauth2/authorize` +
+`?response_type=code&client_id=${data.client_id}&redirect_uri=${encodeURIComponent(data.redirect_uri)}&scope=userinfo&state=xyz`;
 // create a component
 class Login extends Component {
   constructor(props) {
@@ -54,6 +56,13 @@ class Login extends Component {
     }
   }
 
+  _handleLoginAsync = async() =>{
+    console.log("Ato za zao");
+    let result = await AuthSession.startAsync({
+      authUrl: uri
+    })
+    console.log(result);
+  }
   onErrorLoading(webViewState) {}
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) =>
@@ -101,6 +110,14 @@ class Login extends Component {
               large
               textStyle={styles.buttonText}
               onPress={() => this.return()}
+            />
+            <Button
+              title={"Open with authsession"}
+              backgroundColor="transparent"
+              underlayColor="#000"
+              large
+              textStyle={styles.buttonText}
+              onPress={this._handleLoginAsync}
             />
           </View>
         </View>
