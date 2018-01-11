@@ -30,16 +30,6 @@ const drawerRoutes = {
     path: "/",
     screen: About 
   }
-  // Sixth: {
-  //   path: "/sent2",
-  //   screen: Logout, 
-  //   navigationOptions : {
-  //     title: "Fin de la synchronisation", 
-  //     drawerIcon: ({ tintColor }) => (
-  //       <Icon name="close" size={25} type="evilicon" />
-  //     )
-  //   }
-  // }
 };
 
 // DrawerNavigator configuration
@@ -53,12 +43,11 @@ const drawerConfigs = {
     style: { marginTop: 0 }
   },
   headerMode: "screen",
-  contentComponent: props => (
-    <ScrollView>
-      <DrawerContent/>
-      <DrawerItems {...props} />
-    </ScrollView>
-  )
+  contentComponent: props =>  {
+     var copyprops = Object.assign({}, props); 
+     copyprops.items = copy.items.filter( item => item.key !== 'login' )
+      return ( <ScrollView> <DrawerItems { ...copyprops }/> </ScrollView> )
+     }
 
   // contentComponent:({navigation})=> <DrawerContent navigation={navigation} routes={drawerRoutes} />,
 };

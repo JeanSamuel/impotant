@@ -1,11 +1,20 @@
 //import liraries
 import React from "react";
-import {Dimensions, ScrollView} from "react-native";
-import {DrawerItems, DrawerNavigator} from "react-navigation";
-import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send, History} from "../../../screen/index";
-import {Icon} from "react-native-elements";
+import { Dimensions, ScrollView } from "react-native";
+import { DrawerItems, DrawerNavigator } from "react-navigation";
+import {
+  Logout,
+  MainAchat,
+  Offrir,
+  ProfileAriary,
+  Receive,
+  Send,
+  History
+} from "../../../screen/index";
+import { Icon } from "react-native-elements";
 import About from "../../../screen/about";
 import Charger from "../../../screen/charger";
+import Profil from "../../../screen/profil";
 import DrawerContent from "../navigationMerch/drawerContent";
 
 //make this component available to the app
@@ -77,6 +86,13 @@ export default DrawerNavigator(
         header: () => null
       })
     },
+    Profil: {
+      screen: Profil,
+      navigationOptions: ({ navigation }) => ({
+        drawerLabel: () => null,
+        drawerIcon: () => null
+      })
+    },
 
     Logout: {
       screen: Logout,
@@ -90,7 +106,7 @@ export default DrawerNavigator(
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Profil",
     drawerWidth: width - 50,
     contentOptions: {
       activeTintColor: "#00cf7e",
@@ -104,7 +120,7 @@ export default DrawerNavigator(
     },
     contentComponent: props => (
       <ScrollView>
-        <DrawerContent/>
+        <DrawerContent navigation={props.navigation} />
         <DrawerItems {...props} />
       </ScrollView>
     )

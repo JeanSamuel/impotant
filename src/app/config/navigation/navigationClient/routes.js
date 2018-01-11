@@ -195,6 +195,12 @@ const MainNavigator = new StackNavigator(
         header: () => null,
         headerTitle: "Register"
       })
+    },
+    Profil: {
+      screen: Profil,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Profil"
+      })
     }
   },
   {
