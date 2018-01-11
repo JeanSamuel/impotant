@@ -8,6 +8,7 @@ import Drawer from "./Drawer";
 import {Notifications} from "expo";
 import DropdownAlert from "react-native-dropdownalert";
 import {Utils} from '../../../services';
+import Profil from "../../../screen/profil";
 
 class Navigateur extends Component {
   componentWillMount() {

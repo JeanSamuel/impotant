@@ -119,6 +119,10 @@ export default class DrawerContent extends Component {
     this.checkSolde();
   }
 
+  goToProfil(){
+    console.log(this.props.navigation);
+  }
+
   render() {
     let soldeFormated = Services.formatNumber(this.getSolde());
     return (
@@ -132,7 +136,7 @@ export default class DrawerContent extends Component {
               },
             ]}
           >
-            <Icon name="account-circle" size={70} color="#00d07f" />
+            <Icon onPress={() => this.goToProfil()} name="account-circle" size={70} color="#00d07f" />
           </View>
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>

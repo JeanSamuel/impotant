@@ -5,6 +5,7 @@ import {DrawerItems, DrawerNavigator} from "react-navigation";
 import {Logout, MainAchat, Offrir, ProfileAriary, Receive, Send, History} from "../../../screen/index";
 import {Icon} from "react-native-elements";
 import About from "../../../screen/about";
+import Charger from "../../../screen/charger";
 import DrawerContent from "../navigationMerch/drawerContent";
 
 //make this component available to the app
@@ -41,21 +42,27 @@ export default DrawerNavigator(
         header: () => null
       })
     },
+    Charger: {
+      screen: Charger,
+      navigationOptions: ({ navigation }) => ({
+        title: "Charger",
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="ios-rose-outline"
+            type="ionicon"
+            color={tintColor}
+            size={28}
+          />
+        ),
+        header: () => null
+      })
+    },
     History: {
       screen: History,
       navigationOptions: ({ navigation }) => ({
         header: () => null
       })
     },
-    // Adresses: {
-    //   screen: Adresses,
-    //   navigationOptions: ({ navigation }) => ({
-    //     drawerIcon: ({ tintColor }) => (
-    //       <Icon name="ios-book-outline" size={25} type="ionicon" />
-    //     ),
-    //     header: () => null
-    //   })
-    // },
     About: {
       screen: About,
       navigationOptions: ({ navigation }) => ({
