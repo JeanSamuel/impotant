@@ -111,14 +111,6 @@ class Login extends Component {
               textStyle={styles.buttonText}
               onPress={() => this.return()}
             />
-            <Button
-              title={"Open with authsession"}
-              backgroundColor="transparent"
-              underlayColor="#000"
-              large
-              textStyle={styles.buttonText}
-              onPress={this._handleLoginAsync}
-            />
           </View>
         </View>
       </View>

@@ -1,16 +1,12 @@
 import React, {Component} from "react";
-import {StyleSheet, TouchableOpacity, View, StatusBar, Platform,Alert} from "react-native";
-import {Icon} from "react-native-elements";
+import {Alert, StyleSheet, View} from "react-native";
 import {StackNavigator} from "react-navigation";
 import {
-  CustomKey, EditMail, EditAll, EditPassword, EditPhone, EditPseudo, Handler, Landing, Login, MainConfig,History,
-  MainValidation, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review, Validation, ValidationCompte,EditBirthday
+  CustomKey, Handler, Landing, Login, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review
 } from "../../../screen/index";
-import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import Drawer from "./Drawer";
 import {Notifications} from "expo";
 import DropdownAlert from "react-native-dropdownalert";
-import StartStack from "./StartStack";
 import {Utils} from '../../../services';
 
 class Navigateur extends Component {
