@@ -51,9 +51,6 @@ class Pin extends React.Component {
     this.setState({ pin: text, errorMessage: null });
     if (text.length === 4) {
       Keyboard.dismiss();
-      console.log("====================================");
-      console.log("tu passes par là?");
-      console.log("====================================");
       if (text === this.state.userPin) {
         this.props.navigation.navigate("Drawer", this.props.userData);
       } else {
@@ -77,17 +74,11 @@ class Pin extends React.Component {
 
   async renderFingerPrintPromptAsync(messageIos) {
     if (Plateform.OS === "android") {
-      //console.log("====================================");
-      //console.log("user_id aty am PIN", this.state.user_id);
-      //console.log("====================================");
       (await Fingerprint.authenticateAsync())
         ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("FingerPrint Authentication failed");
     }
     if (Platform.OS === "ios") {
-      //console.log("====================================");
-      //console.log("user_id aty am PIN", this.state.user_id);
-      //console.log("====================================");
       (await Fingerprint.authenticateAsync(messageIos))
         ? this.props.navigation.navigate("Drawer", this.state.user_id)
         : alert("TouchID Authentication failed");
@@ -145,6 +136,7 @@ class Pin extends React.Component {
                     textAlign: "center",
                     paddingHorizontal: 5
                   }}
+                  ref="textInput"
                 />
               </View>
               {this.state.errorMessage}

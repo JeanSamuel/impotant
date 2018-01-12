@@ -58,11 +58,11 @@ const Email = ({ containerStyle, onPressEmail, name, email, index }) => (
       </View>
       <View style={styles.emailRow}>
         <View style={styles.emailColumn}>
-          <Text style={styles.emailText}>{email}</Text>
+          <Text style={styles.emailText}>+261 34 67 818 28</Text>
         </View>
         <View style={styles.emailNameColumn}>
           {name.trim().length !== 0 && (
-            <Text style={styles.emailNameText}>{name}</Text>
+            <Text style={styles.emailNameText}>{email}</Text>
           )}
         </View>
       </View>
@@ -71,11 +71,7 @@ const Email = ({ containerStyle, onPressEmail, name, email, index }) => (
 );
 
 Email.propTypes = {
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  email: PropTypes.string.isRequired,
-  index: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  onPressEmail: PropTypes.func.isRequired
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
 };
 
 Email.defaultProps = {

@@ -44,14 +44,14 @@ const styles = StyleSheet.create({
 });
 
 const Email = containerStyle => (
-  <TouchableOpacity onPress={() => onPressEmail(email)}>
+  <TouchableOpacity onPress={() => console.log("GG")}>
     <View style={[styles.container]}>
       <View style={styles.iconRow}>
         <Icon
           name="home"
           underlayColor="transparent"
           iconStyle={styles.emailIcon}
-          onPress={() => onPressEmail()}
+          onPress={() => console.log("GG")}
         />
       </View>
       <View style={styles.emailRow}>

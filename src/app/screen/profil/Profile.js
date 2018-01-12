@@ -9,7 +9,8 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 import PropTypes from "prop-types";
 import mainColor from "./constants";
@@ -23,6 +24,10 @@ import Localisation from "./localisation";
 import UserData from "./userData";
 
 class Contact extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static propTypes = {
     avatar: PropTypes.string.isRequired,
     avatarBackground: PropTypes.string.isRequired,
@@ -56,22 +61,8 @@ class Contact extends Component {
     }).cloneWithRows(this.props.emails)
   };
 
-  onPressPlace = () => {
-    console.log("place");
-  };
-
-  onPressTel = number => {
-    Linking.openURL(`tel:${number}`).catch(err => console.log("Error:", err));
-  };
-
-  onPressSms = () => {
-    console.log("sms");
-  };
-
-  onPressEmail = email => {
-    Linking.openURL(`mailto:${email}?subject=subject&body=body`).catch(err =>
-      console.log("Error:", err)
-    );
+  goBack = () => {
+    this.props.navigation.navigate("Home");
   };
 
   renderHeader = () => {
@@ -96,13 +87,15 @@ class Contact extends Component {
               name="arrow-back"
               underlayColor="transparent"
               iconStyle={styles.navigationIcon}
+              onPress={this.goBack}
             />
-            <Icon
-              name="settings"
-              underlayColor="transparent"
-              iconStyle={styles.navigationIcon}
-              onPress={() => this.props.navigation.goBack()}
-            />
+            <TouchableOpacity onPress={this.onPress}>
+              <Icon
+                name="edit"
+                underlayColor="transparent"
+                iconStyle={styles.navigationIcon}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerColumn}>
@@ -280,7 +273,6 @@ const styles = StyleSheet.create({
   navigation: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 15,
     backgroundColor: "transparent",
     paddingVertical: 20
   }
