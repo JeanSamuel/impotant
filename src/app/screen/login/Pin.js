@@ -51,6 +51,9 @@ class Pin extends React.Component {
     this.setState({ pin: text, errorMessage: null });
     if (text.length === 4) {
       Keyboard.dismiss();
+      console.log("====================================");
+      console.log("tu passes par là?");
+      console.log("====================================");
       if (text === this.state.userPin) {
         this.props.navigation.navigate("Drawer", this.props.userData);
       } else {

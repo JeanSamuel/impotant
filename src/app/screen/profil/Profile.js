@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Icon } from "react-native-elements";
+import { Card, Icon, Header } from "react-native-elements";
 import {
   Image,
   ImageBackground,
@@ -12,9 +12,10 @@ import {
   View
 } from "react-native";
 import PropTypes from "prop-types";
-
 import mainColor from "./constants";
+import { DrawerMenu } from "../../components/drawerMenu/";
 
+import Navigation from "./navigation";
 import Email from "./Email";
 import Separator from "./Separator";
 import Tel from "./Tel";
@@ -90,6 +91,20 @@ class Contact extends Component {
             uri: avatarBackground
           }}
         >
+          <View style={styles.navigation}>
+            <Icon
+              name="arrow-back"
+              underlayColor="transparent"
+              iconStyle={styles.navigationIcon}
+            />
+            <Icon
+              name="settings"
+              underlayColor="transparent"
+              iconStyle={styles.navigationIcon}
+              onPress={() => this.props.navigation.goBack()}
+            />
+          </View>
+
           <View style={styles.headerColumn}>
             <Image
               style={styles.userImage}
@@ -159,25 +174,37 @@ class Contact extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.scroll}>
-        <View style={styles.container}>
-          <Card containerStyle={styles.cardContainer}>
-            {this.renderHeader()}
-            {this.renderUser()}
-            {Separator()}
-            {this.renderLocal()}
-            {Separator()}
-            {this.renderTel()}
-            {Separator()}
-            {this.renderEmail()}
-          </Card>
-        </View>
-      </ScrollView>
+      <View>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.container}>
+            <Card containerStyle={styles.cardContainer}>
+              {this.renderHeader()}
+              {this.renderUser()}
+              {Separator()}
+              {this.renderLocal()}
+              {Separator()}
+              {this.renderTel()}
+              {Separator()}
+              {this.renderEmail()}
+            </Card>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "rgba(0,0,0,0)",
+    paddingVertical: 15,
+    flexDirection: "row"
+  },
+  navigationIcon: {
+    color: "#FFF",
+    fontSize: 30,
+    marginHorizontal: 15
+  },
   cardContainer: {
     backgroundColor: "#FFF",
     borderWidth: 0,
@@ -194,8 +221,7 @@ const styles = StyleSheet.create({
     paddingTop: 20
   },
   headerBackgroundImage: {
-    paddingBottom: 20,
-    paddingTop: 35
+    paddingBottom: 20
   },
   headerContainer: {},
   headerColumn: {
@@ -250,6 +276,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingBottom: 8,
     textAlign: "center"
+  },
+  navigation: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+    backgroundColor: "transparent",
+    paddingVertical: 20
   }
 });
 

@@ -1,16 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import contactData from "./contact.json";
-
+import { StackNavigator } from "react-navigation";
 import Profile from "./Profile";
 
 const ProfileScreen = () => <Profile {...contactData} />;
 
-ProfileScreen.navigationOptions = () => ({
-  header: null
-});
+const StackSettings = new StackNavigator(
+  {
+    Profil: {
+      screen: ProfileScreen
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    })
+  }
+);
 
-ProfileScreen.propTypes = {};
-
-export default ProfileScreen;
+export default StackSettings;
