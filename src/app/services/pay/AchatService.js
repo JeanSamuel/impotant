@@ -5,7 +5,7 @@ import {Alert, AlertIOS} from 'react-native';
 import config from '../../config/data/dataM';
 
 let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-import {Utils} from '../';
+import {Utils, Services} from '../index';
 const BASEURL = config.ARIARY_BASE_URL;
 
 // create a component
@@ -26,18 +26,17 @@ class AchatService {
 	 * @param {*} amount 
 	 * @param {*} phone 
 	 */
-  async _initAchat(activity, act) {
-    activity.setState({loading: true});
+  async _initAchat(act) {
     let url = BASEURL + 'achat';
     let ret = false;
     try {
-      this._validate(act.state.montant, act.state.phone, act.state.password);
+      this._validate(act.state.amount, act.state.phoneNumber);
       let device_token = await Utils.registerForPushNotificationsAsync();
       let params_to_send = {
         account_id: act.state.account_id,
         token: device_token,
-        amount: Utils.getNumeric(act.state.montant),
-        phone: this.getPhoneNumber(act.state.phone),
+        amount: Utils.getNumeric(act.state.amount),
+        phone: this.getPhoneNumber(act.state.phoneNumber),
       };
       let options = {
         method: 'POST',
@@ -60,9 +59,7 @@ class AchatService {
           //console.log('erreur', error);
           throw error;
         });
-      activity.setState({loading: false});
     } catch (error) {
-      activity.setState({loading: false});
       throw error;
     }
     return ret;
@@ -73,13 +70,12 @@ class AchatService {
 	 * @param {*} phone 
 	 * @param {*} password 
 	 */
-  _validate(amount, phone, password) {
+  _validate(amount, phone) {
     try {
       this._checkMontant(amount);
       this.checkPhoneNumber(phone);
       this._parsePhone(phone, 'mg');
       this.validatePhoneNumer(phone);
-      this._checkPassword(password);
     } catch (error) {
       throw error.toString();
     }
@@ -146,7 +142,7 @@ class AchatService {
 	 * @param {*} str 
 	 */
   getNumeric(str) {
-    return str.replace(/ /g, '');
+    return str.replace(/[ ,]/g, '');
   }
   /**
 	 * check password null
@@ -171,7 +167,8 @@ class AchatService {
 	 * @param {*} montant 
 	 */
   _checkMontant(montant) {
-    if (montant == '' || montant == null || isNaN(montant) || montant <= 0) {
+    montant = this.getNumeric(montant);
+    if (montant == "" || montant == null || isNaN(montant) || montant <= 0) {
       throw 'Veuillez entrer un montant valide(nombre positif different de 0)';
     }
   }
