@@ -254,131 +254,12 @@ class Send extends Component {
           {this.state.loading ? (
             <SendLoader loading={this.state.loading} />
           ) : (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               {!this.state.cameraEnabled ? null : (
-                <BarCodeScanner
-                  onBarCodeRead={this._handleBarCodeRead}
-                  torchMode={this.state.flashOn}
-                  barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                  style={StyleSheet.absoluteFill}
-                />
+                this.renderBarCode()
               )}
-              <View style={sendStyle.formContainer}>
-                <View
-                  style={{
-                    height: 60,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignContent: "center"
-                  }}
-                />
-                <View
-                  style={[
-                    inputStyles.autocompleteContent,
-                    {
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      alignContent: "center",
-                      alignItems: "center",
-                      marginTop: 10
-                    },
-                    inputStyles.autocompleteContainer
-                  ]}
-                >
-                  <AutoComplete
-                    data={users}
-                    containerStyle={{ alignSelf: "center" }}
-                    inputContainerStyle={[
-                      {
-                        height: 40,
-                        flex: 1,
-                        paddingHorizontal: 8,
-                        borderTopWidth: 0,
-                        borderLeftWidth: 0,
-                        borderRightWidth: 0,
-                        borderBottomWidth: 0,
-                        borderRadius: 0
-                      }
-                    ]}
-                    style={[inputStyles.input]}
-                    listContainerStyle={{ zIndex: 1000 }}
-                    underlineColorAndroid="transparent"
-                    autoComplete={true}
-                    placeholder="Envoyer à: Tel , Adresse ..."
-                    onChangeText={user => {
-                      this.setState({ user: user, hideResult: false });
-                    }}
-                    returnKeyType="none"
-                    defaultValue={user}
-                    listStyle={[
-                      inputStyles.listWidth,
-                      { borderRadius: 0, borderWidth: 0, zIndex: 1000 }
-                    ]}
-                    hideResults={this.state.hideResult}
-                    data={users}
-                    renderItem={data => (
-                      <View>
-                        {this.state.user_id != data.key ? (
-                          <View
-                            style={{
-                              height: 30,
-                              justifyContent: "center",
-                              marginHorizontal: 10
-                            }}
-                          >
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.setState({
-                                  user: data.key,
-                                  hideResult: true
-                                });
-                              }}
-                            >
-                              <Text>{data.key}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        ) : null}
-                      </View>
-                    )}
-                  />
-                </View>
-                <InputLeftButton
-                  buttonText={this.state.currency}
-                  value={"" + Services.formatNumber(this.state.amount)}
-                  placeholder="Montant"
-                  keyboardType="numeric"
-                  returnKeyType="done"
-                  editable={this.state.isEditable}
-                  onFocus={() => {
-                    this._toNextStep(this.state.user);
-                  }}
-                  onChangeText={amount =>
-                    this.setState({ amount: Services.formatNumber(amount) })
-                  }
-                  onEndEditing={this.handleDoneEditing}
-                />
-              </View>
-              <View style={sendStyle.buttonContainer}>
-                <Button
-                  buttonStyle={styles.controlButton}
-                  icon={{ name: "clear-all", size: 25, color: "#474B51" }}
-                  onPress={this.onResetAction}
-                />
-                <Button
-                  buttonStyle={styles.controlButton}
-                  icon={{
-                    name: this.state.flashIcon,
-                    size: 25,
-                    color: "#474B51"
-                  }}
-                  onPress={this.toggleFlash}
-                />
-                <Button
-                  buttonStyle={styles.controlButton}
-                  icon={{ name: "send", size: 25, color: "#474B51" }}
-                  onPress={this.onContinueAction}
-                />
-              </View>
+              {this.renderSendForm(users, user)}
+              {this.renderBottomControl()}
             </View>
           )}
           {this.state.modal}
@@ -395,6 +276,137 @@ class Send extends Component {
         </View>
       );
     }
+  }
+
+  renderBottomControl() {
+    return <View style={sendStyle.buttonContainer}>
+      <Button
+        buttonStyle={styles.controlButton}
+        icon={{name: "clear-all", size: 25, color: "#474B51"}}
+        onPress={this.onResetAction}
+      />
+      <Button
+        buttonStyle={styles.controlButton}
+        icon={{
+          name: this.state.flashIcon,
+          size: 25,
+          color: "#474B51"
+        }}
+        onPress={this.toggleFlash}
+      />
+      <Button
+        buttonStyle={styles.controlButton}
+        icon={{name: "send", size: 25, color: "#474B51"}}
+        onPress={this.onContinueAction}
+      />
+    </View>;
+  }
+
+  renderSendForm(users, user) {
+    return <View style={sendStyle.formContainer}>
+      <View
+        style={{
+          height: 60,
+          alignItems: "center",
+          justifyContent: "center",
+          alignContent: "center"
+        }}
+      />
+      <View
+        style={[
+          inputStyles.autocompleteContent,
+          {
+            alignSelf: "center",
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10
+          },
+          inputStyles.autocompleteContainer
+        ]}
+      >
+        <AutoComplete
+          data={users}
+          containerStyle={{alignSelf: "center"}}
+          inputContainerStyle={[
+            {
+              height: 40,
+              flex: 1,
+              paddingHorizontal: 8,
+              borderTopWidth: 0,
+              borderLeftWidth: 0,
+              borderRightWidth: 0,
+              borderBottomWidth: 0,
+              borderRadius: 0
+            }
+          ]}
+          style={[inputStyles.input]}
+          listContainerStyle={{zIndex: 1000}}
+          underlineColorAndroid="transparent"
+          autoComplete={true}
+          placeholder="Envoyer à: Tel , Adresse ..."
+          onChangeText={user => {
+            this.setState({user: user, hideResult: false});
+          }}
+          returnKeyType="none"
+          defaultValue={user}
+          listStyle={[
+            inputStyles.listWidth,
+            {borderRadius: 0, borderWidth: 0, zIndex: 1000}
+          ]}
+          hideResults={this.state.hideResult}
+          data={users}
+          renderItem={data => (
+            <View>
+              {this.state.user_id != data.key ? (
+                <View
+                  style={{
+                    height: 30,
+                    justifyContent: "center",
+                    marginHorizontal: 10
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({
+                        user: data.key,
+                        hideResult: true
+                      });
+                    }}
+                  >
+                    <Text>{data.key}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+            </View>
+          )}
+        />
+      </View>
+      <InputLeftButton
+        buttonText={this.state.currency}
+        value={"" + Services.formatNumber(this.state.amount)}
+        placeholder="Montant"
+        keyboardType="numeric"
+        returnKeyType="done"
+        editable={this.state.isEditable}
+        onFocus={() => {
+          this._toNextStep(this.state.user);
+        }}
+        onChangeText={amount =>
+          this.setState({amount: Services.formatNumber(amount)})
+        }
+        onEndEditing={this.handleDoneEditing}
+      />
+    </View>;
+  }
+
+  renderBarCode() {
+    return <BarCodeScanner
+      onBarCodeRead={this._handleBarCodeRead}
+      torchMode={this.state.flashOn}
+      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+      style={StyleSheet.absoluteFill}
+    />;
   }
 }
 
