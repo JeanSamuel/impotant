@@ -35,8 +35,8 @@ class AchatService {
       let params_to_send = {
         account_id: act.state.account_id,
         token: device_token,
-        amount: Utils.getNumeric(act.state.montant),
-        phone: this.getPhoneNumber(act.state.phone),
+        amount: Utils.getNumeric(act.state.amount),
+        phone: this.getPhoneNumber(act.state.phoneNumber),
       };
       let options = {
         method: 'POST',
@@ -142,7 +142,7 @@ class AchatService {
 	 * @param {*} str 
 	 */
   getNumeric(str) {
-    return Services.reformatNumber(str);
+    return str.replace(/[ ,]/g, '');
   }
   /**
 	 * check password null
@@ -167,7 +167,8 @@ class AchatService {
 	 * @param {*} montant 
 	 */
   _checkMontant(montant) {
-    if (montant == '' || montant == null || isNaN(montant) || montant <= 0) {
+    montant = this.getNumeric(montant);
+    if (montant == "" || montant == null || isNaN(montant) || montant <= 0) {
       throw 'Veuillez entrer un montant valide(nombre positif different de 0)';
     }
   }

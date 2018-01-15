@@ -159,7 +159,12 @@ class Charger extends Component {
     this.setState({
       modal:(
         <Modal
-          data={<Text>{instruction}</Text>}
+          remove = {this.removeModal()}
+          data={
+            <View>
+              <Text>{instruction}</Text>
+            </View>
+            }
         />)
 
     })
@@ -178,7 +183,7 @@ class Charger extends Component {
         let message = achatService.getInstructionByMobileMoneyPhoneNumber(this.state.phoneNumber);
         this.setState({messageVisible: false, loading: false});
         console.log("Instruction" + message);
-        this.renderInstruction(message);
+        this.renderInstruction(message.contenue);
       }).catch(err => {
         console.log("erreur "+err);
         this.setState({
@@ -194,8 +199,7 @@ class Charger extends Component {
   };
   _handleAmountInput = (text) =>{
     console.log("ato tsika zao montant");
-    //let formatedAmount = Services.formatNumber(text);
-    this.setState({amount: text})
+    this.setState({amount: Services.formatNumber(text)})
   };
   _handlePhoneInput = (phone) =>{
     console.log(phone, this.state.phoneNumber);
@@ -211,7 +215,7 @@ class Charger extends Component {
     console.log('Perform transaction');
     try{
       AchatService.validatePhoneNumer(this.state.phoneNumber);
-      AchatService._checkMontant(this.state.amount);
+      AchatService._checkMontant(Services.reformatNumber(this.state.amount));
       this.renderPinModal();
     }catch (err){
       console.log("Message d'erreur "+err);
