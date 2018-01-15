@@ -1,9 +1,63 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import PropTypes from "prop-types";
 
 import mainColor from "./constants";
+
+class UserData extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      isHidden: true
+    };
+  }
+
+  toggleHidden() {
+    this.setState({
+      isHidden: !this.state.isHidden
+    });
+  }
+
+  render() {
+    return (
+      <TouchableOpacity onPress={this.toggleHidden.bind(this)}>
+        <View style={[styles.container]}>
+          <View style={styles.iconRow}>
+            <Icon
+              name="person"
+              underlayColor="transparent"
+              iconStyle={styles.emailIcon}
+              onPress={this.toggleHidden.bind(this)}
+            />
+          </View>
+          <View style={styles.emailRow}>
+            <View style={styles.emailColumn}>
+              <Text style={styles.emailText}>Toavina Ralambosoa</Text>
+            </View>
+            <View style={styles.emailNameColumn}>
+              <Text style={styles.emailNameText}>24 mai 1995</Text>
+            </View>
+            {!this.state.isHidden && <Child />}
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+const Child = () => (
+  <View style={styles.emailNameColumn}>
+    <Text style={styles.emailNameText}>CIN - 123 432 234 111</Text>
+  </View>
+);
+
+UserData.defaultProps = {
+  containerStyle: {},
+  name: null
+};
+
+export default UserData;
 
 const styles = StyleSheet.create({
   container: {
@@ -42,33 +96,3 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
-
-const Email = containerStyle => (
-  <TouchableOpacity onPress={() => onPressEmail(email)}>
-    <View style={[styles.container]}>
-      <View style={styles.iconRow}>
-        <Icon
-          name="person"
-          underlayColor="transparent"
-          iconStyle={styles.emailIcon}
-          onPress={() => onPressEmail()}
-        />
-      </View>
-      <View style={styles.emailRow}>
-        <View style={styles.emailColumn}>
-          <Text style={styles.emailText}>Toavina Ralambosoa</Text>
-        </View>
-        <View style={styles.emailNameColumn}>
-          <Text style={styles.emailNameText}>122 145 258 245</Text>
-        </View>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
-
-Email.defaultProps = {
-  containerStyle: {},
-  name: null
-};
-
-export default Email;

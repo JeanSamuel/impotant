@@ -5,7 +5,7 @@ import {Alert, AlertIOS} from 'react-native';
 import config from '../../config/data/dataM';
 
 let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-import {Utils} from '../';
+import {Utils, Services} from '../index';
 const BASEURL = config.ARIARY_BASE_URL;
 
 // create a component
@@ -142,7 +142,7 @@ class AchatService {
 	 * @param {*} str 
 	 */
   getNumeric(str) {
-    return str.replace(/ /g, '');
+    return Services.reformatNumber(str);
   }
   /**
 	 * check password null

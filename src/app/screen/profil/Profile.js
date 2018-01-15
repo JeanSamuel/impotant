@@ -9,7 +9,8 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 import PropTypes from "prop-types";
 import mainColor from "./constants";
@@ -61,13 +62,7 @@ class Contact extends Component {
   };
 
   goBack = () => {
-    console.log("====================================");
-    console.log(this.props.navigation);
-    console.log("====================================");
-
-    console.log("====================================");
-    console.log("ary tonga eto v", this.props.navigation.goBack());
-    console.log("====================================");
+    this.props.navigation.navigate("Home");
   };
 
   renderHeader = () => {
@@ -94,11 +89,13 @@ class Contact extends Component {
               iconStyle={styles.navigationIcon}
               onPress={this.goBack}
             />
-            <Icon
-              name="settings"
-              underlayColor="transparent"
-              iconStyle={styles.navigationIcon}
-            />
+            <TouchableOpacity onPress={this.onPress}>
+              <Icon
+                name="edit"
+                underlayColor="transparent"
+                iconStyle={styles.navigationIcon}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerColumn}>

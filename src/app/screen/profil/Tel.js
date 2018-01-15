@@ -78,7 +78,7 @@ const Tel = ({
           </View>
           <View style={styles.telNameColumn}>
             {name.trim().length !== 0 && (
-              <Text style={styles.telNameText}>{name}</Text>
+              <Text style={styles.telNameText}>toavina@nivo.mg</Text>
             )}
           </View>
         </View>
