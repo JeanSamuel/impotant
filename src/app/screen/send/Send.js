@@ -18,7 +18,7 @@ import { Button, Icon } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
-import { InputLeftButton } from "../../components/TextInput";
+import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { IconBadge } from "../../components/icon";
 import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/utils/services";
@@ -127,8 +127,14 @@ class Send extends Component {
 
   handleDoneEditing = () => {
     if (this.state.amount > 0 && this.state.user.length != 0) {
-      // //console.log("End Entering amount", this.state.user);
-      this.promptPin();
+      // //console.log("End Entering amount", this.state.user);fsd
+      this.navigateToReview(
+        this.state.user,
+        this.state.accountName,
+        this.state.amount,
+        this.state.user_id,
+        this.state.user
+      );
     }
   };
 
@@ -162,7 +168,13 @@ class Send extends Component {
         "Vérifier les données que vous avez entrez"
       );
     } else {
-      this.promptPin();
+      this.navigateToReview(
+        this.state.user,
+        this.state.accountName,
+        this.state.amount,
+        this.state.user_id,
+        this.state.user
+      );
     }
   };
   _handleBarCodeRead = data => {
@@ -187,19 +199,33 @@ class Send extends Component {
       }
       if (readData.a != 0 && readData.u) {
         // this.promptPin();
-        this.setState({ cameraEnabled: false });
-        this.props.navigation.navigate("Review", {
-          user: readData.u,
-          username: this.state.accountName,
-          amount: Services.reformatNumber(readData.a),
-          user_id: this.state.user_id,
-          receiver_name: readData.n
-        });
+        this.navigateToReview(
+          readData.u,
+          this.state.accountName,
+          Services.reformatNumber(readData.a),
+          this.state.user_id,
+          readData.n
+        );
       }
     } else {
       alert("Veuillez scanner un Qr Code valide");
     }
   };
+
+  navigateToReview(user, username, amount, user_id, receiver_name) {
+    this.setState({ cameraEnabled: false });
+    this.props.navigation.navigate("Review", {
+      user: user,
+      username: username,
+      amount: amount,
+      user_id: user_id,
+      receiver_name: receiver_name,
+      onGoBack: () => {
+        this.setState({ cameraEnabled: true });
+      }
+    });
+  }
+
   _toNextStep(receiver, receiver_name) {
     Keyboard.dismiss();
     if (receiver) {
@@ -254,10 +280,8 @@ class Send extends Component {
           {this.state.loading ? (
             <SendLoader loading={this.state.loading} />
           ) : (
-            <View style={{flex: 1}}>
-              {!this.state.cameraEnabled ? null : (
-                this.renderBarCode()
-              )}
+            <View style={{ flex: 1 }}>
+              {!this.state.cameraEnabled ? null : this.renderBarCode()}
               {this.renderSendForm(users, user)}
               {this.renderBottomControl()}
             </View>
@@ -279,134 +303,71 @@ class Send extends Component {
   }
 
   renderBottomControl() {
-    return <View style={sendStyle.buttonContainer}>
-      <Button
-        buttonStyle={styles.controlButton}
-        icon={{name: "clear-all", size: 25, color: "#474B51"}}
-        onPress={this.onResetAction}
-      />
-      <Button
-        buttonStyle={styles.controlButton}
-        icon={{
-          name: this.state.flashIcon,
-          size: 25,
-          color: "#474B51"
-        }}
-        onPress={this.toggleFlash}
-      />
-      <Button
-        buttonStyle={styles.controlButton}
-        icon={{name: "send", size: 25, color: "#474B51"}}
-        onPress={this.onContinueAction}
-      />
-    </View>;
+    return (
+      <View style={sendStyle.buttonContainer}>
+        <Button
+          buttonStyle={styles.controlButton}
+          icon={{ name: "clear-all", size: 25, color: "#474B51" }}
+          onPress={this.onResetAction}
+        />
+        <Button
+          buttonStyle={styles.controlButton}
+          icon={{
+            name: this.state.flashIcon,
+            size: 25,
+            color: "#474B51"
+          }}
+          onPress={this.toggleFlash}
+        />
+        <Button
+          buttonStyle={styles.controlButton}
+          icon={{ name: "send", size: 25, color: "#474B51" }}
+          onPress={this.onContinueAction}
+        />
+      </View>
+    );
   }
 
   renderSendForm(users, user) {
-    return <View style={sendStyle.formContainer}>
-      <View
-        style={{
-          height: 60,
-          alignItems: "center",
-          justifyContent: "center",
-          alignContent: "center"
-        }}
-      />
-      <View
-        style={[
-          inputStyles.autocompleteContent,
-          {
-            alignSelf: "center",
-            justifyContent: "center",
-            alignContent: "center",
-            alignItems: "center",
-            marginTop: 10
-          },
-          inputStyles.autocompleteContainer
-        ]}
-      >
-        <AutoComplete
-          data={users}
-          containerStyle={{alignSelf: "center"}}
-          inputContainerStyle={[
-            {
-              height: 40,
-              flex: 1,
-              paddingHorizontal: 8,
-              borderTopWidth: 0,
-              borderLeftWidth: 0,
-              borderRightWidth: 0,
-              borderBottomWidth: 0,
-              borderRadius: 0
-            }
-          ]}
-          style={[inputStyles.input]}
-          listContainerStyle={{zIndex: 1000}}
-          underlineColorAndroid="transparent"
-          autoComplete={true}
+    return (
+      <View style={sendStyle.formContainer}>
+        <InputLeftIcon
+          iconName="ios-bookmarks-outline"
+          iconType="ionicon"
           placeholder="Envoyer à: Tel , Adresse ..."
-          onChangeText={user => {
-            this.setState({user: user, hideResult: false});
-          }}
-          returnKeyType="none"
-          defaultValue={user}
-          listStyle={[
-            inputStyles.listWidth,
-            {borderRadius: 0, borderWidth: 0, zIndex: 1000}
-          ]}
-          hideResults={this.state.hideResult}
-          data={users}
-          renderItem={data => (
-            <View>
-              {this.state.user_id != data.key ? (
-                <View
-                  style={{
-                    height: 30,
-                    justifyContent: "center",
-                    marginHorizontal: 10
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setState({
-                        user: data.key,
-                        hideResult: true
-                      });
-                    }}
-                  >
-                    <Text>{data.key}</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : null}
-            </View>
-          )}
+          onChangeText={user => this.setState({ user })}
+          value={this.state.user}
+          returnKeyType="next"
+          blurOnSubmit={false}
+        />
+        <InputLeftButton
+          buttonText={this.state.currency}
+          value={this.state.amount}
+          placeholder="Montant"
+          keyboardType="numeric"
+          returnKeyType="done"
+          editable={this.state.isEditable}
+          /*onFocus={() => {
+          this._toNextStep(this.state.user);
+        }}*/
+          onChangeText={amount =>
+            this.setState({ amount: Services.formatNumber(amount) })
+          }
+          onEndEditing={this.handleDoneEditing}
         />
       </View>
-      <InputLeftButton
-        buttonText={this.state.currency}
-        value={"" + Services.formatNumber(this.state.amount)}
-        placeholder="Montant"
-        keyboardType="numeric"
-        returnKeyType="done"
-        editable={this.state.isEditable}
-        onFocus={() => {
-          this._toNextStep(this.state.user);
-        }}
-        onChangeText={amount =>
-          this.setState({amount: Services.formatNumber(amount)})
-        }
-        onEndEditing={this.handleDoneEditing}
-      />
-    </View>;
+    );
   }
 
   renderBarCode() {
-    return <BarCodeScanner
-      onBarCodeRead={this._handleBarCodeRead}
-      torchMode={this.state.flashOn}
-      barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-      style={StyleSheet.absoluteFill}
-    />;
+    return (
+      <BarCodeScanner
+        onBarCodeRead={this._handleBarCodeRead}
+        torchMode={this.state.flashOn}
+        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+        style={StyleSheet.absoluteFill}
+      />
+    );
   }
 }
 

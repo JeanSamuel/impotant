@@ -1,13 +1,21 @@
 //import liraries
-import React, {Component} from "react";
-import {Dimensions, ScrollView, StyleSheet, Text, TouchableHighlight, View, Keyboard} from "react-native";
+import React, { Component } from "react";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  Keyboard
+} from "react-native";
 import QrServices from "../../services/pay/qrservices";
 import Services from "../../services/utils/services";
-import {MessagePrompt, PinModal} from "../../components/modal";
-import {FingerprintRequest} from "../../components/fingerprint";
+import { MessagePrompt, PinModal } from "../../components/modal";
+import { FingerprintRequest } from "../../components/fingerprint";
 import MyHeader from "../../components/Header/Header";
-import {HeaderButton} from '../../components/drawerMenu'
-import EStyleSheet from 'react-native-extended-stylesheet'
+import { HeaderButton } from "../../components/drawerMenu";
+import EStyleSheet from "react-native-extended-stylesheet";
 // create a component
 const { height, width } = Dimensions.get("window");
 
@@ -146,6 +154,16 @@ class Review extends Component {
             messageText: rep.error_message
           });
         }
+      })
+      .catch(err => {
+        this.setState({
+          loading: false,
+          error: true,
+          messageTitle: "Error !",
+          iconName: "close",
+          color: "#FF2423",
+          messageText: err.message
+        });
       });
   }
 
@@ -161,12 +179,22 @@ class Review extends Component {
     return (
       <View style={styles.container}>
         <MyHeader
-          leftComponent={<HeaderButton iconName={"ios-arrow-back"} color={"#fff"} type={"ionicon"} action={
-            ()=>{
-              Keyboard.dismiss();
-              this.props.navigation.goBack();
-            }
-          }/>}
+          leftComponent={
+            <HeaderButton
+              iconName={"ios-arrow-back"}
+              color={"#fff"}
+              type={"ionicon"}
+              action={() => {
+                Keyboard.dismiss();
+                {
+                  this.props.navigation.state.params.onGoBack !== undefined
+                    ? this.props.navigation.state.params.onGoBack()
+                    : "";
+                }
+                this.props.navigation.goBack();
+              }}
+            />
+          }
           headerText={"Vérifier et envoyer"}
         />
         {this.state.haveFingerprint && this.state.makeTransaction ? (

@@ -57,7 +57,7 @@ export default DrawerNavigator(
         title: "Charger",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-rose-outline"
+            name="ios-filing-outline"
             type="ionicon"
             color={tintColor}
             size={28}
