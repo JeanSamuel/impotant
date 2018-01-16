@@ -6,8 +6,9 @@ import {DrawerMenu} from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import {Header} from '../../components/Header'
 import {AchatService, Utils} from '../../services'
-import {PinModal, Modal, MessagePrompt} from '../../components/modal'
+import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
+import {FingerprintRequest} from '../../components/fingerprint';
 import {InputLeftIcon} from '../../components/TextInput';
 import {FormInput, FormLabel,FormValidationMessage, Icon} from 'react-native-elements'
 
@@ -25,16 +26,18 @@ class Charger extends Component {
       amount: "",
       errorMessage: "",
       pinErrorMessage : null,
+      haveFingerprint: false,
       messageTitle: "Patientez!",
       makeTransaction: false,
       phoneNumber: "",
       messageVisible:false,
+      messageVisibleMini: false,
       pin: "",
       modal:null
     }
   }
   componentWillMount() {
-    services = new Services();
+    const services = new Services();
     services.getData("pin").then(pin => {
       this.setState({ pin: pin });
     });
@@ -120,7 +123,7 @@ class Charger extends Component {
   }
 
   removeModal() {
-    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false});
+    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false, messageVisibleMini: false});
   }
 
   _handlePinInput = text => {
@@ -181,9 +184,16 @@ class Charger extends Component {
         error:false});
       AchatService._initAchat(this).then(()=>{
         let message = achatService.getInstructionByMobileMoneyPhoneNumber(this.state.phoneNumber);
-        this.setState({messageVisible: false, loading: false});
-        console.log("Instruction" + message);
-        this.renderInstruction(message.contenue);
+        this.setState({
+          loading: false,
+          messageTitle: message.title,
+          messageText: message.contenue,
+          color: "#FF9521",
+          messageVisible: false,
+          iconName: "info",
+          messageVisibleMini :true,
+          error:false});
+        console.log("Instruction" + JSON.stringify(message));
       }).catch(err => {
         console.log("erreur "+err);
         this.setState({
@@ -227,6 +237,12 @@ class Charger extends Component {
       <View style={styles.container}>
         {this.renderHeader()}
         {this.renderHeandingTitle()}
+        {this.state.haveFingerprint && this.state.makeTransaction ? (
+          <FingerprintRequest
+            waitTextColor="rgba(22, 160, 133,1.0)"
+            onFingerprintSuccess={() => this._handleContinue()}
+          />
+        ) : null}
         <View style={styles.innerContainer}>
           <ScrollView>
             {this.renderRechargeForm()}
@@ -260,6 +276,17 @@ class Charger extends Component {
         {this.state.modal}
         {this.state.messageVisible ? (
           <MessagePrompt
+            onRequestClose={() => this.removeModal()}
+            iconName={this.state.iconName}
+            loading={this.state.loading}
+            text={this.state.messageText}
+            title={this.state.messageTitle}
+            error={this.state.error}
+            color={this.state.color}
+          />
+        ) : null}
+        {this.state.messageVisibleMini ? (
+          <MessagePromptMini
             onRequestClose={() => this.removeModal()}
             iconName={this.state.iconName}
             loading={this.state.loading}
