@@ -65,6 +65,10 @@ class Contact extends Component {
     this.props.navigation.navigate("Home");
   };
 
+  goToSteps = () => {
+    this.props.navigation.navigate("Validation");
+  };
+
   renderHeader = () => {
     const {
       avatar,
@@ -89,7 +93,7 @@ class Contact extends Component {
               iconStyle={styles.navigationIcon}
               onPress={this.goBack}
             />
-            <TouchableOpacity onPress={this.onPress}>
+            <TouchableOpacity onPress={this.goToSteps}>
               <Icon
                 name="edit"
                 underlayColor="transparent"

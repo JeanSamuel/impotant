@@ -1,30 +1,37 @@
-import MultiStep from "react-native-multistep-wizard";
-import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { StackNavigator } from "react-navigation";
+import { View } from "react-native";
+import { Step1, Step2, Step3 } from "./allSteps";
 
-/* Define the steps of multistep wizard */
-
-const steps = [
-  { name: "StepOne", component: <StepOne /> },
-  { name: "StepTwo", component: <StepTwo /> },
-  { name: "StepThree", component: <StepThree /> }
-];
-
-/* Define your class */
-class Register extends Component {
-  /* define the method to be called when the wizard is finished */
-
-  finish(wizardState) {
-    //code to be executed when wizard is finished
-  }
-
-  /* render MultiStep */
+class ValidationScreen extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <MultiStep steps={steps} onFinish={this.finish} />
+      <View style={{ flex: 1 }}>
+        <StackSettings />
       </View>
     );
   }
 }
+
+const StackSettings = new StackNavigator(
+  {
+    Step1: {
+      screen: Step1
+    },
+    Step2: {
+      screen: Step2
+    },
+    Step3: {
+      screen: Step3
+    }
+  },
+  {
+    initialRouteName: "Step1",
+    navigationOptions: ({ navigation }) => ({
+      header: () => null
+    })
+  }
+);
+
+export default ValidationScreen;

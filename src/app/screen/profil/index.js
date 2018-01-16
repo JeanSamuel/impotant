@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import contactData from "./contact.json";
 import { StackNavigator } from "react-navigation";
 import Profile from "./Profile";
+import Validation from "../validate";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -18,9 +19,13 @@ const StackSettings = new StackNavigator(
   {
     Profil: {
       screen: ProfileScreen
+    },
+    Validation: {
+      screen: Validation
     }
   },
   {
+    initialRouteName: "Validation",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })
