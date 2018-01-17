@@ -1,6 +1,6 @@
 //import liraries
 import React, {Component} from "react";
-import {Text, View, ScrollView, TouchableHighlight, Dimensions} from "react-native";
+import {Text, View, ScrollView, TouchableHighlight, Dimensions, Keyboard} from "react-native";
 import {StackNavigator} from "react-navigation";
 import {DrawerMenu} from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -10,6 +10,7 @@ import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../component
 import Services from '../../services/utils/services'
 import {FingerprintRequest} from '../../components/fingerprint';
 import {InputLeftIcon} from '../../components/TextInput';
+import {HeaderButton} from '../../components/drawerMenu'
 import {FormInput, FormLabel,FormValidationMessage, Icon} from 'react-native-elements'
 
 // create a component
@@ -59,7 +60,16 @@ class Charger extends Component {
   renderHeader(){
     return(
       <Header
-        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={()=>this.props.navigation.goBack(null)}/>}
+        leftComponent={
+          <HeaderButton
+            iconName={"ios-arrow-back"}
+            color={"#fff"}
+            type={"ionicon"}
+            action={() => {
+              this.props.navigation.goBack(null);
+            }}
+          />
+        }
         />
     )
   };

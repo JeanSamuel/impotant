@@ -43,18 +43,6 @@ class Navigateur extends Component {
       let finMessage = "Ar de la part de ";
       const message = debutMessage + amount + finMessage + sender;
       this.dropdown.alertWithType("info", title, message);
-    }
-  }
-  showAlert(notification) {
-    let data = notification.data;
-    if (data.type == "reception") {
-      let title = "Nouveau transfert";
-      let amount = data.amount;
-      let sender = data.from;
-      let debutMessage = "Vous avez reçu ";
-      let finMessage = "Ar de la part de ";
-      const message = debutMessage + amount + finMessage + sender;
-      this.dropdown.alertWithType("info", title, message);
     }else{
       let ret = this._generateMessage(data);
 			this.dropdown.alertWithType('success', ret.title, ret.str);
