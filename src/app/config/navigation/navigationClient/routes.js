@@ -33,18 +33,18 @@ class Navigateur extends Component {
     }
   }
 
-  showAlert(notification) {
-    let data = notification.data;
-    if (data.type == "reception") {
-      let title = "Nouveau transfert";
-      let amount = data.amount;
-      let sender = data.from;
-      let debutMessage = "Vous avez reçu ";
-      let finMessage = "Ar de la part de ";
-      const message = debutMessage + amount + finMessage + sender;
-      this.dropdown.alertWithType("info", title, message);
-    }
-  }
+  // showAlert(notification) {
+  //   let data = notification.data;
+  //   if (data.type == "reception") {
+  //     let title = "Nouveau transfert";
+  //     let amount = data.amount;
+  //     let sender = data.from;
+  //     let debutMessage = "Vous avez reçu ";
+  //     let finMessage = "Ar de la part de ";
+  //     const message = debutMessage + amount + finMessage + sender;
+  //     this.dropdown.alertWithType("info", title, message);
+  //   }
+  // }
   showAlert(notification) {
     let data = notification.data;
     if (data.type == "reception") {
@@ -86,12 +86,12 @@ class Navigateur extends Component {
             str = 'Vous avez reçu une somme de ' + Utils.formatNumber(amount);
             str = str + " Ariary, veuillez consulter l'historique pour voir le détail";
           } else {
-            str = "Le transfert d'une somme de" + Utils.formatNumber(amount);
+            str = "Le transfert d'une somme de " + Utils.formatNumber(amount);
             str = str + ' Ariary vers le compte ';
             str = str + tel + ' est effectué  avec succès';
           }
         } else {
-          str = 'Le transfert  de ' + Utils.formatNumber(amount) + ' à echoué';
+          str = 'Le transfert  de ' + Utils.formatNumber(amount) + ' Ar à echoué';
         }
         break;
     }
