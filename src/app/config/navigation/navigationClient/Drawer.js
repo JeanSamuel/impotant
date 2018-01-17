@@ -16,6 +16,7 @@ import About from "../../../screen/about";
 import Charger from "../../../screen/charger";
 import Profil from "../../../screen/profil";
 import DrawerContent from "../navigationMerch/drawerContent";
+import colors from '../../../config/constants/colors'
 
 //make this component available to the app
 const { width } = Dimensions.get("screen");
@@ -57,7 +58,7 @@ export default DrawerNavigator(
         title: "Charger",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-rose-outline"
+            name="ios-filing-outline"
             type="ionicon"
             color={tintColor}
             size={28}
@@ -117,7 +118,7 @@ export default DrawerNavigator(
     initialRouteName: "Home",
     drawerWidth: width - 50,
     contentOptions: {
-      activeTintColor: "#00cf7e",
+      activeTintColor: colors.$darkColor,
       // activeBackgroundColor: "",
       itemStyle: {
         paddingLeft: 15

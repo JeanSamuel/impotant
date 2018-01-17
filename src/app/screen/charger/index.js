@@ -86,7 +86,6 @@ class Charger extends Component {
         <FormInput
           ref={input1 => this.input = input1}
           onChangeText={this._handlePhoneInput}
-          onEndEditing={console.log(this.state.phoneNumber)}
           placeholder={"ex: +261 33 00 000 01"}
           underlineColorAndroid="transparent"
           keyboardType={'phone-pad'}
