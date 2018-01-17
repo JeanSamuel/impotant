@@ -168,13 +168,13 @@ class Send extends Component {
   onContinueAction = () => {
     if (this.state.amount == 0) {
       console.log("Amount 0");
-      this.setState({validationMessageAmount: "Veuillez spécifier un montant valide"});
+      this.setState({ validationMessageAmount: "Veuillez spécifier un montant valide" });
     }
-    if(this.state.user === ""){
+    if (this.state.user === "") {
       console.log("User vide");
-      this.setState({validationMessageUser: "Veuillez entrer un adresse avant de continuer"});
+      this.setState({ validationMessageUser: "Veuillez entrer un adresse avant de continuer" });
     }
-    if(this.state.user !== "" && this.state.amount !=0 ) {
+    if (this.state.user !== "" && this.state.amount != 0) {
       this.navigateToReview(
         this.state.user,
         this.state.accountName,
@@ -236,7 +236,7 @@ class Send extends Component {
     Keyboard.dismiss();
     if (receiver) {
       if (!this.state.isEditable) {
-        this.setState({validationMessageAmount: "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"});
+        this.setState({ validationMessageAmount: "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer" });
       } else {
         this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("CustomKey", {
@@ -251,7 +251,7 @@ class Send extends Component {
         });
       }
     } else {
-      this.setState({validationMessageUser: "Veuillez spécifier un adresse avant de continuer"});
+      this.setState({ validationMessageUser: "Veuillez spécifier un adresse avant de continuer" });
     }
   }
   findUser(query) {
@@ -282,12 +282,12 @@ class Send extends Component {
           {this.state.loading ? (
             <SendLoader loading={this.state.loading} />
           ) : (
-            <View style={{ flex: 1 }}>
-              {!this.state.cameraEnabled ? null : this.renderBarCode()}
-              {this.renderSendForm(users, user)}
-              {this.renderBottomControl()}
-            </View>
-          )}
+              <View style={{ flex: 1 }}>
+                {!this.state.cameraEnabled ? null : this.renderBarCode()}
+                {this.renderSendForm(users, user)}
+                {this.renderBottomControl()}
+              </View>
+            )}
           {this.state.modal}
           {Platform.OS == "ios" ? (
             <Toast
@@ -341,7 +341,7 @@ class Send extends Component {
           value={this.state.user}
           returnKeyType="next"
           blurOnSubmit={false}
-          validationMessage = {this.state.validationMessageUser}
+          validationMessage={this.state.validationMessageUser}
         />
         <InputLeftButton
           buttonText={this.state.currency}
@@ -350,7 +350,7 @@ class Send extends Component {
           keyboardType="numeric"
           returnKeyType="done"
           editable={this.state.isEditable}
-          validationMessage = {this.state.validationMessageAmount}
+          validationMessage={this.state.validationMessageAmount}
           /*onFocus={() => {
           this._toNextStep(this.state.user);
         }}*/
