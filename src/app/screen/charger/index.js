@@ -10,7 +10,7 @@ import { PinModal, Modal, MessagePrompt } from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
-
+import PropTypes from "prop-types";
 // create a component
 const { height, width } = Dimensions.get("window");
 const achatService = AchatService;
@@ -210,7 +210,8 @@ class Charger extends Component {
       this.setState({ phoneNumber: formatedPhone })
     }
     catch (err) {
-      this.setState({ error: true })
+      //this.setState({ error: true })
+      this.setState({ phoneNumber: phone })
     }
   };
   _handleValider = () => {
@@ -333,7 +334,6 @@ const styles = EStyleSheet.create({
     backgroundColor: "#fff"
   }
 });
-
 //make this component available to the app
 const StackSettings = new StackNavigator(
   {
