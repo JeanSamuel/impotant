@@ -250,14 +250,7 @@ class Review extends Component {
         </ScrollView>
 
         <TouchableHighlight
-          style={{
-            justifyContent: "center",
-            backgroundColor: "#00cf7e",
-            borderRadius: 30,
-            height: 50,
-            width: width - 50,
-            marginBottom: 10
-          }}
+          style={styles.softRoundButton}
           onPress={() => {
             this._promptPin();
           }}
@@ -333,7 +326,14 @@ const styles = EStyleSheet.create({
   },
   reviewText: {
     color: "#404040"
-  }
+  },softRoundButton:{
+  justifyContent: "center",
+    backgroundColor: "$secondaryColor",
+    borderRadius: 5,
+    height: 50,
+    width: width - 50,
+    marginBottom: 10
+}
 });
 
 //make this component available to the app

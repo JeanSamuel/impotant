@@ -27,7 +27,7 @@ export default {
     color: '#FFF'
   },
   textWhiteBold: {
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold'
   },
   textCenter: {

@@ -14,7 +14,7 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { StackNavigator } from "react-navigation";
-import { Button, Icon } from "react-native-elements";
+import { Button, Icon, FormValidationMessage } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import headStyle from "../../assets/styles/stylesC/headerStyle";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
@@ -54,6 +54,8 @@ class Send extends Component {
       cameraEnabled: true,
       isEditable: true,
       hideResult: false,
+      validationMessageAmount: false,
+      validationMessageUser: false,
       data: []
     };
   }
@@ -153,6 +155,8 @@ class Send extends Component {
       type: "",
       currency: "Ar",
       isEditable: true,
+      validationMessageUser: false,
+      validationMessageAmount: false,
       desabled: false
     });
   }
@@ -162,12 +166,15 @@ class Send extends Component {
   };
 
   onContinueAction = () => {
-    if (this.state.amount == 0 || this.state.user === "") {
-      Alert.alert(
-        "An error happened",
-        "Vérifier les données que vous avez entrez"
-      );
-    } else {
+    if (this.state.amount == 0) {
+      console.log("Amount 0");
+      this.setState({validationMessageAmount: "Veuillez spécifier un montant valide"});
+    }
+    if(this.state.user === ""){
+      console.log("User vide");
+      this.setState({validationMessageUser: "Veuillez entrer un adresse avant de continuer"});
+    }
+    if(this.state.user !== "" && this.state.amount !=0 ) {
       this.navigateToReview(
         this.state.user,
         this.state.accountName,
@@ -198,7 +205,6 @@ class Send extends Component {
         this._toNextStep(readData.u, readData.n);
       }
       if (readData.a != 0 && readData.u) {
-        // this.promptPin();
         this.navigateToReview(
           readData.u,
           this.state.accountName,
@@ -230,9 +236,7 @@ class Send extends Component {
     Keyboard.dismiss();
     if (receiver) {
       if (!this.state.isEditable) {
-        alert(
-          "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"
-        );
+        this.setState({validationMessageAmount: "operation impossible : Vous ne pouvez pas modifier un montant déjà scanné. Réinitialisez le champ avant de continuer"});
       } else {
         this.setState({ cameraEnabled: false });
         this.props.navigation.navigate("CustomKey", {
@@ -247,9 +251,7 @@ class Send extends Component {
         });
       }
     } else {
-      alert(
-        "Operation impossible : Veuillez specifier l'adresse avant de continuer"
-      );
+      this.setState({validationMessageUser: "Veuillez spécifier un adresse avant de continuer"});
     }
   }
   findUser(query) {
@@ -271,7 +273,7 @@ class Send extends Component {
       return <ActivityIndicator animating={true} />;
     } else {
       return (
-        <View style={styles.container}>
+        <View style={sendStyle.container}>
           <Header
             leftComponent={<DrawerMenu navigation={this.props.navigation} />}
             headerText={"20 Ar"}
@@ -306,12 +308,12 @@ class Send extends Component {
     return (
       <View style={sendStyle.buttonContainer}>
         <Button
-          buttonStyle={styles.controlButton}
+          buttonStyle={sendStyle.controlButton}
           icon={{ name: "clear-all", size: 25, color: "#474B51" }}
           onPress={this.onResetAction}
         />
         <Button
-          buttonStyle={styles.controlButton}
+          buttonStyle={sendStyle.controlButton}
           icon={{
             name: this.state.flashIcon,
             size: 25,
@@ -320,7 +322,7 @@ class Send extends Component {
           onPress={this.toggleFlash}
         />
         <Button
-          buttonStyle={styles.controlButton}
+          buttonStyle={sendStyle.controlButton}
           icon={{ name: "send", size: 25, color: "#474B51" }}
           onPress={this.onContinueAction}
         />
@@ -335,10 +337,11 @@ class Send extends Component {
           iconName="ios-bookmarks-outline"
           iconType="ionicon"
           placeholder="Envoyer à: Tel , Adresse ..."
-          onChangeText={user => this.setState({ user })}
+          onChangeText={user => this.setState({ user, validationMessageUser: false })}
           value={this.state.user}
           returnKeyType="next"
           blurOnSubmit={false}
+          validationMessage = {this.state.validationMessageUser}
         />
         <InputLeftButton
           buttonText={this.state.currency}
@@ -347,11 +350,12 @@ class Send extends Component {
           keyboardType="numeric"
           returnKeyType="done"
           editable={this.state.isEditable}
+          validationMessage = {this.state.validationMessageAmount}
           /*onFocus={() => {
           this._toNextStep(this.state.user);
         }}*/
           onChangeText={amount =>
-            this.setState({ amount: Services.formatNumber(amount) })
+            this.setState({ amount: Services.formatNumber(amount), validationMessageAmount: false })
           }
           onEndEditing={this.handleDoneEditing}
         />
@@ -370,83 +374,6 @@ class Send extends Component {
     );
   }
 }
-
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    flex: 1,
-    alignContent: "center"
-  },
-  simpleInput: {
-    flex: 1,
-    textAlign: "center",
-    paddingLeft: 0,
-    fontSize: 24
-  },
-  headerStyle: {
-    backgroundColor: "#1e8887"
-  },
-  controlButton: {
-    marginHorizontal: 50,
-    marginVertical: 5,
-    backgroundColor: "transparent" ///"rgba(52, 73, 94,1.0)" // "#448aff"
-  },
-  touchableButton: {
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: "#000",
-    justifyContent: "center"
-  },
-  modalContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(52, 73, 94,0.9)"
-  },
-  webViewContainer: {
-    width: width - 50,
-    height: 200,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    paddingTop: 50,
-    backgroundColor: "#FFF"
-  },
-  text: {
-    // textAlign: "center",
-    alignSelf: "center",
-    fontSize: 18,
-    marginHorizontal: 5,
-    color: "#000"
-  },
-  bottom: {
-    position: "absolute",
-    bottom: 0,
-    width: width - 50,
-    height: 50,
-    borderTopWidth: 1,
-    borderTopColor: "#e2e2e2",
-    alignItems: "center",
-    justifyContent: "center",
-    left: 0,
-    padding: 10
-  },
-  bottomText: {
-    fontSize: 18,
-    color: "#409bff"
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: "#e2e2e2",
-    /*borderRadius: 40,*/
-    height: 40,
-    width: width - 100,
-    paddingVertical: 10,
-    alignSelf: "center",
-    marginTop: 20
-  }
-});
 
 const NestedSendStack = StackNavigator({
   Send: {

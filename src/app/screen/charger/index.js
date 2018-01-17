@@ -250,14 +250,7 @@ class Charger extends Component {
         </View>
         <TouchableHighlight
           underlayColor={"#e2e2e2"}
-          style={{
-            justifyContent: "center",
-            backgroundColor: "#00cf7e",
-            borderRadius: 5,
-            height: 50,
-            width: width - 50,
-            marginBottom: 10
-          }}
+          style={styles.softRoundButton}
           onPress={this._handleValider}
         >
           <View>
@@ -356,6 +349,13 @@ const styles = EStyleSheet.create({
   },
   rechargeForm:{
     backgroundColor: "#fff"
+  },softRoundButton:{
+    justifyContent: "center",
+    backgroundColor: "$secondaryColor",
+    borderRadius: 5,
+    height: 50,
+    width: width - 50,
+    marginBottom: 10
   }
 });
 
