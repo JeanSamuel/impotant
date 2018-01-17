@@ -56,7 +56,7 @@ class Charger extends Component {
   renderHeader() {
     return (
       <Header
-        leftComponent={<Icon name={"menu"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
+        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
       />
     )
   };

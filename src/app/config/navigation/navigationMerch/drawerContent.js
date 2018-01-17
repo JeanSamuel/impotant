@@ -57,7 +57,6 @@ export default class DrawerContent extends Component {
           }
           this.setState({
             username: usname,
-            username: dataParsed.nom,
             avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
