@@ -90,8 +90,16 @@ export default DrawerNavigator(
     Profil: {
       screen: Profil,
       navigationOptions: ({ navigation }) => ({
-        drawerLabel: () => null,
-        drawerIcon: () => null
+        title: "Profil",
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="ios-contact-outline"
+            type="ionicon"
+            color={tintColor}
+            size={28}
+          />
+        ),
+        header: () => null
       })
     },
 

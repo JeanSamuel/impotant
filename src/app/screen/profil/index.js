@@ -25,7 +25,7 @@ const StackSettings = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Validation",
+    initialRouteName: "Profil",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })

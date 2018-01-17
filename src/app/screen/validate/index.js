@@ -27,7 +27,7 @@ const StackSettings = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Step1",
+    initialRouteName: "Step3",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })

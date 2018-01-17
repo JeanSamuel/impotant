@@ -46,7 +46,7 @@ export default class componentName extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.title}>
-          <Text h2>Validation de compte</Text>
+          <Text h3>Validation de compte</Text>
           <Text style={styles.soustitle}>
             Validez et profitez pleinement des services Ariary.net
           </Text>
@@ -75,7 +75,7 @@ export default class componentName extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 30,
-    backgroundColor: "white"
+    backgroundColor: "rgba(189, 195, 199,0.2)"
   },
   title: {
     alignItems: "center",
@@ -89,14 +89,15 @@ const styles = StyleSheet.create({
   bodytitle: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 20
+    paddingHorizontal: 20,
+    paddingBottom: 5,
+    backgroundColor: "white",
+    paddingTop: 15
   },
   bodytitletext: {
     fontWeight: "bold",
     fontSize: 20
   },
   bodytitleStep: { color: "#01C89E" },
-  stepIndicator: {
-    marginBottom: 20
-  }
+  stepIndicator: { paddingBottom: 5 }
 });

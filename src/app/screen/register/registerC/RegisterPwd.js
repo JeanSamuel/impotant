@@ -17,7 +17,8 @@ import Services from "../../../services/utils/services";
 import RegisterServices from "../../../services/user/registerServices";
 import { Loader } from "../../../components/loader";
 import styles from "../../../assets/styles/stylesC/registerStyles";
-
+//import { Util } from "../../../../../../../AppData/Local/Microsoft/TypeScript/2.6/node_modules/@types/expo";
+import { InscriptionService, Utils } from '../../../services'
 // create a component
 const { width } = Dimensions.get("window");
 let errorMessage = "Donnée entrer non valide";
@@ -47,41 +48,70 @@ class RegisterPwd extends Component {
     this.setState({ modal: null });
   }
 
-  registerNewAccount() {}
-  handleContinue() {
+  registerNewAccount() { }
+  // handleContinue() {
+  //   if (this.state.password.length === 0) {
+  //     this.setState({ hasError: true });
+  //     errorMessage = "Ne laisser pas le champ vide";
+  //   } else if (this.state.password.length < 4) {
+  //     this.setState({ hasError: true });
+  //     errorMessage = "Doit comporter au moins 4 caractères";
+  //   } else {
+  //     //console.log("continue");
+  //     this.createLoader("Enregistrement en cours");
+  //     let regServices = new RegisterServices();
+  //     regServices
+  //       .saveAccount(this.state.username)
+  //       .then(response => {
+  //         console.log(response);
+  //         this.removeLoader();
+  //         this.props.navigation.navigate("RegisterPin", {
+  //           user_id: this.state.username
+  //         });
+  //       })
+  //       .catch(error => {
+  //         //console.log(error, "Ato tsika zao");
+  //         this.removeLoader();
+  //         this.setState({ errorMessage: error.message });
+  //       });
+  //   }
+  // }
+  async handleContinue() {
     if (this.state.password.length === 0) {
-      this.setState({ hasError: true });
-      errorMessage = "Ne laisser pas le champ vide";
-    } else if (this.state.password.length < 4) {
-      this.setState({ hasError: true });
-      errorMessage = "Doit comporter au moins 4 caractères";
+      this.setState({ hasError: true })
+      errorMessage = 'Ne laisser pas le champ vide'
+    } else if (this.state.password.length < 6) {
+      this.setState({ hasError: true })
+      errorMessage = 'Doit comporter au moins 6 caractères'
     } else {
-      //console.log("continue");
-      this.createLoader("Enregistrement en cours");
-      let regServices = new RegisterServices();
-      regServices
-        .saveAccount(this.state.username)
-        .then(response => {
-          //console.log(response);
-          this.removeLoader();
-          this.props.navigation.navigate("RegisterPin", {
-            user_id: this.state.username
-          });
+      this.createLoader('Enregistrement en cours')
+      try {
+        await InscriptionService._registrationTemporaire(this)
+        this.removeLoader()
+        this.props.navigation.navigate('RegisterPin', {
+          user_id: this.state.username
         })
-        .catch(error => {
-          //console.log(error, "Ato tsika zao");
-          this.removeLoader();
-          this.setState({ errorMessage: error.message });
-        });
+      } catch (error) {
+        console.log(error);
+        this.removeLoader()
+        this.setState({ errorMessage: error.toString() });
+      }
     }
   }
   handleEndEditing() {
     if (this.state.password.length === 0) {
       this.setState({ hasError: true });
       errorMessage = "Ne laisser pas le champ vide";
-    } else if (this.state.password.length < 4) {
+    } else if (this.state.password.length < 6) {
       this.setState({ hasError: true });
-      errorMessage = "Doit comporter au moins 4 caractères";
+      errorMessage = "Doit comporter au moins 6 caractères";
+    } else {
+      try {
+        Utils._isValidPass(this.state.password);
+      } catch (error) {
+        this.setState({ hasError: true });
+        errorMessage = error.toString();
+      }
     }
   }
   render() {
@@ -144,7 +174,6 @@ class RegisterPwd extends Component {
                 underlineColorAndroid="transparent"
                 placeholder="Mot de passe"
                 onChangeText={text => {
-                  //console.log(text);
                   this.setState({
                     hasError: false,
                     password: text

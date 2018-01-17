@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import styles from "./modalStyles";
 import { Icon } from "react-native-elements";
-
+import PropTypes from "prop-types";
 // create a component
 class MyModal extends Component {
   constructor(props) {
@@ -51,5 +51,8 @@ class MyModal extends Component {
   }
 }
 
+MyModal.propTypes = {
+  remove: PropTypes.func
+};
 //make this component available to the app
 export default MyModal;

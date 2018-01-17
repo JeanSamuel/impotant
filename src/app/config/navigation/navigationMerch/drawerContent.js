@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import * as Animatable from "react-native-animatable";
-import {Avatar} from 'react-native-elements'
+import { Avatar } from 'react-native-elements'
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import Services from "../../../services/utils/services";
@@ -51,8 +51,12 @@ export default class DrawerContent extends Component {
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
+          let usname = dataParsed.nom;
+          if (usname == null || usname == "") {
+            usname = dataParsed.username;
+          }
           this.setState({
-            username: dataParsed.nom,
+            username: usname,
             avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
@@ -156,7 +160,7 @@ export default class DrawerContent extends Component {
           <Avatar
             large
             rounded
-            source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+            source={{ uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" }}
             onPress={this.goToProfil.bind(this)}
             activeOpacity={0.7}
           />
