@@ -1,7 +1,7 @@
 //import liraries
 import React from "react";
 import PropTypes from "prop-types";
-import {Header} from "react-native-elements"
+import { Header } from "react-native-elements"
 import styles from "./styles";
 
 
@@ -10,8 +10,8 @@ const MyHeader = ({ headerText, leftComponent, rightComponent }) => {
   return (
     <Header
       style={styles.header}
-      leftComponent = {leftComponent}
-      centerComponent = {{text: headerText, style:styles.headerText}}
+      leftComponent={leftComponent}
+      centerComponent={{ text: headerText, style: styles.headerText }}
       rightComponent={rightComponent}
     />
   );

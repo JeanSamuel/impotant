@@ -56,7 +56,7 @@ class Charger extends Component {
   renderHeader() {
     return (
       <Header
-        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
+        leftComponent={<Icon name={"menu"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
       />
     )
   };
@@ -86,6 +86,7 @@ class Charger extends Component {
         <FormInput
           ref={input1 => this.input = input1}
           onChangeText={this._handlePhoneInput}
+          onEndEditing={console.log(this.state.phoneNumber)}
           placeholder={"ex: +261 33 00 000 01"}
           underlineColorAndroid="transparent"
           keyboardType={'phone-pad'}
