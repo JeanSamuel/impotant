@@ -48,8 +48,12 @@ export default class DrawerContent extends Component {
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
+          let usname = dataParsed.nom;
+          if (usname == null || usname == "") {
+            usname = dataParsed.username;
+          }
           this.setState({
-            username: dataParsed.nom,
+            username: usname,
             account_id: dataParsed.code
           });
           this.checkSolde();

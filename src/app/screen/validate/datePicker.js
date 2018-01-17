@@ -1,53 +1,52 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import {
   FormLabel,
   FormInput,
-  FormValidationMessage,
-  Dimensions
+  FormValidationMessage
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 const deviceWidth = Dimensions.get("window").width;
 
-const DatePick = ({ date
-}) => (
+const DatePick = ({ date }) => (
   <View style={styles.formular}>
     <View style={styles.formular}>
-    <FormLabel containerStyle={styles.inputLabel}>
-      Date de naissance : *
-    </FormLabel>
-    <DatePicker
-      date={this.state.date}
-      mode="date"
-      style={{ width: deviceWidth - 20 }}
-      placeholder="Selectionner une date"
-      format="DD-MM-YYYY"
-      confirmBtnText="Confirmer"
-      cancelBtnText="Annuler"
-      maxDate="31-12-2018"
-      minDate="01-01-1940"
-      customStyles={{
-        dateIcon: {
-          position: "absolute",
-          right: 1,
-          top: 4,
-          marginLeft: 5
-        },
-        dateInput: styles.input
-      }}
-      onDateChange={date}
-    />
-    <FormValidationMessage />
-  </View>
+      <FormLabel containerStyle={styles.inputLabel}>
+        Date de naissance : *
+      </FormLabel>
+      <DatePicker
+        date={date}
+        mode="date"
+        style={{ width: deviceWidth - 20 }}
+        placeholder="Selectionner une date"
+        format="DD-MM-YYYY"
+        confirmBtnText="Confirmer"
+        cancelBtnText="Annuler"
+        maxDate="31-12-2018"
+        minDate="01-01-1940"
+        customStyles={{
+          dateIcon: {
+            position: "absolute",
+            right: 1,
+            top: 4,
+            marginLeft: 5
+          },
+          dateInput: styles.input
+        }}
+        onDateChange={() => console.log("")}
+      />
+      <FormValidationMessage />
+    </View>
   </View>
 );
 
 DatePick.propTypes = {
+  date: PropTypes.string
 };
 
 DatePick.defaultProps = {
-    date = ""
+  date: ""
 };
 
 export default DatePick;

@@ -14,7 +14,8 @@ const TextInput = ({
   references,
   focus,
   keyboardType,
-  secureTextEntry
+  secureTextEntry,
+  placeholder
 }) => (
   <View style={styles.formular}>
     <FormLabel containerStyle={styles.inputLabel}>{label} : *</FormLabel>
@@ -25,6 +26,7 @@ const TextInput = ({
       containerStyle={styles.input}
       keyboardType={keyboardType}
       secureTextEntry={secureTextEntry}
+      placeholder={placeholder}
     />
     <FormValidationMessage />
   </View>
@@ -35,13 +37,15 @@ TextInput.propTypes = {
   reference: PropTypes.string.isRequired,
   focus: PropTypes.bool,
   keyboardType: PropTypes.string,
-  secureTextEntry: PropTypes.bool
+  secureTextEntry: PropTypes.bool,
+  placeholder: PropTypes.string
 };
 
 TextInput.defaultProps = {
   focus: false,
   keyboardType: "default",
-  secureTextEntry: false
+  secureTextEntry: false,
+  placeholder: ""
 };
 
 export default TextInput;

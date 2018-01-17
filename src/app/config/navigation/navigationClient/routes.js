@@ -1,13 +1,13 @@
-import React, {Component} from "react";
-import {Alert, StyleSheet, View} from "react-native";
-import {StackNavigator} from "react-navigation";
+import React, { Component } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { StackNavigator } from "react-navigation";
 import {
   CustomKey, Handler, Landing, Login, Pin, Register, RegisterName, RegisterPin, RegisterPwd, Review
 } from "../../../screen/index";
 import Drawer from "./Drawer";
-import {Notifications} from "expo";
+import { Notifications } from "expo";
 import DropdownAlert from "react-native-dropdownalert";
-import {Utils} from '../../../services';
+import { Utils } from '../../../services';
 import Profil from "../../../screen/profil";
 
 class Navigateur extends Component {
@@ -55,51 +55,51 @@ class Navigateur extends Component {
       let finMessage = "Ar de la part de ";
       const message = debutMessage + amount + finMessage + sender;
       this.dropdown.alertWithType("info", title, message);
-    }else{
+    } else {
       let ret = this._generateMessage(data);
-			this.dropdown.alertWithType('success', ret.title, ret.str);
-			Alert.alert(ret.strtitle, ret.str);
+      this.dropdown.alertWithType('success', ret.title, ret.str);
+      Alert.alert(ret.strtitle, ret.str);
     }
   }
   _generateMessage(data) {
-		let type = data.type;
-		let title = data.title;
-		let amount = data.amount;
-		let tel = data.tel;
-		let balance = data.balance;
-		let result = data.result;
-		let str = null;
-		switch (type) {
-			case 'achat':
-				if (result == 'success') {
-					str = 'Votre compte a été credité de ' + Utils.formatNumber(amount);
-					str = str + ' Ariary';
-				} else {
-					str = "L'achat de " + Utils.formatNumber(amount) + ' Ariary à echoué';
-				}
-				break;
+    let type = data.type;
+    let title = data.title;
+    let amount = data.amount;
+    let tel = data.tel;
+    let balance = data.balance;
+    let result = data.result;
+    let str = null;
+    switch (type) {
+      case 'achat':
+        if (result == 'success') {
+          str = 'Votre compte a été credité de ' + Utils.formatNumber(amount);
+          str = str + ' Ariary';
+        } else {
+          str = "L'achat de " + Utils.formatNumber(amount) + ' Ariary à echoué';
+        }
+        break;
 
-			case 'transfert':
-				if (result == 'success') {
-					let expo = this.state.notification.data.expo;
-					if (expo == 'sent') {
-						str = 'Vous avez reçu une somme de ' + Utils.formatNumber(amount);
-						str = str + " Ariary, veuillez consulter l'historique pour voir le détail";
-					} else {
-						str = "Le transfert d'une somme de" + Utils.formatNumber(amount);
-						str = str + ' Ariary vers le compte ';
-						str = str + tel + ' est effectué  avec succès';
-					}
-				} else {
-					str = 'Le transfert  de ' + Utils.formatNumber(amount) + ' à echoué';
-				}
-				break;
-		}
-		return {
-			title,
-			str
-		};
-	}
+      case 'transfert':
+        if (result == 'success') {
+          let expo = this.state.notification.data.expo;
+          if (expo == 'sent') {
+            str = 'Vous avez reçu une somme de ' + Utils.formatNumber(amount);
+            str = str + " Ariary, veuillez consulter l'historique pour voir le détail";
+          } else {
+            str = "Le transfert d'une somme de" + Utils.formatNumber(amount);
+            str = str + ' Ariary vers le compte ';
+            str = str + tel + ' est effectué  avec succès';
+          }
+        } else {
+          str = 'Le transfert  de ' + Utils.formatNumber(amount) + ' à echoué';
+        }
+        break;
+    }
+    return {
+      title,
+      str
+    };
+  }
   dismissAlert = () => {
     this.dropdown.onClose();
   };
@@ -149,13 +149,13 @@ const MainNavigator = new StackNavigator(
     CustomKey: {
       screen: CustomKey,
       navigationOptions: ({ navigation }) => ({
-        header:()=>null
+        header: () => null
       })
     },
     Review: {
       screen: Review,
       navigationOptions: ({ navigation }) => ({
-        header:()=>null
+        header: () => null
       })
     },
     Drawer: {
