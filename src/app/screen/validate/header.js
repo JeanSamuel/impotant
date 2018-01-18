@@ -4,7 +4,7 @@ import StepIndicator from "react-native-step-indicator";
 import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
 
-const labels = ["Connexion", "Personnel", "Pièces jointes", "Succès"];
+const labels = ["Connexion", "Personnel", "Pièces jointes", "Récapitulation"];
 
 const customStyles = {
   stepIndicatorSize: 25,
@@ -31,14 +31,19 @@ const customStyles = {
   fontWeight: "10"
 };
 
-export default class componentName extends Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
   }
 
   static propTypes = {
     position: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    soustitle: PropTypes.string
+  };
+
+  static defaultProps = {
+    soustitle: ""
   };
 
   render = () => {
@@ -46,7 +51,7 @@ export default class componentName extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.title}>
-          <Text h2>Validation de compte</Text>
+          <Text h3>Validation de compte</Text>
           <Text style={styles.soustitle}>
             Validez et profitez pleinement des services Ariary.net
           </Text>
@@ -75,7 +80,7 @@ export default class componentName extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 30,
-    backgroundColor: "white"
+    backgroundColor: "rgba(189, 195, 199,0.2)"
   },
   title: {
     alignItems: "center",
@@ -89,14 +94,15 @@ const styles = StyleSheet.create({
   bodytitle: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 20
+    paddingHorizontal: 20,
+    paddingBottom: 5,
+    backgroundColor: "white",
+    paddingTop: 15
   },
   bodytitletext: {
     fontWeight: "bold",
     fontSize: 20
   },
   bodytitleStep: { color: "#01C89E" },
-  stepIndicator: {
-    marginBottom: 20
-  }
+  stepIndicator: { paddingBottom: 5 }
 });

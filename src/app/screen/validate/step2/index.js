@@ -7,8 +7,7 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
-import DatePicker from "react-native-datepicker";
-import { Header, TextInput } from "../allSteps";
+import { Header, TextInput, DatePicker } from "../allSteps";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -30,21 +29,22 @@ export default class componentName extends Component {
         <Header position={1} title="Information utilisateur" />
         <ScrollView behavior="padding" style={styles.body}>
           <TextInput label="Nom et prénoms" reference="nom" focus={true} />
-
-          <TextInput label="Pseudo" reference="pseudo" />
-          <TextInput label="Mot de passe" reference="pass" secureTextEntry />
+          <TextInput label="CIN ou Passeport" reference="nom" focus={true} />
+          <DatePicker label="date de naissance" reference="dateN" />
           <TextInput
-            label="Veuillez entrez de nouveau le mot de passe"
-            reference="passagain"
-            secureTextEntry
+            label="Téléphone"
+            reference="phone"
+            keyboardType="numeric"
           />
+          <TextInput label="Adresse" reference="adresse" />
+          <TextInput label="Ville" reference="ville" />
         </ScrollView>
         <View style={styles.buttonLeft}>
           <Button
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}

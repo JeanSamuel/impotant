@@ -5,10 +5,13 @@ import {
   FormLabel,
   FormInput,
   FormValidationMessage,
-  Button
+  Button,
+  Icon
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
-import { Header } from "../allSteps";
+import { NavigationActions } from "react-navigation";
+import { Header, TextInput } from "../allSteps";
+import userData from "../data.json";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -21,61 +24,70 @@ export default class componentName extends Component {
   }
 
   someFunction = () => {};
-  goToStep3 = () => {
-    this.props.navigation.navigate("AttachInfo");
+  goToNextStep = () => {
+    console.log("====================================");
+    console.log("mankato", this.props.navigation);
+    console.log("====================================");
+    let data = {
+      connexion: userData.connexion,
+      user: userData.user,
+      pieces: userData.pieces
+    };
+    this.props.navigation.navigate("Step4", data);
   };
   render() {
     return (
       <View style={styles.container}>
-        <Header position={2} title="Contact" />
+        <Header position={2} title="Pièces justificatifs" />
         <ScrollView behavior="padding" style={styles.body}>
-          <View style={styles.formular}>
-            <FormLabel containerStyle={styles.inputLabel}>
-              Numéro de téléphone : *
-            </FormLabel>
-            <FormInput
-              ref="input"
-              onChangeText={this.someFunction}
-              underlineColorAndroid="transparent"
-              autoFocus={true}
-              containerStyle={styles.input}
-            />
-            <FormValidationMessage />
+          <View style={styles.piecesjointesContainer}>
+            <View style={styles.piecesjointes}>
+              <View>
+                <Icon reverse name="user" color="#517fa4" type="font-awesome" />
+              </View>
+              <View style={styles.pieceTextCOntainer}>
+                <Text style={styles.pieceText}>
+                  Importer votre photo d'identité
+                </Text>
+              </View>
+            </View>
+            <FormValidationMessage>Trop volumineux</FormValidationMessage>
           </View>
-
-          <View style={styles.formular}>
-            <FormLabel containerStyle={styles.inputLabel}>Email : *</FormLabel>
-            <FormInput
-              ref="input"
-              onChangeText={this.someFunction}
-              underlineColorAndroid="transparent"
-              autoFocus={true}
-              containerStyle={styles.input}
-            />
-            <FormValidationMessage />
-          </View>
-
-          <View style={styles.formular}>
-            <FormLabel containerStyle={styles.inputLabel}>
-              Adresse : *
-            </FormLabel>
-            <FormInput
-              ref="input"
-              onChangeText={this.someFunction}
-              underlineColorAndroid="transparent"
-              containerStyle={styles.input}
-            />
-            <FormValidationMessage />
+          <View style={styles.piecesjointesContainer}>
+            <View style={styles.piecesjointes}>
+              <View>
+                <Icon
+                  reverse
+                  name="id-card-o"
+                  color="#517fa4"
+                  type="font-awesome"
+                />
+              </View>
+              <View style={styles.pieceTextCOntainer}>
+                <Text style={styles.pieceText}>
+                  Importer votre CIN ou Passeport
+                </Text>
+                <Text style={styles.pieceText}>(Recto-Verso)</Text>
+              </View>
+            </View>
           </View>
         </ScrollView>
         <View style={styles.buttonLeft}>
-          <Text />
+          <Button
+            small
+            title="Retour"
+            backgroundColor="transparent"
+            onPress={this.goToNextStep}
+            color="rgba(44, 62, 80,0.5)"
+            fontSize={18}
+            fontWeight={"bold"}
+          />
           <Button
             small
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor="#01C89E"
-            onPress={this.goToStep3}
+            onPress={this.goToNextStep}
           />
         </View>
       </View>
@@ -85,24 +97,31 @@ export default class componentName extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 20,
     backgroundColor: "white",
     flex: 1
   },
-  formular: { marginVertical: 0 },
-  input: {
-    backgroundColor: "rgba(189, 195, 199,0.1)",
-    borderColor: "rgba(189, 195, 199,0.5)",
-    borderWidth: 0.5,
-    borderRadius: 4,
-    paddingHorizontal: 15,
-    marginLeft: 20,
-    marginVertical: 0,
-    height: 40
-  },
-  inputLabel: {},
   buttonLeft: {
+    backgroundColor: "rgba(189, 195, 199,0.3)",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    paddingVertical: 10
+  },
+  piecesjointes: {
+    flexDirection: "row",
+    backgroundColor: "rgba(189, 195, 199,0.3)",
+
+    padding: 10
+  },
+  piecesjointesContainer: {
+    margin: 20
+  },
+  pieceTextCOntainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20
+  },
+  pieceText: {
+    fontWeight: "bold",
+    fontSize: 15
   }
 });

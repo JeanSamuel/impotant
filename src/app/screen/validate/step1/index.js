@@ -21,7 +21,7 @@ export default class componentName extends Component {
   }
 
   someFunction = () => {};
-  goToStep2 = () => {
+  goToNextStep = () => {
     this.props.navigation.navigate("Step2");
   };
   render() {
@@ -49,7 +49,7 @@ export default class componentName extends Component {
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}
@@ -59,7 +59,7 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor="#01C89E"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
           />
         </View>
       </View>
