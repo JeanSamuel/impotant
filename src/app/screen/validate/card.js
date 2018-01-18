@@ -4,11 +4,11 @@ import { Icon } from "react-native-elements";
 import PropTypes from "prop-types";
 
 const Card = ({ title, value, iconName, data }) => (
-  <TouchableOpacity onPress={() => console.log("")}>
+  <TouchableOpacity style={{ marginVertical: 5 }}>
     <View style={[styles.container]}>
       <View style={styles.iconRow}>
         <Icon
-          name="email"
+          name={iconName}
           underlayColor="transparent"
           iconStyle={styles.cardIcon}
           onPress={() => console.log("")}
@@ -16,7 +16,7 @@ const Card = ({ title, value, iconName, data }) => (
       </View>
       <View style={styles.cardRow}>
         <View style={styles.cardColumn}>
-          <Text style={styles.cardText}>{title}</Text>
+          <Text style={styles.cardTextTitle}>{title}</Text>
         </View>
       </View>
     </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    marginBottom: 20
+    marginVertical: 5
   },
   cardColumn: {
     flexDirection: "row",
@@ -72,13 +72,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "200"
   },
+  cardTextTitle: {
+    color: "gray",
+    fontSize: 20,
+    fontWeight: "bold"
+  },
   cardRow: {
     flex: 8,
     flexDirection: "column",
     justifyContent: "center"
   },
   cardText: {
-    fontSize: 16
+    fontSize: 18
   },
   iconRow: {
     flex: 2,

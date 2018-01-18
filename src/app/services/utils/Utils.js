@@ -1,8 +1,8 @@
-let PNF = require('google-libphonenumber').PhoneNumberFormat;
-let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-import {AsyncStorage, NetInfo,Share,Alert } from 'react-native';
-import { Permissions, Notifications } from 'expo';
-let instance=null;
+let PNF = require("google-libphonenumber").PhoneNumberFormat;
+let phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
+import { AsyncStorage, NetInfo, Share, Alert } from "react-native";
+import { Permissions, Notifications } from "expo";
+let instance = null;
 // create a component
 class Utils{
 	static getInstance() {

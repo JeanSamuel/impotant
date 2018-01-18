@@ -1,16 +1,17 @@
 //import liraries
 import React, { Component } from "react";
-import { Text, View, ScrollView, TouchableHighlight, Dimensions } from "react-native";
+import {Text, View, ScrollView, TouchableHighlight, Dimensions, Keyboard} from "react-native";
 import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Header } from '../../components/Header'
 import { AchatService, Utils } from '../../services'
-import { PinModal, Modal, MessagePrompt } from '../../components/modal'
+import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
 import colors from '../../config/constants/colors'
+import {HeaderButton} from '../../components/drawerMenu'
 import PropTypes from "prop-types";
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -29,7 +30,8 @@ class Charger extends Component {
       messageTitle: "Patientez!",
       makeTransaction: false,
       phoneNumber: "",
-      messageVisible: false,
+      messageVisible:false,
+      messageVisibleMini: false,
       pin: "",
       modal: null
     }
@@ -57,7 +59,16 @@ class Charger extends Component {
   renderHeader() {
     return (
       <Header
-        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
+        leftComponent={
+          <HeaderButton
+            iconName={"ios-arrow-back"}
+            color={"#fff"}
+            type={"ionicon"}
+            action={() => {
+              this.props.navigation.goBack(null);
+            }}
+          />
+        }
       />
     )
   };
@@ -119,7 +130,7 @@ class Charger extends Component {
   }
 
   removeModal() {
-    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false });
+    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false, messageVisibleMini: false});
   }
 
   _handlePinInput = text => {
@@ -176,33 +187,38 @@ class Charger extends Component {
     })
   }
 
-  _performRecharge = () => {
-    try {
+  _performRecharge = ()=>{
+    try{
       console.log("Instruction");
       this.setState({
         messageText: "Opération en cours de traitement",
         color: "#FF9521",
-        messageVisible: true,
-        loading: true,
-        error: false
-      });
-      AchatService._initAchat(this).then(() => {
+        messageVisible:true,
+        loading:true,
+        error:false});
+      AchatService._initAchat(this).then(()=>{
         let message = achatService.getInstructionByMobileMoneyPhoneNumber(this.state.phoneNumber);
-        this.setState({ messageVisible: false, loading: false });
-        console.log("Instruction" + message);
-        this.renderInstruction(message.contenue);
-      }).catch(err => {
-        console.log("erreur " + err);
         this.setState({
-          messageVisible: false,
           loading: false,
+          messageTitle: message.title,
+          messageText: message.contenue,
+          color: "#FF9521",
+          messageVisible: false,
+          iconName: "info",
+          messageVisibleMini :true,
+          error:false});
+        console.log("Instruction" + JSON.stringify(message));
+      }).catch(err => {
+        console.log("erreur "+err);
+        this.setState({
+          messageVisible:false,
+          loading:false,
           error: true,
-          errorMessage: err.message,
-        })
+          errorMessage: err.message,})
       })
     }
-    catch (err) {
-      this.setState({ error: true, errorMessage: err.message })
+    catch (err){
+      this.setState({error: true, errorMessage: err.message})
     }
   };
   _handleAmountInput = (text) => {
@@ -269,6 +285,17 @@ class Charger extends Component {
         {this.state.modal}
         {this.state.messageVisible ? (
           <MessagePrompt
+            onRequestClose={() => this.removeModal()}
+            iconName={this.state.iconName}
+            loading={this.state.loading}
+            text={this.state.messageText}
+            title={this.state.messageTitle}
+            error={this.state.error}
+            color={this.state.color}
+          />
+        ) : null}
+        {this.state.messageVisibleMini ? (
+          <MessagePromptMini
             onRequestClose={() => this.removeModal()}
             iconName={this.state.iconName}
             loading={this.state.loading}
