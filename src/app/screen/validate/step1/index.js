@@ -9,6 +9,7 @@ import {
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import { Header, TextInput } from "../allSteps";
+import Services from "../validationservices";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -26,6 +27,28 @@ export default class componentName extends Component {
       passAgainError: false
     };
   }
+
+  checkValidation = () => {
+    let services = new Services();
+    this.setState({ emailError: services.checkMail(this.state.email) });
+    this.setState({ pseudoError: services.checkPseudo(this.state.pseudo) });
+    this.setState({ passError: services.checkPass(this.state.pass) });
+    this.setState({
+      passAgainError: services.checkPassAgain(
+        this.state.pass,
+        this.state.passAgain
+      )
+    });
+  };
+
+  sommeError = () => {
+    return (
+      this.state.emailError +
+      this.state.passError +
+      this.state.passAgainError +
+      this.state.pseudoError
+    );
+  };
   // Validation
   validMail() {
     this.pseudo.focus();
@@ -36,27 +59,48 @@ export default class componentName extends Component {
   validPass() {
     this.passAgain.focus();
   }
-  validAll() {}
+
+  validAll = () => {
+    this.checkValidation();
+    let somme = this.sommeError();
+    console.log("====================================");
+    console.log(somme);
+    console.log("====================================");
+    if (somme == 0) {
+      this.goToNextStep();
+    }
+  };
 
   // handling
   _handleEmail = email => {
-    this.setState({ email });
+    this.setState({
+      email,
+      emailError: false
+    });
   };
 
   _handlePseudo = pseudo => {
-    this.setState({ pseudo });
+    this.setState({
+      pseudo,
+      pseudoError: false
+    });
   };
 
   _handlePass = pass => {
-    this.setState({ pass });
+    this.setState({
+      pass,
+      passError: false
+    });
   };
 
   _handleAll = passAgain => {
-    this.setState({ passAgain });
+    this.setState({ passAgain, passAgainError: false });
   };
 
   goToNextStep = () => {
-    this.pseudo.focus();
+    console.log("====================================");
+    console.log("mankato v");
+    console.log("====================================");
     this.props.navigation.navigate("Step2");
   };
 
@@ -141,7 +185,7 @@ export default class componentName extends Component {
           containerStyle={styles.input}
           secureTextEntry
           ref={input => (this.passAgain = input)}
-          onSubmitEditing={() => this.validAll()}
+          onSubmitEditing={this.checkValidation}
         />
         {this.state.passAgainError ? (
           <FormValidationMessage>
@@ -176,7 +220,7 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor="#01C89E"
-            onPress={this.goToNextStep}
+            onPress={this.validAll}
           />
         </View>
       </View>

@@ -81,7 +81,7 @@ class Utils {
       )
     ) {
       ret = false;
-      throw "Veuillez entrer une adresse email valide!!!";
+      throw "Veuillez entrer un adresse email valide!!!";
     }
     return ret;
   }
