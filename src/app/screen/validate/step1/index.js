@@ -42,12 +42,16 @@ export default class componentName extends Component {
   };
 
   sommeError = () => {
-    return (
-      this.state.emailError +
-      this.state.passError +
-      this.state.passAgainError +
-      this.state.pseudoError
-    );
+    if (
+      this.state.emailError === 0 &&
+      this.state.pseudoError === 0 &&
+      this.state.passError === 0 &&
+      this.state.passAgainError === 0
+    ) {
+      return true;
+    }
+
+    return false;
   };
   // Validation
   validMail() {
@@ -60,16 +64,19 @@ export default class componentName extends Component {
     this.passAgain.focus();
   }
 
-  validAll = () => {
+  validAll() {
     this.checkValidation();
     let somme = this.sommeError();
     console.log("====================================");
-    console.log(somme);
+    console.log(somme, "eto ho eto ah ");
     console.log("====================================");
-    if (somme == 0) {
+    if (somme) {
+      console.log("====================================");
+      console.log("tafiditr de merde ato ah ", somme);
+      console.log("====================================");
       this.goToNextStep();
     }
-  };
+  }
 
   // handling
   _handleEmail = email => {
@@ -98,9 +105,6 @@ export default class componentName extends Component {
   };
 
   goToNextStep = () => {
-    console.log("====================================");
-    console.log("mankato v");
-    console.log("====================================");
     this.props.navigation.navigate("Step2");
   };
 
@@ -220,7 +224,7 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor="#01C89E"
-            onPress={this.validAll}
+            onPress={this.validAll.bind(this)}
           />
         </View>
       </View>
