@@ -18,19 +18,20 @@ const StackSettings = new StackNavigator(
   {
     Step1: {
       screen: Step1
-    },
-    Step2: {
-      screen: Step2
-    },
-    Step3: {
-      screen: Step3
-    },
-    Step4: {
-      screen: Step4
     }
+    // },
+    // Step2: {
+    //   screen: Step2
+    // },
+    // Step3: {
+    //   screen: Step3
+    // },
+    // Step4: {
+    //   screen: Step4
+    // }
   },
   {
-    initialRouteName: "Step3",
+    initialRouteName: "Step1",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })

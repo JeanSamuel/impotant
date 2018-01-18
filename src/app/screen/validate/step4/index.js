@@ -53,18 +53,29 @@ export default class Step4 extends Component {
 
   renderConnexion = () => {
     const { connexion } = this.props.navigation.state.params;
-    return <Card data={connexion} title={"Connexion"} iconName={"home"} />;
+    return (
+      <Card data={connexion} title={"Connexion"} iconName={"verified-user"} />
+    );
   };
 
   renderUser = () => {
     const { user } = this.props.navigation.state.params;
-    return <Card data={user} title={"Utilisateur"} iconName={"user"} />;
+    return <Card data={user} title={"Utilisateur"} iconName={"contacts"} />;
   };
 
   renderPieces = () => {
     const { pieces } = this.props.navigation.state.params;
-    return <Card data={pieces} title={"Pièces jointes"} iconName={"home"} />;
+    return (
+      <Card data={pieces} title={"Pièces jointes"} iconName={"add-a-photo"} />
+    );
   };
+
+  goToNextStep = () => {
+    console.log("====================================");
+    console.log("mankato", this.props.navigation);
+    console.log("====================================");
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -75,15 +86,25 @@ export default class Step4 extends Component {
           {this.renderUser()}
           {Separator()}
           {this.renderPieces()}
-
-          <View style={[styles.BouttonContainer]}>
-            <Button
-              title="Voir le profil"
-              backgroundColor="#01C89E"
-              onPress={this.goToNextStep}
-            />
-          </View>
         </ScrollView>
+        <View style={styles.buttonLeft}>
+          <Button
+            small
+            title="Retour"
+            backgroundColor="transparent"
+            onPress={this.goToNextStep}
+            color="rgba(44, 62, 80,0.5)"
+            fontSize={18}
+            fontWeight={"bold"}
+          />
+          <Button
+            small
+            iconRight={{ name: "arrow-forward" }}
+            title="Je valide ces informations"
+            backgroundColor="#01C89E"
+            onPress={this.goToNextStep}
+          />
+        </View>
       </View>
     );
   }

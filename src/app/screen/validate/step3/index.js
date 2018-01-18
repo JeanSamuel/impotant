@@ -85,7 +85,7 @@ export default class componentName extends Component {
           <Button
             small
             iconRight={{ name: "arrow-forward" }}
-            title="Etape suivante"
+            title="Validation"
             backgroundColor="#01C89E"
             onPress={this.goToNextStep}
           />
