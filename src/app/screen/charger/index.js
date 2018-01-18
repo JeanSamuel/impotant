@@ -6,7 +6,7 @@ import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Header } from '../../components/Header'
 import { AchatService, Utils } from '../../services'
-import { PinModal, Modal, MessagePrompt } from '../../components/modal'
+import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
@@ -280,6 +280,17 @@ class Charger extends Component {
         {this.state.modal}
         {this.state.messageVisible ? (
           <MessagePrompt
+            onRequestClose={() => this.removeModal()}
+            iconName={this.state.iconName}
+            loading={this.state.loading}
+            text={this.state.messageText}
+            title={this.state.messageTitle}
+            error={this.state.error}
+            color={this.state.color}
+          />
+        ) : null}
+        {this.state.messageVisibleMini ? (
+          <MessagePromptMini
             onRequestClose={() => this.removeModal()}
             iconName={this.state.iconName}
             loading={this.state.loading}
