@@ -24,7 +24,7 @@ import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/utils/services";
 import inputStyles from "../../components/TextInput/styles";
 import AutoComplete from "react-native-autocomplete-input";
-import { HistoryServices } from "../../services";
+import { HistoryServices, UserService } from "../../services";
 import _ from "lodash";
 import To from "./To";
 import { SendLoader } from "../../components/loader";
@@ -77,8 +77,23 @@ class Send extends Component {
         }
       });
     });
-  }
 
+  }
+  getRole() {
+    let services = new Services();
+    let role = null;
+    services
+      .getData("userInfo")
+      .then(response => {
+        if (response != null) {
+          let dataParsed = JSON.parse(response);
+          role = dataParsed.roles[0];
+        }
+      })
+      .catch(error => {
+        services.createError(error, "erreur response getting user roles");
+      });
+  }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.backHandler);
     Services.haveFingerprint().then(hasFingerPrint => {
@@ -166,28 +181,32 @@ class Send extends Component {
   };
 
   onContinueAction = () => {
-    if (this.state.amount == 0) {
-      console.log("Amount 0");
-      this.setState({ validationMessageAmount: "Veuillez spécifier un montant valide" });
-    }
-    if (this.state.user === "") {
-      console.log("User vide");
-      this.setState({ validationMessageUser: "Veuillez entrer un adresse avant de continuer" });
-    }
-    if (this.state.user !== "" && this.state.amount != 0) {
-      this.navigateToReview(
-        this.state.user,
-        this.state.accountName,
-        this.state.amount,
-        this.state.user_id,
-        this.state.user
-      );
+    let r = UserService.getRoles(this.getRole())
+    if (r == 1) {
+      this.setState({ validationMessageUser: "Vous n'avez pas accès à ce service, veuiller completer vos informations" })
+    } else {
+      if (this.state.amount == 0) {
+        console.log("Amount 0");
+        this.setState({ validationMessageAmount: "Veuillez spécifier un montant valide" });
+      }
+      if (this.state.user === "") {
+        console.log("User vide");
+        this.setState({ validationMessageUser: "Veuillez entrer un adresse avant de continuer" });
+      }
+      if (this.state.user !== "" && this.state.amount != 0) {
+        this.navigateToReview(
+          this.state.user,
+          this.state.accountName,
+          this.state.amount,
+          this.state.user_id,
+          this.state.user
+        );
+      }
     }
   };
   _handleBarCodeRead = data => {
     let qdata = Object();
     qdata = data.data;
-    // //console.log(qdata);
     if (qdata.includes("trans")) {
       this.setState({ cameraEnabled: false });
       readData = JSON.parse(qdata);
@@ -199,8 +218,6 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        // // this.prompAmount();
-        // //console.log(readData);
         this.setState({ cameraEnabled: false });
         this._toNextStep(readData.u, readData.n);
       }

@@ -61,7 +61,7 @@ class Utils{
 	_isValidPass(pass) {
 		let ret = true;
 		let msg =
-			'Le mot de passe doit contenir au moins 6 caractères: au moins un caractère minuscule,un caractère majuscule et un chiffre';
+			'Doit contenir au moins 6 caractères avec caractère(s) minuscule(s),caractère(s) majuscule(s) et chiffre(s)';
 		if (!/^(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(pass)) {
 			ret = false;
 			throw msg;

@@ -73,20 +73,6 @@ export default DrawerNavigator(
         header: () => null
       })
     },
-    About: {
-      screen: About,
-      navigationOptions: ({ navigation }) => ({
-        title: "A propos",
-        drawerIcon: ({ tintColor }) => (
-          <Icon
-            name="ios-information-circle-outline"
-            type="ionicon"
-            size={28}
-          />
-        ),
-        header: () => null
-      })
-    },
     Profil: {
       screen: Profil,
       navigationOptions: ({ navigation }) => ({
@@ -102,7 +88,20 @@ export default DrawerNavigator(
         header: () => null
       })
     },
-
+    About: {
+      screen: About,
+      navigationOptions: ({ navigation }) => ({
+        title: "A propos",
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="ios-information-circle-outline"
+            type="ionicon"
+            size={28}
+          />
+        ),
+        header: () => null
+      })
+    },
     Logout: {
       screen: Logout,
       navigationOptions: ({ navigation }) => ({

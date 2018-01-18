@@ -1,5 +1,5 @@
 import config from '../../config/data/dataM';
-import {Utils} from '../';
+import { Utils } from '../';
 
 const BASEURL = config.ARIARY_BASE_URL;
 let instance = null;
@@ -78,7 +78,7 @@ class UserService {
   async updateUserPass(dataUser, activity) {
     let msg = null;
     var success = false;
-    activity.setState({loading: true});
+    activity.setState({ loading: true });
     let url = BASEURL + 'change_password';
     if (dataUser != null) {
       try {
@@ -111,10 +111,10 @@ class UserService {
       } catch (error) {
         throw error.toString();
       } finally {
-        activity.setState({loading: false});
+        activity.setState({ loading: false });
       }
     } else {
-      activity.setState({loading: false});
+      activity.setState({ loading: false });
       msg = 'Aucune information saisie!!!';
       throw msg;
     }
@@ -187,13 +187,13 @@ class UserService {
     return solde;
   }
   async loadConfig(activity) {
-    activity.setState({loading: true});
+    activity.setState({ loading: true });
     try {
       let params = await this.getParamsConfig(activity);
-      activity.setState({loading: false});
-      activity.props.navigation.navigate('Config', {dataUser: params});
+      activity.setState({ loading: false });
+      activity.props.navigation.navigate('Config', { dataUser: params });
     } catch (error) {
-      activity.setState({loading: false});
+      activity.setState({ loading: false });
       throw error.toString();
     }
   }
@@ -225,7 +225,7 @@ class UserService {
         params: params,
         isTemp: this.getRoles(test),
       };
-      activity.props.navigation.navigate('Config', {dataUser: params});
+      activity.props.navigation.navigate('Config', { dataUser: params });
     } catch (error) {
       throw error.toString();
     }

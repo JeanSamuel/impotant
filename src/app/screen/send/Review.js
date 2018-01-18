@@ -120,11 +120,11 @@ class Review extends Component {
     let services = new QrServices();
     services
       .performTransation(
-        this.state.amount,
-        this.state.user_id,
-        this.state.currency,
-        this.state.user,
-        ""
+      this.state.amount,
+      this.state.user_id,
+      this.state.currency,
+      this.state.user,
+      ""
       )
       .then(rep => {
         //console.log(rep);
@@ -326,14 +326,14 @@ const styles = EStyleSheet.create({
   },
   reviewText: {
     color: "#404040"
-  },softRoundButton:{
-  justifyContent: "center",
+  }, softRoundButton: {
+    justifyContent: "center",
     backgroundColor: "$secondaryColor",
     borderRadius: 5,
     height: 50,
     width: width - 50,
     marginBottom: 10
-}
+  }
 });
 
 //make this component available to the app

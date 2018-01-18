@@ -128,16 +128,23 @@ class Charger extends Component {
     //console.log(text);
     if (text.length === 4) {
       if (this.state.pin === text) {
-        // //console.log("Ataovy le transaction");
         this.removeModal();
         this._performRecharge();
       } else {
-        //console.log("error");
         this.setState({ pinErrorMessage: this.renderErrorMessage() });
       }
     }
   };
 
+  renderErrorMessage() {
+    return (
+      <View style={{ justifyContent: "center" }}>
+        <Text style={{ textAlign: "center" }}>
+          Le Pin que vous avez entré n'est pas valide
+        </Text>
+      </View>
+    );
+  }
   renderPinModal() {
     if (this.state.haveFingerprint) {
       this.setState({ makeTransaction: true });
