@@ -19,14 +19,13 @@ const RoundedButton = props => {
           buttonStyle,
           {
             backgroundColor: color,
-            borderRadius: 50,
+            borderRadius: 30,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
             alignSelf: "center",
             paddingHorizontal: 20,
-            height: 45,
-            width: width - 45
+            width: width - 50
           }
         ]}
         onPress={onPress}

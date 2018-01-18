@@ -5,6 +5,7 @@ import { RoundedButton } from "../../../components/Buttons";
 import { Icon } from "react-native-elements";
 import { Footer } from "../../../components/Footer";
 import styles from "../../../assets/styles/stylesC/registerStyles";
+import colors from '../../../config/constants/colors'
 
 // create a component
 
@@ -135,7 +136,7 @@ class RegisterName extends Component {
                 this.handleContinue();
               }}
               disabled={this.state.hasError}
-              color="#1e9228"
+              color={colors.$secondaryColor}
               buttonStyle={{
                 marginVertical: 15
               }}
