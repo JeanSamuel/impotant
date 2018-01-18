@@ -19,6 +19,7 @@ import { Loader } from "../../../components/loader";
 import styles from "../../../assets/styles/stylesC/registerStyles";
 //import { Util } from "../../../../../../../AppData/Local/Microsoft/TypeScript/2.6/node_modules/@types/expo";
 import { InscriptionService, Utils } from '../../../services'
+import colors from '../../../config/constants/colors'
 // create a component
 const { width } = Dimensions.get("window");
 let errorMessage = "Donnée entrer non valide";
@@ -48,34 +49,6 @@ class RegisterPwd extends Component {
     this.setState({ modal: null });
   }
 
-  registerNewAccount() { }
-  // handleContinue() {
-  //   if (this.state.password.length === 0) {
-  //     this.setState({ hasError: true });
-  //     errorMessage = "Ne laisser pas le champ vide";
-  //   } else if (this.state.password.length < 4) {
-  //     this.setState({ hasError: true });
-  //     errorMessage = "Doit comporter au moins 4 caractères";
-  //   } else {
-  //     //console.log("continue");
-  //     this.createLoader("Enregistrement en cours");
-  //     let regServices = new RegisterServices();
-  //     regServices
-  //       .saveAccount(this.state.username)
-  //       .then(response => {
-  //         console.log(response);
-  //         this.removeLoader();
-  //         this.props.navigation.navigate("RegisterPin", {
-  //           user_id: this.state.username
-  //         });
-  //       })
-  //       .catch(error => {
-  //         //console.log(error, "Ato tsika zao");
-  //         this.removeLoader();
-  //         this.setState({ errorMessage: error.message });
-  //       });
-  //   }
-  // }
   async handleContinue() {
     if (this.state.password.length === 0) {
       this.setState({ hasError: true })
@@ -205,7 +178,7 @@ class RegisterPwd extends Component {
                 this.handleContinue();
               }}
               disabled={this.state.hasError}
-              color="#1e9228"
+              color={colors.$secondaryColor}
               buttonStyle={{
                 marginVertical: 15
               }}

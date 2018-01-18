@@ -33,10 +33,10 @@ class UserData extends Component {
           </View>
           <View style={styles.emailRow}>
             <View style={styles.emailColumn}>
-              <Text style={styles.emailText}>Toavina Ralambosoa</Text>
+              <Text style={styles.emailText}>{this.props.name}</Text>
             </View>
             <View style={styles.emailNameColumn}>
-              <Text style={styles.emailNameText}>24 mai 1995</Text>
+              <Text style={styles.emailNameText}>{this.props.birthday}</Text>
             </View>
             {!this.state.isHidden && <Child />}
           </View>

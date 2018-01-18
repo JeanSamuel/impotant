@@ -1,22 +1,9 @@
 //import liraries
 import React, { Component } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  BackHandler,
-  Dimensions,
-  Keyboard,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  KeyboardAvoidingView
-} from "react-native";
+import { ActivityIndicator, BackHandler, Dimensions, Keyboard, Platform, StyleSheet, Text, View } from "react-native";
 import { StackNavigator } from "react-navigation";
-import { Button, Icon, FormValidationMessage } from "react-native-elements";
+import { Button } from "react-native-elements";
 import Toast from "react-native-easy-toast";
-import headStyle from "../../assets/styles/stylesC/headerStyle";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
 import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
 import { IconBadge } from "../../components/icon";
@@ -29,7 +16,6 @@ import _ from "lodash";
 import To from "./To";
 import { SendLoader } from "../../components/loader";
 import Header from "../../components/Header/Header";
-import HeaderRight from "../history/headerRight";
 import DrawerMenu from "../../components/drawerMenu/drawerMenu";
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -78,21 +64,6 @@ class Send extends Component {
       });
     });
 
-  }
-  getRole() {
-    let services = new Services();
-    let role = null;
-    services
-      .getData("userInfo")
-      .then(response => {
-        if (response != null) {
-          let dataParsed = JSON.parse(response);
-          role = dataParsed.roles[0];
-        }
-      })
-      .catch(error => {
-        services.createError(error, "erreur response getting user roles");
-      });
   }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.backHandler);
@@ -181,35 +152,32 @@ class Send extends Component {
   };
 
   onContinueAction = () => {
-    let r = UserService.getRoles(this.getRole())
-    if (r == 1) {
-      this.setState({ validationMessageUser: "Vous n'avez pas accès à ce service, veuiller completer vos informations" })
-    } else {
-      if (this.state.amount == 0) {
-        console.log("Amount 0");
-        this.setState({ validationMessageAmount: "Veuillez spécifier un montant valide" });
-      }
-      if (this.state.user === "") {
-        console.log("User vide");
-        this.setState({ validationMessageUser: "Veuillez entrer un adresse avant de continuer" });
-      }
-      if (this.state.user !== "" && this.state.amount != 0) {
-        this.navigateToReview(
-          this.state.user,
-          this.state.accountName,
-          this.state.amount,
-          this.state.user_id,
-          this.state.user
-        );
-      }
+    if (this.state.amount == 0) {
+      console.log("Amount 0");
+      this.setState({ validationMessageAmount: "Veuillez spécifier un montant valide" });
+    }
+    if (this.state.user === "") {
+      console.log("User vide");
+      this.setState({ validationMessageUser: "Veuillez entrer un adresse avant de continuer" });
+    }
+    if (this.state.user !== "" && this.state.amount != 0) {
+      this.navigateToReview(
+        this.state.user,
+        this.state.accountName,
+        this.state.amount,
+        this.state.user_id,
+        this.state.user
+      );
     }
   };
   _handleBarCodeRead = data => {
     let qdata = Object();
     qdata = data.data;
+    //let qdata = data.data;
+    // //console.log(qdata);
     if (qdata.includes("trans")) {
       this.setState({ cameraEnabled: false });
-      readData = JSON.parse(qdata);
+      let readData = JSON.parse(qdata);
       this.setState({
         amount: readData.a,
         currency: readData.c,
@@ -291,11 +259,7 @@ class Send extends Component {
     } else {
       return (
         <View style={sendStyle.container}>
-          <Header
-            leftComponent={<DrawerMenu navigation={this.props.navigation} />}
-            headerText={"20 Ar"}
-            rightComponent={<IconBadge navigation={this.props.navigation} />}
-          />
+          {this.renderHeader()}
           {this.state.loading ? (
             <SendLoader loading={this.state.loading} />
           ) : (
@@ -319,6 +283,14 @@ class Send extends Component {
         </View>
       );
     }
+  }
+
+  renderHeader() {
+    return <Header
+      leftComponent={<DrawerMenu navigation={this.props.navigation} />}
+      headerText={"20 Ar"}
+      rightComponent={<IconBadge navigation={this.props.navigation} />}
+    />;
   }
 
   renderBottomControl() {
@@ -405,11 +377,5 @@ const NestedSendStack = StackNavigator({
       header: () => null
     })
   }
-  // History: {
-  //   screen: History,
-  //   navigationOptions: ({ navigation }) => ({
-  //     header: () => null
-  //   })
-  // }
 });
 export default NestedSendStack;

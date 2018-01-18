@@ -10,6 +10,7 @@ import { PinModal, Modal, MessagePrompt } from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
+import colors from '../../config/constants/colors'
 import PropTypes from "prop-types";
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -113,8 +114,6 @@ class Charger extends Component {
             </FormValidationMessage>
           )
           : null}
-
-
       </View>
     )
   }
@@ -213,7 +212,7 @@ class Charger extends Component {
   _handlePhoneInput = (phone) => {
     console.log(phone, this.state.phoneNumber);
     try {
-      let formatedPhone = achatService._parsePhone(phone, 'mg');
+      let formatedPhone = AchatService._parsePhone(phone, 'mg');
       this.setState({ phoneNumber: formatedPhone })
     }
     catch (err) {
@@ -246,7 +245,7 @@ class Charger extends Component {
           underlayColor={"#e2e2e2"}
           style={{
             justifyContent: "center",
-            backgroundColor: "#00cf7e",
+            backgroundColor: colors.$secondaryColor,
             borderRadius: 5,
             height: 50,
             width: width - 50,
