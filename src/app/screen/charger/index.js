@@ -1,36 +1,36 @@
 //import liraries
-import React, {Component} from "react";
-import {Text, View, ScrollView, TouchableHighlight, Dimensions} from "react-native";
-import {StackNavigator} from "react-navigation";
-import {DrawerMenu} from "../../components/drawerMenu/";
+import React, { Component } from "react";
+import { Text, View, ScrollView, TouchableHighlight, Dimensions } from "react-native";
+import { StackNavigator } from "react-navigation";
+import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
-import {Header} from '../../components/Header'
-import {AchatService, Utils} from '../../services'
-import {PinModal, Modal, MessagePrompt} from '../../components/modal'
+import { Header } from '../../components/Header'
+import { AchatService, Utils } from '../../services'
+import { PinModal, Modal, MessagePrompt } from '../../components/modal'
 import Services from '../../services/utils/services'
-import {InputLeftIcon} from '../../components/TextInput';
-import {FormInput, FormLabel,FormValidationMessage, Icon} from 'react-native-elements'
-
+import { InputLeftIcon } from '../../components/TextInput';
+import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
+import PropTypes from "prop-types";
 // create a component
 const { height, width } = Dimensions.get("window");
 const achatService = AchatService;
 class Charger extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       loading: false,
       account_id: "",
-      username:"",
+      username: "",
       error: false,
       amount: "",
       errorMessage: "",
-      pinErrorMessage : null,
+      pinErrorMessage: null,
       messageTitle: "Patientez!",
       makeTransaction: false,
       phoneNumber: "",
-      messageVisible:false,
+      messageVisible: false,
       pin: "",
-      modal:null
+      modal: null
     }
   }
   componentWillMount() {
@@ -41,27 +41,27 @@ class Charger extends Component {
     Services.haveFingerprint().then(haveFingerprint => {
       this.setState({ haveFingerprint: haveFingerprint });
     });
-    Utils.getItem('userInfo').then(userData=>{
+    Utils.getItem('userInfo').then(userData => {
       jsonData = JSON.parse(userData);
       this.setState({
         userinfo: jsonData,
         account_id: jsonData.code,
         username: jsonData.username
       })
-    }).catch(err=>{
-      console.log("Erreur: "+err.message);
+    }).catch(err => {
+      console.log("Erreur: " + err.message);
     })
 
   }
-  renderHeader(){
-    return(
+  renderHeader() {
+    return (
       <Header
-        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={()=>this.props.navigation.goBack(null)}/>}
-        />
+        leftComponent={<Icon name={"arrow-back"} color={"#fff"} onPress={() => this.props.navigation.goBack(null)} />}
+      />
     )
   };
-  renderHeandingTitle(){
-    return(
+  renderHeandingTitle() {
+    return (
       <View style={styles.headingTitle}>
         <View>
           <Icon
@@ -70,13 +70,13 @@ class Charger extends Component {
             size={45}
             color={"#fff"}
           />
-          <Text style = {styles.headingText}>Recharger avec Mobile Money</Text>
+          <Text style={styles.headingText}>Recharger avec Mobile Money</Text>
         </View>
       </View>
     )
   }
-  renderRechargeForm(){
-    return(
+  renderRechargeForm() {
+    return (
       <View style={styles.rechargeForm}>
         <FormLabel
           containerStyle={styles.labelContainerStyle}
@@ -85,7 +85,7 @@ class Charger extends Component {
         </FormLabel>
         <FormInput
           ref={input1 => this.input = input1}
-          onChangeText = {this._handlePhoneInput}
+          onChangeText={this._handlePhoneInput}
           placeholder={"ex: +261 33 00 000 01"}
           underlineColorAndroid="transparent"
           keyboardType={'phone-pad'}
@@ -99,8 +99,8 @@ class Charger extends Component {
         </FormLabel>
         <FormInput
           ref={input2 => this.input = input2}
-          onChangeText = {this._handleAmountInput}
-          placeholder = {"Montant du recharge"}
+          onChangeText={this._handleAmountInput}
+          placeholder={"Montant du recharge"}
           underlineColorAndroid="transparent"
           inputStyle={styles.inputStyle}
           containerStyle={styles.inputContainerStyle}
@@ -120,7 +120,7 @@ class Charger extends Component {
   }
 
   removeModal() {
-    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false});
+    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false });
   }
 
   _handlePinInput = text => {
@@ -138,7 +138,7 @@ class Charger extends Component {
     }
   };
 
-  renderPinModal(){
+  renderPinModal() {
     if (this.state.haveFingerprint) {
       this.setState({ makeTransaction: true });
     } else {
@@ -155,71 +155,74 @@ class Charger extends Component {
       });
     }
   }
-  renderInstruction(instruction){
+  renderInstruction(instruction) {
     this.setState({
-      modal:(
+      modal: (
         <Modal
-          remove = {this.removeModal()}
+          remove={this.removeModal()}
           data={
             <View>
               <Text>{instruction}</Text>
             </View>
-            }
+          }
         />)
 
     })
   }
 
-  _performRecharge = ()=>{
-    try{
+  _performRecharge = () => {
+    try {
       console.log("Instruction");
       this.setState({
         messageText: "Opération en cours de traitement",
         color: "#FF9521",
-        messageVisible:true,
-        loading:true,
-        error:false});
-      AchatService._initAchat(this).then(()=>{
+        messageVisible: true,
+        loading: true,
+        error: false
+      });
+      AchatService._initAchat(this).then(() => {
         let message = achatService.getInstructionByMobileMoneyPhoneNumber(this.state.phoneNumber);
-        this.setState({messageVisible: false, loading: false});
+        this.setState({ messageVisible: false, loading: false });
         console.log("Instruction" + message);
         this.renderInstruction(message.contenue);
       }).catch(err => {
-        console.log("erreur "+err);
+        console.log("erreur " + err);
         this.setState({
-          messageVisible:false,
-          loading:false,
+          messageVisible: false,
+          loading: false,
           error: true,
-          errorMessage: err.message,})
+          errorMessage: err.message,
+        })
       })
     }
-    catch (err){
-      this.setState({error: true, errorMessage: err.message})
+    catch (err) {
+      this.setState({ error: true, errorMessage: err.message })
     }
   };
-  _handleAmountInput = (text) =>{
+  _handleAmountInput = (text) => {
     console.log("ato tsika zao montant");
-    this.setState({amount: Services.formatNumber(text)})
+    this.setState({ amount: Services.formatNumber(text) })
   };
-  _handlePhoneInput = (phone) =>{
+  _handlePhoneInput = (phone) => {
     console.log(phone, this.state.phoneNumber);
-    try{
+    try {
       let formatedPhone = achatService._parsePhone(phone, 'mg');
-      this.setState({phoneNumber: formatedPhone})
+      this.setState({ phoneNumber: formatedPhone })
     }
-    catch (err){
-      this.setState({error: true})
+    catch (err) {
+      //this.setState({ error: true })
+      this.setState({ phoneNumber: phone })
     }
   };
-  _handleValider =()=>{
+  _handleValider = () => {
     console.log('Perform transaction');
-    try{
+    try {
       AchatService.validatePhoneNumer(this.state.phoneNumber);
       AchatService._checkMontant(Services.reformatNumber(this.state.amount));
       this.renderPinModal();
-    }catch (err){
-      console.log("Message d'erreur "+err);
-      this.setState({error: true, errorMessage: err})
+    } catch (err) {
+      console.log("Message d'erreur " + err);
+      this.setState({ error: true, errorMessage: err })
     }
   }
   render() {
@@ -282,23 +285,23 @@ const styles = EStyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(226, 226, 226, 0.3)"
   },
-  innerContainer:{
+  innerContainer: {
     flex: 1,
-    width : width -15,
-    marginBottom:10,
+    width: width - 15,
+    marginBottom: 10,
     backgroundColor: "#fff"
   },
-  headingTitle:{
+  headingTitle: {
     width: width,
-    paddingHorizontal:20,
-    alignItems:"center",
+    paddingHorizontal: 20,
+    alignItems: "center",
     backgroundColor: "$darkColor",
-    paddingBottom:30,
+    paddingBottom: 30,
   },
-  headingText:{
+  headingText: {
     fontSize: 18,
     fontWeight: "600",
-    textAlign:"center",
+    textAlign: "center",
     color: "#fff"
   },
   title: {
@@ -309,36 +312,35 @@ const styles = EStyleSheet.create({
   titlePlus: {
     color: "white"
   },
-  inputStyle:{
-    paddingHorizontal:8,
+  inputStyle: {
+    paddingHorizontal: 8,
   },
-  inputContainerStyle:{
-    alignSelf:"center",
-    width: width-40,
+  inputContainerStyle: {
+    alignSelf: "center",
+    width: width - 40,
     borderColor: "$border",
-    marginVertical:5,
-    borderWidth:1,
+    marginVertical: 5,
+    borderWidth: 1,
     backgroundColor: "rgba(226, 226, 226, 0.3)",
-    borderRadius:5
+    borderRadius: 5
   },
   titleContainer: {
     marginVertical: 20
   },
-  labelContainerStyle:{
+  labelContainerStyle: {
     margin: 0,
   },
-  rechargeForm:{
+  rechargeForm: {
     backgroundColor: "#fff"
   }
 });
-
 //make this component available to the app
 const StackSettings = new StackNavigator(
   {
     About: {
       screen: Charger,
       navigationOptions: ({ navigation }) => ({
-        header:()=>null
+        header: () => null
       })
     }
   }

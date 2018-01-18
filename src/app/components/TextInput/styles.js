@@ -17,7 +17,8 @@ export default EStyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 11,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginBottom:0
   },
   autocompleteContent: {
     backgroundColor: "$white",
@@ -53,6 +54,10 @@ export default EStyleSheet.create({
   containerDisabled: {
     backgroundColor: "#F0F0F0"
   },
+  containerError:{
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 36, 35, 0.7)",
+  },
   button: {
     height: INPUT_HEIGHT,
     width: INPUT_HEIGHT + 20,
@@ -85,6 +90,9 @@ export default EStyleSheet.create({
     paddingHorizontal: 8,
     color: "$inputText"
   },
+  inputError:{
+    color: "#ff2423",
+  },
   inputTouch: {
     height: INPUT_HEIGHT,
     flex: 1,
@@ -105,5 +113,10 @@ export default EStyleSheet.create({
     top: 0,
     width: "90%",
     zIndex: 1
+  },
+  formValidation:{
+    margin:0,
+    justifyContent:"center",
+    paddingBottom:2
   }
 });

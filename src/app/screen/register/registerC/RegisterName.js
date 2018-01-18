@@ -1,9 +1,9 @@
 //import liraries
-import React, {Component} from "react";
-import {Dimensions, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {RoundedButton} from "../../../components/Buttons";
-import {Icon} from "react-native-elements";
-import {Footer} from "../../../components/Footer";
+import React, { Component } from "react";
+import { Dimensions, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { RoundedButton } from "../../../components/Buttons";
+import { Icon } from "react-native-elements";
+import { Footer } from "../../../components/Footer";
 import styles from "../../../assets/styles/stylesC/registerStyles";
 
 // create a component
@@ -37,7 +37,6 @@ class RegisterName extends Component {
     this.setState({ username: "", hasError: false });
   }
   handleEndEditing() {
-    //console.log("End editing", this.state.username.length);
     if (this.state.username.length === 0) {
       this.setState({ hasError: true });
       errorMessage = "Ne laisser pas le champ vide";

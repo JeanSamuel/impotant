@@ -36,7 +36,6 @@ class RegisterPin extends Component {
   }
 
   handlePinInput_1 = text => {
-    //console.log("ddata#########");
     this.setState({ pin1: text });
     if (text.length === 4) {
       this.setState({
@@ -48,8 +47,6 @@ class RegisterPin extends Component {
 
   handlePinInput_2 = text => {
     this.setState({ pin2: text });
-    //console.log("input 2 toggled");
-    //console.log("Toggle input2", this.state.pin1);
     if (text.length === 4) {
       Keyboard.dismiss();
       if (text == this.state.pin1) {
@@ -59,12 +56,10 @@ class RegisterPin extends Component {
           services.getData("user_id").then(userdata => {
             user = JSON.parse(userdata);
             this.setState({ isLoading: !this.state.isLoading });
-            console.log(user);
             this.props.navigation.navigate("Drawer", user);
           });
         });
       } else {
-        //console.log("Tsy mitovy");
         this.setState({ pin2: "" });
         if (Platform.OS === "android") {
           ToastAndroid.show("Pin non correspondant", ToastAndroid.SHORT);
@@ -131,20 +126,20 @@ class RegisterPin extends Component {
                   maxLength={4}
                 />
               ) : (
-                <TextInput
-                  keyboardType="numeric"
-                  autoFocus={true}
-                  underlineColorAndroid="transparent"
-                  style={{
-                    fontSize: 20,
-                    textAlign: "center",
-                    paddingHorizontal: 5
-                  }}
-                  onChangeText={this.handlePinInput_1}
-                  secureTextEntry={true}
-                  maxLength={4}
-                />
-              )}
+                  <TextInput
+                    keyboardType="numeric"
+                    autoFocus={true}
+                    underlineColorAndroid="transparent"
+                    style={{
+                      fontSize: 20,
+                      textAlign: "center",
+                      paddingHorizontal: 5
+                    }}
+                    onChangeText={this.handlePinInput_1}
+                    secureTextEntry={true}
+                    maxLength={4}
+                  />
+                )}
             </View>
           </View>
         </KeyboardAvoidingView>

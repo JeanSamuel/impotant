@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { Avatar } from 'react-native-elements'
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import Services from "../../../services/utils/services";
@@ -15,6 +16,7 @@ import { Notifications } from "expo";
 const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
 import { styleBase } from "../../../assets/styles";
+import colors from '../../../config/constants/colors'
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,7 @@ export default class DrawerContent extends Component {
     this.state = {
       solde: "",
       account_id: 0,
+      avatar: "",
       alias: "",
       username: "",
       date: "",
@@ -48,8 +51,13 @@ export default class DrawerContent extends Component {
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
+          let usname = dataParsed.nom;
+          if (usname == null || usname == "") {
+            usname = dataParsed.username;
+          }
           this.setState({
-            username: dataParsed.nom,
+            username: usname,
+            avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
           this.checkSolde();
@@ -134,7 +142,7 @@ export default class DrawerContent extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.imageBack}>
-          <View
+          {/*<View
             style={[
               styles.logoContainer,
               {
@@ -146,12 +154,19 @@ export default class DrawerContent extends Component {
               onPress={this.goToProfil.bind(this)}
               name="account-circle"
               size={70}
-              color="#00d07f"
+              //color={colors.$darkColor}
             />
-          </View>
+          </View>*/}
+          <Avatar
+            large
+            rounded
+            source={{ uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" }}
+            onPress={this.goToProfil.bind(this)}
+            activeOpacity={0.7}
+          />
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={{ fontSize: 16, color: "#000" }}>
+              <Text style={{ fontSize: 16, color: "#fff" }}>
                 {this.state.username}
               </Text>
               <View
@@ -180,7 +195,7 @@ export default class DrawerContent extends Component {
                     <Icon
                       name="refresh"
                       size={30}
-                      color="#000"
+                      color="#fff"
                       containerStyle={styleBase.centered}
                     />
                   </Animatable.View>
@@ -196,19 +211,16 @@ export default class DrawerContent extends Component {
 
 const styles = EStyleSheet.create({
   container: {
-    height: 150,
-    marginTop: -50,
+    height: 180,
     borderBottomWidth: 2,
-    borderBottomColor: "$border",
-    "@media android": {
-      marginTop: StatusBar.currentHeight
-    }
+    borderBottomColor: "$border"
   },
   imageBack: {
     flex: 1,
     width: undefined,
     height: undefined,
-    backgroundColor: "transparent",
+    backgroundColor: colors.$darkColor,
+    paddingVertical: 10,
     paddingHorizontal: 15,
     flexDirection: "row",
     justifyContent: "space-between",

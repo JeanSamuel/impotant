@@ -4,21 +4,9 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import {Container} from "./app/components/ContainerC";
 import {setJSExceptionHandler} from "react-native-exception-handler";
 import Navigator from "./app/config/navigation/navigationClient/routes";
+import colors from './app/config/constants/colors'
 
-EStyleSheet.build({
-  $primaryBlue: "#34495e",
-  $white: "#FFFFFF",
-  $darkColor: "#1C2E48",
-  $lightGray: "#E6E6E6",
-  $border: "#E2E2E2",
-  // $darkColor: "#1C2E48",
-  $darkColor: "#00cf7e",
-  $primaryColor: "#128FB5",
-  $inputText: "#797979",
-  $darkText: "#343434",
-  $primaryGreen: "#1e9228",
-  $inputBG: "rgba(250,250,250,0.8)"
-});
+EStyleSheet.build(colors);
 
 const errorHandler = (e, isFatal) => {
   if (isFatal) {
