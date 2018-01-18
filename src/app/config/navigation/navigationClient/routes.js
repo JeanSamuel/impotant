@@ -33,73 +33,69 @@ class Navigateur extends Component {
     }
   }
 
-  // showAlert(notification) {
-  //   let data = notification.data;
-  //   if (data.type == "reception") {
-  //     let title = "Nouveau transfert";
-  //     let amount = data.amount;
-  //     let sender = data.from;
-  //     let debutMessage = "Vous avez reçu ";
-  //     let finMessage = "Ar de la part de ";
-  //     const message = debutMessage + amount + finMessage + sender;
-  //     this.dropdown.alertWithType("info", title, message);
-  //   }
-  // }
-  showAlert(notification) {
+  receptionAlert(notification){
     let data = notification.data;
-    if (data.type == "reception") {
-      let title = "Nouveau transfert";
-      let amount = data.amount;
-      let sender = data.from;
-      let debutMessage = "Vous avez reçu ";
-      let finMessage = "Ar de la part de ";
-      const message = debutMessage + amount + finMessage + sender;
-      this.dropdown.alertWithType("info", title, message);
-    } else {
-      let ret = this._generateMessage(data);
-      this.dropdown.alertWithType('success', ret.title, ret.str);
-      Alert.alert(ret.strtitle, ret.str);
+    if(data.type !== "reception"){
+      return "";
     }
+    let title = "Reception de "+data.amount;
+    let message = "Vous avez reçu "+data.amount+" Ar de la part de "+data.from;
+    this.dropdown.alertWithType("info",title, message)
   }
-  _generateMessage(data) {
-    let type = data.type;
-    let title = data.title;
-    let amount = data.amount;
-    let tel = data.tel;
-    let balance = data.balance;
-    let result = data.result;
-    let str = null;
-    switch (type) {
-      case 'achat':
-        if (result == 'success') {
-          str = 'Votre compte a été credité de ' + Utils.formatNumber(amount);
-          str = str + ' Ariary';
-        } else {
-          str = "L'achat de " + Utils.formatNumber(amount) + ' Ariary à echoué';
-        }
-        break;
+  envoieAlert(notification){
+    let data = notification.data;
+    if(data.type !== "envoie"){
+      return "";
+    }
+    let title = "Envoie de "+data.amount;
+    let message = "Vous avez envoyer "+data.amount+" Ar à "+data.from;
+    this.dropdown.alertWithType("info",title, message)
+  }
 
-      case 'transfert':
-        if (result == 'success') {
-          let expo = this.state.notification.data.expo;
-          if (expo == 'sent') {
-            str = 'Vous avez reçu une somme de ' + Utils.formatNumber(amount);
-            str = str + " Ariary, veuillez consulter l'historique pour voir le détail";
-          } else {
-            str = "Le transfert d'une somme de " + Utils.formatNumber(amount);
-            str = str + ' Ariary vers le compte ';
-            str = str + tel + ' est effectué  avec succès';
-          }
-        } else {
-          str = 'Le transfert  de ' + Utils.formatNumber(amount) + ' Ar à echoué';
-        }
-        break;
+  transfertAlert(notification){
+    let str =  "";
+    let type = "info";
+    let title = "" ;
+    if(notification.data.type !== "transfert"){
+      return "";
     }
-    return {
-      title,
-      str
-    };
+    if (notification.data.result === 'success') {
+      title = notification.data.title ? notification.data.title : "";
+      let expo = this.state.notification.data.expo;
+      if (expo === 'sent') {
+        str = 'Vous avez reçu une somme de ' + Utils.formatNumber(notification.data.amount);
+        str = str + " Ariary, veuillez consulter l'historique pour voir le détail";
+      } else {
+        str = "Le transfert d'une somme de " + Utils.formatNumber(notification.data.amount);
+        str = str + ' Ariary vers le compte ';
+        str = str + notification.data.tel + ' est effectué  avec succès';
+      }
+    } else {
+      str = 'Le transfert  de ' + Utils.formatNumber(notification.data.amount) + ' Ar à echoué';
+      type =  "error"
+    }
+    this.dropdown.alertWithType(type,title, str);
   }
+  achatAlert(notification){
+    if(notification.data.type !== "achat"){
+      return ""
+    }
+    let title = "Rechargement de compte";
+    if(notification.data.result === "success"){
+      this.dropdown.alertWithType("success",title,"Votre compte a été crédité de "+ Utils.formatNumber(notification.data.amount)+" Ar");
+      return true;
+    }
+    this.dropdown.alertWithType("error", title, "L'achat de "+Utils.formatNumber(notification.data.amount) +" Ar a échoué");
+  }
+  showAlert(notification) {
+    console.log(JSON.stringify(notification));
+    this.receptionAlert(notification);
+    this.envoieAlert(notification);
+    this.receptionAlert(notification);
+    this.achatAlert(notification);
+    this.transfertAlert(notification);
+  }
+
   dismissAlert = () => {
     this.dropdown.onClose();
   };

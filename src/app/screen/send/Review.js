@@ -178,25 +178,7 @@ class Review extends Component {
     const formatedAmount = Services.formatNumber(this.state.amount);
     return (
       <View style={styles.container}>
-        <MyHeader
-          leftComponent={
-            <HeaderButton
-              iconName={"ios-arrow-back"}
-              color={"#fff"}
-              type={"ionicon"}
-              action={() => {
-                Keyboard.dismiss();
-                {
-                  this.props.navigation.state.params.onGoBack !== undefined
-                    ? this.props.navigation.state.params.onGoBack()
-                    : "";
-                }
-                this.props.navigation.goBack();
-              }}
-            />
-          }
-          headerText={"Vérifier et envoyer"}
-        />
+        {this.renderHeader()}
         {this.state.haveFingerprint && this.state.makeTransaction ? (
           <FingerprintRequest
             waitTextColor="rgba(22, 160, 133,1.0)"
@@ -205,46 +187,20 @@ class Review extends Component {
         ) : null}
         <ScrollView>
           <View style={styles.reviewBox}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{flexDirection: "row"}}>
               <Text style={[styles.amountReview, styles.reviewText]}>
                 {formatedAmount}
               </Text>
               <Text
                 style={[
-                  { fontSize: 35, marginBottom: 30, color: "#fff" },
+                  {fontSize: 35, marginBottom: 30, color: "#fff"},
                   styles.reviewText
                 ]}
               >
                 {this.state.currency}
               </Text>
             </View>
-            <View style={styles.informationBox}>
-              <Text
-                style={[
-                  {
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    color: "#fff"
-                  },
-                  styles.reviewText
-                ]}
-              >
-                Vous allez envoyer {formatedAmount} {this.state.currency} à{" "}
-                {this.state.receiver_name}
-              </Text>
-              <View style={{ marginTop: 10 }}>
-                <Text
-                  style={[
-                    { textAlign: "center", color: "#fff" },
-                    styles.reviewText
-                  ]}
-                >
-                  L'argent sera envoyer dans le compte Ariary.net de la
-                  personne. La personne recevra un email, ou une notification à
-                  propos de la transaction.
-                </Text>
-              </View>
-            </View>
+            {this.renderInfo(formatedAmount)}
           </View>
           {this.state.modal}
         </ScrollView>
@@ -284,6 +240,58 @@ class Review extends Component {
         ) : null}
       </View>
     );
+  }
+
+  renderInfo(formatedAmount) {
+    return <View style={styles.informationBox}>
+      <Text
+        style={[
+          {
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff"
+          },
+          styles.reviewText
+        ]}
+      >
+        Vous allez envoyer {formatedAmount} {this.state.currency} à{" "}
+        {this.state.receiver_name}
+      </Text>
+      <View style={{marginTop: 10}}>
+        <Text
+          style={[
+            {textAlign: "center", color: "#fff"},
+            styles.reviewText
+          ]}
+        >
+          L'argent sera envoyer dans le compte Ariary.net de la
+          personne. La personne recevra un email, ou une notification à
+          propos de la transaction.
+        </Text>
+      </View>
+    </View>;
+  }
+
+  renderHeader() {
+    return <MyHeader
+      leftComponent={
+        <HeaderButton
+          iconName={"ios-arrow-back"}
+          color={"#fff"}
+          type={"ionicon"}
+          action={() => {
+            Keyboard.dismiss();
+            {
+              this.props.navigation.state.params.onGoBack !== undefined
+                ? this.props.navigation.state.params.onGoBack()
+                : "";
+            }
+            this.props.navigation.goBack();
+          }}
+        />
+      }
+      headerText={"Vérifier et envoyer"}
+    />;
   }
 }
 

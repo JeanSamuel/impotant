@@ -10,6 +10,7 @@ import { PinModal, Modal, MessagePrompt } from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
+import colors from '../../config/constants/colors'
 import PropTypes from "prop-types";
 // create a component
 const { height, width } = Dimensions.get("window");
@@ -239,7 +240,7 @@ class Charger extends Component {
           underlayColor={"#e2e2e2"}
           style={{
             justifyContent: "center",
-            backgroundColor: "#00cf7e",
+            backgroundColor: colors.$secondaryColor,
             borderRadius: 5,
             height: 50,
             width: width - 50,

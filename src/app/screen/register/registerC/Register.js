@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RoundedButton } from "../../../components/Buttons";
 import { Footer } from "../../../components/Footer";
 import styles from "../../../assets/styles/stylesC/registerStyles";
+import colors from '../../../config/constants/colors'
 
 // create a component
 class Register extends Component {
@@ -33,7 +34,7 @@ class Register extends Component {
             <RoundedButton
               text="Accepter et Continuer"
               buttonStyle={{ height: 40 }}
-              color="#1e9228"
+              color={colors.$secondaryColor}
               buttonStyle={{
                 marginVertical: 15
               }}
