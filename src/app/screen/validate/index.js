@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { StackNavigator } from "react-navigation";
 import { View } from "react-native";
-import { Step1, Step2, Step3 } from "./allSteps";
+import { Step1, Step2, Step3, Step4 } from "./allSteps";
 
 class ValidationScreen extends Component {
   render() {
@@ -24,6 +24,9 @@ const StackSettings = new StackNavigator(
     },
     Step3: {
       screen: Step3
+    },
+    Step4: {
+      screen: Step4
     }
   },
   {

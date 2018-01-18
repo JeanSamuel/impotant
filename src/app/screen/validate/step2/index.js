@@ -44,7 +44,7 @@ export default class componentName extends Component {
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}

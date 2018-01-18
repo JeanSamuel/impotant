@@ -4,7 +4,7 @@ import StepIndicator from "react-native-step-indicator";
 import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
 
-const labels = ["Connexion", "Personnel", "Pièces jointes", "Succès"];
+const labels = ["Connexion", "Personnel", "Pièces jointes", "Récapitulation"];
 
 const customStyles = {
   stepIndicatorSize: 25,
@@ -31,14 +31,19 @@ const customStyles = {
   fontWeight: "10"
 };
 
-export default class componentName extends Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
   }
 
   static propTypes = {
     position: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    soustitle: PropTypes.string
+  };
+
+  static defaultProps = {
+    soustitle: ""
   };
 
   render = () => {

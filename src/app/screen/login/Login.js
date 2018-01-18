@@ -1,5 +1,5 @@
 //import liraries
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,18 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
-import {AuthSession} from 'expo'
+import { AuthSession } from 'expo'
 import Spinner from 'react-native-loading-spinner-overlay';
 import Services from '../../services/utils/services';
 import NotificationServices from '../../services/user/notificationServices';
 import styleBase from '../../assets/styles/styles';
-import {WarningConnexion} from '../../components/warning/index';
-import {Button} from 'react-native-elements';
+import { WarningConnexion } from '../../components/warning/index';
+import { Button } from 'react-native-elements';
 import data from '../../config/data/dataM';
 
 // const { width, height } = Dimensions.get("window");
 const uri = `${data.BASE_URL_Oauth}oauth2/authorize` +
-`?response_type=code&client_id=${data.client_id}&redirect_uri=${encodeURIComponent(data.redirect_uri)}&scope=userinfo&state=xyz`;
+  `?response_type=code&client_id=${data.client_id}&redirect_uri=${encodeURIComponent(data.redirect_uri)}&scope=userinfo&state=xyz`;
 // create a component
 class Login extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class Login extends Component {
   }
 
   changeSpinnerVisibility(value) {
-    this.setState({spinnerVisibility: value});
+    this.setState({ spinnerVisibility: value });
   }
 
   async _onNavigationStateChange(webViewState) {
@@ -41,7 +41,7 @@ class Login extends Component {
     var notif = new NotificationServices();
     this.changeSpinnerVisibility(true);
     if (webViewState.url != uri && !this.state.saving) {
-      this.setState({saving: true});
+      this.setState({ saving: true });
       service
         .goLogin(webViewState)
         .then(response => {
@@ -52,18 +52,18 @@ class Login extends Component {
           notif.loginForExpoToken(response.username);
           this.props.navigation.navigate('RegisterPin', response);
         })
-        .catch(error => {});
+        .catch(error => { });
     }
   }
 
-  _handleLoginAsync = async() =>{
+  _handleLoginAsync = async () => {
     console.log("Ato za zao");
     let result = await AuthSession.startAsync({
       authUrl: uri
     })
     console.log(result);
   }
-  onErrorLoading(webViewState) {}
+  onErrorLoading(webViewState) { }
 
   webviewRenderError = (errorDomain, errorCode, errorDesc) =>
     <WarningConnexion />;
@@ -80,7 +80,7 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View
             style={{
               flex: 1,
@@ -93,7 +93,7 @@ class Login extends Component {
               size="large"
             />
             <WebView
-              source={{uri: uri}}
+              source={{ uri: uri }}
               style={styles.webview}
               onNavigationStateChange={this._onNavigationStateChange.bind(this)}
               renderLoading={this.renderLoading}
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  webview: {flex: 1},
+  webview: { flex: 1 },
   buttonContainer: {},
   buttonText: {
     fontSize: 20,

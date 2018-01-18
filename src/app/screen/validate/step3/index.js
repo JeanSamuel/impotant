@@ -9,7 +9,9 @@ import {
   Icon
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
+import { NavigationActions } from "react-navigation";
 import { Header, TextInput } from "../allSteps";
+import userData from "../data.json";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -22,31 +24,60 @@ export default class componentName extends Component {
   }
 
   someFunction = () => {};
-  goToStep2 = () => {
-    this.props.navigation.navigate("Step2");
+  goToNextStep = () => {
+    console.log("====================================");
+    console.log("mankato", this.props.navigation);
+    console.log("====================================");
+    let data = {
+      connexion: userData.connexion,
+      user: userData.user,
+      pieces: userData.pieces
+    };
+    this.props.navigation.navigate("Step4", data);
   };
   render() {
     return (
       <View style={styles.container}>
         <Header position={2} title="Pièces justificatifs" />
-        <ScrollView behavior="padding" style={styles.body} />
-        <View style={styles.piecesjointes}>
-          <View>
-            <Icon
-              reverse
-              name="cloud-upload"
-              color="#517fa4"
-              type="font-awesome"
-            />
+        <ScrollView behavior="padding" style={styles.body}>
+          <View style={styles.piecesjointesContainer}>
+            <View style={styles.piecesjointes}>
+              <View>
+                <Icon reverse name="user" color="#517fa4" type="font-awesome" />
+              </View>
+              <View style={styles.pieceTextCOntainer}>
+                <Text style={styles.pieceText}>
+                  Importer votre photo d'identité
+                </Text>
+              </View>
+            </View>
+            <FormValidationMessage>Trop volumineux</FormValidationMessage>
           </View>
-          <Text h4>Importer votre CIN ou Passeport</Text>
-        </View>
+          <View style={styles.piecesjointesContainer}>
+            <View style={styles.piecesjointes}>
+              <View>
+                <Icon
+                  reverse
+                  name="id-card-o"
+                  color="#517fa4"
+                  type="font-awesome"
+                />
+              </View>
+              <View style={styles.pieceTextCOntainer}>
+                <Text style={styles.pieceText}>
+                  Importer votre CIN ou Passeport
+                </Text>
+                <Text style={styles.pieceText}>(Recto-Verso)</Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
         <View style={styles.buttonLeft}>
           <Button
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}
@@ -56,7 +87,7 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor="#01C89E"
-            onPress={this.goToStep2}
+            onPress={this.goToNextStep}
           />
         </View>
       </View>
@@ -77,9 +108,20 @@ const styles = StyleSheet.create({
   },
   piecesjointes: {
     flexDirection: "row",
-    justifyContent: "space-between",
     backgroundColor: "rgba(189, 195, 199,0.3)",
-    margin: 20,
+
     padding: 10
+  },
+  piecesjointesContainer: {
+    margin: 20
+  },
+  pieceTextCOntainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20
+  },
+  pieceText: {
+    fontWeight: "bold",
+    fontSize: 15
   }
 });

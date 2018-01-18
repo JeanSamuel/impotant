@@ -104,14 +104,14 @@ class Step1 extends Component {
             onPress: () => console.log("Cancel Pressed"),
             style: "cancel"
           },
-          { text: "OK", onPress: () => this.goToStep2() }
+          { text: "OK", onPress: () => this.goToNextStep() }
         ],
         { cancelable: false }
       );
     }
   }
 
-  goToStep2() {
+  goToNextStep() {
     this.createLoader("Enregistrement en cours");
     let regServices = new RegisterServices();
     regServices
@@ -248,7 +248,7 @@ class Step1 extends Component {
         <View>
           <MyButton
             text="J'enregistre mon compte"
-            action={this.goToStep2.bind(this)}
+            action={this.goToNextStep.bind(this)}
             color="rgba(230, 126, 34,1.0)"
             textLoading="Enregistrement..."
           />
