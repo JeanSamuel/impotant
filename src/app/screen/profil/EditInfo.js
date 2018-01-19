@@ -239,7 +239,7 @@ class EditInfo extends Component {
         return (
             <View style={{ backgroundColor: '#fff', flex: 1 }}>
                 <View style={configStyles.header}>
-                    <Text style={configStyles.textHeader}>Editer vos information</Text>
+                    <Text style={configStyles.textHeader}>Editer vos informations</Text>
                 </View>
                 <ScrollView>
                     <FormLabel containerStyle={{ marginTop: 2 }}>Nom</FormLabel>
