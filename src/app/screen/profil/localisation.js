@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Email = containerStyle => (
+const Localisation = ({containerStyle,country,city}) => (
   <TouchableOpacity onPress={() => console.log("GG")}>
     <View style={[styles.container]}>
       <View style={styles.iconRow}>
@@ -56,19 +56,21 @@ const Email = containerStyle => (
       </View>
       <View style={styles.emailRow}>
         <View style={styles.emailColumn}>
-          <Text style={styles.emailText}>58 Avenue Andrianampoinimerina</Text>
+          <Text style={styles.emailText}>{country}</Text>
         </View>
         <View style={styles.emailNameColumn}>
-          <Text style={styles.emailNameText}>Analakely, Antananarivo 101</Text>
+          <Text style={styles.emailNameText}>{city}</Text>
         </View>
       </View>
     </View>
   </TouchableOpacity>
 );
 
-Email.defaultProps = {
+Localisation.defaultProps = {
   containerStyle: {},
-  name: null
+  name: null,
+  city:null,
+  country:null,
 };
 
-export default Email;
+export default Localisation;

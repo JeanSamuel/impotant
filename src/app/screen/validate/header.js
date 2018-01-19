@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import StepIndicator from "react-native-step-indicator";
 import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
+import Colors from "../../config/constants/colors";
 
 const labels = ["Connexion", "Personnel", "Pièces jointes", "Récapitulation"];
 
@@ -11,23 +12,23 @@ const customStyles = {
   currentStepIndicatorSize: 35,
   separatorStrokeWidth: 1,
   currentStepStrokeWidth: 1,
-  stepStrokeCurrentColor: "#01C89E",
+  stepStrokeCurrentColor: Colors.$darkColor,
   stepStrokeWidth: 1,
-  stepStrokeFinishedColor: "#01C89E",
+  stepStrokeFinishedColor: Colors.$darkColor,
   stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#01C89E",
+  separatorFinishedColor: Colors.$darkColor,
   separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#01C89E",
+  stepIndicatorFinishedColor: Colors.$darkColor,
   stepIndicatorUnFinishedColor: "#ffffff",
   stepIndicatorCurrentColor: "#ffffff",
   stepIndicatorLabelFontSize: 11,
   currentStepIndicatorLabelFontSize: 15,
-  stepIndicatorLabelCurrentColor: "#01C89E",
+  stepIndicatorLabelCurrentColor: Colors.$darkColor,
   stepIndicatorLabelFinishedColor: "#ffffff",
   stepIndicatorLabelUnFinishedColor: "#aaaaaa",
   labelColor: "#999999",
   labelSize: 13,
-  currentStepLabelColor: "#01C89E",
+  currentStepLabelColor: Colors.$darkColor,
   fontWeight: "10"
 };
 
@@ -103,6 +104,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20
   },
-  bodytitleStep: { color: "#01C89E" },
+  bodytitleStep: { color: Colors.$darkColor },
   stepIndicator: { paddingBottom: 5 }
 });

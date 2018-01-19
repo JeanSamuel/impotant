@@ -1,12 +1,12 @@
 //import liraries
-import React, {Component} from "react";
+import React, { Component } from "react";
 import numeral from "numeral";
 import fr from "numeral/locales";
-import {AsyncStorage, Platform, Share, Text, View} from "react-native";
-import {Fingerprint, Notifications} from "expo";
+import { AsyncStorage, Platform, Share, Text, View } from "react-native";
+import { Fingerprint, Notifications } from "expo";
 import configs from "../../config/data/dataM";
 import FormData from "FormData";
-import {RegisterServices} from "../index";
+import { RegisterServices } from "../index";
 
 // create a component
 class Services extends Component {
@@ -97,8 +97,6 @@ class Services extends Component {
   }
 
   createError(error, message) {
-    //console.log("erreur auto :", error);
-    //console.log("erreur perso :", message);
     let myerror = new Error(error);
     myerror.message = message;
     return myerror;

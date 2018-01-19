@@ -42,6 +42,17 @@ class Register extends Component {
                 this.props.navigation.navigate("RegisterName");
               }}
             />
+            {/* <RoundedButton
+              text="Accepter et S'inscrire"
+              buttonStyle={{ height: 40 }}
+              color="rgba(22, 160, 133,1.0)"
+              buttonStyle={{
+                marginVertical: 15
+              }}
+              onPress={() => {
+                this.props.navigation.navigate("RegisterName");
+              }}
+            /> */}
           </View>
         </Footer>
       </View>

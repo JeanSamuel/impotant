@@ -33,7 +33,6 @@ class InscriptionService {
           if (responseJson.error_message != null) {
             throw responseJson.error_message;
           } else {
-            //console.log('simpleInfo', responseJson);
             resp = responseJson;
             user_info = {
               username: responseJson.username,
@@ -42,7 +41,6 @@ class InscriptionService {
           }
         })
         .catch(error => {
-          //console.log('erreur', error);
           throw error.toString();
         });
       await AuthentificationService._logout(1);

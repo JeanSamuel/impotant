@@ -8,7 +8,9 @@ import {
   Button
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
-import { Header, TextInput } from "../allSteps";
+import { Header } from "../allSteps";
+import Services from "../validationservices";
+import Colors from "../../../config/constants/colors";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -26,6 +28,32 @@ export default class componentName extends Component {
       passAgainError: false
     };
   }
+
+  checkValidation = () => {
+    let services = new Services();
+    this.setState({ emailError: services.checkMail(this.state.email) });
+    this.setState({ pseudoError: services.checkPseudo(this.state.pseudo) });
+    this.setState({ passError: services.checkPass(this.state.pass) });
+    this.setState({
+      passAgainError: services.checkPassAgain(
+        this.state.pass,
+        this.state.passAgain
+      )
+    });
+  };
+
+  sommeError = () => {
+    if (
+      this.state.emailError === 0 &&
+      this.state.pseudoError === 0 &&
+      this.state.passError === 0 &&
+      this.state.passAgainError === 0
+    ) {
+      return true;
+    }
+
+    return false;
+  };
   // Validation
   validMail() {
     this.pseudo.focus();
@@ -36,28 +64,55 @@ export default class componentName extends Component {
   validPass() {
     this.passAgain.focus();
   }
-  validAll() {}
+
+  validAll() {
+    this.checkValidation();
+    let somme = this.sommeError();
+    if (somme) {
+      this.goToNextStep();
+    }
+  }
 
   // handling
   _handleEmail = email => {
-    this.setState({ email });
+    this.setState({
+      email,
+      emailError: false
+    });
   };
 
   _handlePseudo = pseudo => {
-    this.setState({ pseudo });
+    this.setState({
+      pseudo,
+      pseudoError: false
+    });
   };
 
   _handlePass = pass => {
-    this.setState({ pass });
+    this.setState({
+      pass,
+      passError: false
+    });
   };
 
   _handleAll = passAgain => {
-    this.setState({ passAgain });
+    this.setState({ passAgain, passAgainError: false });
+  };
+
+  createDataForNextStep = () => {
+    return {
+      connexion: {
+        email: this.state.email,
+        pseudo: this.state.pseudo,
+        identifiant: "AA015",
+        password: this.state.pass
+      }
+    };
   };
 
   goToNextStep = () => {
-    this.pseudo.focus();
-    this.props.navigation.navigate("Step2");
+    let data = this.createDataForNextStep();
+    this.props.navigation.navigate("Step2", data);
   };
 
   renderEmail = () => {
@@ -141,7 +196,7 @@ export default class componentName extends Component {
           containerStyle={styles.input}
           secureTextEntry
           ref={input => (this.passAgain = input)}
-          onSubmitEditing={() => this.validAll()}
+          onSubmitEditing={this.checkValidation}
         />
         {this.state.passAgainError ? (
           <FormValidationMessage>
@@ -166,7 +221,7 @@ export default class componentName extends Component {
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToNextStep}
+            onPress={() => this.props.navigation.goBack()}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}
@@ -175,8 +230,8 @@ export default class componentName extends Component {
             small
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
-            backgroundColor="#01C89E"
-            onPress={this.goToNextStep}
+            backgroundColor={Colors.$secondaryColor}
+            onPress={this.validAll.bind(this)}
           />
         </View>
       </View>

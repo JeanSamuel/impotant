@@ -5,7 +5,7 @@ import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Header } from '../../components/Header'
-import { AchatService, Utils } from '../../services'
+import { AchatService, Utils} from '../../services'
 import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
@@ -61,11 +61,11 @@ class Charger extends Component {
       <Header
         leftComponent={
           <HeaderButton
-            iconName={"ios-arrow-back"}
+            iconName={"ios-menu"}
             color={"#fff"}
             type={"ionicon"}
             action={() => {
-              this.props.navigation.goBack(null);
+              this.props.navigation.navigate('DrawerOpen');
             }}
           />
         }
@@ -125,8 +125,6 @@ class Charger extends Component {
             </FormValidationMessage>
           )
           : null}
-
-
       </View>
     )
   }
@@ -140,16 +138,23 @@ class Charger extends Component {
     //console.log(text);
     if (text.length === 4) {
       if (this.state.pin === text) {
-        // //console.log("Ataovy le transaction");
         this.removeModal();
         this._performRecharge();
       } else {
-        //console.log("error");
         this.setState({ pinErrorMessage: this.renderErrorMessage() });
       }
     }
   };
 
+  renderErrorMessage() {
+    return (
+      <View style={{ justifyContent: "center" }}>
+        <Text style={{ textAlign: "center" }}>
+          Le Pin que vous avez entré n'est pas valide
+        </Text>
+      </View>
+    );
+  }
   renderPinModal() {
     if (this.state.haveFingerprint) {
       this.setState({ makeTransaction: true });
@@ -223,7 +228,7 @@ class Charger extends Component {
   _handlePhoneInput = (phone) => {
     console.log(phone, this.state.phoneNumber);
     try {
-      let formatedPhone = achatService._parsePhone(phone, 'mg');
+      let formatedPhone = AchatService._parsePhone(phone, 'mg');
       this.setState({ phoneNumber: formatedPhone })
     }
     catch (err) {

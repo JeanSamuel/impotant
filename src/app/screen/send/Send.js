@@ -1,18 +1,20 @@
 //import liraries
-import React, {Component} from "react";
-import {ActivityIndicator, BackHandler, Dimensions, Keyboard, Platform, StyleSheet, Text, View} from "react-native";
-import {StackNavigator} from "react-navigation";
-import {Button} from "react-native-elements";
+import React, { Component } from "react";
+import { ActivityIndicator, BackHandler, Dimensions, Keyboard, Platform, StyleSheet, Text, View } from "react-native";
+import { StackNavigator } from "react-navigation";
+import { Button } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import sendStyle from "../../assets/styles/stylesC/sendStyle";
-import {InputLeftButton, InputLeftIcon} from "../../components/TextInput";
-import {IconBadge} from "../../components/icon";
-import {BarCodeScanner, Permissions} from "expo";
+import { InputLeftButton, InputLeftIcon } from "../../components/TextInput";
+import { IconBadge } from "../../components/icon";
+import { BarCodeScanner, Permissions } from "expo";
 import Services from "../../services/utils/services";
-import {HistoryServices} from "../../services";
+import inputStyles from "../../components/TextInput/styles";
+import AutoComplete from "react-native-autocomplete-input";
+import { HistoryServices, UserService } from "../../services";
 import _ from "lodash";
 import To from "./To";
-import {SendLoader} from "../../components/loader";
+import { SendLoader } from "../../components/loader";
 import Header from "../../components/Header/Header";
 import DrawerMenu from "../../components/drawerMenu/drawerMenu";
 // create a component
@@ -61,8 +63,8 @@ class Send extends Component {
         }
       });
     });
-  }
 
+  }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.backHandler);
     Services.haveFingerprint().then(hasFingerPrint => {
@@ -169,7 +171,9 @@ class Send extends Component {
     }
   };
   _handleBarCodeRead = data => {
-    let qdata = data.data;
+    let qdata = Object();
+    qdata = data.data;
+    //let qdata = data.data;
     // //console.log(qdata);
     if (qdata.includes("trans")) {
       this.setState({ cameraEnabled: false });
@@ -182,8 +186,6 @@ class Send extends Component {
       });
       this.setState({ isEditable: false });
       if (readData.a == 0) {
-        // // this.prompAmount();
-        // //console.log(readData);
         this.setState({ cameraEnabled: false });
         this._toNextStep(readData.u, readData.n);
       }
@@ -259,14 +261,14 @@ class Send extends Component {
         <View style={sendStyle.container}>
           {this.renderHeader()}
           {this.state.loading ? (
-            <SendLoader loading={this.state.loading}/>
+            <SendLoader loading={this.state.loading} />
           ) : (
-            <View style={{flex: 1}}>
-              {!this.state.cameraEnabled ? null : this.renderBarCode()}
-              {this.renderSendForm(users, user)}
-              {this.renderBottomControl()}
-            </View>
-          )}
+              <View style={{ flex: 1 }}>
+                {!this.state.cameraEnabled ? null : this.renderBarCode()}
+                {this.renderSendForm(users, user)}
+                {this.renderBottomControl()}
+              </View>
+            )}
           {this.state.modal}
           {Platform.OS == "ios" ? (
             <Toast
@@ -285,9 +287,9 @@ class Send extends Component {
 
   renderHeader() {
     return <Header
-      leftComponent={<DrawerMenu navigation={this.props.navigation}/>}
+      leftComponent={<DrawerMenu navigation={this.props.navigation} />}
       headerText={"20 Ar"}
-      rightComponent={<IconBadge navigation={this.props.navigation}/>}
+      rightComponent={<IconBadge navigation={this.props.navigation} />}
     />;
   }
 

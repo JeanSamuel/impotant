@@ -21,17 +21,17 @@ class Utils {
   getNumeric(str) {
     return str.replace(/ /g, "");
   }
+
   _parsePhone(number, iso) {
     var phone = null;
     try {
       var phoneNumber = phoneUtil.parse(number, iso);
       phone = phoneUtil.format(phoneNumber, PNF.INTERNATIONAL);
+      return phone;
     } catch (err) {
       throw err.toString();
     }
-    return phone;
   }
-
   validatePhoneNumer(phone) {
     try {
       var num = this.getNumeric(phone);
@@ -66,7 +66,7 @@ class Utils {
   _isValidPass(pass) {
     let ret = true;
     let msg =
-      "Le mot de passe doit contenir au moins 6 caractères: au moins un caractère minuscule,un caractère majuscule et un chiffre";
+      "Doit contenir au moins 6 caractères avec caractère(s) minuscule(s),caractère(s) majuscule(s) et chiffre(s)";
     if (!/^(?=^.{6,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(pass)) {
       ret = false;
       throw msg;
@@ -83,6 +83,10 @@ class Utils {
       ret = false;
       throw "Veuillez entrer une adresse email valide!!!";
     }
+    return ret;
+  }
+  _isValidPhone(phone) {
+    let ret = true;
     return ret;
   }
   checkInternetConnection() {

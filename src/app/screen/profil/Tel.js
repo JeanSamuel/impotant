@@ -74,11 +74,11 @@ const Tel = ({
         </View>
         <View style={styles.telRow}>
           <View style={styles.telNumberColumn}>
-            <Text style={styles.telNumberText}>{number}</Text>
+            <Text style={styles.telNumberText}>{name}</Text>
           </View>
           <View style={styles.telNameColumn}>
             {name.trim().length !== 0 && (
-              <Text style={styles.telNameText}>toavina@nivo.mg</Text>
+              <Text style={styles.telNameText}>{number}</Text>
             )}
           </View>
         </View>

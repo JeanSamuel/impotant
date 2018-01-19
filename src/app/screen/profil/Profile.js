@@ -29,36 +29,25 @@ class Contact extends Component {
   }
 
   static propTypes = {
-    avatar: PropTypes.string.isRequired,
-    avatarBackground: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
+    avatarBackground: PropTypes.string,
+    name: PropTypes.string,
+    birthday: PropTypes.string,
     address: PropTypes.shape({
-      city: PropTypes.string.isRequired,
-      country: PropTypes.string.isRequired
-    }).isRequired,
-    emails: PropTypes.arrayOf(
-      PropTypes.shape({
-        email: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    tels: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired
-      })
-    ).isRequired
+      city: PropTypes.string,
+      country: PropTypes.string
+    }),
+    emails: PropTypes.string,
+    tels: PropTypes.string
   };
 
   state = {
-    telDS: new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    }).cloneWithRows(this.props.tels),
-    emailDS: new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    }).cloneWithRows(this.props.emails)
+    // telDS: new ListView.DataSource({
+    //   rowHasChanged: (r1, r2) => r1 !== r2
+    // }).cloneWithRows(this.props.tels),
+    // emailDS: new ListView.DataSource({
+    //   rowHasChanged: (r1, r2) => r1 !== r2
+    // }).cloneWithRows(this.props.emails)
   };
 
   goBack = () => {
@@ -66,7 +55,10 @@ class Contact extends Component {
   };
 
   goToSteps = () => {
-    this.props.navigation.navigate("Validation");
+    if (this.props.role === "confirmé")
+      this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
+    else
+      this.props.navigation.navigate("Validation");
   };
 
   renderHeader = () => {
@@ -74,7 +66,7 @@ class Contact extends Component {
       avatar,
       avatarBackground,
       name,
-      address: { city, country }
+      solde
     } = this.props;
 
     return (
@@ -88,11 +80,13 @@ class Contact extends Component {
         >
           <View style={styles.navigation}>
             <Icon
-              name="arrow-back"
+              name="ios-menu"
+              type='ionicon'
               underlayColor="transparent"
               iconStyle={styles.navigationIcon}
-              onPress={this.goBack}
+              onPress={() => { this.props.navigation.navigate('DrawerOpen') }}
             />
+            <Text style={styles.userNameText}>Profil{" (" + this.props.username + " " + this.props.code + ')'}</Text>
             <TouchableOpacity onPress={this.goToSteps}>
               <Icon
                 name="edit"
@@ -103,16 +97,20 @@ class Contact extends Component {
           </View>
 
           <View style={styles.headerColumn}>
-            <Image
+            <Image onPress={console.log('Image pressed')}
               style={styles.userImage}
               source={{
                 uri: avatar
               }}
             />
-            <Text style={styles.userNameText}>Manaka02 (AA012)</Text>
+            <Text style={[styles.userNameText, {
+              borderBottomWidth: 1,
+              paddingBottom:0,
+              borderBottomColor: "#fff"
+            }]}>Solde: {this.props.solde + " Ar "}</Text>
             <View style={styles.userAddressRow}>
               <View style={styles.userCityRow}>
-                <Text style={styles.userCityText}>Confirmé</Text>
+                <Text style={styles.userCityText}>{this.props.role}</Text>
               </View>
             </View>
           </View>
@@ -123,55 +121,74 @@ class Contact extends Component {
 
   renderLocal = () => (
     <View style={styles.telContainer}>
-      <Localisation name={"test"} />
+      <Localisation city={"Antananarivo"} country={"Madagascar"} />
     </View>
   );
-
   renderUser = () => (
     <View style={styles.telContainer}>
-      <UserData name={"test"} />
+      <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   );
-  renderTel = () => (
-    <ListView
-      contentContainerStyle={styles.telContainer}
-      dataSource={this.state.telDS}
-      renderRow={({ id, name, number }, _, k) => {
-        return (
-          <Tel
-            key={`tel-${id}`}
-            index={k}
-            name={name}
-            number={number}
-            onPressSms={this.onPressSms}
-            onPressTel={this.onPressTel}
-          />
-        );
-      }}
-    />
-  );
+  onPressTel() {
 
+  }
+  onPressSms() {
+
+  }
+  renderTel = () => (
+    <View style={styles.telContainer}>
+      <Tel index={0} key={"tel-1"} name={"Mobile"} number={this.props.tels} onPressSms={this.onPressSms} onPressTel={this.onPressTel} />
+    </View>
+    // <ListView
+    //   contentContainerStyle={styles.telContainer}
+    //   dataSource={this.state.telDS}
+    //   renderRow={({ id, name, number }, _, k) => {
+    //     return (
+    //       <Tel
+    //         key={`tel-${id}`}
+    //         index={k}
+    //         name={name}
+    //         number={number}
+    //         onPressSms={this.onPressSms}
+    //         onPressTel={this.onPressTel}
+    //       />
+    //     );
+    //   }}
+    // />
+  );
+  onPressEmail() {
+
+  }
   renderEmail = () => (
-    <ListView
-      contentContainerStyle={styles.emailContainer}
-      dataSource={this.state.emailDS}
-      renderRow={({ email, id, name }, _, k) => {
-        return (
-          <Email
-            key={`email-${id}`}
-            index={k}
-            name={name}
-            email={email}
-            onPressEmail={this.onPressEmail}
-          />
-        );
-      }}
-    />
+    <View style={styles.telContainer}>
+      <Email
+        key={"email-1"}
+        index={0}
+        name={"E-mail"}
+        email={this.props.emails}
+        onPressEmail={this.onPressEmail}
+      />
+    </View>
+    // <ListView
+    //   contentContainerStyle={styles.emailContainer}
+    //   dataSource={this.state.emailDS}
+    //   renderRow={({ email, id, name }, _, k) => {
+    //     return (
+    //       <Email
+    //         key={`email-${id}`}
+    //         index={k}
+    //         name={name}
+    //         email={email}
+    //         onPressEmail={this.onPressEmail}
+    //       />
+    //     );
+    //   }}
+    // />
   );
 
   render() {
     return (
-      <View>
+      <View style={{ backgroundColor: '#fff', flex: 1 }}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>
@@ -215,7 +232,7 @@ const styles = StyleSheet.create({
   emailContainer: {
     backgroundColor: "#FFF",
     flex: 1,
-    paddingTop: 20
+    paddingTop: 201234
   },
   headerBackgroundImage: {
     paddingBottom: 20
@@ -248,7 +265,7 @@ const styles = StyleSheet.create({
   },
   userAddressRow: {
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   userCityRow: {
     backgroundColor: "transparent"
