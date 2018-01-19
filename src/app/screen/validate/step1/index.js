@@ -8,7 +8,7 @@ import {
   Button
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
-import { Header, TextInput } from "../allSteps";
+import { Header } from "../allSteps";
 import Services from "../validationservices";
 import Colors from "../../../config/constants/colors";
 

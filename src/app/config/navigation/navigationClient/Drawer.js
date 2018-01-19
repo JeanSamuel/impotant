@@ -16,7 +16,7 @@ import About from "../../../screen/about";
 import Charger from "../../../screen/charger";
 import Profil from "../../../screen/profil";
 import DrawerContent from "../navigationMerch/drawerContent";
-import colors from '../../../config/constants/colors'
+import colors from "../../../config/constants/colors";
 
 //make this component available to the app
 const { width } = Dimensions.get("screen");

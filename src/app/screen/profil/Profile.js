@@ -174,7 +174,7 @@ class Contact extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{backgroundColor:'#fff',flex:1}}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>

@@ -33,6 +33,7 @@ class EditInfo extends Component {
             oldpassword: '',
             newpassword: '',
             username: '',
+            birthday:'',
             loading: false,
             username: '',
             confirmpassword: '',
@@ -46,7 +47,8 @@ class EditInfo extends Component {
             messageVisibleMini: false,
             error: null,
             errorMessage: null,
-            validateBtnVisible: false
+            validateBtnVisible: false,
+            iconName: "info",
         }
     }
     componentWillMount() {
@@ -67,6 +69,7 @@ class EditInfo extends Component {
                 prenom: '',
                 datenaissance: jsonData.birthday,
                 email: jsonData.mail,
+                birthday:jsonData.birthday,
                 tel: Utils._parsePhone(jsonData.phone, 'mg'),
             })
         }).catch(err => {
@@ -117,7 +120,7 @@ class EditInfo extends Component {
                 account_id: this.state.account_id,
                 username: this.state.username,
                 email: this.state.userInfo.mail,
-                phone: this.state.tél,
+                phone: this.state.tel,
                 name: this.state.nom,
                 firstname: '',
                 birthday: this.state.birthday
@@ -127,13 +130,14 @@ class EditInfo extends Component {
                     account_id: this.state.account_id,
                     username: this.state.username,
                     email: this.state.userInfo.mail,
-                    phone: this.state.tél,
+                    phone: this.state.tel,
                     name: this.state.nom,
                     firstname: '',
                     birthday: this.state.birthday,
                     password: this.state.newpassword
                 }
             }
+            console.log(dataUser)
             const updated = await UserService.updateUserInfo(dataUser, this)
         } catch (error) {
             Alert.alert('Erreur', error)
@@ -194,6 +198,7 @@ class EditInfo extends Component {
     }
     _handleValider = () => {
         try {
+            Utils._isValidMail(this.state.email);
             Utils.validatePhoneNumer(this.state.tel);
             this.checkPassword();
             this.renderPinModal();
@@ -203,7 +208,7 @@ class EditInfo extends Component {
     }
     changeTextPhone = (phone) => {
         try {
-            let formatedPhone = AchatService._parsePhone(phone, 'mg');
+            let formatedPhone = Utils._parsePhone(phone, 'mg');
             this.setState({ tel: formatedPhone })
         }
         catch (err) {
@@ -224,7 +229,7 @@ class EditInfo extends Component {
                         onChangeText={nom => this.setState({ nom })}
                         onEndEditing={() => {
                             if (this.state.nom == '' || this.state.nom == null) {
-                                this.setState({ nom: this.state.userInfo.nom, validateBtnVisible: true })
+                                this.setState({ nom: this.state.userInfo.nom})
                             }
                         }}
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
@@ -237,7 +242,7 @@ class EditInfo extends Component {
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
                         onEndEditing={() => {
                             if (this.state.email == '' || this.state.email == null) {
-                                this.setState({ email: this.state.userInfo.mail, validateBtnVisible: true })
+                                this.setState({ email: this.state.userInfo.mail})
 
                             }
                         }}
@@ -250,7 +255,7 @@ class EditInfo extends Component {
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
                         onEndEditing={() => {
                             if (this.state.tel == '' || this.state.tel == null) {
-                                this.setState({ tel: this.state.userInfo.phone, validateBtnVisible: true })
+                                this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone,'mg')})
                             }
                         }}
                     />
@@ -278,7 +283,7 @@ class EditInfo extends Component {
                             }
                         }}
                         onDateChange={datenaissance => {
-                            this.setState({ datenaissance:datenaissance,validateBtnVisible:true })
+                            this.setState({ datenaissance:datenaissance})
                         }}
                     />
                     <FormLabel containerStyle={{ marginTop: 2 }}>Nouveau mot de passe</FormLabel>
@@ -293,7 +298,7 @@ class EditInfo extends Component {
                     />
                     <FormLabel containerStyle={{ marginTop: 2 }}>Confirmer votre mot de passe</FormLabel>
                     <FormInput
-                        placeholder='Entrer votre nouveau mot de passe'
+                        placeholder='Confirmer votre nouveau mot de passe'
                         secureTextEntry
                         onChangeText={confirmpassword => this.setState({ confirmpassword })}
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
@@ -329,7 +334,6 @@ class EditInfo extends Component {
                     <TouchableOpacity
                         onPress={this._handleValider}
                         style={configStyles.touch}
-                        disabled={this.state.validateBtnVisible}
                     >
                         <Text style={configStyles.touchtext}>Valider</Text>
                     </TouchableOpacity>
@@ -346,7 +350,7 @@ class EditInfo extends Component {
                         color={this.state.color}
                     />
                 ) : null}
-                {this.state.messageVisibleMini ? (
+                {/* {this.state.messageVisibleMini ? (
                     <MessagePromptMini
                         onRequestClose={() => this.removeModal()}
                         iconName={this.state.iconName}
@@ -356,7 +360,7 @@ class EditInfo extends Component {
                         error={this.state.error}
                         color={this.state.color}
                     />
-                ) : null}
+                ) : null} */}
             </View>
         )
     }

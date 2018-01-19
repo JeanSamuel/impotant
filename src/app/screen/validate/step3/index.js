@@ -1,17 +1,25 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 import {
   Text,
   FormLabel,
   FormInput,
   FormValidationMessage,
   Button,
-  Icon
+  Icon,
+  Avatar
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import { NavigationActions } from "react-navigation";
-import { Header, TextInput } from "../allSteps";
-import userData from "../data.json";
+import { Header } from "../allSteps";
+import { ImageUpload } from "../../../services";
+import Colors from "../../../config/constants/colors";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -23,44 +31,76 @@ export default class componentName extends Component {
     };
   }
 
-  someFunction = () => {};
   goToNextStep = () => {
-    console.log("====================================");
-    console.log("mankato", this.props.navigation);
-    console.log("====================================");
+    let info = this.props.navigation.state.params;
+    console.log(this.props);
+
     let data = {
-      connexion: userData.connexion,
-      user: userData.user,
-      pieces: userData.pieces
+      connexion: info.connexion,
+      user: info.user,
+      pieces: {
+        userPhoto:
+          "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg",
+        cinPhoto:
+          "http://img.over-blog-kiwi.com/1/21/51/02/20140916/ob_0c7fd9_cni.jpg"
+      }
     };
     this.props.navigation.navigate("Step4", data);
   };
+
+  uploadPhoto = () => {
+    console.log("zrezr");
+    ImageUpload._pickImage("cin", this);
+  };
+
+  uploadCIN = () => {
+    console.log("ezrt");
+    ImageUpload._pickImage("avatar", this);
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Header position={2} title="Pièces justificatifs" />
         <ScrollView behavior="padding" style={styles.body}>
           <View style={styles.piecesjointesContainer}>
-            <View style={styles.piecesjointes}>
+            <TouchableOpacity
+              style={styles.piecesjointes}
+              onPress={this.uploadPhoto}
+            >
               <View>
-                <Icon reverse name="user" color="#517fa4" type="font-awesome" />
+                <Avatar
+                  medium
+                  source={{
+                    uri:
+                      "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"
+                  }}
+                  onPress={() => console.log("Works!")}
+                  activeOpacity={0.7}
+                />
               </View>
               <View style={styles.pieceTextCOntainer}>
                 <Text style={styles.pieceText}>
                   Importer votre photo d'identité
                 </Text>
               </View>
-            </View>
-            <FormValidationMessage>Trop volumineux</FormValidationMessage>
+            </TouchableOpacity>
+            <FormValidationMessage />
           </View>
           <View style={styles.piecesjointesContainer}>
-            <View style={styles.piecesjointes}>
+            <TouchableOpacity
+              style={styles.piecesjointes}
+              onPress={this.uploadCIN}
+            >
               <View>
-                <Icon
-                  reverse
-                  name="id-card-o"
-                  color="#517fa4"
-                  type="font-awesome"
+                <Avatar
+                  medium
+                  source={{
+                    uri:
+                      "http://img.over-blog-kiwi.com/1/21/51/02/20140916/ob_0c7fd9_cni.jpg"
+                  }}
+                  onPress={() => console.log("Works!")}
+                  activeOpacity={0.7}
                 />
               </View>
               <View style={styles.pieceTextCOntainer}>
@@ -69,7 +109,7 @@ export default class componentName extends Component {
                 </Text>
                 <Text style={styles.pieceText}>(Recto-Verso)</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </ScrollView>
         <View style={styles.buttonLeft}>
@@ -86,7 +126,7 @@ export default class componentName extends Component {
             small
             iconRight={{ name: "arrow-forward" }}
             title="Validation"
-            backgroundColor="#01C89E"
+            backgroundColor={Colors.$secondaryColor}
             onPress={this.goToNextStep}
           />
         </View>
