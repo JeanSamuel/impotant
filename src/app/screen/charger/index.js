@@ -5,7 +5,7 @@ import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Header } from '../../components/Header'
-import { AchatService, Utils } from '../../services'
+import { AchatService, Utils} from '../../services'
 import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';

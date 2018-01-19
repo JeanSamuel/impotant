@@ -55,7 +55,10 @@ class Contact extends Component {
   };
 
   goToSteps = () => {
-    this.props.navigation.navigate("Validation");
+    if (this.props.role === "confirmé")
+      this.props.navigation.navigate("EditInfo",{user_id:this.props.code});
+    else
+      this.props.navigation.navigate("Validation");
   };
 
   renderHeader = () => {
@@ -97,10 +100,10 @@ class Contact extends Component {
                 uri: avatar
               }}
             />
-            <Text style={styles.userNameText}>{this.props.username+" ("+this.props.code+')'}</Text>
+            <Text style={styles.userNameText}>{this.props.username + " (" + this.props.code + ')'}</Text>
             <View style={styles.userAddressRow}>
               <View style={styles.userCityRow}>
-                <Text style={styles.userCityText}>confirmé</Text>
+                <Text style={styles.userCityText}>{this.props.role}</Text>
               </View>
             </View>
           </View>
@@ -111,7 +114,7 @@ class Contact extends Component {
 
   renderLocal = () => (
     <View style={styles.telContainer}>
-      <Localisation city={"Antananarivo"} country={"Madagascar"}/>
+      <Localisation city={"Antananarivo"} country={"Madagascar"} />
     </View>
   );
 
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
   emailContainer: {
     backgroundColor: "#FFF",
     flex: 1,
-    paddingTop: 20
+    paddingTop: 201234
   },
   headerBackgroundImage: {
     paddingBottom: 20

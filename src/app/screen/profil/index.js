@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { StackNavigator } from "react-navigation";
 import Profile from "./Profile";
 import Validation from "../validate";
+import EditInfo from "./EditInfo";
 import Services from "../../services/utils/services";
 import { UserService,AchatService } from "../../services/index";
 
@@ -12,6 +13,19 @@ class ProfileScreen extends Component {
     this.state = {
       datas:{},
       info:{}
+    }
+  }
+  getRoles(role) {
+    switch (role) {
+      case 'ROLE_CLIENT_TEMP':
+        return "à confirmer";
+        break;
+      case 'ROLE_CLIENT_SIMPLE':
+        return "à confirmer";
+        break;
+      case 'ROLE_CLIENT_VALIDE':
+        return "confirmé";
+        break;
     }
   }
   async componentWillMount() {
@@ -56,7 +70,8 @@ class ProfileScreen extends Component {
           "https://orig00.deviantart.net/dcd7/f/2014/027/2/0/mountain_background_by_pukahuna-d73zlo5.png",
         tels: datasUSER.phony ,
         emails: datasUSER.maily,
-        birthday: datasUSER.birthday
+        birthday: datasUSER.birthday,
+        role:this.getRoles(data.roles[0])
       }
       this.setState({ info: info,datas:datasUSER });
     } catch (error) {
@@ -75,6 +90,9 @@ const StackSettings = new StackNavigator(
     },
     Validation: {
       screen: Validation
+    },
+    EditInfo:{
+      screen:EditInfo
     }
   },
   {
