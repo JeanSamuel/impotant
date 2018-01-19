@@ -6,6 +6,7 @@ import Validation from "../validate";
 import EditInfo from "./EditInfo";
 import Services from "../../services/utils/services";
 import { UserService, AchatService } from "../../services/index";
+import Utils from "../../services/utils/Utils";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -72,7 +73,8 @@ class ProfileScreen extends Component {
         tels: datasUSER.phony,
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
-        role:this.getRoles(data.roles[0])
+        role:this.getRoles(data.roles[0]),
+        solde:Utils.formatNumber(1500000)
       }
       this.setState({ info: info,datas:datasUSER });
     } catch (error) {

@@ -65,8 +65,8 @@ class EditInfo extends Component {
                 userInfo: jsonData,
                 account_id: jsonData.code,
                 username: jsonData.username,
-                nom: jsonData.nom,
-                prenom: '',
+                nom: this.getNom(jsonData.nom),
+                firstname: this.getPrenom(jsonData.nom),
                 datenaissance: jsonData.birthday,
                 email: jsonData.mail,
                 birthday: jsonData.birthday,
@@ -75,6 +75,23 @@ class EditInfo extends Component {
         }).catch(err => {
             console.log("Erreur: " + err.message);
         })
+    }
+    splitName(nom) {
+        return nom.split(" ")
+    }
+    getNom(nom) {
+        return this.splitName(nom)[0]
+    }
+    getPrenom(nom) {
+        let pn = ""
+        let a = this.splitName(nom);
+        let n = a[0];
+        a.forEach(element => {
+            if (element != n) {
+                pn += element + " "
+            }
+        });
+        return pn.trim()
     }
     async verifyOldPassword() {
         try {
@@ -119,7 +136,7 @@ class EditInfo extends Component {
             let dataUser = {
                 account_id: this.state.account_id,
                 username: this.state.username,
-                email: this.state.userInfo.mail,
+                email: this.state.email,
                 phone: this.state.tel,
                 name: this.state.nom,
                 firstname: this.state.firstname,
@@ -129,7 +146,7 @@ class EditInfo extends Component {
                 dataUser = {
                     account_id: this.state.account_id,
                     username: this.state.username,
-                    email: this.state.userInfo.mail,
+                    email: this.state.email,
                     phone: this.state.tel,
                     name: this.state.nom,
                     firstname: this.state.firstname,

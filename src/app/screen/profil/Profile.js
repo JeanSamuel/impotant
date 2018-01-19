@@ -56,7 +56,7 @@ class Contact extends Component {
 
   goToSteps = () => {
     if (this.props.role === "confirmé")
-      this.props.navigation.navigate("EditInfo",{user_id:this.props.code});
+      this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
     else
       this.props.navigation.navigate("Validation");
   };
@@ -65,7 +65,8 @@ class Contact extends Component {
     const {
       avatar,
       avatarBackground,
-      name
+      name,
+      solde
     } = this.props;
 
     return (
@@ -83,8 +84,9 @@ class Contact extends Component {
               type='ionicon'
               underlayColor="transparent"
               iconStyle={styles.navigationIcon}
-              onPress={()=>{this.props.navigation.navigate('DrawerOpen')}}
+              onPress={() => { this.props.navigation.navigate('DrawerOpen') }}
             />
+            <Text style={styles.userNameText}>Profil{" (" + this.props.username + " " + this.props.code + ')'}</Text>
             <TouchableOpacity onPress={this.goToSteps}>
               <Icon
                 name="edit"
@@ -101,7 +103,11 @@ class Contact extends Component {
                 uri: avatar
               }}
             />
-            <Text style={styles.userNameText}>{this.props.username + " (" + this.props.code + ')'}</Text>
+            <Text style={[styles.userNameText, {
+              borderBottomWidth: 1,
+              paddingBottom:0,
+              borderBottomColor: "#fff"
+            }]}>Solde: {this.props.solde + " Ar "}</Text>
             <View style={styles.userAddressRow}>
               <View style={styles.userCityRow}>
                 <Text style={styles.userCityText}>{this.props.role}</Text>
@@ -118,12 +124,17 @@ class Contact extends Component {
       <Localisation city={"Antananarivo"} country={"Madagascar"} />
     </View>
   );
-
   renderUser = () => (
     <View style={styles.telContainer}>
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   );
+  onPressTel() {
+
+  }
+  onPressSms() {
+
+  }
   renderTel = () => (
     <View style={styles.telContainer}>
       <Tel index={0} key={"tel-1"} name={"Mobile"} number={this.props.tels} onPressSms={this.onPressSms} onPressTel={this.onPressTel} />
@@ -145,7 +156,9 @@ class Contact extends Component {
     //   }}
     // />
   );
+  onPressEmail() {
 
+  }
   renderEmail = () => (
     <View style={styles.telContainer}>
       <Email
@@ -175,7 +188,7 @@ class Contact extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor:'#fff',flex:1}}>
+      <View style={{ backgroundColor: '#fff', flex: 1 }}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>
@@ -252,7 +265,7 @@ const styles = StyleSheet.create({
   },
   userAddressRow: {
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   userCityRow: {
     backgroundColor: "transparent"
