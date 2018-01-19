@@ -24,7 +24,7 @@ export default class DrawerContent extends Component {
     this.state = {
       solde: "",
       account_id: 0,
-      avatar: "",
+      avatar: "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg",
       alias: "",
       username: "",
       date: "",
@@ -60,6 +60,11 @@ export default class DrawerContent extends Component {
             avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
+          if(dataParsed.avatar==undefined){
+            this.setState({
+              avatar: "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg",
+            });
+          }
           this.checkSolde();
         } else {
           this.setState({
@@ -160,7 +165,7 @@ export default class DrawerContent extends Component {
           <Avatar
             large
             rounded
-            source={{ uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" }}
+            source={{ uri: this.state.avatar }}
             onPress={this.goToProfil.bind(this)}
             activeOpacity={0.7}
           />
