@@ -179,7 +179,8 @@ export default class componentName extends Component {
         phone: this.state.phone,
         adresse: this.state.adresse,
         ville: this.state.ville,
-        postal: this.state.postal
+        postal: this.state.postal,
+        pays: this.state.pays
       }
     };
   };

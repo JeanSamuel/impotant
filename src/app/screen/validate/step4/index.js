@@ -48,10 +48,15 @@ export default class Step4 extends Component {
 
   someFunction = () => {};
   goToNextStep = () => {
-    this.props.navigation.navigate("Step2");
+    this.props.navigation.navigate("Profil");
   };
 
   renderConnexion = () => {
+    console.log("====================================");
+    console.log("aty amm step4");
+    console.log(this.props);
+
+    console.log("====================================");
     const { connexion } = this.props.navigation.state.params;
     return (
       <Card data={connexion} title={"Connexion"} iconName={"verified-user"} />
