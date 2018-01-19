@@ -155,15 +155,17 @@ class Services extends Component {
   async goLogin(webViewState) {
     try {
       let OauthCode = await this.extractOauthCode(webViewState.url);
-      let tokenData = await this.getToken(OauthCode);
-      let token = response;
-      return this.getUserInfo(token).then(userInfo => {
+      console.log(OauthCode);
+      let response = await this.getToken(OauthCode);
+      return this.getUserInfo(response).then(userInfo => {
         return userInfo;
       });
     } catch (error) {
-      throw this.createError(response.error, "erreur during login");
+      console.log(error);
+      throw this.createError(error, "erreur during login");
     }
   }
+
 
   async saveTokenData(tokenData) {
     now = new Date();
@@ -205,7 +207,7 @@ class Services extends Component {
     formData.append("code", oauthCode);
     formData.append("client_id", configs.client_id);
     formData.append("client_secret", configs.client_secret);
-    formData.append("redirect_uri", configs.BASE_URL_Oauth + "index.php/");
+    formData.append("redirect_uri", configs.redirect_uri);
     formData.append("grant_type", configs.grant_type_Oauth);
     formData.append("scope", configs.scope);
     var data = {
@@ -219,13 +221,15 @@ class Services extends Component {
           this.saveTokenData(responseJSON);
           return responseJSON.access_token;
         } else {
+          console.log(responseJSON.error);
           throw this.createError(
-            response.error,
+            responseJSON.error,
             "erreur getting token by OauthCode"
           );
         }
       })
       .catch(error => {
+        console.log(error);
         throw this.createError(error, "erreur services during refresh_token");
       }));
   }
