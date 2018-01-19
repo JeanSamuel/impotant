@@ -8,9 +8,6 @@ class Services extends Component {
       Utils._isValidMail(value);
       return 0;
     } catch (error) {
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
       return error;
     }
   }
@@ -19,9 +16,6 @@ class Services extends Component {
       Utils._isValidPass(checkPass);
       return 0;
     } catch (error) {
-      console.log("====================================");
-      console.log(error);
-      console.log("====================================");
       return error;
     }
   }
@@ -40,7 +34,21 @@ class Services extends Component {
     }
   }
 
-  checkName(value) {}
+  checkName(value) {
+    let checked = this.checkSimpleData(value);
+    checked ? null : (checked = this.checkNameFormation(value));
+    return checked;
+  }
+
+  checkNameFormation(value) {
+    let ret = 0;
+    value = value.trim();
+    value.split(" ").length > 1
+      ? null
+      : (ret = "Ce champ doit contenir au moins 2 mots (nom et prénoms)");
+
+    return ret;
+  }
 
   checkSimpleData(value) {
     if (value) {
@@ -51,8 +59,12 @@ class Services extends Component {
   }
 
   parsePhone(phoneNumber) {
-    // return Utils._parsePhone(phoneNumber, "MGA");
-    return phoneNumber;
+    try {
+      let parsed = Utils._parsePhone(phoneNumber, "mg");
+      return parsed;
+    } catch (error) {
+      throw error;
+    }
   }
 
   checkPhone(phone) {
@@ -64,7 +76,9 @@ class Services extends Component {
     }
   }
 
-  checkDateN(date) {}
+  checkDateN(date) {
+    return this.checkSimpleData(date);
+  }
 }
 
 export default Services;

@@ -10,7 +10,7 @@ import {
 } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import { NavigationActions } from "react-navigation";
-import { Header, TextInput } from "../allSteps";
+import { Header } from "../allSteps";
 import userData from "../data.json";
 
 const deviceWidth = Dimensions.get("window").width;
@@ -23,11 +23,7 @@ export default class componentName extends Component {
     };
   }
 
-  someFunction = () => {};
   goToNextStep = () => {
-    console.log("====================================");
-    console.log("mankato", this.props.navigation);
-    console.log("====================================");
     let data = {
       connexion: userData.connexion,
       user: userData.user,
