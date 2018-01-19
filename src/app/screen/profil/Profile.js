@@ -79,10 +79,11 @@ class Contact extends Component {
         >
           <View style={styles.navigation}>
             <Icon
-              name="arrow-back"
+              name="ios-menu"
+              type='ionicon'
               underlayColor="transparent"
               iconStyle={styles.navigationIcon}
-              onPress={this.goBack}
+              onPress={()=>{this.props.navigation.navigate('DrawerOpen')}}
             />
             <TouchableOpacity onPress={this.goToSteps}>
               <Icon
@@ -94,7 +95,7 @@ class Contact extends Component {
           </View>
 
           <View style={styles.headerColumn}>
-            <Image
+            <Image onPress={console.log('Image pressed')}
               style={styles.userImage}
               source={{
                 uri: avatar

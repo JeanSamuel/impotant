@@ -33,7 +33,7 @@ class EditInfo extends Component {
             oldpassword: '',
             newpassword: '',
             username: '',
-            birthday:'',
+            birthday: '',
             loading: false,
             username: '',
             confirmpassword: '',
@@ -69,7 +69,7 @@ class EditInfo extends Component {
                 prenom: '',
                 datenaissance: jsonData.birthday,
                 email: jsonData.mail,
-                birthday:jsonData.birthday,
+                birthday: jsonData.birthday,
                 tel: Utils._parsePhone(jsonData.phone, 'mg'),
             })
         }).catch(err => {
@@ -122,7 +122,7 @@ class EditInfo extends Component {
                 email: this.state.userInfo.mail,
                 phone: this.state.tel,
                 name: this.state.nom,
-                firstname: '',
+                firstname: this.state.firstname,
                 birthday: this.state.birthday
             }
             if (this.state.newpassword != '' || this.state.newpassword != null) {
@@ -132,17 +132,20 @@ class EditInfo extends Component {
                     email: this.state.userInfo.mail,
                     phone: this.state.tel,
                     name: this.state.nom,
-                    firstname: '',
+                    firstname: this.state.firstname,
                     birthday: this.state.birthday,
                     password: this.state.newpassword
                 }
             }
-            console.log(dataUser)
             const updated = await UserService.updateUserInfo(dataUser, this)
+            this.removeModal()
+            this.props.navigation.navigate('Drawer', {
+                user_id: this.state.account_id,
+                username: this.state.username
+            })
         } catch (error) {
-            Alert.alert('Erreur', error)
+            this.setState({ rror: true, errorMessage: err.toString() })
         }
-        this.setState({ loading: false })
     }
 
     _isEmptyPass() {
@@ -229,9 +232,16 @@ class EditInfo extends Component {
                         onChangeText={nom => this.setState({ nom })}
                         onEndEditing={() => {
                             if (this.state.nom == '' || this.state.nom == null) {
-                                this.setState({ nom: this.state.userInfo.nom})
+                                this.setState({ nom: this.state.userInfo.nom })
                             }
                         }}
+                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                    />
+                    <FormLabel containerStyle={{ marginTop: 2 }}>Prénom</FormLabel>
+                    <FormInput
+                        value={this.state.firstname}
+                        placeholder='Entrer votre nom'
+                        onChangeText={firstname => this.setState({ firstname })}
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
                     />
                     <FormLabel containerStyle={{ marginTop: 2 }}>Email</FormLabel>
@@ -242,7 +252,7 @@ class EditInfo extends Component {
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
                         onEndEditing={() => {
                             if (this.state.email == '' || this.state.email == null) {
-                                this.setState({ email: this.state.userInfo.mail})
+                                this.setState({ email: this.state.userInfo.mail })
 
                             }
                         }}
@@ -255,7 +265,7 @@ class EditInfo extends Component {
                         style={[loginCss.input, { backgroundColor: 'transparent' }]}
                         onEndEditing={() => {
                             if (this.state.tel == '' || this.state.tel == null) {
-                                this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone,'mg')})
+                                this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone, 'mg') })
                             }
                         }}
                     />
@@ -283,7 +293,7 @@ class EditInfo extends Component {
                             }
                         }}
                         onDateChange={datenaissance => {
-                            this.setState({ datenaissance:datenaissance})
+                            this.setState({ birthday: datenaissance })
                         }}
                     />
                     <FormLabel containerStyle={{ marginTop: 2 }}>Nouveau mot de passe</FormLabel>

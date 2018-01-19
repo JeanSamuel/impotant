@@ -44,7 +44,7 @@ class ProfileScreen extends Component {
           phony: "Numéro téléphone...",
           solde: data.solde,
           avatar:
-            "http://static8.viadeo-static.com/5V_x2FwPfjJBpZeHsEDrKKVSD8E=/300x300/member/0021ca47s0p4qnjg?ts=1476649888000"
+            "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
         };
       } else {
         datasUSER = {

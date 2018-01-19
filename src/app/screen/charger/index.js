@@ -61,11 +61,11 @@ class Charger extends Component {
       <Header
         leftComponent={
           <HeaderButton
-            iconName={"ios-arrow-back"}
+            iconName={"ios-menu"}
             color={"#fff"}
             type={"ionicon"}
             action={() => {
-              this.props.navigation.goBack(null);
+              this.props.navigation.navigate('DrawerOpen');
             }}
           />
         }
