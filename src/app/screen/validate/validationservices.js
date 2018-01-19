@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Utils } from "../../services";
 
 const regex = /^([a-zA-Z0-9_-]){4,}$/;
-export default class Services extends Component {
+class Services extends Component {
   checkMail(value) {
     try {
       Utils._isValidMail(value);
@@ -39,4 +39,32 @@ export default class Services extends Component {
       return "Mots de passe non identiques";
     }
   }
+
+  checkName(value) {}
+
+  checkSimpleData(value) {
+    if (value) {
+      return 0;
+    } else {
+      return "Ce champ est obligatoire";
+    }
+  }
+
+  parsePhone(phoneNumber) {
+    // return Utils._parsePhone(phoneNumber, "MGA");
+    return phoneNumber;
+  }
+
+  checkPhone(phone) {
+    try {
+      Utils.validatePhoneNumer(phone);
+      return 0;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  checkDateN(date) {}
 }
+
+export default Services;

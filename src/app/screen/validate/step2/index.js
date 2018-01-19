@@ -10,6 +10,7 @@ import {
 import DatePicker from "react-native-datepicker";
 import { Header, TextInput } from "../allSteps";
 import Services from "../validationservices";
+import Colors from "../../../config/constants/colors";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -21,24 +22,35 @@ export default class componentName extends Component {
       cin: "",
       dateN: "",
       phone: "",
+      adresse: "",
+      ville: "",
+      postal: "",
       nameError: false,
       cinError: false,
-      dateNError: false,
-      dateNAgainError: false
+      adresseError: false,
+      villeError: false,
+      postalError: false,
+      phoneError: false
     };
   }
+
+  componentDidMount = () => {
+    console.log("====================================");
+    console.log(this.props);
+    console.log("====================================");
+  };
 
   checkValidation = () => {
     let services = new Services();
     this.setState({ nameError: services.checkName(this.state.name) });
-    this.setState({ cinError: services.checkCIN(this.state.cin) });
+    this.setState({ cinError: services.checkSimpleData(this.state.cin) });
     this.setState({ dateNError: services.checkDateN(this.state.dateN) });
+    this.setState({ phoneError: services.checkPhone(this.state.phone) });
     this.setState({
-      dateNAgainError: services.checkDateNAgain(
-        this.state.dateN,
-        this.state.dateNAgain
-      )
+      adresseError: services.checkSimpleData(this.state.adresse)
     });
+    this.setState({ villeError: services.checkSimpleData(this.state.ville) });
+    this.setState({ postalError: services.checkSimpleData(this.state.postal) });
   };
 
   sommeError = () => {
@@ -106,12 +118,62 @@ export default class componentName extends Component {
     });
   };
 
+  _handlePhone = phone => {
+    this.setState({
+      phone: new Services().parsePhone(phone),
+      phoneError: false
+    });
+  };
+
+  _handleAdresse = adresse => {
+    this.setState({
+      adresse,
+      adresseError: false
+    });
+  };
+
+  _handleVille = ville => {
+    this.setState({
+      ville,
+      villeError: false
+    });
+  };
+
+  _handlePostal = postal => {
+    this.setState({
+      postal,
+      postalError: false
+    });
+  };
+
   _handleAll = dateNAgain => {
     this.setState({ dateNAgain, dateNAgainError: false });
   };
 
+  createDataForNextStep = () => {
+    const { connexion } = this.props.navigation.state.params;
+
+    console.log("====================================");
+    console.log(connexion);
+    console.log("====================================");
+
+    return {
+      connexion: connexion,
+      user: {
+        nom: this.props.nom,
+        cin: this.props.cin,
+        dateN: this.props.dateN,
+        phone: this.props.phone,
+        adresse: this.props.adresse,
+        ville: this.props.ville,
+        postal: this.props.postal
+      }
+    };
+  };
+
   goToNextStep = () => {
-    this.props.navigation.navigate("Step2");
+    let data = this.createDataForNextStep();
+    this.props.navigation.navigate("Step2", data);
   };
 
   renderName = () => {
@@ -193,6 +255,7 @@ export default class componentName extends Component {
           containerStyle={styles.input}
           returnKeyType={"next"}
           ref={input => (this.phone = input)}
+          keyboardType={"number-pad"}
           onSubmitEditing={() => this.validPhone()}
         />
         {this.state.phoneError ? (
@@ -296,7 +359,7 @@ export default class componentName extends Component {
             small
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
-            backgroundColor="#01C89E"
+            backgroundColor={Colors.$secondaryColor}
             onPress={this.validAll}
           />
         </View>

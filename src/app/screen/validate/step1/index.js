@@ -10,6 +10,7 @@ import {
 import DatePicker from "react-native-datepicker";
 import { Header, TextInput } from "../allSteps";
 import Services from "../validationservices";
+import Colors from "../../../config/constants/colors";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -67,13 +68,7 @@ export default class componentName extends Component {
   validAll() {
     this.checkValidation();
     let somme = this.sommeError();
-    console.log("====================================");
-    console.log(somme, "eto ho eto ah ");
-    console.log("====================================");
     if (somme) {
-      console.log("====================================");
-      console.log("tafiditr de merde ato ah ", somme);
-      console.log("====================================");
       this.goToNextStep();
     }
   }
@@ -104,8 +99,20 @@ export default class componentName extends Component {
     this.setState({ passAgain, passAgainError: false });
   };
 
+  createDataForNextStep = () => {
+    return {
+      connexion: {
+        email: this.state.email,
+        pseudo: this.state.pseudo,
+        identifiant: "AA015",
+        password: this.state.pass
+      }
+    };
+  };
+
   goToNextStep = () => {
-    this.props.navigation.navigate("Step2");
+    let data = this.createDataForNextStep();
+    this.props.navigation.navigate("Step2", data);
   };
 
   renderEmail = () => {
@@ -223,7 +230,7 @@ export default class componentName extends Component {
             small
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
-            backgroundColor="#01C89E"
+            backgroundColor={Colors.$secondaryColor}
             onPress={this.validAll.bind(this)}
           />
         </View>

@@ -30,7 +30,7 @@ const StackSettings = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Step2",
+    initialRouteName: "Step1",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })
