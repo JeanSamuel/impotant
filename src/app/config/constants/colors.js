@@ -7,10 +7,11 @@ export default {
   // $darkColor: "#1C2E48",
   $darkColor: "#00cf7e",
   //$darkColor: "#004c82",
-  $secondaryColor: "#03AEE6",
+  $secondaryColor: "#00cf7e",
+  // $secondaryColor: "#03AEE6",
   $primaryColor: "#128FB5",
   $inputText: "#797979",
   $darkText: "#343434",
   $primaryGreen: "#1e9228",
   $inputBG: "rgba(250,250,250,0.8)"
-}
+};
