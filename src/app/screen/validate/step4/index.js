@@ -97,7 +97,7 @@ export default class Step4 extends Component {
             small
             title="Retour"
             backgroundColor="transparent"
-            onPress={this.goToNextStep}
+            onPress={() => this.props.navigation.goBack()}
             color="rgba(44, 62, 80,0.5)"
             fontSize={18}
             fontWeight={"bold"}
