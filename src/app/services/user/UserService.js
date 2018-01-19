@@ -49,6 +49,7 @@ class UserService {
         await fetch(url, options)
           .then(response => response.json())
           .then(responseJson => {
+            console.log(responseJson)
             if (responseJson.error_message != null) {
               throw responseJson.error_message;
             } else {
@@ -60,7 +61,6 @@ class UserService {
           });
         if (updated) {
           await this.refreshData(dataUser.account_id, activity);
-          await this.loadConfig(activity)
         }
       } catch (error) {
         throw error;
@@ -78,7 +78,6 @@ class UserService {
   async updateUserPass(dataUser, activity) {
     let msg = null;
     var success = false;
-    activity.setState({ loading: true });
     let url = BASEURL + 'change_password';
     if (dataUser != null) {
       try {
@@ -106,23 +105,21 @@ class UserService {
           });
         if (success) {
           await this.refreshData(dataUser.account_id, activity);
-          await this.loadConfig(activity);
         }
       } catch (error) {
         throw error.toString();
-      } finally {
-        activity.setState({ loading: false });
       }
     } else {
-      activity.setState({ loading: false });
       msg = 'Aucune information saisie!!!';
       throw msg;
     }
     return success;
   }
   async refreshData(account_id, activity) {
-    let userInfo = await this.getUserInfo(account_id, activity);
     await Utils.removeItem('userInfo');
+    await Utils.removeItem('userData');
+    let userInfo = await this.getUserInfo(account_id, activity);
+    await Utils._saveItem('userData', JSON.stringify(userInfo));
     await Utils._saveItem('userInfo', JSON.stringify(userInfo));
   }
   /**

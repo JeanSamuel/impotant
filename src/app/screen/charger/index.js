@@ -5,7 +5,7 @@ import { StackNavigator } from "react-navigation";
 import { DrawerMenu } from "../../components/drawerMenu/";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Header } from '../../components/Header'
-import { AchatService, Utils } from '../../services'
+import { AchatService, Utils} from '../../services'
 import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
 import Services from '../../services/utils/services'
 import { InputLeftIcon } from '../../components/TextInput';
@@ -61,11 +61,11 @@ class Charger extends Component {
       <Header
         leftComponent={
           <HeaderButton
-            iconName={"ios-arrow-back"}
+            iconName={"ios-menu"}
             color={"#fff"}
             type={"ionicon"}
             action={() => {
-              this.props.navigation.goBack(null);
+              this.props.navigation.navigate('DrawerOpen');
             }}
           />
         }

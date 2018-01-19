@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { StackNavigator } from "react-navigation";
 import Profile from "./Profile";
 import Validation from "../validate";
+import EditInfo from "./EditInfo";
 import Services from "../../services/utils/services";
 import { UserService, AchatService } from "../../services/index";
+import Utils from "../../services/utils/Utils";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -13,6 +15,19 @@ class ProfileScreen extends Component {
       datas: {},
       info: {}
     };
+  }
+  getRoles(role) {
+    switch (role) {
+      case 'ROLE_CLIENT_TEMP':
+        return "à confirmer";
+        break;
+      case 'ROLE_CLIENT_SIMPLE':
+        return "à confirmer";
+        break;
+      case 'ROLE_CLIENT_VALIDE':
+        return "confirmé";
+        break;
+    }
   }
   async componentWillMount() {
     let user_id = this.props.navigation.state.params.user_id;
@@ -30,7 +45,7 @@ class ProfileScreen extends Component {
           phony: "Numéro téléphone...",
           solde: data.solde,
           avatar:
-            "http://static8.viadeo-static.com/5V_x2FwPfjJBpZeHsEDrKKVSD8E=/300x300/member/0021ca47s0p4qnjg?ts=1476649888000"
+            "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
         };
       } else {
         datasUSER = {
@@ -57,9 +72,11 @@ class ProfileScreen extends Component {
           "https://orig00.deviantart.net/dcd7/f/2014/027/2/0/mountain_background_by_pukahuna-d73zlo5.png",
         tels: datasUSER.phony,
         emails: datasUSER.maily,
-        birthday: datasUSER.birthday
-      };
-      this.setState({ info: info, datas: datasUSER });
+        birthday: datasUSER.birthday,
+        role:this.getRoles(data.roles[0]),
+        solde:Utils.formatNumber(1500000)
+      }
+      this.setState({ info: info,datas:datasUSER });
     } catch (error) {
       console.log("Error", error);
     }
@@ -76,6 +93,9 @@ const StackSettings = new StackNavigator(
     },
     Validation: {
       screen: Validation
+    },
+    EditInfo:{
+      screen:EditInfo
     }
   },
   {
