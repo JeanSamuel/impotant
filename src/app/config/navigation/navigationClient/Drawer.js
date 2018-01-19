@@ -22,7 +22,6 @@ import colors from '../../../config/constants/colors'
 const { width } = Dimensions.get("screen");
 export default DrawerNavigator(
   {
-
     Profil: {
       screen: Profil,
       navigationOptions: ({ navigation }) => ({
