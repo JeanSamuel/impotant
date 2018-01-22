@@ -70,8 +70,8 @@ export default class componentName extends Component {
     let info = this.props.navigation.state.params;
 
     let data = {
-      // connexion: info.connexion,
-      // user: info.user,
+      connexion: info.connexion,
+      user: info.user,
       pieces: {
         userPhoto: this.state.userPhoto,
         cinPhoto: this.state.cinPhoto
