@@ -43,7 +43,7 @@ class FingerprintRequest extends Component {
   };
 
   getAuthStatement = () => {
-    const displayText = this.getMessage(this.state.authStatus); // this.getMessage(this.state.authStatus);
+    const displayText = this.getMessage(this.state.authStatus);
     return (
       <View
         style={{

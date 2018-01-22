@@ -1,32 +1,15 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Modal,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  WebView,
-  Dimensions,
-  ActivityIndicator
-} from 'react-native'
-import { Container } from '../../../components/ContainerC'
-import { Logo } from '../../../components/Logo'
-import { RoundedButton } from '../../../components/Buttons'
-import { DoubleLineButton } from '../../../components/button'
-import { Icon } from 'react-native-elements'
-import { Login } from '../../login/index'
+import {ActivityIndicator, Dimensions, Image, ScrollView, View} from 'react-native'
+import {Logo} from '../../../components/Logo'
+import {DoubleLineButton} from '../../../components/button'
 
 import styles from '../../starter/starterM/starterStyles'
 import styleBase from '../../../assets/styles/styles'
-import StarterButton from '../../starter/starterM/starterButton'
-import moment from 'moment'
-import { InscriptionService } from '../../../services'
+import {InscriptionService} from '../../../services'
+import {configStyles} from '../../../assets/styles'
+
 const background = require('../../../assets/images/back3.jpg')
 const mark = require('../../../assets/images/icons/logo-pro.png')
-import { configStyles } from '../../../assets/styles'
 const { width } = Dimensions.get('window')
 export default class Landing extends React.Component {
   constructor(props) {
@@ -83,9 +66,9 @@ export default class Landing extends React.Component {
           </ScrollView>
         </Image>
         {this.state.loading &&
-          <View style={configStyles.indicator}>
-            <ActivityIndicator size='large' animating color='#00d07f' />
-          </View>}
+        <View style={configStyles.indicator}>
+          <ActivityIndicator size='large' animating color='#00d07f' />
+        </View>}
       </View>
     )
   }
