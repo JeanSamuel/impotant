@@ -47,12 +47,12 @@ export default {
   BASE_URL: "http://ariary.vola.mg/",
   NEW_BASE_URL: "http://ariary.vola.mg/new_serv/",
   BASE_URL_Oauth: "http://auth.vola.mg/",
-  redirect_uri: "https://auth.expo.io/@miorantsoarak/ariarynet-beta",
-  scope: "all",
+  redirect_uri: "http://auth.vola.mg/index.php/",
+  scope: "userinfo",
   grant_type_Oauth: "authorization_code",
   grant_type_refresh: "refresh_token",
-  client_id : 'AriaryApp',
-  client_secret : 'NivoPass',
+  client_id : 'ariarynet',
+  client_secret : 'ariarynetpass',
   uri:
     "http://auth.vola.mg/oauth2/authorize?response_type=code&state=xyz&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo",
   message: [
