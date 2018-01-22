@@ -114,7 +114,7 @@ export default DrawerNavigator(
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Profil",
     drawerWidth: width - 50,
     contentOptions: {
       activeTintColor: colors.$darkColor,

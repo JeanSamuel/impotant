@@ -17,6 +17,7 @@ import { loginCss, configStyles } from '../../assets/styles'
 import { Utils, UserService } from '../../services'
 import Services from '../../services/utils/services'
 import DatePicker from 'react-native-datepicker'
+import EStyleSheet from "react-native-extended-stylesheet"
 import { PinModal, Modal, MessagePrompt, MessagePromptMini } from '../../components/modal'
 const deviceWidth = Dimensions.get('window').width
 // create a component
@@ -49,6 +50,15 @@ class EditInfo extends Component {
             errorMessage: null,
             validateBtnVisible: false,
             iconName: "info",
+
+            nameError: null,
+            firstnameError: null,
+            emailError: null,
+            phoneError: null,
+            newpassError: 0,
+            confirmpassError: 0,
+            oldpassError: 0,
+            dateNError: 0
         }
     }
     componentWillMount() {
@@ -94,15 +104,18 @@ class EditInfo extends Component {
         return pn.trim()
     }
     async verifyOldPassword() {
+        let r = 0;
         try {
             await UserService.verifyUser(
                 this.state.username,
                 this.state.oldpassword,
                 this
             )
+            r=0
         } catch (error) {
-            throw "Veuillez entrer votre ancien mot de passe"
+            r = "Veuillez entrer votre ancien mot de passe"
         }
+        return r;
     }
     verifyNewPass() {
         if (this.state.newpassword !== this.state.confirmpassword) {
@@ -124,10 +137,9 @@ class EditInfo extends Component {
         }
     }
     async _validateChange() {
-
         try {
             this.setState({
-                messageText: "Changement en cours...",
+                messageText: "Vérification  et modification des informations en cours...",
                 color: "#FF9521",
                 messageVisible: true,
                 loading: true,
@@ -216,16 +228,7 @@ class EditInfo extends Component {
             });
         }
     }
-    _handleValider = () => {
-        try {
-            Utils._isValidMail(this.state.email);
-            Utils.validatePhoneNumer(this.state.tel);
-            this.checkPassword();
-            this.renderPinModal();
-        } catch (err) {
-            this.setState({ error: true, errorMessage: err.toString() })
-        }
-    }
+
     changeTextPhone = (phone) => {
         try {
             let formatedPhone = Utils._parsePhone(phone, 'mg');
@@ -235,6 +238,106 @@ class EditInfo extends Component {
             this.setState({ tel: phone })
         }
     }
+    checkMail(value) {
+        let r=0;
+        try {
+            Utils._isValidMail(value);
+        } catch (error) {
+            r=error;
+        }
+        return r;
+    }
+    checkPass(checkPass) { 
+        try {
+            Utils._isValidPass(checkPass);
+            return 0;
+        } catch (error) {
+            r = error;
+        }
+        return r;
+    }
+    checkPassAgain(pass, passAgain) {
+        let r=0;
+        if (pass != passAgain) {
+            r= "Mots de passe non identiques";
+        }
+        return r;
+    }
+    checkNameFormation(value) {
+        let ret = 0;
+        value = value.trim();
+        value.split(" ").length > 1
+          ? null
+          : (ret = "Ce champ ne doit pas contenir au moins 2 mots (nom)");
+    
+        return ret;
+      }
+    checkName(value) {
+        let checked = this.checkSimpleData(value);
+        //checked ? null : (checked = this.checkNameFormation(value));
+        return checked;
+    }
+    checkPhone(phone) {
+        try {
+            Utils.validatePhoneNumer(phone);
+            return 0;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    checkDateN(date) {
+        return this.checkSimpleData(date);
+    }
+    checkSimpleData(value) {
+        if (value) {
+            return 0;
+        } else {
+            return "Ce champ est obligatoire";
+        }
+    }
+    checkValidation = () => {
+        this.setState({ nameError: this.checkName(this.state.nom) });
+        this.setState({ emailError: this.checkMail(this.state.email) });
+        this.setState({ phoneError: this.checkPhone(this.state.tel) });
+        if (this.state.newpassword != null && this.state.newpassword != "") {
+            this.setState({
+                newpassError: this.checkPass(this.state.newpassword),
+                confirmpassError: this.checkPassAgain(
+                    this.state.newpassword,
+                    this.state.confirmpassword
+                ),
+                oldpassError: this.verifyOldPassword()
+            });
+        }
+
+    };
+    sommeError = () => {
+        //console.log(this.state.nameError, this.state.phoneError, this.state.emailError, this.state.newpassError, this.state.confirmpassError, this.state.dateNError, this.state.oldpassError)
+        let r=false;
+        if (
+            this.state.nameError === 0 &&
+            this.state.phoneError === 0 &&
+            this.state.emailError === 0 &&
+            this.state.newpassError === 0 &&
+            this.state.confirmpassError === 0 &&
+            this.state.dateNError === 0 &&
+            this.state.oldpassError === 0
+        ) {
+            r=true;
+        }
+        return r;
+    };
+    _handleValider = () => {
+        try {
+            this.checkValidation();
+            if(this.sommeError()) {
+                this.renderPinModal();
+            }
+        } catch (err) {
+            console.log("error",err);
+        }
+    }
     render() {
         return (
             <View style={{ backgroundColor: '#fff', flex: 1 }}>
@@ -242,8 +345,8 @@ class EditInfo extends Component {
                     <Text style={configStyles.textHeader}>Editer vos informations</Text>
                 </View>
                 <ScrollView>
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Nom</FormLabel>
-                    <FormInput
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Nom</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         value={this.state.nom}
                         placeholder='Entrer votre nom'
                         onChangeText={nom => this.setState({ nom })}
@@ -252,21 +355,39 @@ class EditInfo extends Component {
                                 this.setState({ nom: this.state.userInfo.nom })
                             }
                         }}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Prénom</FormLabel>
-                    <FormInput
+                    {this.state.nameError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.nameError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Prénom</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         value={this.state.firstname}
                         placeholder='Entrer votre nom'
                         onChangeText={firstname => this.setState({ firstname })}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Email</FormLabel>
-                    <FormInput
+
+                    {this.state.firstnameError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.firstnameError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Email</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         value={this.state.email}
                         placeholder='Entrer votre email'
                         onChangeText={email => this.setState({ email })}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                         onEndEditing={() => {
                             if (this.state.email == '' || this.state.email == null) {
                                 this.setState({ email: this.state.userInfo.mail })
@@ -274,79 +395,111 @@ class EditInfo extends Component {
                             }
                         }}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Téléphone</FormLabel>
-                    <FormInput
+                    {this.state.emailError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.emailError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Téléphone</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         value={this.state.tel}
                         placeholder='Entrer votre téléphone'
                         onChangeText={this.changeTextPhone}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                         onEndEditing={() => {
                             if (this.state.tel == '' || this.state.tel == null) {
                                 this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone, 'mg') })
                             }
                         }}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>
+                    {this.state.phoneError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.phoneError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>
                         Date de naissance
                     </FormLabel>
                     <DatePicker
                         date={this.state.datenaissance}
-                        style={{ width: deviceWidth - 40 }}
+                        style={styles.inputContainerStyle}
                         mode='date'
                         placeholder='Selectionner une date'
                         format='YYYY-MM-DD'
                         confirmBtnText='Confirmer'
                         cancelBtnText='Annuler'
                         customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 15,
-                                top: 4,
-                                marginLeft: 5
-                            },
                             dateInput: {
-                                marginLeft: 50,
-                                alignSelf: 'center'
+                                borderWidth: 0
                             }
                         }}
                         onDateChange={datenaissance => {
                             this.setState({ birthday: datenaissance })
                         }}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Nouveau mot de passe</FormLabel>
-                    <FormInput
+                    {this.state.dateNError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.dateNError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Nouveau mot de passe</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         placeholder='Entrer votre nouveau mot de passe'
                         secureTextEntry
                         onChangeText={newpassword => this.setState({ newpassword })}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                         onEndEditing={() => {
                             this.setState({ validateBtnVisible: true })
                         }}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Confirmer votre mot de passe</FormLabel>
-                    <FormInput
+                    {this.state.newpassError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.newpassError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Confirmer votre mot de passe</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         placeholder='Confirmer votre nouveau mot de passe'
                         secureTextEntry
                         onChangeText={confirmpassword => this.setState({ confirmpassword })}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        inputStyle={styles.inputStyle}
+                        containerStyle={styles.inputContainerStyle}
                         onEndEditing={() => {
                             this.setState({ validateBtnVisible: true })
                         }}
                     />
-                    <FormLabel containerStyle={{ marginTop: 2 }}>Ancien mot de passe</FormLabel>
-                    <FormInput
+                    {this.state.confirmpassError
+                        ? (
+                            <FormValidationMessage>
+                                {this.state.confirmpassError}
+                            </FormValidationMessage>
+                        )
+                        : null}
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Ancien mot de passe</FormLabel>
+                    <FormInput underlineColorAndroid="transparent"
                         placeholder='Entrer votre ancien mot de passe'
                         secureTextEntry
                         onChangeText={oldpassword => this.setState({ oldpassword })}
-                        style={[loginCss.input, { backgroundColor: 'transparent' }]}
+                        containerStyle={styles.inputContainerStyle}
+                        inputStyle={styles.inputStyle}
                         onEndEditing={() => {
                             this.setState({ validateBtnVisible: true })
                         }}
                     />
-                    {this.state.error
+                    {this.state.oldpassError
                         ? (
                             <FormValidationMessage>
-                                {this.state.errorMessage}
+                                {this.state.oldpassError}
                             </FormValidationMessage>
                         )
                         : null}
@@ -377,20 +530,27 @@ class EditInfo extends Component {
                         color={this.state.color}
                     />
                 ) : null}
-                {/* {this.state.messageVisibleMini ? (
-                    <MessagePromptMini
-                        onRequestClose={() => this.removeModal()}
-                        iconName={this.state.iconName}
-                        loading={this.state.loading}
-                        text={this.state.messageText}
-                        title={this.state.messageTitle}
-                        error={this.state.error}
-                        color={this.state.color}
-                    />
-                ) : null} */}
             </View>
         )
     }
 }
 // make this component available to the app
+const styles = EStyleSheet.create({
+    inputContainerStyle: {
+        alignSelf: "center",
+        width: deviceWidth - 40,
+        borderColor: "$border",
+        marginVertical: 5,
+        borderWidth: 1,
+        backgroundColor: "rgba(226, 226, 226, 0.3)",
+        borderRadius: 5
+    },
+    inputStyle: {
+        paddingHorizontal: 8,
+    },
+
+    labelContainerStyle: {
+        margin: 0,
+    },
+});
 export default EditInfo

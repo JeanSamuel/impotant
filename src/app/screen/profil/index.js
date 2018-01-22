@@ -74,7 +74,7 @@ class ProfileScreen extends Component {
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
         role:this.getRoles(data.roles[0]),
-        solde:Utils.formatNumber(1500000)
+        solde:Utils.formatNumber(datasUSER.solde)
       }
       this.setState({ info: info,datas:datasUSER });
     } catch (error) {
