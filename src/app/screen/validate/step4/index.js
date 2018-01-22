@@ -52,11 +52,6 @@ export default class Step4 extends Component {
   };
 
   renderConnexion = () => {
-    console.log("====================================");
-    console.log("aty amm step4");
-    console.log(this.props);
-
-    console.log("====================================");
     const { connexion } = this.props.navigation.state.params;
     return (
       <Card data={connexion} title={"Connexion"} iconName={"verified-user"} />
@@ -71,7 +66,8 @@ export default class Step4 extends Component {
   renderPieces = () => {
     const { pieces } = this.props.navigation.state.params;
     return (
-      <Card data={pieces} title={"Pièces jointes"} iconName={"add-a-photo"} />
+      <View />
+      // <Card data={pieces} title={"Pièces jointes"} iconName={"add-a-photo"} />
     );
   };
 
