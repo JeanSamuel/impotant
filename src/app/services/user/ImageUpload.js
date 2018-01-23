@@ -18,57 +18,51 @@ class ImageUpload {
     let formData = new FormData();
     /**
      * Avatar Image config
-     //  */
-    // let uriParts = uri_avatar.split(".");
-    // let fileType = uriParts[uriParts.length - 1];
-    // if (fileType != "png") {
-    //   fileType = "jpeg";
-    // }
-    // let uri = uri_avatar;
-    // formData.append("avatar", {
-    //   uri,
-    //   name: `avatar.${fileType}`,
-    //   type: `image/jpeg`
-    // });
-    // /**
-    //  * Cin Image Config
-    //  */
-    // let uriParts1 = uri_dossier.split(".");
-    // let fileType1 = uriParts1[uriParts1.length - 1];
-    // if (fileType1 != "png") {
-    //   fileType1 = "jpeg";
-    // }
-    // uri = uri_dossier;
-    // formData.append("dossier", {
-    //   uri,
-    //   name: `cin.${fileType1}`,
-    //   type: `image/${fileType1}`
-    // });
-
+     */
+    let uriParts = uri_avatar.split(".");
+    let fileType = uriParts[uriParts.length - 1];
+    if (fileType != "png") {
+      fileType = "jpeg";
+    }
+    let uri = uri_avatar;
+    formData.append("avatar", {
+      uri,
+      name: `avatar.${fileType}`,
+      type: `image/jpeg`
+    });
+    /**
+     * Cin Image Config
+     */
+    let uriParts1 = uri_dossier.split(".");
+    let fileType1 = uriParts1[uriParts1.length - 1];
+    if (fileType1 != "png") {
+      fileType1 = "jpeg";
+    }
+    uri = uri_dossier;
     formData.append("dossier", {
       uri,
-      name: "cin.${fileType1}",
-      type: "image/${fileType1}"
+      name: `cin.${fileType1}`,
+      type: `image/${fileType1}`
     });
 
     /**
      * other datas for validation
      */
 
-    formData.append("account_id", "connexion.identifiant");
-    formData.append("email", "connexion.email");
-    formData.append("pseudo", "connexion.pseudo");
-    formData.append("password", "connexion.password");
+    formData.append("account_id", connexion.identifiant);
+    formData.append("email", connexion.email);
+    formData.append("pseudo", connexion.pseudo);
+    formData.append("password", connexion.password);
 
-    formData.append("nom", "user.name");
-    formData.append("cin", "user.cin");
-    formData.append("dateN", "user.dateN");
-    formData.append("phone", "user.phone");
+    formData.append("nom", user.name);
+    formData.append("cin", user.cin);
+    formData.append("dateN", user.dateN);
+    formData.append("phone", user.phone);
 
-    formData.append("lot", "user.adresse");
-    formData.append("ville", "user.ville");
-    formData.append("pays", "user.pays");
-    formData.append("code_postal", "user.postal");
+    formData.append("lot", user.adresse);
+    formData.append("ville", user.ville);
+    formData.append("pays", user.pays);
+    formData.append("code_postal", user.postal);
 
     /**
      * set options upload
@@ -84,7 +78,8 @@ class ImageUpload {
     /**
      * execute validation process
      */
-    return fetch(apiUrl, options);
+
+    return await fetch(apiUrl, options);
   }
 
   _takePhoto = async (grantTo, activity) => {

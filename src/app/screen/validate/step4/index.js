@@ -5,12 +5,20 @@ import { Header, Card, Separator } from "../allSteps";
 import PropTypes from "prop-types";
 import Colors from "../../../config/constants/colors";
 import { ImageUpload } from "../../../services";
+import { MessagePrompt } from "../../../components/modal";
 
 const deviceWidth = Dimensions.get("window").width;
 
 export default class Step4 extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      messageVisible: false,
+      text:
+        "Merci d'avoir validé votre compte, nous vous tenons au courant des changements",
+      color: "green",
+      icon: "check"
+    };
   }
 
   static propTypes = () => ({
@@ -34,20 +42,35 @@ export default class Step4 extends Component {
     }).isRequired
   });
 
+  modalVIsible() {
+    this.setState({
+      messageVisible: !this.state.messageVisible
+    });
+  }
+
   ValidateChange = () => {
+    console.log(this.props.navigation.state.params);
+
     const { pieces, user, connexion } = this.props.navigation.state.params;
     ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
       .then(response => {
-        console.log("====================================");
-        console.log("nety tsara misy ah", response);
-        console.log("====================================");
+        this.modalVIsible();
+        console.log(response);
       })
       .catch(error => {
-        console.log("====================================");
-        console.log("this is the error", error);
-        console.log("====================================");
+        this.setState({
+          text: "il ya eu un erreur lors de la validation",
+          color: "red",
+          icon: "close"
+        });
+        this.modalVIsible();
       });
   };
+
+  returnToHome() {
+    this.modalVIsible();
+    this.props.navigation.navigate("Drawer");
+  }
 
   renderConnexion = () => {
     const { connexion } = this.props.navigation.state.params;
@@ -127,9 +150,19 @@ export default class Step4 extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Je valide ces informations"
             backgroundColor={Colors.$secondaryColor}
-            onPress={this.ValidateChange}
+            onPress={this.ValidateChange.bind(this)}
           />
         </View>
+        {this.state.messageVisible ? (
+          <MessagePrompt
+            onRequestClose={() => this.returnToHome()}
+            iconName={this.state.icon}
+            loading={false}
+            text={this.state.text}
+            title={"Validation"}
+            color={this.state.color}
+          />
+        ) : null}
       </View>
     );
   }

@@ -4,15 +4,15 @@ import { StackNavigator } from "react-navigation";
 import { View } from "react-native";
 import { Step1, Step2, Step3, Step4 } from "./allSteps";
 
-class ValidationScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <StackSettings />
-      </View>
-    );
-  }
-}
+// class ValidationScreen extends Component {
+//   render() {
+//     return (
+//       <View style={{ flex: 1 }}>
+//         <StackSettings />
+//       </View>
+//     );
+//   }
+// }
 
 const StackSettings = new StackNavigator(
   {
@@ -37,4 +37,4 @@ const StackSettings = new StackNavigator(
   }
 );
 
-export default ValidationScreen;
+export default StackSettings;

@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { Avatar } from 'react-native-elements'
+import { Avatar } from "react-native-elements";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import Services from "../../../services/utils/services";
@@ -16,7 +16,7 @@ import { Notifications } from "expo";
 const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
 import { styleBase } from "../../../assets/styles";
-import colors from '../../../config/constants/colors'
+import colors from "../../../config/constants/colors";
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,8 @@ export default class DrawerContent extends Component {
     this.state = {
       solde: "",
       account_id: 0,
-      avatar: "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg",
+      avatar:
+        "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg",
       alias: "",
       username: "",
       date: "",
@@ -50,6 +51,8 @@ export default class DrawerContent extends Component {
       .getData("userInfo")
       .then(response => {
         if (response != null) {
+          console.log(response);
+
           let dataParsed = JSON.parse(response);
           let usname = dataParsed.nom;
           if (usname == null || usname == "") {
@@ -60,9 +63,10 @@ export default class DrawerContent extends Component {
             avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
-          if(dataParsed.avatar==undefined){
+          if (dataParsed.avatar == undefined) {
             this.setState({
-              avatar: "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg",
+              avatar:
+                "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
             });
           }
           this.checkSolde();
@@ -91,6 +95,8 @@ export default class DrawerContent extends Component {
   }
 
   checkSolde() {
+    console.log("mandalo at am checkSolde v");
+
     let services = new Services();
     let response = services
       .checkSolde(this.state.account_id)
@@ -147,21 +153,6 @@ export default class DrawerContent extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.imageBack}>
-          {/*<View
-            style={[
-              styles.logoContainer,
-              {
-                flexDirection: "row"
-              }
-            ]}
-          >
-            <Icon
-              onPress={this.goToProfil.bind(this)}
-              name="account-circle"
-              size={70}
-              //color={colors.$darkColor}
-            />
-          </View>*/}
           <Avatar
             large
             rounded
@@ -172,7 +163,7 @@ export default class DrawerContent extends Component {
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
               <Text style={{ fontSize: 16, color: "#fff" }}>
-                {this.state.username}
+                {this.state.username} ({this.state.account_id})
               </Text>
               <View
                 style={{
