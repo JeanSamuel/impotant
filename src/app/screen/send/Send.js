@@ -54,12 +54,15 @@ class Send extends Component {
       cameraEnabled: true
     });
     let services = new Services();
-    services.getData("user_id").then(user_id => {
+    services.getData("userData").then(user_id => {
       services.getData("pin").then(pin => {
+        console.log(user_id);
         if (user_id === null || pin === null) {
           this.props.navigation.navigate("Handler");
         } else {
-          this.setState({ loading: false, loggedIn: true });
+          services.getData("solde").then(solde =>{
+            this.setState({ loading: false, loggedIn: true, solde: solde });
+          })
         }
       });
     });
@@ -288,7 +291,7 @@ class Send extends Component {
   renderHeader() {
     return <Header
       leftComponent={<DrawerMenu navigation={this.props.navigation} />}
-      headerText={"20 Ar"}
+      headerText={""+this.state.solde+" Ar"}
       rightComponent={<IconBadge navigation={this.props.navigation} />}
     />;
   }
