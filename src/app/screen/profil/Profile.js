@@ -97,7 +97,7 @@ class Contact extends Component {
           </View>
 
           <View style={styles.headerColumn}>
-            <Image onPress={console.log('Image pressed')}
+            <Image 
               style={styles.userImage}
               source={{
                 uri: avatar
