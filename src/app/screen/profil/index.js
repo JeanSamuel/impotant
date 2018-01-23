@@ -73,10 +73,10 @@ class ProfileScreen extends Component {
         tels: datasUSER.phony,
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
-        role:this.getRoles(data.roles[0]),
-        solde:Utils.formatNumber(datasUSER.solde)
+        role: this.getRoles(data.roles[0]),
+        solde: Utils.formatNumber(datasUSER.solde)
       }
-      this.setState({ info: info,datas:datasUSER });
+      this.setState({ info: info, datas: datasUSER });
     } catch (error) {
       console.log("Error", error);
     }
@@ -94,8 +94,8 @@ const StackSettings = new StackNavigator(
     Validation: {
       screen: Validation
     },
-    EditInfo:{
-      screen:EditInfo
+    EditInfo: {
+      screen: EditInfo
     }
   },
   {

@@ -278,11 +278,11 @@ class EditInfo extends Component {
         return checked;
     }
     checkPhone(phone) {
-        let ret=0;
+        let ret = 0;
         try {
             Utils.validatePhoneNumer(phone);
         } catch (error) {
-           ret=error;
+            ret = error;
         }
         return ret;
     }
