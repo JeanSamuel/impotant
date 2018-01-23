@@ -105,7 +105,7 @@ class Contact extends Component {
             />
             <Text style={[styles.userNameText, {
               borderBottomWidth: 1,
-              paddingBottom:0,
+              paddingBottom: 0,
               borderBottomColor: "#fff"
             }]}>Solde: {this.props.solde + " Ar "}</Text>
             <View style={styles.userAddressRow}>

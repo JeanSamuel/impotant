@@ -11,7 +11,7 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native'
-import { FormInput, FormLabel, FormValidationMessage } from 'react-native-elements'
+import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
 import PropTypes from 'prop-types'
 import { loginCss, configStyles } from '../../assets/styles'
 import { Utils, UserService } from '../../services'
@@ -51,10 +51,10 @@ class EditInfo extends Component {
             validateBtnVisible: false,
             iconName: "info",
 
-            nameError: null,
-            firstnameError: null,
-            emailError: null,
-            phoneError: null,
+            nameError: 0,
+            firstnameError: 0,
+            emailError: 0,
+            phoneError: 0,
             newpassError: 0,
             confirmpassError: 0,
             oldpassError: 0,
@@ -103,39 +103,38 @@ class EditInfo extends Component {
         });
         return pn.trim()
     }
+    confirmNewPass() {
+        if (this.state.newpassword !== this.state.confirmpassword) {
+            this.setState({ confirmpassError: "Vos mots de passe ne sont pas identiques" });
+            this.confirmpass.focus();
+        } else {
+            this.setState({ confirmpassError: 0 });
+            this.oldpass.focus();
+        }
+    }
+    checkPassword() {
+        try {
+            Utils._isValidPass(this.state.newpassword);
+            this.setState({ newpassError: 0 });
+        } catch (error) {
+            this.setState({ newpassError: error })
+            this.newpass.focus();
+        }
+    }
     async verifyOldPassword() {
-        let r = 0;
         try {
             await UserService.verifyUser(
                 this.state.username,
                 this.state.oldpassword,
                 this
             )
-            r = 0
+            this.setState({ oldpassError: 0 });
         } catch (error) {
-            r = "Veuillez entrer votre ancien mot de passe"
-        }
-        return r;
-    }
-    verifyNewPass() {
-        if (this.state.newpassword !== this.state.confirmpassword) {
-            throw "Vos mots de passe ne correspondent pas"
+            this.setState({ oldpassError: "Mot de passe incorrect, veuillez verifier votre mot de passe" })
+            this.oldpass.focus();
         }
     }
-    checkPassword() {
-        try {
-            if (this.state.newpassword != null && this.state.newpassword != "") {
-                this.verifyNewPass();
-                Utils._isValidPass(this.state.newpassword);
-                this.verifyOldPassword();
-            } else {
-                this.setState({ newpassword: '', oldpassword: '', confirmpassword: '' });
-            }
-        } catch (error) {
-            this.setState({ newpassword: '', oldpassword: '', confirmpassword: '' });
-            throw error.toString();
-        }
-    }
+
     async _validateChange() {
         try {
             this.setState({
@@ -211,23 +210,6 @@ class EditInfo extends Component {
             }
         }
     };
-    renderPinModal() {
-        if (this.state.haveFingerprint) {
-            this.setState({ makeTransaction: true });
-        } else {
-            this.setState({
-                modal: (
-                    <PinModal
-                        onChangeText={this._handlePinInput}
-                        errorMessage={this.state.pinErrorMessage}
-                        onRequestClose={() => {
-                            this.removeModal();
-                        }}
-                    />
-                )
-            });
-        }
-    }
 
     changeTextPhone = (phone) => {
         try {
@@ -238,53 +220,52 @@ class EditInfo extends Component {
             this.setState({ tel: phone })
         }
     }
-    checkMail(value) {
-        let r = 0;
-        try {
-            Utils._isValidMail(value);
-        } catch (error) {
-            r = error;
+
+    checkName() {
+        if (this.state.nom == '' || this.state.nom == null) {
+            this.setState({ nom: this.getNom(this.state.userInfo.nom) })
         }
-        return r;
+    }
+    checkFirstName() {
+        if (this.state.firstname == '' || this.state.firstname == null) {
+            this.setState({ firstname: this.getPrenom(this.state.userInfo.nom) })
+        }
+    }
+    checkMail() {
+        if (this.state.email == '' || this.state.email == null) {
+            this.setState({ email: this.state.userInfo.mail })
+            this.setState({ emailError: 0 });
+        } else {
+            try {
+                Utils._isValidMail(this.state.email);
+                this.setState({ emailError: 0 });
+            } catch (error) {
+                this.setState({ emailError: error });
+            }
+        }
     }
     checkPass(checkPass) {
         try {
-            Utils._isValidPass(checkPass);
-            return 0;
+            Utils._isValidPass(this.state.newpassword);
+            this.setState({ newpassError: 0 });
+            this.confirmpass.focus();
         } catch (error) {
-            r = error;
+            this.setState({ newpassError: error });
+            this.newpass.focus();
         }
-        return r;
     }
-    checkPassAgain(pass, passAgain) {
-        let r = 0;
-        if (pass != passAgain) {
-            r = "Mots de passe non identiques";
+    checkPhone() {
+        if (this.state.tel == '' || this.state.tel == null) {
+            this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone, 'mg') })
+            this.setState({ phoneError: 0 });
+        } else {
+            try {
+                Utils.validatePhoneNumer(this.state.tel);
+                this.setState({ phoneError: 0 });
+            } catch (error) {
+                this.setState({ phoneError: error });
+            }
         }
-        return r;
-    }
-    checkNameFormation(value) {
-        let ret = 0;
-        value = value.trim();
-        value.split(" ").length > 1
-            ? null
-            : (ret = "Ce champ ne doit pas contenir au moins 2 mots (nom)");
-
-        return ret;
-    }
-    checkName(value) {
-        let checked = this.checkSimpleData(value);
-        //checked ? null : (checked = this.checkNameFormation(value));
-        return checked;
-    }
-    checkPhone(phone) {
-        let ret = 0;
-        try {
-            Utils.validatePhoneNumer(phone);
-        } catch (error) {
-            ret = error;
-        }
-        return ret;
     }
 
     checkDateN(date) {
@@ -297,47 +278,51 @@ class EditInfo extends Component {
             return "Ce champ est obligatoire";
         }
     }
-    checkValidation() {
+    renderPinModal() {
         this.setState({
-            nameError: this.checkName(this.state.nom),
-            emailError: this.checkMail(this.state.email),
-            phoneError: this.checkPhone(this.state.tel)
+            modal: (
+                <PinModal
+                    onChangeText={this._handlePinInput}
+                    errorMessage={this.state.pinErrorMessage}
+                    onRequestClose={() => {
+                        this.removeModal();
+                    }}
+                />
+            )
         });
-        if (this.state.newpassword != null && this.state.newpassword != "") {
-            this.setState({
-                newpassError: this.checkPass(this.state.newpassword),
-                confirmpassError: this.checkPassAgain(
-                    this.state.newpassword,
-                    this.state.confirmpassword
-                ),
-                oldpassError: this.verifyOldPassword()
-            });
-        }
-
-    };
+    }
     _handleValider = () => {
-        try {
-            this.checkValidation()
-            if (
-                this.state.nameError == 0 &&
-                this.state.phoneError == 0 &&
-                this.state.emailError == 0 &&
-                this.state.newpassError == 0 &&
-                this.state.confirmpassError == 0 &&
-                this.state.dateNError == 0 &&
-                this.state.oldpassError == 0
-            ) {
-                this.renderPinModal()
-            }
-        } catch (err) {
-            console.log("error", err)
+        if (
+            this.state.nameError == 0 &&
+            this.state.phoneError == 0 &&
+            this.state.emailError == 0 &&
+            this.state.newpassError == 0 &&
+            this.state.confirmpassError == 0 &&
+            this.state.dateNError == 0 &&
+            this.state.oldpassError == 0
+        ) {
+            this.renderPinModal()
         }
     }
     render() {
         return (
             <View style={{ backgroundColor: '#fff', flex: 1 }}>
-                <View style={configStyles.header}>
-                    <Text style={[configStyles.textHeader, { fontWeight: '800' }]}>Editer vos informations</Text>
+                <View style={styles.navigation}>
+                    <Icon
+                        name="ios-arrow-back"
+                        type="ionicon"
+                        underlayColor="transparent"
+                        iconStyle={styles.navigationIcon}
+                        onPress={() => { this.props.navigation.goBack(null) }}
+                    />
+                    <Text style={styles.userNameText}>Editer vos informations</Text>
+                    <TouchableOpacity>
+                        <Icon
+                            name="edit"
+                            underlayColor="transparent"
+                            iconStyle={[styles.navigationIcon, { color: "#00cf7e" }]}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <ScrollView>
                     <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Nom</FormLabel>
@@ -345,11 +330,7 @@ class EditInfo extends Component {
                         value={this.state.nom}
                         placeholder='Entrer votre nom'
                         onChangeText={nom => this.setState({ nom })}
-                        onEndEditing={() => {
-                            if (this.state.nom == '' || this.state.nom == null) {
-                                this.setState({ nom: this.state.userInfo.nom })
-                            }
-                        }}
+                        onEndEditing={() => { this.checkName() }}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
                     />
@@ -363,10 +344,11 @@ class EditInfo extends Component {
                     <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Prénom</FormLabel>
                     <FormInput underlineColorAndroid="transparent"
                         value={this.state.firstname}
-                        placeholder='Entrer votre nom'
+                        placeholder='Entrer votre prénom'
                         onChangeText={firstname => this.setState({ firstname })}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
+                        onEndEditing={() => { this.checkFirstName() }}
                     />
 
                     {this.state.firstnameError
@@ -383,12 +365,7 @@ class EditInfo extends Component {
                         onChangeText={email => this.setState({ email })}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
-                        onEndEditing={() => {
-                            if (this.state.email == '' || this.state.email == null) {
-                                this.setState({ email: this.state.userInfo.mail })
-
-                            }
-                        }}
+                        onEndEditing={() => { this.checkMail() }}
                     />
                     {this.state.emailError
                         ? (
@@ -404,11 +381,7 @@ class EditInfo extends Component {
                         onChangeText={this.changeTextPhone}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
-                        onEndEditing={() => {
-                            if (this.state.tel == '' || this.state.tel == null) {
-                                this.setState({ tel: Utils._parsePhone(this.state.userInfo.phone, 'mg') })
-                            }
-                        }}
+                        onEndEditing={() => { this.checkPhone() }}
                     />
                     {this.state.phoneError
                         ? (
@@ -437,6 +410,7 @@ class EditInfo extends Component {
                             this.setState({ birthday: datenaissance })
                         }}
                     />
+                    <Text style={{ alignContent: 'center', alignSelf: 'center', borderBottomColor: "#aaa", borderBottomWidth: 2, width: deviceWidth - 40 }}></Text>
                     {this.state.dateNError
                         ? (
                             <FormValidationMessage>
@@ -451,9 +425,8 @@ class EditInfo extends Component {
                         onChangeText={newpassword => this.setState({ newpassword })}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
-                        onEndEditing={() => {
-                            this.setState({ validateBtnVisible: true })
-                        }}
+                        ref={input => (this.newpass = input)}
+                        onEndEditing={() => { this.checkPass() }}
                     />
                     {this.state.newpassError
                         ? (
@@ -469,9 +442,8 @@ class EditInfo extends Component {
                         onChangeText={confirmpassword => this.setState({ confirmpassword })}
                         inputStyle={styles.inputStyle}
                         containerStyle={styles.inputContainerStyle}
-                        onEndEditing={() => {
-                            this.setState({ validateBtnVisible: true })
-                        }}
+                        ref={input => (this.confirmpass = input)}
+                        onEndEditing={() => { this.confirmNewPass() }}
                     />
                     {this.state.confirmpassError
                         ? (
@@ -480,16 +452,15 @@ class EditInfo extends Component {
                             </FormValidationMessage>
                         )
                         : null}
-                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Ancien mot de passe</FormLabel>
+                    <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Votre ancien mot de passe</FormLabel>
                     <FormInput underlineColorAndroid="transparent"
                         placeholder='Entrer votre ancien mot de passe'
                         secureTextEntry
                         onChangeText={oldpassword => this.setState({ oldpassword })}
                         containerStyle={styles.inputContainerStyle}
                         inputStyle={styles.inputStyle}
-                        onEndEditing={() => {
-                            this.setState({ validateBtnVisible: true })
-                        }}
+                        ref={input => (this.oldpass = input)}
+                        onEndEditing={() => { this.verifyOldPassword() }}
                     />
                     {this.state.oldpassError
                         ? (
@@ -504,13 +475,13 @@ class EditInfo extends Component {
                         onPress={() => this.props.navigation.goBack()}
                         style={configStyles.touch}
                     >
-                        <Text style={configStyles.touchtext}>Retour</Text>
+                        <Text style={[configStyles.touchtext, { fontWeight: '800' }]}>Retour</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={this._handleValider}
                         style={configStyles.touch}
                     >
-                        <Text style={configStyles.touchtext}>Valider</Text>
+                        <Text style={[configStyles.touchtext, { fontWeight: '800' }]}>Valider</Text>
                     </TouchableOpacity>
                 </View>
                 {this.state.modal}
@@ -547,5 +518,29 @@ const styles = EStyleSheet.create({
     labelContainerStyle: {
         margin: 0,
     },
+    header: {
+        padding: 15,
+        backgroundColor: '$darkColor',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    navigationIcon: {
+        color: "#FFF",
+        fontSize: 30,
+        marginHorizontal: 15
+    },
+    userNameText: {
+        color: "#FFF",
+        fontSize: 22,
+        fontWeight: "bold",
+        paddingBottom: 8,
+        textAlign: "center"
+    },
+    navigation: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: '$darkColor',
+        paddingVertical: 20
+    }
 });
 export default EditInfo
