@@ -58,6 +58,14 @@ class Services extends Component {
     }
   }
 
+  checkSimpleData2(value) {
+    if (value) {
+      return 0;
+    } else {
+      return "(Cette partie est requise)";
+    }
+  }
+
   parsePhone(phoneNumber) {
     try {
       let parsed = Utils._parsePhone(phoneNumber, "mg");

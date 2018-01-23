@@ -4,10 +4,10 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
 } from "react-native";
 import {
-  Text,
   FormLabel,
   FormInput,
   FormValidationMessage,
@@ -20,6 +20,7 @@ import { NavigationActions } from "react-navigation";
 import { Header } from "../allSteps";
 import { ImageUpload } from "../../../services";
 import Colors from "../../../config/constants/colors";
+import Services from "../validationservices";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -27,36 +28,81 @@ export default class componentName extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: ""
+      userPhoto: "",
+      cinPhoto: "",
+      cinError: false,
+      userError: false
     };
   }
 
+  uploadPhoto = () => {
+    ImageUpload._pickImage()
+      .then(value => {
+        this.setState({
+          userPhoto: value.uri,
+          userError: false
+        });
+      })
+      .catch(error => {});
+  };
+
+  uploadCIN = () => {
+    ImageUpload._pickImage()
+      .then(value => {
+        this.setState({
+          cinPhoto: value.uri,
+          cinError: false
+        });
+        this.checkValidation();
+      })
+      .catch(error => {});
+  };
+
+  takePhoto = () => {
+    let photo = ImageUpload._takePhoto();
+  };
+
+  takeCIN = () => {
+    let cin = ImageUpload._takePhoto();
+  };
+
   goToNextStep = () => {
     let info = this.props.navigation.state.params;
-    console.log(this.props);
 
     let data = {
       connexion: info.connexion,
       user: info.user,
       pieces: {
-        userPhoto:
-          "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg",
-        cinPhoto:
-          "http://img.over-blog-kiwi.com/1/21/51/02/20140916/ob_0c7fd9_cni.jpg"
+        userPhoto: this.state.userPhoto,
+        cinPhoto: this.state.cinPhoto
       }
     };
     this.props.navigation.navigate("Step4", data);
   };
 
-  uploadPhoto = () => {
-    console.log("zrezr");
-    ImageUpload._pickImage("cin", this);
+  checkValidation = () => {
+    let services = new Services();
+    this.setState({ cinError: services.checkSimpleData2(this.state.cinPhoto) });
+    this.setState({
+      userError: services.checkSimpleData2(this.state.userPhoto)
+    });
   };
 
-  uploadCIN = () => {
-    console.log("ezrt");
-    ImageUpload._pickImage("avatar", this);
+  sommeError = () => {
+    if (this.state.userError === 0 && this.state.cinError === 0) {
+      return true;
+    }
+    return false;
   };
+
+  validAll() {
+    this.checkValidation();
+    let somme = this.sommeError();
+
+    if (somme) {
+      this.goToNextStep();
+    }
+  }
 
   render() {
     return (
@@ -64,52 +110,121 @@ export default class componentName extends Component {
         <Header position={2} title="Pièces justificatifs" />
         <ScrollView behavior="padding" style={styles.body}>
           <View style={styles.piecesjointesContainer}>
-            <TouchableOpacity
-              style={styles.piecesjointes}
-              onPress={this.uploadPhoto}
-            >
-              <View>
+            <View style={styles.avatar}>
+              {this.state.userPhoto ? (
                 <Avatar
-                  medium
+                  xlarge
+                  rounded
                   source={{
-                    uri:
-                      "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"
+                    uri: this.state.userPhoto
                   }}
-                  onPress={() => console.log("Works!")}
                   activeOpacity={0.7}
                 />
-              </View>
+              ) : (
+                <Icon
+                  reverse
+                  name="user-o"
+                  type="font-awesome"
+                  color="grey"
+                  size={40}
+                  onPress={this.uploadPhoto}
+                />
+              )}
+            </View>
+            <View style={styles.piecesjointes}>
               <View style={styles.pieceTextCOntainer}>
                 <Text style={styles.pieceText}>
-                  Importer votre photo d'identité
+                  Importez ou prenez une photo
                 </Text>
+                <Text style={styles.pieceText}>de profil</Text>
+                {this.state.userError ? (
+                  <FormValidationMessage>
+                    <Text style={styles.pieceText}>{this.state.userError}</Text>
+                  </FormValidationMessage>
+                ) : null}
               </View>
-            </TouchableOpacity>
-            <FormValidationMessage />
+              <View style={styles.iconContainer}>
+                <View>
+                  <Icon
+                    raised
+                    name="upload"
+                    type="font-awesome"
+                    color="#f50"
+                    onPress={this.uploadPhoto}
+                    size={15}
+                  />
+                </View>
+                <View>
+                  <Icon
+                    raised
+                    name="camera"
+                    type="font-awesome"
+                    color="#f50"
+                    onPress={this.takePhoto}
+                    size={15}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
+
           <View style={styles.piecesjointesContainer}>
-            <TouchableOpacity
-              style={styles.piecesjointes}
-              onPress={this.uploadCIN}
-            >
-              <View>
+            <View style={styles.avatar}>
+              {this.state.cinPhoto ? (
                 <Avatar
-                  medium
+                  xlarge
                   source={{
-                    uri:
-                      "http://img.over-blog-kiwi.com/1/21/51/02/20140916/ob_0c7fd9_cni.jpg"
+                    uri: this.state.cinPhoto
                   }}
                   onPress={() => console.log("Works!")}
                   activeOpacity={0.7}
                 />
-              </View>
+              ) : (
+                <Icon
+                  reverse
+                  name="id-card-o"
+                  type="font-awesome"
+                  color="grey"
+                  size={40}
+                  onPress={this.uploadCIN}
+                />
+              )}
+            </View>
+            <View style={styles.piecesjointes}>
               <View style={styles.pieceTextCOntainer}>
                 <Text style={styles.pieceText}>
                   Importer votre CIN ou Passeport
                 </Text>
                 <Text style={styles.pieceText}>(Recto-Verso)</Text>
+                {this.state.cinError ? (
+                  <FormValidationMessage>
+                    <Text style={styles.pieceText}>{this.state.cinError}</Text>
+                  </FormValidationMessage>
+                ) : null}
               </View>
-            </TouchableOpacity>
+              <View style={styles.iconContainer}>
+                <View>
+                  <Icon
+                    raised
+                    name="upload"
+                    type="font-awesome"
+                    color="#f50"
+                    onPress={this.uploadCIN}
+                    size={15}
+                  />
+                </View>
+                <View>
+                  <Icon
+                    raised
+                    name="camera"
+                    type="font-awesome"
+                    color="#f50"
+                    onPress={this.takeCIN}
+                    size={15}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
         </ScrollView>
         <View style={styles.buttonLeft}>
@@ -127,7 +242,7 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Validation"
             backgroundColor={Colors.$secondaryColor}
-            onPress={this.goToNextStep}
+            onPress={this.validAll.bind(this)}
           />
         </View>
       </View>
@@ -147,21 +262,34 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   piecesjointes: {
-    flexDirection: "row",
-    backgroundColor: "rgba(189, 195, 199,0.3)",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
 
-    padding: 10
+    padding: 5
   },
   piecesjointesContainer: {
-    margin: 20
+    marginHorizontal: 30,
+    marginVertical: 10,
+    borderWidth: 0.5,
+    borderColor: "#d6d7da"
   },
   pieceTextCOntainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: 10
   },
   pieceText: {
     fontWeight: "bold",
     fontSize: 15
+  },
+  iconContainer: {
+    backgroundColor: "rgba(189, 195, 199,0.3)",
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  avatar: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20
   }
 });

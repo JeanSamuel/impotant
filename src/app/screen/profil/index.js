@@ -18,13 +18,13 @@ class ProfileScreen extends Component {
   }
   getRoles(role) {
     switch (role) {
-      case 'ROLE_CLIENT_TEMP':
+      case "ROLE_CLIENT_TEMP":
         return "à confirmer";
         break;
-      case 'ROLE_CLIENT_SIMPLE':
+      case "ROLE_CLIENT_SIMPLE":
         return "à confirmer";
         break;
-      case 'ROLE_CLIENT_VALIDE':
+      case "ROLE_CLIENT_VALIDE":
         return "confirmé";
         break;
     }
@@ -74,8 +74,13 @@ class ProfileScreen extends Component {
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
         role: this.getRoles(data.roles[0]),
+<<<<<<< HEAD
         solde: Utils.formatNumber(datasUSER.solde)
       }
+=======
+        solde: Utils.formatNumber(1500000)
+      };
+>>>>>>> 9c6b8281c638aca78e467ddb099341a6b76e73ca
       this.setState({ info: info, datas: datasUSER });
     } catch (error) {
       console.log("Error", error);
@@ -99,7 +104,7 @@ const StackSettings = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Profil",
+    initialRouteName: "Validation",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })

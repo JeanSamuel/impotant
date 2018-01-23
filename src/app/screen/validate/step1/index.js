@@ -11,6 +11,7 @@ import DatePicker from "react-native-datepicker";
 import { Header } from "../allSteps";
 import Services from "../validationservices";
 import Colors from "../../../config/constants/colors";
+import { ImageUpload } from "../../../services";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -72,6 +73,20 @@ export default class componentName extends Component {
       this.goToNextStep();
     }
   }
+
+  test = () => {
+    ImageUpload.doUpload("", "", "")
+      .then(response => {
+        console.log("====================================");
+        console.log("nety tsara misy ah", response);
+        console.log("====================================");
+      })
+      .catch(error => {
+        console.log("====================================");
+        console.log("this is the error", error);
+        console.log("====================================");
+      });
+  };
 
   // handling
   _handleEmail = email => {
@@ -231,7 +246,8 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor={Colors.$secondaryColor}
-            onPress={this.validAll.bind(this)}
+            // onPress={this.validAll.bind(this)}
+            onPress={this.test}
           />
         </View>
       </View>

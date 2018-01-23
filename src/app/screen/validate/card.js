@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import PropTypes from "prop-types";
+import Colors from "../../config/constants/colors";
 
 const Card = ({ title, value, iconName, data }) => (
   <TouchableOpacity style={{ marginVertical: 5 }}>
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   cardIcon: {
-    color: "#01C89E",
+    color: Colors.$secondaryColor,
     fontSize: 30
   },
   cardNameColumn: {
