@@ -40,7 +40,7 @@ export default DrawerNavigator(
     Home: {
       screen: Send,
       navigationOptions: ({ navigation }) => ({
-        title: "Payer",
+        title: "Payer/Envoyer",
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="ios-qr-scanner"
@@ -58,7 +58,7 @@ export default DrawerNavigator(
         title: "Recevoir",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-rose-outline"
+            name="ios-download-outline"
             type="ionicon"
             color={tintColor}
             size={28}

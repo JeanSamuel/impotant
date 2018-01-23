@@ -40,7 +40,6 @@ class Pin extends React.Component {
         this.setState({ haveFingerprint: haveFingerprint });
       });
       if (user_pin !== null) {
-        console.log("userpin", user_pin);
         this.setState({ userPin: user_pin, isLoading: false, hasPin: true });
       } else {
         this.props.navigation.navigate("RegisterPin");

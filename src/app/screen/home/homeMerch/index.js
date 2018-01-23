@@ -1,35 +1,22 @@
 //import liraries
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Clipboard,
-  Keyboard,
-  Share,
-  KeyboardAvoidingView,
-  ScrollView,
-  BackHandler
-} from "react-native";
-import { StackNavigator } from "react-navigation";
-import { Icon } from "react-native-elements";
-import { DrawerMenu } from "../../../components/drawerMenu";
+import React, {Component} from "react";
+import {BackHandler, Dimensions, KeyboardAvoidingView, ScrollView, Text, TextInput, View} from "react-native";
+import {StackNavigator} from "react-navigation";
+import {Icon} from "react-native-elements";
+import {DrawerMenu} from "../../../components/drawerMenu";
 import MyQrCode from "../../../components/qrCode";
-import { styleBase } from "../../../assets/styles";
+import {styleBase} from "../../../assets/styles";
 import styles from "./homeStyles";
 import headStyle from "../../../assets/styles/stylesC/headerStyle";
 import Toast from "react-native-easy-toast";
 import Services from "../../../services/utils/services";
 import HomeServices from "../../../services/utils/homeServices";
 import data from "../../../config/data/dataM";
-import GoToStore from "./goToStore";
 import HeaderRight from "./headerRight";
 import Intro from "./intro";
-import Test from "../../../components/qrCode";
 import MyHeader from "../../../components/Header/Header";
-
+import {InputLeftButton} from '../../../components/TextInput';
+const { height, width } = Dimensions.get("window");
 const listText = data.message;
 const timer = null;
 const self = null;
@@ -192,33 +179,27 @@ class Home extends Component {
             fadeOutDuration={1000}
             activeOpacity={0.5}
           />
-          <View>
-            <View style={styles.amountContainer}>
-              <KeyboardAvoidingView style={styles.inputWarp}>
-                <View style={styles.amountCurrency}>
-                  <Text
-                    style={{
-                      textAlignVertical: "center",
-                      textAlign: "left",
-                      fontSize: 30
-                    }}
-                  >
-                    {this.state.data.currency}
-                  </Text>
-                </View>
-                <View style={styles.amountBody}>
-                  <TextInput
-                    ref="input"
-                    value={this.state.amount}
-                    style={styles.amount}
-                    keyboardType="numeric"
-                    underlineColorAndroid="transparent"
-                    onChangeText={text => this.setUpdate(text)}
-                    autoFocus={true}
-                  />
-                </View>
-              </KeyboardAvoidingView>
-            </View>
+          <View style={{flex:1}}>
+            <KeyboardAvoidingView style={styles.inputWarp}>
+              <View style={{width:width}}>
+                <InputLeftButton
+                  ref = "input"
+                  buttonText={"AR"}
+                  value={this.state.amount}
+                  placeholder="Montant"
+                  keyboardType="numeric"
+                  returnKeyType="done"
+                  editable={this.state.isEditable}
+                  validationMessage={this.state.validationMessageAmount}
+                  /*onFocus={() => {
+                  this._toNextStep(this.state.user);
+                }}*/
+                  style = {{fontSize: 25, textAlign:"center", fontWeight:"600"}}
+                  onChangeText={text => this.setUpdate(text)}
+                  autoFocus={true}
+                />
+              </View>
+            </KeyboardAvoidingView>
           </View>
 
           {/* QR Code   */}
@@ -227,7 +208,6 @@ class Home extends Component {
             {this.state.actualText}
           </View>
         </ScrollView>
-        <GoToStore />
       </View>
     );
   }
