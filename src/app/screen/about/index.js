@@ -33,7 +33,7 @@ class About extends Component {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2c3e50",
+    backgroundColor: "#FFF",
     paddingHorizontal: "5%"
   },
   title: {
