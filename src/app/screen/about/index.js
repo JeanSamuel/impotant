@@ -39,10 +39,9 @@ const styles = EStyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "100",
-    color: "white"
+    color: "#aaa"
   },
   titlePlus: {
-    color: "white"
   },
   titleContainer: {
     marginVertical: 20

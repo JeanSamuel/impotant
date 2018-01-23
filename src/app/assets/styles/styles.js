@@ -44,7 +44,7 @@ export default {
     fontWeight: '100'
   },
   header: {
-    backgroundColor: 'rgba(52, 73, 94,1.0)',
+    backgroundColor: '#00cf7e',
     justifyContent: 'center',
     paddingHorizontal: 15
   },

@@ -18,16 +18,15 @@ class Info extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-start",
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#FFF"
   },
   title: {
     textAlign: "left",
-    color: "#95a5a6",
+    color: "#aaa",
     fontSize: 20
   },
   value: {
     textAlign: "left",
-    color: "white",
     fontSize: 30
   }
 });

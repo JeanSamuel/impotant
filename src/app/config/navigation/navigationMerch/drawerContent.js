@@ -4,7 +4,9 @@ import {
   Text,
   View,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
+  Platform
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { Avatar } from 'react-native-elements'
@@ -17,6 +19,7 @@ const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
 import { styleBase } from "../../../assets/styles";
 import colors from '../../../config/constants/colors'
+const bg=require('../../../assets/images/1.jpg')
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -146,7 +149,7 @@ export default class DrawerContent extends Component {
     let soldeFormated = Services.formatNumber(this.getSolde());
     return (
       <View style={styles.container}>
-        <View style={styles.imageBack}>
+        <Image style={styles.imageBack} blurRadius={ Platform.OS == 'ios' ? 6 : 3 } source={bg}>
           {/*<View
             style={[
               styles.logoContainer,
@@ -171,7 +174,7 @@ export default class DrawerContent extends Component {
           />
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={{ fontSize: 16, color: "#fff" }}>
+              <Text style={{ fontSize: 16, color: "#fff",fontWeight:'800'}}>
                 {this.state.username}
               </Text>
               <View
@@ -208,7 +211,7 @@ export default class DrawerContent extends Component {
               </View>
             </View>
           </View>
-        </View>
+        </Image>
       </View>
     );
   }
@@ -224,7 +227,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     width: undefined,
     height: undefined,
-    backgroundColor: colors.$darkColor,
+    backgroundColor: "transparent",
     paddingVertical: 10,
     paddingHorizontal: 15,
     flexDirection: "row",
