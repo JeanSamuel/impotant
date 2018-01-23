@@ -74,13 +74,8 @@ class ProfileScreen extends Component {
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
         role: this.getRoles(data.roles[0]),
-<<<<<<< HEAD
         solde: Utils.formatNumber(datasUSER.solde)
       }
-=======
-        solde: Utils.formatNumber(1500000)
-      };
->>>>>>> 9c6b8281c638aca78e467ddb099341a6b76e73ca
       this.setState({ info: info, datas: datasUSER });
     } catch (error) {
       console.log("Error", error);
@@ -104,7 +99,7 @@ const StackSettings = new StackNavigator(
     }
   },
   {
-    initialRouteName: "Validation",
+    initialRouteName: "Profil",
     navigationOptions: ({ navigation }) => ({
       header: () => null
     })
