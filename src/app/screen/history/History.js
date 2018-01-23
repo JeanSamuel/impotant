@@ -203,7 +203,6 @@ class History extends React.Component {
     services
       .getHistory(this.state.user_id)
       .then(response => {
-        console.log(response);
         this.setData(response);
         this.stopSynchronised();
       })

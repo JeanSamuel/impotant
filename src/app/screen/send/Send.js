@@ -56,7 +56,6 @@ class Send extends Component {
     let services = new Services();
     services.getData("userData").then(user_id => {
       services.getData("pin").then(pin => {
-        console.log(user_id);
         if (user_id === null || pin === null) {
           this.props.navigation.navigate("Handler");
         } else {

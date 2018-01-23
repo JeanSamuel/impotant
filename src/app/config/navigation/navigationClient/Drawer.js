@@ -40,7 +40,7 @@ export default DrawerNavigator(
     Home: {
       screen: Send,
       navigationOptions: ({ navigation }) => ({
-        title: "Payer",
+        title: "Payer/Envoyer",
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="ios-qr-scanner"
