@@ -111,7 +111,7 @@ class EditInfo extends Component {
                 this.state.oldpassword,
                 this
             )
-            r=0
+            r = 0
         } catch (error) {
             r = "Veuillez entrer votre ancien mot de passe"
         }
@@ -239,15 +239,15 @@ class EditInfo extends Component {
         }
     }
     checkMail(value) {
-        let r=0;
+        let r = 0;
         try {
             Utils._isValidMail(value);
         } catch (error) {
-            r=error;
+            r = error;
         }
         return r;
     }
-    checkPass(checkPass) { 
+    checkPass(checkPass) {
         try {
             Utils._isValidPass(checkPass);
             return 0;
@@ -257,9 +257,9 @@ class EditInfo extends Component {
         return r;
     }
     checkPassAgain(pass, passAgain) {
-        let r=0;
+        let r = 0;
         if (pass != passAgain) {
-            r= "Mots de passe non identiques";
+            r = "Mots de passe non identiques";
         }
         return r;
     }
@@ -267,23 +267,24 @@ class EditInfo extends Component {
         let ret = 0;
         value = value.trim();
         value.split(" ").length > 1
-          ? null
-          : (ret = "Ce champ ne doit pas contenir au moins 2 mots (nom)");
-    
+            ? null
+            : (ret = "Ce champ ne doit pas contenir au moins 2 mots (nom)");
+
         return ret;
-      }
+    }
     checkName(value) {
         let checked = this.checkSimpleData(value);
         //checked ? null : (checked = this.checkNameFormation(value));
         return checked;
     }
     checkPhone(phone) {
+        let ret=0;
         try {
             Utils.validatePhoneNumer(phone);
-            return 0;
         } catch (error) {
-            return error;
+           ret=error;
         }
+        return ret;
     }
 
     checkDateN(date) {
@@ -296,10 +297,12 @@ class EditInfo extends Component {
             return "Ce champ est obligatoire";
         }
     }
-    checkValidation = () => {
-        this.setState({ nameError: this.checkName(this.state.nom) });
-        this.setState({ emailError: this.checkMail(this.state.email) });
-        this.setState({ phoneError: this.checkPhone(this.state.tel) });
+    checkValidation() {
+        this.setState({
+            nameError: this.checkName(this.state.nom),
+            emailError: this.checkMail(this.state.email),
+            phoneError: this.checkPhone(this.state.tel)
+        });
         if (this.state.newpassword != null && this.state.newpassword != "") {
             this.setState({
                 newpassError: this.checkPass(this.state.newpassword),
@@ -312,37 +315,29 @@ class EditInfo extends Component {
         }
 
     };
-    sommeError = () => {
-        //console.log(this.state.nameError, this.state.phoneError, this.state.emailError, this.state.newpassError, this.state.confirmpassError, this.state.dateNError, this.state.oldpassError)
-        let r=false;
-        if (
-            this.state.nameError === 0 &&
-            this.state.phoneError === 0 &&
-            this.state.emailError === 0 &&
-            this.state.newpassError === 0 &&
-            this.state.confirmpassError === 0 &&
-            this.state.dateNError === 0 &&
-            this.state.oldpassError === 0
-        ) {
-            r=true;
-        }
-        return r;
-    };
     _handleValider = () => {
         try {
-            this.checkValidation();
-            if(this.sommeError()) {
-                this.renderPinModal();
+            this.checkValidation()
+            if (
+                this.state.nameError == 0 &&
+                this.state.phoneError == 0 &&
+                this.state.emailError == 0 &&
+                this.state.newpassError == 0 &&
+                this.state.confirmpassError == 0 &&
+                this.state.dateNError == 0 &&
+                this.state.oldpassError == 0
+            ) {
+                this.renderPinModal()
             }
         } catch (err) {
-            console.log("error",err);
+            console.log("error", err)
         }
     }
     render() {
         return (
             <View style={{ backgroundColor: '#fff', flex: 1 }}>
                 <View style={configStyles.header}>
-                    <Text style={configStyles.textHeader}>Editer vos informations</Text>
+                    <Text style={[configStyles.textHeader, { fontWeight: '800' }]}>Editer vos informations</Text>
                 </View>
                 <ScrollView>
                     <FormLabel containerStyle={styles.labelContainerStyle} labelStyle={styles.labelStyle}>Nom</FormLabel>
