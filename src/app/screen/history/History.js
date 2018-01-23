@@ -203,7 +203,7 @@ class History extends React.Component {
     services
       .getHistory(this.state.user_id)
       .then(response => {
-        //console.log(response);
+        console.log(response);
         this.setData(response);
         this.stopSynchronised();
       })
@@ -271,6 +271,20 @@ class History extends React.Component {
     );
   }
 
+  renderStatusIcon(history){
+    let iconName = "check";
+    let color = "#4caf50";
+    if(history.state ==="échec"){
+      iconName = "error";
+      color = "#FF2423";
+    }
+    return(
+      <View style={{marginHorizontal:10}}>
+        <Icon name={iconName} size={20} color={color} />
+      </View>
+    )
+  }
+
   renderItem = item => {
     return (
       <View style={[styles.listStyle, { justifyContent: "space-between" }]}>
@@ -287,24 +301,27 @@ class History extends React.Component {
             <Text style={styles.subtitle}>{item.item.type}</Text>
           </View>
         </View>
-        <View style={styles.contentRight}>
-          <Text
-            style={[
-              styles.amount,
-              { color: this.getColor(item.item.amount, item.item.senderId) }
-            ]}
-          >
-            {this.formatCurrencyAndAmount(
-              //item.item.currency,
-              "Ar",
-              Services.formatNumber(item.item.amount),
-              item.item.senderId
-            )}
-          </Text>
-          <Text style={[styles.subtitle, { textAlign: "right" }]}>
-            {moment(item.item.date, "YYYY-MM-DD hh:mm:ss").format("HH:mm")}
-          </Text>
-          <View />
+        <View style ={[styles.listStyle,{ justifyContent: "space-between" }]} >
+          <View style={styles.contentRight}>
+            <Text
+              style={[
+                styles.amount,
+                { color: this.getColor(item.item.amount, item.item.senderId) }
+              ]}
+            >
+              {this.formatCurrencyAndAmount(
+                //item.item.currency,
+                "Ar",
+                Services.formatNumber(item.item.amount),
+                item.item.senderId
+              )}
+            </Text>
+            <Text style={[styles.subtitle, { textAlign: "right" }]}>
+              {moment(item.item.date, "YYYY-MM-DD hh:mm:ss").format("HH:mm")}
+            </Text>
+            <View />
+          </View>
+          {this.renderStatusIcon(item.item)}
         </View>
       </View>
     );
