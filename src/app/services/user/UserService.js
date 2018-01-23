@@ -176,7 +176,7 @@ class UserService {
           throw error.toString();
         });
     } catch (error) {
-      throw 'authentification failed : ' + error;
+      throw 'Erreur de verification : ' + error.toString();
     }
   }
   getSolde() {
