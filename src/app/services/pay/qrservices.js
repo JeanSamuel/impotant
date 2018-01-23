@@ -5,10 +5,12 @@ import config from "../../config/data/config";
 import configs from "../../config/data/dataM";
 import moment from "moment";
 import Services from "../utils/services";
+import {Utils} from "../index";
 
 // create a component
 // const transaction_url = config.CUSTOM_BASE_URL + "transaction";
-const transaction_url = configs.NEW_BASE_URL + "src/transaction.php";
+//const transaction_url = configs.NEW_BASE_URL + "src/transaction.php";
+const transaction_url = configs.ARIARY_BASE_URL + "transaction";
 class QrServices extends Component {
   /**
    *
@@ -56,46 +58,32 @@ class QrServices extends Component {
     recipientId,
     access_token
   ) {
-    // const url = transaction_url + "/" + sender_id;
     const url = transaction_url;
-    var services = new Services();
+    let services = new Services();
     let formData = new FormData();
+    let device_token = await Utils.registerForPushNotificationsAsync();
     formData.append("amount", amount);
-    // formData.append("senderId", sender_id);
     formData.append("senderId", senderId);
-    // formData.append("recipientId", "AA002");
     formData.append("recipientId", recipientId);
     formData.append("currency", currency);
     formData.append("comment", "Transfert");
-    // formData.append("date", moment(new Date()).format("YYYY-MM-DD H:mm:ss"));
+    formData.append("type","expo");
+    formData.append("token",device_token);
     let data = {
       method: "POST",
       body: formData
     };
     //console.log("Transaction data: " + JSON.stringify(data));
-    return await services
-      .myFetch(url, data)
+    return fetch(url, data)
       .then(response => response.json())
       .then(responseJson => {
-        //console.log(responseJson);
+        console.log("performTransaction: "+responseJson);
         return responseJson;
       })
       .catch(error => {
-        //console.log("erreur aty aloha", error);
+        console.log("performTransaction erreur aty aloha", error);
         throw error;
       });
-
-    // .then(responseJson => {
-    //   return responseJson;
-    // })
-    // .catch(error => {
-    //   //console.log("erreur aty aloha", error);
-    //   throw error;
-    // });
-  }
-
-  async handleTransactionResponse(responseJson) {
-    //console.log(JSON.stringify(responseJson));
   }
 }
 export default QrServices;
