@@ -100,7 +100,6 @@ class Profil extends Component {
           <View style={styles.headerColumn}>
             {!avatar ? (
               <Image
-                onPress={console.log("Image pressed")}
                 style={styles.userImage}
                 source={require("../../assets/images/avatar-placeholder.png")}
               />
