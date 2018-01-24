@@ -25,34 +25,18 @@ import UserData from "./userData";
 
 import { MessagePromptWithAnnuler } from "../../components/modal";
 
-class Contact extends Component {
+class Profil extends Component {
   constructor(props) {
     super(props);
     this.state = {
       messageVisible: false
     };
   }
-
-  static propTypes = {
-    avatar: PropTypes.string,
-    avatarBackground: PropTypes.string,
-    name: PropTypes.string,
-    birthday: PropTypes.string,
-    address: PropTypes.shape({
-      city: PropTypes.string,
-      country: PropTypes.string
-    }),
-    emails: PropTypes.string,
-    tels: PropTypes.string,
-    role:PropTypes.string
+  componentDidMount() {
+    if (this.props.role !== "confirmé") {
+      this.removeModal()
+    }
   };
-
-  state = {};
-
-  componentDidMount = () => {
-    if (this.props.role !== "confirmé") this.removeModal();
-  };
-
   goBack = () => {
     this.props.navigation.navigate("Home");
   };
@@ -118,12 +102,12 @@ class Contact extends Component {
                 source={require("../../assets/images/avatar-placeholder.png")}
               />
             ) : (
-              <Image
-                onPress={console.log("Image pressed")}
-                style={styles.userImage}
-                source={{ uri: avatar }}
-              />
-            )}
+                <Image
+                  onPress={console.log("Image pressed")}
+                  style={styles.userImage}
+                  source={{ uri: avatar }}
+                />
+              )}
             <Text
               style={[
                 styles.userNameText,
@@ -146,7 +130,7 @@ class Contact extends Component {
         {this.state.messageVisible ? (
           <MessagePromptWithAnnuler
             onRequestClose={() => this.removeModal()}
-            action={() => {this.goToValidation()}}
+            action={() => { this.goToValidation() }}
             iconName={"warning"}
             loading={false}
             text={
@@ -170,8 +154,8 @@ class Contact extends Component {
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   );
-  onPressTel() {}
-  onPressSms() {}
+  onPressTel() { }
+  onPressSms() { }
   renderTel = () => (
     <View style={styles.telContainer}>
       <Tel
@@ -184,7 +168,7 @@ class Contact extends Component {
       />
     </View>
   );
-  onPressEmail() {}
+  onPressEmail() { }
   renderEmail = () => (
     <View style={styles.telContainer}>
       <Email
@@ -218,7 +202,19 @@ class Contact extends Component {
     );
   }
 }
-
+Profil.propTypes = {
+  avatar: PropTypes.string,
+  avatarBackground: PropTypes.string,
+  name: PropTypes.string,
+  birthday: PropTypes.string,
+  address: PropTypes.shape({
+    city: PropTypes.string,
+    country: PropTypes.string
+  }),
+  emails: PropTypes.string,
+  tels: PropTypes.string,
+  role: PropTypes.string
+};
 const styles = StyleSheet.create({
   header: {
     backgroundColor: "rgba(0,0,0,0)",
@@ -310,4 +306,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Contact;
+export default Profil;
