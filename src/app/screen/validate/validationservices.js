@@ -46,7 +46,6 @@ class Services extends Component {
     value.split(" ").length > 1
       ? null
       : (ret = "Ce champ doit contenir au moins 2 mots (nom et prénoms)");
-
     return ret;
   }
 
