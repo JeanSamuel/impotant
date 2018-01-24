@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import PropTypes from "prop-types";
 
-import mainColor from "./constants";
+import colors from "../../config/constants/colors";
 
 class UserData extends Component {
   constructor(props) {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   emailIcon: {
-    color: mainColor,
+    color: colors.$secondaryColor,
     fontSize: 30
   },
   emailNameColumn: {

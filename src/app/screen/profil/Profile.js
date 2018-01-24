@@ -2,12 +2,13 @@ import React, {Component} from "react";
 import {Card, Icon} from "react-native-elements";
 import {Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from "prop-types";
-import mainColor from "./constants";
+import colors from "../../config/constants/colors";
 import Email from "./Email";
 import Separator from "./Separator";
 import Tel from "./Tel";
 import Localisation from "./localisation";
 import UserData from "./userData";
+import ActionButton from 'react-native-action-button';
 
 import {MessagePromptWithAnnuler} from "../../components/modal";
 
@@ -60,6 +61,22 @@ class Contact extends Component {
     this.props.navigation.navigate("Validation", data);
   }
 
+  goToPay(){
+    const { user_id, username } = this.props.navigation.state.params;
+    let data = {
+      user_id,
+      username
+    };
+    this.props.navigation.navigate("Home", data);
+  }
+  goToAchat(){
+    const { user_id, username } = this.props.navigation.state.params;
+    let data = {
+      user_id,
+      username
+    };
+    this.props.navigation.navigate("Charger", data);
+  }
   goToSteps = () => {
     if (this.props.role === "confirmé")
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
@@ -68,10 +85,6 @@ class Contact extends Component {
 
   renderHeader = () => {
     const { avatar, avatarBackground, name, solde } = this.props;
-    console.log(this.props);
-
-    console.log(avatarBackground);
-
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
@@ -90,9 +103,9 @@ class Contact extends Component {
               }}
             />
             <Text style={styles.userNameText}>
-              Profil{" (" + this.props.username + " " + this.props.code + ")"}
+              {this.props.username + " (" + this.props.code + ")"}
             </Text>
-            <TouchableOpacity onPress={this.goToSteps}>
+            <TouchableOpacity>
               <Icon
                 name="edit"
                 underlayColor="transparent"
@@ -161,6 +174,32 @@ class Contact extends Component {
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   );
+
+  renderActionButton(){
+    return(
+      <ActionButton buttonColor="rgba(231,76,60,1)">
+        {this.props.role === "confirmé"
+          ? (
+            <ActionButton.Item buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code }) }>
+              <Icon name="md-create" style={styles.actionButtonIcon} type={"ionicon"}/>
+            </ActionButton.Item>
+          )
+          :(
+            <ActionButton.Item buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
+              <Icon name="md-checkmark" color={"#fff"} type={"ionicon"}/>
+            </ActionButton.Item>
+          )}
+        <ActionButton.Item buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
+          <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"}/>
+        </ActionButton.Item>
+        <ActionButton.Item buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
+          <Icon name="md-cart" color={"#fff"} type={"ionicon"}/>
+        </ActionButton.Item>
+      </ActionButton>
+    )
+  }
+
+
   onPressTel() {}
   onPressSms() {}
   renderTel = () => (
@@ -205,6 +244,7 @@ class Contact extends Component {
             </Card>
           </View>
         </ScrollView>
+        {this.renderActionButton()}
       </View>
     );
   }
@@ -279,7 +319,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   userImage: {
-    borderColor: mainColor,
+    borderColor: colors.$secondaryColor,
     borderRadius: 85,
     borderWidth: 3,
     height: 170,
@@ -298,7 +338,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "transparent",
     paddingVertical: 20
-  }
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
 });
 
 export default Contact;
