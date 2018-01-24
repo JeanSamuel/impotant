@@ -29,7 +29,7 @@ class Contact extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageVisible: false
+      messageVisible: true
     };
   }
 
@@ -49,6 +49,7 @@ class Contact extends Component {
   state = {};
 
   componentDidMount = () => {
+    console.log(this.props);
     if (this.props.role !== "confirmé") this.removeModal();
   };
 
@@ -58,7 +59,7 @@ class Contact extends Component {
 
   removeModal() {
     this.setState({
-      messageVisible: !this.state.messageVisible
+      messageVisible: false
     });
   }
 
