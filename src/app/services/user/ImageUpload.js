@@ -45,11 +45,11 @@ class ImageUpload {
     //   type: `image/${fileType1}`
     // });
 
-    formData.append("dossier", {
-      uri,
-      name: "cin.${fileType1}",
-      type: "image/${fileType1}"
-    });
+    // formData.append("dossier", {
+    //   uri,
+    //   name: "cin.${fileType1}",
+    //   type: "image/${fileType1}"
+    // });
 
     /**
      * other datas for validation

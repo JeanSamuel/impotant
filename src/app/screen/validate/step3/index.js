@@ -127,7 +127,7 @@ export default class componentName extends Component {
                   type="font-awesome"
                   color="grey"
                   size={40}
-                  onPress={this.uploadPhoto}
+                  onPress={()=>{this.uploadPhoto()}}
                 />
               )}
             </View>

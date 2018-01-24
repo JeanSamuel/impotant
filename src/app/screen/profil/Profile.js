@@ -40,7 +40,6 @@ class Contact extends Component {
     emails: PropTypes.string,
     tels: PropTypes.string
   };
-
   state = {
     // telDS: new ListView.DataSource({
     //   rowHasChanged: (r1, r2) => r1 !== r2
@@ -139,22 +138,6 @@ class Contact extends Component {
     <View style={styles.telContainer}>
       <Tel index={0} key={"tel-1"} name={"Mobile"} number={this.props.tels} onPressSms={this.onPressSms} onPressTel={this.onPressTel} />
     </View>
-    // <ListView
-    //   contentContainerStyle={styles.telContainer}
-    //   dataSource={this.state.telDS}
-    //   renderRow={({ id, name, number }, _, k) => {
-    //     return (
-    //       <Tel
-    //         key={`tel-${id}`}
-    //         index={k}
-    //         name={name}
-    //         number={number}
-    //         onPressSms={this.onPressSms}
-    //         onPressTel={this.onPressTel}
-    //       />
-    //     );
-    //   }}
-    // />
   );
   onPressEmail() {
 
@@ -169,21 +152,6 @@ class Contact extends Component {
         onPressEmail={this.onPressEmail}
       />
     </View>
-    // <ListView
-    //   contentContainerStyle={styles.emailContainer}
-    //   dataSource={this.state.emailDS}
-    //   renderRow={({ email, id, name }, _, k) => {
-    //     return (
-    //       <Email
-    //         key={`email-${id}`}
-    //         index={k}
-    //         name={name}
-    //         email={email}
-    //         onPressEmail={this.onPressEmail}
-    //       />
-    //     );
-    //   }}
-    // />
   );
 
   render() {
