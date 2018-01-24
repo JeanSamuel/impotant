@@ -109,7 +109,7 @@ class MessagePrompt extends Component {
               >
                 {this.props.title}
               </Text>
-              <View style={{ paddingHorizontal: 25, marginBottom: 30 }}>
+              <View style={{ paddingHorizontal: 18, marginBottom: 30 }}>
                 <Text style={{ textAlign: "center", fontSize: 18 }}>
                   {this.props.text}
                 </Text>
@@ -124,7 +124,7 @@ class MessagePrompt extends Component {
                 >
                   <TouchableHighlight
                     style={{
-                      height: 50,
+                      height: 40,
                       width: 160,
                       borderRadius: 10,
                       marginBottom: 5,
@@ -150,7 +150,7 @@ class MessagePrompt extends Component {
                   </TouchableHighlight>
                   <TouchableHighlight
                     style={{
-                      height: 50,
+                      height: 40,
                       width: 160,
                       borderRadius: 10,
                       marginBottom: 10,

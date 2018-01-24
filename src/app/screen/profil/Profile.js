@@ -191,10 +191,10 @@ class Contact extends Component {
   render() {
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
+        {this.renderHeader()}
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>
-              {this.renderHeader()}
               {this.renderUser()}
               {Separator()}
               {this.renderLocal()}
