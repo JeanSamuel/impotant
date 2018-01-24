@@ -23,9 +23,14 @@ import Tel from "./Tel";
 import Localisation from "./localisation";
 import UserData from "./userData";
 
+import { MessagePromptWithAnnuler } from "../../components/modal";
+
 class Contact extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      messageVisible: false
+    };
   }
 
   static propTypes = {
@@ -40,52 +45,66 @@ class Contact extends Component {
     emails: PropTypes.string,
     tels: PropTypes.string
   };
-  state = {
-    // telDS: new ListView.DataSource({
-    //   rowHasChanged: (r1, r2) => r1 !== r2
-    // }).cloneWithRows(this.props.tels),
-    // emailDS: new ListView.DataSource({
-    //   rowHasChanged: (r1, r2) => r1 !== r2
-    // }).cloneWithRows(this.props.emails)
+
+  state = {};
+
+  componentDidMount = () => {
+    if (this.props.role !== "confirmé") this.removeModal();
   };
 
   goBack = () => {
     this.props.navigation.navigate("Home");
   };
 
+  removeModal() {
+    this.setState({
+      messageVisible: !this.state.messageVisible
+    });
+  }
+
+  goToValidation() {
+    this.removeModal();
+    const { user_id, username } = this.props.navigation.state.params;
+    let data = {
+      user_id,
+      username
+    };
+
+    this.props.navigation.navigate("Validation", data);
+  }
+
   goToSteps = () => {
     if (this.props.role === "confirmé")
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
-    else
-      this.props.navigation.navigate("Validation");
+    else this.removeModal();
   };
 
   renderHeader = () => {
-    const {
-      avatar,
-      avatarBackground,
-      name,
-      solde
-    } = this.props;
+    const { avatar, avatarBackground, name, solde } = this.props;
+    console.log(this.props);
+
+    console.log(avatarBackground);
 
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
           style={styles.headerBackgroundImage}
           blurRadius={10}
-          source={{
-            uri: avatarBackground
-          }}
+          source={require("../../assets/images/profil-background.png")}
         >
           <View style={styles.navigation}>
             <Icon
               name="ios-menu"
-              type='ionicon'
+              type="ionicon"
               underlayColor="transparent"
               iconStyle={styles.navigationIcon}
-              onPress={() => { this.props.navigation.navigate('DrawerOpen') }}
+              onPress={() => {
+                this.props.navigation.navigate("DrawerOpen");
+              }}
             />
-            <Text style={styles.userNameText}>Profil{" (" + this.props.username + " " + this.props.code + ')'}</Text>
+            <Text style={styles.userNameText}>
+              Profil{" (" + this.props.username + " " + this.props.code + ")"}
+            </Text>
             <TouchableOpacity onPress={this.goToSteps}>
               <Icon
                 name="edit"
@@ -96,17 +115,31 @@ class Contact extends Component {
           </View>
 
           <View style={styles.headerColumn}>
-            <Image 
-              style={styles.userImage}
-              source={{
-                uri: avatar
-              }}
-            />
-            <Text style={[styles.userNameText, {
-              borderBottomWidth: 1,
-              paddingBottom: 0,
-              borderBottomColor: "#fff"
-            }]}>Solde: {this.props.solde + " Ar "}</Text>
+            {!avatar ? (
+              <Image
+                onPress={console.log("Image pressed")}
+                style={styles.userImage}
+                source={require("../../assets/images/avatar-placeholder.png")}
+              />
+            ) : (
+              <Image
+                onPress={console.log("Image pressed")}
+                style={styles.userImage}
+                source={{ uri: avatar }}
+              />
+            )}
+            <Text
+              style={[
+                styles.userNameText,
+                {
+                  borderBottomWidth: 1,
+                  paddingBottom: 0,
+                  borderBottomColor: "#fff"
+                }
+              ]}
+            >
+              Solde : {this.props.solde + " Ar"}
+            </Text>
             <View style={styles.userAddressRow}>
               <View style={styles.userCityRow}>
                 <Text style={styles.userCityText}>{this.props.role}</Text>
@@ -114,6 +147,19 @@ class Contact extends Component {
             </View>
           </View>
         </ImageBackground>
+        {this.state.messageVisible ? (
+          <MessagePromptWithAnnuler
+            onRequestClose={() => this.removeModal()}
+            action={() => this.goToValidation()}
+            iconName={"warning"}
+            loading={false}
+            text={
+              "Nous vous invitons à valider votre compte pour profiter pleinement des offres"
+            }
+            title={"Validation"}
+            color={"#FF9521"}
+          />
+        ) : null}
       </View>
     );
   };
@@ -128,20 +174,21 @@ class Contact extends Component {
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   );
-  onPressTel() {
-
-  }
-  onPressSms() {
-
-  }
+  onPressTel() {}
+  onPressSms() {}
   renderTel = () => (
     <View style={styles.telContainer}>
-      <Tel index={0} key={"tel-1"} name={"Mobile"} number={this.props.tels} onPressSms={this.onPressSms} onPressTel={this.onPressTel} />
+      <Tel
+        index={0}
+        key={"tel-1"}
+        name={"Mobile"}
+        number={this.props.tels}
+        onPressSms={this.onPressSms}
+        onPressTel={this.onPressTel}
+      />
     </View>
   );
-  onPressEmail() {
-
-  }
+  onPressEmail() {}
   renderEmail = () => (
     <View style={styles.telContainer}>
       <Email
@@ -156,7 +203,7 @@ class Contact extends Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: '#fff', flex: 1 }}>
+      <View style={{ backgroundColor: "#fff", flex: 1 }}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>
@@ -233,7 +280,7 @@ const styles = StyleSheet.create({
   },
   userAddressRow: {
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   userCityRow: {
     backgroundColor: "transparent"

@@ -69,7 +69,7 @@ export default class Step4 extends Component {
 
   returnToHome() {
     this.modalVIsible();
-    this.props.navigation.navigate("Drawer");
+    this.props.navigation.navigate("Drawer",{user_id:this.props.connexion.identifiant,username:this.props.connexion.pseudo});
   }
 
   renderConnexion = () => {
