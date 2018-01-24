@@ -101,7 +101,7 @@ class MessagePrompt extends Component {
               )}
               <Text
                 style={{
-                  fontSize: 30,
+                  fontSize: 28,
                   fontWeight: "bold",
                   color: this.props.color,
                   marginHorizontal: 20
@@ -110,7 +110,7 @@ class MessagePrompt extends Component {
                 {this.props.title}
               </Text>
               <View style={{ paddingHorizontal: 25, marginBottom: 30 }}>
-                <Text style={{ textAlign: "center", fontSize: 20 }}>
+                <Text style={{ textAlign: "center", fontSize: 18 }}>
                   {this.props.text}
                 </Text>
               </View>

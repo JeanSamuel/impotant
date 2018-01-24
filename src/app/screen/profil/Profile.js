@@ -1,29 +1,15 @@
-import React, { Component } from "react";
-import { Card, Icon, Header } from "react-native-elements";
-import {
-  Image,
-  ImageBackground,
-  Linking,
-  ListView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from "react-native";
+import React, {Component} from "react";
+import {Card, Icon} from "react-native-elements";
+import {Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from "prop-types";
 import mainColor from "./constants";
-import { DrawerMenu } from "../../components/drawerMenu/";
-
-import Navigation from "./navigation";
 import Email from "./Email";
 import Separator from "./Separator";
 import Tel from "./Tel";
 import Localisation from "./localisation";
 import UserData from "./userData";
 
-import { MessagePromptWithAnnuler } from "../../components/modal";
+import {MessagePromptWithAnnuler} from "../../components/modal";
 
 class Contact extends Component {
   constructor(props) {
@@ -50,7 +36,7 @@ class Contact extends Component {
 
   componentDidMount = () => {
     console.log(this.props);
-    if (this.props.role !== "confirmé") this.removeModal();
+    if (this.props.role === "confirmé") this.removeModal();
   };
 
   goBack = () => {
