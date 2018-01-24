@@ -48,17 +48,16 @@ class ImageUpload {
     /**
      * other datas for validation
      */
+    // formData.append("email", connexion.email);
+    // formData.append("pseudo", connexion.pseudo);
+    // formData.append("password", connexion.password);
+
+    // formData.append("nom", user.name);
+    // formData.append("dateN", user.dateN);
+    // formData.append("phone", user.phone);
 
     formData.append("account_id", connexion.identifiant);
-    formData.append("email", connexion.email);
-    formData.append("pseudo", connexion.pseudo);
-    formData.append("password", connexion.password);
-
-    formData.append("nom", user.name);
     formData.append("cin", user.cin);
-    formData.append("dateN", user.dateN);
-    formData.append("phone", user.phone);
-
     formData.append("lot", user.adresse);
     formData.append("ville", user.ville);
     formData.append("pays", user.pays);

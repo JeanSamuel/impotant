@@ -81,7 +81,7 @@ class UserService {
     let url = BASEURL + 'change_password';
     if (dataUser != null) {
       try {
-        Utils._isValidPass(dataUser.new_password);
+        //Utils._isValidPass(dataUser.new_password);
         let options = {
           method: 'POST',
           headers: {
@@ -100,7 +100,6 @@ class UserService {
             }
           })
           .catch(error => {
-            //console.log('erreur', error);
             throw error.toString();
           });
         if (success) {

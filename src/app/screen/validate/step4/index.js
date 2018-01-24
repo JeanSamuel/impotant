@@ -4,7 +4,7 @@ import { Text, Button, Avatar } from "react-native-elements";
 import { Header, Card, Separator } from "../allSteps";
 import PropTypes from "prop-types";
 import Colors from "../../../config/constants/colors";
-import { ImageUpload } from "../../../services";
+import { ImageUpload, UserService } from "../../../services";
 import { MessagePrompt } from "../../../components/modal";
 
 const deviceWidth = Dimensions.get("window").width;
@@ -49,27 +49,45 @@ export default class Step4 extends Component {
   }
 
   ValidateChange = () => {
-    console.log(this.props.navigation.state.params);
-
     const { pieces, user, connexion } = this.props.navigation.state.params;
-    ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
-      .then(response => {
-        this.modalVIsible();
-        console.log(response);
-      })
-      .catch(error => {
-        this.setState({
-          text: "il ya eu un erreur lors de la validation",
-          color: "red",
-          icon: "close"
+    let dataRegister = {
+      account_id: connexion.identifiant,
+      username: connexion.pseudo,
+      name: user.nom,
+      firstname: "",
+      birthday: user.dateN,
+      email: connexion.email,
+      phone: user.phone,
+      password: connexion.password,
+      role: 'simple'
+    }
+    try {
+      UserService.updateUserInfo(dataRegister, null)
+      ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
+        .then(response => {
+          this.modalVIsible();
+        })
+        .catch(error => {
+          this.setState({
+            text: "il ya eu un erreur lors de la validation",
+            color: "red",
+            icon: "close"
+          });
+          this.modalVIsible();
         });
-        this.modalVIsible();
+    } catch (error) {
+      his.setState({
+        text: error.toString(),
+        color: "red",
+        icon: "close"
       });
+    }
   };
 
   returnToHome() {
+    const { connexion } = this.props.navigation.state.params;
     this.modalVIsible();
-    this.props.navigation.navigate("Drawer",{user_id:this.props.connexion.identifiant,username:this.props.connexion.pseudo});
+    this.props.navigation.navigate("Drawer", { user_id: connexion.identifiant, username: connexion.pseudo });
   }
 
   renderConnexion = () => {
@@ -122,7 +140,7 @@ export default class Step4 extends Component {
     );
   };
 
-  goToNextStep = () => {};
+  goToNextStep = () => { };
 
   render() {
     return (

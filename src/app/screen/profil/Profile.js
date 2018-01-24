@@ -43,7 +43,8 @@ class Contact extends Component {
       country: PropTypes.string
     }),
     emails: PropTypes.string,
-    tels: PropTypes.string
+    tels: PropTypes.string,
+    role:PropTypes.string
   };
 
   state = {};
@@ -69,7 +70,6 @@ class Contact extends Component {
       user_id,
       username
     };
-
     this.props.navigation.navigate("Validation", data);
   }
 
@@ -81,10 +81,6 @@ class Contact extends Component {
 
   renderHeader = () => {
     const { avatar, avatarBackground, name, solde } = this.props;
-    console.log(this.props);
-
-    console.log(avatarBackground);
-
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
@@ -150,7 +146,7 @@ class Contact extends Component {
         {this.state.messageVisible ? (
           <MessagePromptWithAnnuler
             onRequestClose={() => this.removeModal()}
-            action={() => this.goToValidation()}
+            action={() => {this.goToValidation()}}
             iconName={"warning"}
             loading={false}
             text={

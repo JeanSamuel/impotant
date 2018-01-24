@@ -150,7 +150,6 @@ export default class componentName extends Component {
       villeError: false
     });
   };
-
   _handlePostal = postal => {
     this.setState({
       postal,

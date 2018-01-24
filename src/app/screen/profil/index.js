@@ -19,10 +19,10 @@ class ProfileScreen extends Component {
   getRoles(role) {
     switch (role) {
       case "ROLE_CLIENT_TEMP":
-        return "à confirmer";
+        return "compte temporaire";
         break;
       case "ROLE_CLIENT_SIMPLE":
-        return "à confirmer";
+        return "à confirmé";
         break;
       case "ROLE_CLIENT_VALIDE":
         return "confirmé";
