@@ -23,6 +23,7 @@ export default class componentName extends Component {
       pseudo: "",
       pass: "",
       passAgain: "",
+      identifiant: "",
       emailError: false,
       pseudoError: false,
       passError: false,
@@ -43,6 +44,15 @@ export default class componentName extends Component {
     });
   };
 
+  componentDidMount = () => {
+    this.email.focus();
+    const { user_id, username } = this.props.navigation.state.params;
+    this.setState({
+      pseudo: username,
+      identifiant: user_id
+    });
+  };
+
   sommeError = () => {
     if (
       this.state.emailError === 0 &&
@@ -57,7 +67,7 @@ export default class componentName extends Component {
   };
   // Validation
   validMail() {
-    this.pseudo.focus();
+    this.pass.focus();
   }
   validPseudo() {
     this.pass.focus();
@@ -73,20 +83,6 @@ export default class componentName extends Component {
       this.goToNextStep();
     }
   }
-
-  test = () => {
-    ImageUpload.doUpload("", "", "")
-      .then(response => {
-        console.log("====================================");
-        console.log("nety tsara misy ah", response);
-        console.log("====================================");
-      })
-      .catch(error => {
-        console.log("====================================");
-        console.log("this is the error", error);
-        console.log("====================================");
-      });
-  };
 
   // handling
   _handleEmail = email => {
@@ -119,7 +115,7 @@ export default class componentName extends Component {
       connexion: {
         email: this.state.email,
         pseudo: this.state.pseudo,
-        identifiant: "AA015",
+        identifiant: this.state.identifiant,
         password: this.state.pass
       }
     };
@@ -158,13 +154,9 @@ export default class componentName extends Component {
         <FormLabel containerStyle={styles.inputLabel}>Pseudo : *</FormLabel>
         <FormInput
           value={this.state.pseudo}
-          onChangeText={this._handlePseudo}
-          underlineColorAndroid="transparent"
           containerStyle={styles.input}
-          keyboardType={"email-address"}
-          returnKeyType={"next"}
           ref={input => (this.pseudo = input)}
-          onSubmitEditing={() => this.validPseudo()}
+          editable={false}
         />
         {this.state.pseudoError ? (
           <FormValidationMessage>
@@ -246,8 +238,8 @@ export default class componentName extends Component {
             iconRight={{ name: "arrow-forward" }}
             title="Etape suivante"
             backgroundColor={Colors.$secondaryColor}
-            // onPress={this.validAll.bind(this)}
-            onPress={this.test}
+            onPress={this.validAll.bind(this)}
+            // onPress={this.test}
           />
         </View>
       </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import {Dimensions} from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -16,7 +16,8 @@ export default {
     textAlign: "center",
     fontSize: 15,
     margin: 15,
-    width: 300
+    width: 300,
+    color: "#797979"
   },
   input: {},
   invalidInput: {

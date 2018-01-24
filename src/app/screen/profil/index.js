@@ -33,6 +33,7 @@ class ProfileScreen extends Component {
     let user_id = this.props.navigation.state.params.user_id;
     let role = null;
     let datasUSER = {};
+    let imageHolder = "../";
     try {
       let data = await UserService.getUserInfo(user_id, null);
       if (data.roles[0] == "ROLE_CLIENT_TEMP") {
@@ -44,8 +45,7 @@ class ProfileScreen extends Component {
           maily: data.mail,
           phony: "Numéro téléphone...",
           solde: data.solde,
-          avatar:
-            "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
+          avatar: ""
         };
       } else {
         datasUSER = {
@@ -68,14 +68,13 @@ class ProfileScreen extends Component {
           country: "Madagascar"
         },
         avatar: datasUSER.avatar,
-        avatarBackground:
-          "https://orig00.deviantart.net/dcd7/f/2014/027/2/0/mountain_background_by_pukahuna-d73zlo5.png",
+        avatarBackground: "../../assets/images/profil-background.png",
         tels: datasUSER.phony,
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
         role: this.getRoles(data.roles[0]),
-        solde: Utils.formatNumber(datasUSER.solde)
-      }
+        solde: Utils.formatNumber(data.solde)
+      };
       this.setState({ info: info, datas: datasUSER });
     } catch (error) {
       console.log("Error", error);
