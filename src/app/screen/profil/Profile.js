@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Card, Icon} from "react-native-elements";
-import {Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, { Component } from "react";
+import { Card, Icon } from "react-native-elements";
+import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../../config/constants/colors";
 import Email from "./Email";
@@ -9,8 +9,7 @@ import Tel from "./Tel";
 import Localisation from "./localisation";
 import UserData from "./userData";
 import ActionButton from 'react-native-action-button';
-
-import {MessagePromptWithAnnuler} from "../../components/modal";
+import { MessagePromptWithAnnuler } from "../../components/modal";
 
 class Profile extends Component {
   constructor(props) {
@@ -18,6 +17,10 @@ class Profile extends Component {
     this.state = {
       messageVisible: false
     };
+  }
+
+  componentDidMount() {
+    if (this.props.role !== "confirmé") this.removeModal();
   }
   goBack = () => {
     this.props.navigation.navigate("Home");
@@ -39,7 +42,7 @@ class Profile extends Component {
     this.props.navigation.navigate("Validation", data);
   }
 
-  goToPay(){
+  goToPay() {
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -47,7 +50,7 @@ class Profile extends Component {
     };
     this.props.navigation.navigate("Home", data);
   }
-  goToAchat(){
+  goToAchat() {
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -55,13 +58,13 @@ class Profile extends Component {
     };
     this.props.navigation.navigate("Charger", data);
   }
-  goToSteps = () => {
+  goToSteps() {
     if (this.props.role === "confirmé")
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
     else this.removeModal();
-  };
+  }
 
-  renderHeader = () => {
+  renderHeader() {
     const { avatar, avatarBackground, name, solde } = this.props;
     return (
       <View style={styles.headerContainer}>
@@ -83,13 +86,12 @@ class Profile extends Component {
             <Text style={styles.userNameText}>
               {this.props.username + " (" + this.props.code + ")"}
             </Text>
-            <TouchableOpacity onPress={this.goToSteps()}>
-              <Icon
-                name="edit"
-                underlayColor="transparent"
-                iconStyle={styles.navigationIcon}
-              />
-            </TouchableOpacity>
+            <Icon
+              name="ios-menu"
+              type="ionicon"
+              underlayColor="transparent"
+              iconStyle={[styles.navigationIcon, { color: 'transparent' }]}
+            />
           </View>
 
           <View style={styles.headerColumn}>
@@ -138,48 +140,48 @@ class Profile extends Component {
         ) : null}
       </View>
     );
-  };
+  }
 
-  renderLocal = () => (
-    <View style={styles.telContainer}>
+  renderLocal() {
+    return <View style={styles.telContainer}>
       <Localisation city={"Antananarivo"} country={"Madagascar"} />
     </View>
-  );
-  renderUser = () => (
-    <View style={styles.telContainer}>
+  }
+  renderUser() {
+    return <View style={styles.telContainer}>
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
-  );
+  }
 
-  renderActionButton(){
-    return(
+  renderActionButton() {
+    return (
       <ActionButton buttonColor="rgba(231,76,60,1)">
         {this.props.role === "confirmé"
           ? (
-            <ActionButton.Item  textStyle={{color:'#9b59b6',fontWeight:'800'}} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code }) }>
-              <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"}/>
+            <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code })}>
+              <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"} />
             </ActionButton.Item>
           )
-          :(
-            <ActionButton.Item textStyle={{color:'#9b59b6',fontWeight:'800'}} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
-              <Icon name="md-checkmark" color={"#fff"} type={"ionicon"}/>
+          : (
+            <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
+              <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
             </ActionButton.Item>
           )}
-        <ActionButton.Item textStyle={{color:'#3498db',fontWeight:'800'}} buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
-          <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"}/>
+        <ActionButton.Item textStyle={{ color: '#3498db', fontWeight: '800' }} buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
+          <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"} />
         </ActionButton.Item>
-        <ActionButton.Item textStyle={{color:'#1abc9c',fontWeight:'800'}} buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
-          <Icon name="md-cart" color={"#fff"} type={"ionicon"}/>
+        <ActionButton.Item textStyle={{ color: '#1abc9c', fontWeight: '800' }} buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
+          <Icon name="md-cart" color={"#fff"} type={"ionicon"} />
         </ActionButton.Item>
       </ActionButton>
     )
   }
 
 
-  onPressTel() {}
-  onPressSms() {}
-  renderTel = () => (
-    <View style={styles.telContainer}>
+  onPressTel() { }
+  onPressSms() { }
+  renderTel() {
+    return <View style={styles.telContainer}>
       <Tel
         index={0}
         key={"tel-1"}
@@ -189,10 +191,10 @@ class Profile extends Component {
         onPressTel={this.onPressTel}
       />
     </View>
-  );
+  }
   onPressEmail() { }
-  renderEmail = () => (
-    <View style={styles.telContainer}>
+  renderEmail() {
+    return <View style={styles.telContainer}>
       <Email
         key={"email-1"}
         index={0}
@@ -201,7 +203,7 @@ class Profile extends Component {
         onPressEmail={this.onPressEmail}
       />
     </View>
-  );
+  }
 
   render() {
     return (
