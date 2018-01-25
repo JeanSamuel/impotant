@@ -12,18 +12,13 @@ import ActionButton from 'react-native-action-button';
 
 import {MessagePromptWithAnnuler} from "../../components/modal";
 
-class Profil extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       messageVisible: false
     };
   }
-  componentDidMount() {
-    if (this.props.role !== "confirmé") {
-      this.removeModal()
-    }
-  };
   goBack = () => {
     this.props.navigation.navigate("Home");
   };
@@ -230,7 +225,7 @@ class Profil extends Component {
     );
   }
 }
-Profil.propTypes = {
+Profile.propTypes = {
   avatar: PropTypes.string,
   avatarBackground: PropTypes.string,
   name: PropTypes.string,
@@ -337,4 +332,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profil;
+export default Profile;
