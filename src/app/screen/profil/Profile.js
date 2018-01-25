@@ -16,7 +16,7 @@ class Profil extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageVisible: true
+      messageVisible: false
     };
   }
   componentDidMount() {
@@ -30,7 +30,7 @@ class Profil extends Component {
 
   removeModal() {
     this.setState({
-      messageVisible: false
+      messageVisible: !this.state.messageVisible
     });
   }
 
@@ -88,7 +88,7 @@ class Profil extends Component {
             <Text style={styles.userNameText}>
               {this.props.username + " (" + this.props.code + ")"}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this.goToSteps()}>
               <Icon
                 name="edit"
                 underlayColor="transparent"
@@ -105,7 +105,6 @@ class Profil extends Component {
               />
             ) : (
                 <Image
-                  onPress={console.log("Image pressed")}
                   style={styles.userImage}
                   source={{ uri: avatar }}
                 />
@@ -162,19 +161,19 @@ class Profil extends Component {
       <ActionButton buttonColor="rgba(231,76,60,1)">
         {this.props.role === "confirmé"
           ? (
-            <ActionButton.Item buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code }) }>
+            <ActionButton.Item  textStyle={{color:'#9b59b6',fontWeight:'800'}} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code }) }>
               <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"}/>
             </ActionButton.Item>
           )
           :(
-            <ActionButton.Item buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
+            <ActionButton.Item textStyle={{color:'#9b59b6',fontWeight:'800'}} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
               <Icon name="md-checkmark" color={"#fff"} type={"ionicon"}/>
             </ActionButton.Item>
           )}
-        <ActionButton.Item buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
+        <ActionButton.Item textStyle={{color:'#3498db',fontWeight:'800'}} buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
           <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"}/>
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
+        <ActionButton.Item textStyle={{color:'#1abc9c',fontWeight:'800'}} buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
           <Icon name="md-cart" color={"#fff"} type={"ionicon"}/>
         </ActionButton.Item>
       </ActionButton>

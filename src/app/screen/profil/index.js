@@ -22,7 +22,7 @@ class ProfileScreen extends Component {
         return "compte temporaire";
         break;
       case "ROLE_CLIENT_SIMPLE":
-        return "à confirmé";
+        return "En attente de validation";
         break;
       case "ROLE_CLIENT_VALIDE":
         return "confirmé";
