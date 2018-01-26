@@ -138,7 +138,7 @@ class Profile extends Component {
           ? (
             <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code })}>
               <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"} />
-            </ActionButton.Item>
+            </ActionButton.Item>  
           )
           : (
             <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
