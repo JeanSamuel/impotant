@@ -18,14 +18,6 @@ class Profile extends Component {
       messageVisible: false
     };
   }
-
-  componentDidMount() {
-    if (this.props.role !== "confirmé") this.removeModal();
-  }
-  goBack = () => {
-    this.props.navigation.navigate("Home");
-  };
-
   removeModal() {
     this.setState({
       messageVisible: !this.state.messageVisible
@@ -63,9 +55,8 @@ class Profile extends Component {
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
     else this.removeModal();
   }
-
   renderHeader() {
-    const { avatar, avatarBackground, name, solde } = this.props;
+    const { avatar, avatarBackground, name, solde, code, role } = this.props;
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
@@ -84,7 +75,7 @@ class Profile extends Component {
               }}
             />
             <Text style={styles.userNameText}>
-              {this.props.username + " (" + this.props.code + ")"}
+              {this.props.username + " (" + code + ")"}
             </Text>
             <Icon
               name="ios-menu"
@@ -116,28 +107,15 @@ class Profile extends Component {
                 }
               ]}
             >
-              Solde : {this.props.solde + " Ar"}
+              Solde : {solde + " Ar"}
             </Text>
             <View style={styles.userAddressRow}>
               <View style={styles.userCityRow}>
-                <Text style={styles.userCityText}>{this.props.role}</Text>
+                <Text style={styles.userCityText}>{role}</Text>
               </View>
             </View>
           </View>
         </ImageBackground>
-        {this.state.messageVisible ? (
-          <MessagePromptWithAnnuler
-            onRequestClose={() => this.removeModal()}
-            action={() => { this.goToValidation() }}
-            iconName={"warning"}
-            loading={false}
-            text={
-              "Nous vous invitons à valider votre compte pour profiter pleinement des offres"
-            }
-            title={"Validation"}
-            color={"#FF9521"}
-          />
-        ) : null}
       </View>
     );
   }
@@ -176,8 +154,6 @@ class Profile extends Component {
       </ActionButton>
     )
   }
-
-
   onPressTel() { }
   onPressSms() { }
   renderTel() {
@@ -223,10 +199,28 @@ class Profile extends Component {
           </View>
         </ScrollView>
         {this.renderActionButton()}
+        {this.state.messageVisible ? (
+          <MessagePromptWithAnnuler
+            onRequestClose={() => this.removeModal()}
+            action={() => { this.goToValidation() }}
+            iconName={"warning"}
+            loading={false}
+            text={
+              "Nous vous invitons à valider votre compte pour profiter pleinement des offres"
+            }
+            title={"Validation"}
+            color={"#FF9521"}
+          />
+        ) : null}
       </View>
     );
   }
+  // componentWillUpdate() {
+  //   const { role } = this.props;
+  //   if (role != "confirmé") this.removeModal();
+  // }
 }
+
 Profile.propTypes = {
   avatar: PropTypes.string,
   avatarBackground: PropTypes.string,

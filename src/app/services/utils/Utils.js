@@ -39,7 +39,7 @@ class Utils {
         num.charAt(5) != 2 &&
         num.charAt(5) != 3 &&
         num.charAt(5) != 4 &&
-        num.charAt(5) == 9;
+        num.charAt(5) != 9;
       if (num.charAt(4) != 3 || b || num.length != 13) {
         throw "Veuillez entrer un numéro Telma,Airtel, Orange, Bip valide";
       }
