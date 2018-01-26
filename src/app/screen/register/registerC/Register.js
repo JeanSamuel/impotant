@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { BackHandler,View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { RoundedButton } from "../../../components/Buttons";
 import { Footer } from "../../../components/Footer";
 import styles from "../../../assets/styles/stylesC/registerStyles";
@@ -8,6 +8,19 @@ import colors from '../../../config/constants/colors'
 
 // create a component
 class Register extends Component {
+
+  backHandler(){
+    return true;
+  };
+  componentWillMount(){
+    BackHandler.addEventListener("hardwareBackPress", this.backHandler);
+  }
+  goBack(){
+    this.props.navigation.goBack(null)
+  }
+  componentWillUnmount(){
+    BackHandler.removeEventListener("hardwareBackPress", this.backHandler);
+  }
   render() {
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
