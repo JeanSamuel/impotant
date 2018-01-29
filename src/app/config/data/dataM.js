@@ -43,7 +43,7 @@ export default {
     "Mamy",
     "Mbola"
   ],
-  ARIARY_BASE_URL: "http://54.229.79.45/ariary2API/web/api/",
+  ARIARY_BASE_URL: "http://54.171.161.128/ariary2API/web/api/",
   BASE_URL: "http://ariary.vola.mg/",
   NEW_BASE_URL: "http://ariary.vola.mg/new_serv/",
   BASE_URL_Oauth: "http://auth.vola.mg/",

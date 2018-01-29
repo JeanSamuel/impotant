@@ -57,7 +57,6 @@ class Login extends Component {
   }
 
   _handleLoginAsync = async () => {
-    console.log("Ato za zao");
     let result = await AuthSession.startAsync({
       authUrl: uri
     })

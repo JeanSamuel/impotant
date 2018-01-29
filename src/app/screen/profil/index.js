@@ -36,7 +36,6 @@ class ProfileScreen extends Component {
     let imageHolder = "../";
     try {
       let data = await UserService.getUserInfo(user_id, null);
-      console.log(data);
       if (data.roles[0] == "ROLE_CLIENT_TEMP") {
         datasUSER = {
           code: data.code,
