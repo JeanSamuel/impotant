@@ -207,9 +207,7 @@ class Charger extends Component {
           iconName: "info",
           messageVisibleMini :true,
           error:false});
-        console.log("Instruction" + JSON.stringify(message));
       }).catch(err => {
-        console.log("erreur "+err);
         this.setState({
           messageVisible:false,
           loading:false,

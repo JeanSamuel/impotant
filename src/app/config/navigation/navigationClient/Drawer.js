@@ -14,6 +14,7 @@ import {
 import { Icon } from "react-native-elements";
 import About from "../../../screen/about";
 import Charger from "../../../screen/charger";
+import Retrait from "../../../screen/retrait";
 import Profil from "../../../screen/profil";
 import DrawerContent from "../navigationMerch/drawerContent";
 import colors from "../../../config/constants/colors";
@@ -85,6 +86,21 @@ export default DrawerNavigator(
     History: {
       screen: History,
       navigationOptions: ({ navigation }) => ({
+        header: () => null
+      })
+    },
+    Retrait: {
+      screen: Retrait,
+      navigationOptions: ({ navigation }) => ({
+        title: "Retrait",
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="ios-filing-outline"
+            type="ionicon"
+            color={tintColor}
+            size={28}
+          />
+        ),
         header: () => null
       })
     },

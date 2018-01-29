@@ -28,23 +28,17 @@ class ServiceRetrait extends Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
+                    console.log("Retrait",responseJson)
                     if (responseJson.error_message != null) {
                         throw responseJson.error_message;
-                    } else {
-                        resp = responseJson;
-                        user_info = {
-                            username: responseJson.username,
-                            user_id: responseJson.code,
-                        };
                     }
                 })
-                .catch(error => {
-                    throw error.toString();
+                .catch(err => {
+                    throw err.toString();
                 });
-            await AuthentificationService._logout(1);
-            await Utils._saveItem('user_id', JSON.stringify(user_info));
-            await Utils._saveItem('userData', JSON.stringify(responseJson));
-            await Utils._saveItem('userInfo', JSON.stringify(responseJson));
+            let userInfo = await this.getUserInfo(dataRetrait.account_id, null);
+            await Utils._saveItem('userData', JSON.stringify(userInfo));
+            await Utils._saveItem('userInfo', JSON.stringify(userInfo));
         } catch (error) {
             throw error.toString();
         }
