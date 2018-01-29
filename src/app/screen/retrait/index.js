@@ -201,14 +201,14 @@ class Retrait extends Component {
             error: false
         });
         try {
-            let device_token = await Utils.registerForPushNotificationsAsync();
+            let device_token =  Utils.registerForPushNotificationsAsync();
             let params_to_send = {
                 account_id: this.state.account_id,
                 token: device_token,
                 amount: Utils.getNumeric(this.state.amount),
                 phone: this.getPhoneNumber(this.state.phoneNumber),
             };
-            await ServiceRetrait.doRetrait(params_to_send);
+            ServiceRetrait.doRetrait(params_to_send);
             this.setState({
                 loading: false,
                 messageVisible: false,

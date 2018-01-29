@@ -10,7 +10,7 @@ const BASEURL = config.ARIARY_BASE_URL;
 class ServiceRetrait extends Component {
     static getInstance() {
         if (!instance) {
-            instance = new ImageUpload();
+            instance = new ServiceRetrait();
         }
         return instance;
     }
