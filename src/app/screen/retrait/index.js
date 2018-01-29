@@ -95,7 +95,7 @@ class Retrait extends Component {
                     containerStyle={styles.labelContainerStyle}
                     labelStyle={styles.labelStyle}>
                     Compte à crediter
-        </FormLabel>
+                </FormLabel>
                 <FormInput
                     ref={input1 => this.input = input1}
                     onChangeText={this._handlePhoneInput}
@@ -109,7 +109,7 @@ class Retrait extends Component {
                     containerStyle={styles.labelContainerStyle}
                     labelStyle={styles.labelStyle}>
                     Montant à retirer
-        </FormLabel>
+                </FormLabel>
                 <FormInput
                     ref={input2 => this.input = input2}
                     onChangeText={this._handleAmountInput}
@@ -200,108 +200,116 @@ class Retrait extends Component {
             loading: true,
             error: false
         });
-        try {
-            let device_token =  Utils.registerForPushNotificationsAsync();
-            let params_to_send = {
-                account_id: this.state.account_id,
-                token: device_token,
-                amount: Utils.getNumeric(this.state.amount),
-                phone: this.getPhoneNumber(this.state.phoneNumber),
-            };
-            ServiceRetrait.doRetrait(params_to_send);
+        let device_token = Utils.registerForPushNotificationsAsync();
+        let params_to_send = {
+            account_id: this.state.account_id,
+            token: device_token,
+            amount: Utils.getNumeric(this.state.amount),
+            phone: this.getPhoneNumber(this.state.phoneNumber),
+        };
+        ServiceRetrait.doRetrait(params_to_send).then(() => {
             this.setState({
                 loading: false,
+                messageTitle: "message.title",
+                messageText: "",
+                color: "#FF9521",
                 messageVisible: false,
+                iconName: "info",
                 messageVisibleMini: true,
                 error: false
             });
-        }
-        catch (err) {
-            this.setState({ error: true, errorMessage: err.message, loading: false })
-        }
-    };
-    _handleAmountInput = (text) => {
-        this.setState({ amount: Services.formatNumber(text) })
-    };
-    _handlePhoneInput = (phone) => {
-        try {
-            let formatedPhone = AchatService._parsePhone(phone, 'mg');
-            this.setState({ phoneNumber: formatedPhone })
-        }
-        catch (err) {
-            this.setState({ phoneNumber: phone })
-        }
-    };
-    _handleValider = () => {
-        try {
-            AchatService.validatePhoneNumer(this.state.phoneNumber);
-            AchatService._checkMontant(Services.reformatNumber(this.state.amount));
-            this.renderPinModal();
-        } catch (err) {
-            this.setState({ error: true, errorMessage: err })
-        }
+        }).catch(err => {
+            this.setState({
+                messageVisible: false,
+                loading: false,
+                error: true,
+                errorMessage: err.message,
+            })
+        })
     }
-    render() {
-        return (
-            <View style={styles.container}>
-                {this.renderHeader()}
-                {this.renderHeandingTitle()}
-                <View style={styles.innerContainer}>
-                    <ScrollView>
-                        {this.renderRechargeForm()}
-                    </ScrollView>
-                </View>
-                <TouchableHighlight
-                    underlayColor={"#e2e2e2"}
-                    style={{
-                        justifyContent: "center",
-                        backgroundColor: colors.$secondaryColor,
-                        borderRadius: 5,
-                        height: 50,
-                        width: width - 50,
-                        marginBottom: 10
-                    }}
-                    onPress={this._handleValider}
-                >
-                    <View>
-                        <Text
-                            style={{
-                                textAlign: "center",
-                                fontSize: 18,
-                                fontWeight: "200",
-                                color: "#fff"
-                            }}
-                        >
-                            VALIDER
-                        </Text>
-                    </View>
-                </TouchableHighlight>
-                {this.state.modal}
-                {this.state.messageVisible ? (
-                    <MessagePrompt
-                        onRequestClose={() => this.removeModal()}
-                        iconName={this.state.iconName}
-                        loading={this.state.loading}
-                        text={this.state.messageText}
-                        title={this.state.messageTitle}
-                        error={this.state.error}
-                        color={this.state.color}
-                    />
-                ) : null}
-                {this.state.messageVisibleMini ? (
-                    <MessagePromptMini
-                        onRequestClose={() => this.removeModal()}
-                        iconName={this.state.iconName}
-                        loading={this.state.loading}
-                        text={this.state.messageText}
-                        title={this.state.messageTitle}
-                        error={this.state.error}
-                        color={this.state.color}
-                    />
-                ) : null}
+};
+_handleAmountInput = (text) => {
+    this.setState({ amount: Services.formatNumber(text) })
+};
+_handlePhoneInput = (phone) => {
+    try {
+        let formatedPhone = AchatService._parsePhone(phone, 'mg');
+        this.setState({ phoneNumber: formatedPhone })
+    }
+    catch (err) {
+        this.setState({ phoneNumber: phone })
+    }
+};
+_handleValider = () => {
+    try {
+        AchatService.validatePhoneNumer(this.state.phoneNumber);
+        AchatService._checkMontant(Services.reformatNumber(this.state.amount));
+        this.renderPinModal();
+    } catch (err) {
+        this.setState({ error: true, errorMessage: err })
+    }
+}
+render() {
+    return (
+        <View style={styles.container}>
+            {this.renderHeader()}
+            {this.renderHeandingTitle()}
+            <View style={styles.innerContainer}>
+                <ScrollView>
+                    {this.renderRechargeForm()}
+                </ScrollView>
             </View>
-        );
-    }
+            <TouchableHighlight
+                underlayColor={"#e2e2e2"}
+                style={{
+                    justifyContent: "center",
+                    backgroundColor: colors.$secondaryColor,
+                    borderRadius: 5,
+                    height: 50,
+                    width: width - 50,
+                    marginBottom: 10
+                }}
+                onPress={this._handleValider}
+            >
+                <View>
+                    <Text
+                        style={{
+                            textAlign: "center",
+                            fontSize: 18,
+                            fontWeight: "200",
+                            color: "#fff"
+                        }}
+                    >
+                        VALIDER
+                        </Text>
+                </View>
+            </TouchableHighlight>
+            {this.state.modal}
+            {this.state.messageVisible ? (
+                <MessagePrompt
+                    onRequestClose={() => this.removeModal()}
+                    iconName={this.state.iconName}
+                    loading={this.state.loading}
+                    text={this.state.messageText}
+                    title={this.state.messageTitle}
+                    error={this.state.error}
+                    color={this.state.color}
+                />
+            ) : null}
+            {this.state.messageVisibleMini ? (
+                <MessagePromptMini
+                    onRequestClose={() => this.removeModal()}
+                    iconName={this.state.iconName}
+                    loading={this.state.loading}
+                    text={this.state.messageText}
+                    title={this.state.messageTitle}
+                    error={this.state.error}
+                    color={this.state.color}
+                />
+            ) : null}
+        </View>
+    );
+}
 }
 
 // define your styles
