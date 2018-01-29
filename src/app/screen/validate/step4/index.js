@@ -65,6 +65,7 @@ export default class Step4 extends Component {
       UserService.updateUserInfo(dataRegister, null)
       ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
         .then(response => {
+          console.log("Validation response",response);
           this.modalVIsible();
         })
         .catch(error => {

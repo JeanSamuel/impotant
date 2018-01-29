@@ -36,6 +36,7 @@ class UserService {
   async updateUserInfo(dataUser, activity) {
     let updated = false;
     let url = BASEURL + 'update_user';
+    console.log("============>"+url+"<============");
     if (dataUser != null) {
       try {
         let options = {
@@ -128,6 +129,7 @@ class UserService {
      */
   async getUserInfo(account_id, activity) {
     let dataUser = null;
+    console.log("============>"+BASEURL+"<============");
     try {
       let url = BASEURL + 'get_details/' + account_id;
       await fetch(url)

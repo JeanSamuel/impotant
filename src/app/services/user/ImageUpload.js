@@ -15,6 +15,7 @@ class ImageUpload {
   }
   async doUpload(uri_avatar, uri_dossier, connexion, user) {
     let apiUrl = BASEURL + "valider";
+    console.log("============>valider "+apiUrl+"<============");
     let formData = new FormData();
     /**
      * Avatar Image config

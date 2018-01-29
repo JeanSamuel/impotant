@@ -8,18 +8,16 @@ import colors from '../../../config/constants/colors'
 
 // create a component
 class Register extends Component {
-
   backHandler(){
     return true;
   };
   componentWillMount(){
-    BackHandler.addEventListener("hardwareBackPress", this.backHandler);
+    BackHandler.addEventListener('hardwareBackPress', function() {
+        return false;
+    });
   }
   goBack(){
     this.props.navigation.goBack(null)
-  }
-  componentWillUnmount(){
-    BackHandler.removeEventListener("hardwareBackPress", this.backHandler);
   }
   render() {
     return (
@@ -33,7 +31,7 @@ class Register extends Component {
           <View style={[styles.containerWidth, { alignSelf: "center" }]}>
             <Text style={[styles.text, { color: "#aaa" }]}>
               Appuyer sur "Accepter et Continuer" pour continuer votre
-              inscription et accepter les
+              inscription
             </Text>
             <TouchableOpacity>
               <View>
