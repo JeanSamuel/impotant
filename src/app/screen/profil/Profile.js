@@ -24,8 +24,10 @@ class Profile extends Component {
     });
   }
 
-  goToValidation() {
-    this.removeModal();
+  goToValidation(test) {
+    if(test){
+      this.removeModal();
+    }
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -151,7 +153,7 @@ class Profile extends Component {
             </ActionButton.Item>  
           )
           : (
-            <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation()}>
+            <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
               <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
             </ActionButton.Item>
           )}
@@ -215,7 +217,7 @@ class Profile extends Component {
         {this.state.messageVisible ? (
           <MessagePromptWithAnnuler
             onRequestClose={() => this.removeModal()}
-            action={() => { this.goToValidation() }}
+            action={() => { this.goToValidation(false) }}
             iconName={"warning"}
             loading={false}
             text={
