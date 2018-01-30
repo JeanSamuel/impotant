@@ -98,8 +98,6 @@ export default class DrawerContent extends Component {
   }
 
   checkSolde() {
-    console.log("mandalo at am checkSolde v");
-
     let services = new Services();
     let response = services
       .checkSolde(this.state.account_id)
@@ -169,7 +167,7 @@ export default class DrawerContent extends Component {
           />
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={{ fontSize: 16, color: "#fff" }}>
+              <Text style={{ fontSize: 16, color: "#fff",fontWeight:'800'}}>
                 {this.state.username} ({this.state.account_id})
               </Text>
               <View

@@ -25,7 +25,6 @@ class Profile extends Component {
   }
 
   goToValidation() {
-    this.removeModal();
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -78,10 +77,13 @@ class Profile extends Component {
               {this.props.username + " (" + code + ")"}
             </Text>
             <Icon
-              name="ios-menu"
+              name="ios-create-outline"
               type="ionicon"
               underlayColor="transparent"
-              iconStyle={[styles.navigationIcon, { color: 'transparent' }]}
+              iconStyle={[styles.navigationIcon, { color: '#fff' }]}
+              onPress={() => {
+                this.goToSteps();
+              }}
             />
           </View>
 
@@ -215,10 +217,10 @@ class Profile extends Component {
       </View>
     );
   }
-  // componentWillUpdate() {
-  //   const { role } = this.props;
-  //   if (role != "confirmé") this.removeModal();
-  // }
+  componentDidMount() {
+    const { role } = this.props;
+    if (role!== undefined && role !== "confirmé") this.removeModal();
+  }
 }
 
 Profile.propTypes = {

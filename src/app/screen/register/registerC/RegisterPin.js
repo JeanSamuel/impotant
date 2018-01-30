@@ -54,6 +54,7 @@ class RegisterPin extends Component {
         this.setState({ isLoading: true });
         services.saveData("pin", this.state.pin1).then(() => {
           services.getData("user_id").then(userdata => {
+            console.log("userdata============>",userdata);
             user = JSON.parse(userdata);
             this.setState({ isLoading: !this.state.isLoading });
             this.props.navigation.navigate("Drawer", user);

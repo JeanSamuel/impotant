@@ -59,31 +59,44 @@ class Retrait extends Component {
     }
     renderHeader() {
         return (
-            <Header
-                leftComponent={
-                    <HeaderButton
-                        iconName={"ios-menu"}
-                        color={"#fff"}
-                        type={"ionicon"}
-                        action={() => {
-                            this.props.navigation.navigate('DrawerOpen');
+            <View style={styles.headerContainer}>
+                <View style={styles.navigation}>
+                    <Icon
+                        name="ios-menu"
+                        type="ionicon"
+                        underlayColor="transparent"
+                        iconStyle={styles.navigationIcon}
+                        onPress={() => {
+                            this.props.navigation.navigate("DrawerOpen");
                         }}
                     />
-                }
-            />
-        )
-    };
+                    <Text style={styles.userNameText}>
+                        Retrait
+                    </Text>
+                    <Icon
+                        name="ios-clock-outline"
+                        type="ionicon"
+                        underlayColor="transparent"
+                        iconStyle={[styles.navigationIcon, { color: 'white' }]}
+                        onPress={() => {
+                            this.props.navigation.navigate("History");
+                        }}
+                    />
+                </View>
+            </View>
+        );
+    }
     renderHeandingTitle() {
         return (
             <View style={styles.headingTitle}>
                 <View>
                     <Icon
-                        name="ios-filing"
+                        name="ios-cash-outline"
                         type="ionicon"
                         size={45}
                         color={"#fff"}
                     />
-                    <Text style={styles.headingText}>Retirer votre argent en pleine confiance</Text>
+                    <Text style={styles.headingText}>Retirer votre argent en toute sécurité</Text>
                 </View>
             </View>
         )
@@ -207,122 +220,125 @@ class Retrait extends Component {
             amount: Utils.getNumeric(this.state.amount),
             phone: this.getPhoneNumber(this.state.phoneNumber),
         };
-        ServiceRetrait.doRetrait(params_to_send).then(() => {
-            this.setState({
-                loading: false,
-                messageTitle: "message.title",
-                messageText: "",
-                color: "#FF9521",
-                messageVisible: false,
-                iconName: "info",
-                messageVisibleMini: true,
-                error: false
-            });
-        }).catch(err => {
-            this.setState({
-                messageVisible: false,
-                loading: false,
-                error: true,
-                errorMessage: err.message,
-            })
-        })
+        // ServiceRetrait.doRetrait(params_to_send).then(() => {
+        //     this.setState({
+        //         loading: false,
+        //         messageTitle: "message.title",
+        //         messageText: "",
+        //         color: "#FF9521",
+        //         messageVisible: false,
+        //         iconName: "info",
+        //         messageVisibleMini: true,
+        //         error: false
+        //     });
+        // }).catch(err => {
+        //     this.setState({
+        //         messageVisible: false,
+        //         loading: false,
+        //         error: true,
+        //         errorMessage: err.message,
+        //     })
+        // })
     }
-};
-_handleAmountInput = (text) => {
-    this.setState({ amount: Services.formatNumber(text) })
-};
-_handlePhoneInput = (phone) => {
-    try {
-        let formatedPhone = AchatService._parsePhone(phone, 'mg');
-        this.setState({ phoneNumber: formatedPhone })
-    }
-    catch (err) {
-        this.setState({ phoneNumber: phone })
-    }
-};
-_handleValider = () => {
-    try {
-        AchatService.validatePhoneNumer(this.state.phoneNumber);
-        AchatService._checkMontant(Services.reformatNumber(this.state.amount));
-        this.renderPinModal();
-    } catch (err) {
-        this.setState({ error: true, errorMessage: err })
-    }
-}
-render() {
-    return (
-        <View style={styles.container}>
-            {this.renderHeader()}
-            {this.renderHeandingTitle()}
-            <View style={styles.innerContainer}>
-                <ScrollView>
-                    {this.renderRechargeForm()}
-                </ScrollView>
-            </View>
-            <TouchableHighlight
-                underlayColor={"#e2e2e2"}
-                style={{
-                    justifyContent: "center",
-                    backgroundColor: colors.$secondaryColor,
-                    borderRadius: 5,
-                    height: 50,
-                    width: width - 50,
-                    marginBottom: 10
-                }}
-                onPress={this._handleValider}
-            >
-                <View>
-                    <Text
-                        style={{
-                            textAlign: "center",
-                            fontSize: 18,
-                            fontWeight: "200",
-                            color: "#fff"
-                        }}
-                    >
-                        VALIDER
-                        </Text>
+    _handleAmountInput = (text) => {
+        this.setState({ amount: Services.formatNumber(text) })
+    };
+    _handlePhoneInput = (phone) => {
+        try {
+            let formatedPhone = AchatService._parsePhone(phone, 'mg');
+            this.setState({ phoneNumber: formatedPhone });
+        }
+        catch (err) {
+            this.setState({ phoneNumber: phone });
+        }
+    };
+    _handleValider = () => {
+        try {
+            AchatService.validatePhoneNumer(this.state.phoneNumber);
+            AchatService._checkMontant(Services.reformatNumber(this.state.amount));
+            this.renderPinModal();
+        } catch (err) {
+            this.setState({ error: true, errorMessage: err });
+        }
+    };
+    render() {
+        return (
+            <View style={styles.container}>
+                {this.renderHeader()}
+                {this.renderHeandingTitle()}
+                <View style={styles.innerContainer}>
+                    <ScrollView>
+                        {this.renderRechargeForm()}
+                    </ScrollView>
                 </View>
-            </TouchableHighlight>
-            {this.state.modal}
-            {this.state.messageVisible ? (
-                <MessagePrompt
-                    onRequestClose={() => this.removeModal()}
-                    iconName={this.state.iconName}
-                    loading={this.state.loading}
-                    text={this.state.messageText}
-                    title={this.state.messageTitle}
-                    error={this.state.error}
-                    color={this.state.color}
-                />
-            ) : null}
-            {this.state.messageVisibleMini ? (
-                <MessagePromptMini
-                    onRequestClose={() => this.removeModal()}
-                    iconName={this.state.iconName}
-                    loading={this.state.loading}
-                    text={this.state.messageText}
-                    title={this.state.messageTitle}
-                    error={this.state.error}
-                    color={this.state.color}
-                />
-            ) : null}
-        </View>
-    );
-}
+                <TouchableHighlight
+                    underlayColor={"#e2e2e2"}
+                    style={{
+                        justifyContent: "center",
+                        backgroundColor: colors.$secondaryColor,
+                        borderRadius: 5,
+                        height: 50,
+                        width: width - 50,
+                        marginBottom: 10,
+                        alignSelf: 'center',
+                    }}
+                    onPress={this._handleValider}
+                >
+                    <View>
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                fontSize: 18,
+                                fontWeight: "200",
+                                color: "#fff"
+                            }}
+                        >
+                            VALIDER
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+                {this.state.modal}
+                {this.state.messageVisible ? (
+                    <MessagePrompt
+                        onRequestClose={() => this.removeModal()}
+                        iconName={this.state.iconName}
+                        loading={this.state.loading}
+                        text={this.state.messageText}
+                        title={this.state.messageTitle}
+                        error={this.state.error}
+                        color={this.state.color}
+                    />
+                ) : null}
+                {this.state.messageVisibleMini ? (
+                    <MessagePromptMini
+                        onRequestClose={() => this.removeModal()}
+                        iconName={this.state.iconName}
+                        loading={this.state.loading}
+                        text={this.state.messageText}
+                        title={this.state.messageTitle}
+                        error={this.state.error}
+                        color={this.state.color}
+                    />
+                ) : null}
+            </View>
+        );
+    }
 }
 
 // define your styles
 const styles = EStyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
+        // alignItems: "center",
         backgroundColor: "rgba(226, 226, 226, 0.3)"
     },
     innerContainer: {
         flex: 1,
         width: width - 15,
+        marginTop: 10,
+        alignSelf: 'center',
+        justifyContent:'center',
         marginBottom: 10,
         backgroundColor: "#fff"
     },
@@ -367,7 +383,27 @@ const styles = EStyleSheet.create({
     },
     rechargeForm: {
         backgroundColor: "#fff"
-    }
+    },
+    navigationIcon: {
+        color: "#FFF",
+        fontSize: 30,
+        marginHorizontal: 15
+    },
+    navigation: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "$darkColor",
+        paddingVertical: 20
+    },
+    userNameText: {
+        color: "#FFF",
+        fontSize: 22,
+        paddingBottom: 8,
+        textAlign: "center"
+    },
+    headerBackgroundImage: {
+        paddingBottom: 20
+    },
 });
 //make this component available to the app
 const StackSettings = new StackNavigator(

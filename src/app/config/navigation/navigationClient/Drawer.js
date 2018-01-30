@@ -95,7 +95,7 @@ export default DrawerNavigator(
         title: "Retrait",
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="ios-filing-outline"
+            name="ios-cash-outline"
             type="ionicon"
             color={tintColor}
             size={28}
@@ -113,6 +113,7 @@ export default DrawerNavigator(
             name="ios-information-circle-outline"
             type="ionicon"
             size={28}
+            color={tintColor}
           />
         ),
         header: () => null
@@ -123,7 +124,7 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Déconnexion",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-log-out" type="ionicon" size={28} />
+          <Icon name="ios-log-out" type="ionicon" size={28} color={tintColor}/>
         ),
         header: () => null
       })

@@ -36,7 +36,6 @@ class UserService {
   async updateUserInfo(dataUser, activity) {
     let updated = false;
     let url = BASEURL + 'update_user';
-    console.log("============>"+url+"<============");
     if (dataUser != null) {
       try {
         let options = {
@@ -82,7 +81,6 @@ class UserService {
     let url = BASEURL + 'change_password';
     if (dataUser != null) {
       try {
-        //Utils._isValidPass(dataUser.new_password);
         let options = {
           method: 'POST',
           headers: {
@@ -129,7 +127,6 @@ class UserService {
      */
   async getUserInfo(account_id, activity) {
     let dataUser = null;
-    console.log("============>"+BASEURL+"<============");
     try {
       let url = BASEURL + 'get_details/' + account_id;
       await fetch(url)

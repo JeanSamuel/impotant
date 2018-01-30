@@ -1,18 +1,19 @@
 //import liraries
-import React, { Component } from "react";
-import {Text, View, ScrollView, TouchableHighlight, Dimensions, Keyboard} from "react-native";
-import { StackNavigator } from "react-navigation";
-import { DrawerMenu } from "../../components/drawerMenu/";
-import EStyleSheet from "react-native-extended-stylesheet";
+import React, { Component } from "react"
+import { Text, View, ScrollView, TouchableHighlight, Dimensions, Keyboard } from "react-native"
+import { StackNavigator } from "react-navigation"
+import { DrawerMenu } from "../../components/drawerMenu/"
+import EStyleSheet from "react-native-extended-stylesheet"
 import { Header } from '../../components/Header'
-import { AchatService, Utils} from '../../services'
-import {PinModal, Modal, MessagePrompt, MessagePromptMini} from '../../components/modal'
+import { AchatService, Utils } from '../../services'
+import { PinModal, Modal, MessagePrompt, MessagePromptMini } from '../../components/modal'
 import Services from '../../services/utils/services'
-import { InputLeftIcon } from '../../components/TextInput';
+import { InputLeftIcon } from '../../components/TextInput'
 import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-elements'
 import colors from '../../config/constants/colors'
-import {HeaderButton} from '../../components/drawerMenu'
-import PropTypes from "prop-types";
+import { HeaderButton } from '../../components/drawerMenu'
+import PropTypes from "prop-types"
+import { baseStyle } from '../../assets/styles'
 // create a component
 const { height, width } = Dimensions.get("window");
 const achatService = AchatService;
@@ -30,7 +31,7 @@ class Charger extends Component {
       messageTitle: "Patientez!",
       makeTransaction: false,
       phoneNumber: "",
-      messageVisible:false,
+      messageVisible: false,
       messageVisibleMini: false,
       pin: "",
       modal: null
@@ -56,22 +57,37 @@ class Charger extends Component {
     })
 
   }
+
   renderHeader() {
     return (
-      <Header
-        leftComponent={
-          <HeaderButton
-            iconName={"ios-menu"}
-            color={"#fff"}
-            type={"ionicon"}
-            action={() => {
-              this.props.navigation.navigate('DrawerOpen');
-            }}
-          />
-        }
-      />
-    )
-  };
+      <View style={styles.headerContainer}>
+          <View style={styles.navigation}>
+            <Icon
+              name="ios-menu"
+              type="ionicon"
+              underlayColor="transparent"
+              iconStyle={styles.navigationIcon}
+              onPress={() => {
+                this.props.navigation.navigate("DrawerOpen");
+              }}
+            />
+            <Text style={styles.userNameText}>
+              Achat bon d'achat
+            </Text>
+            <Icon
+              name="ios-clock-outline"
+              type="ionicon"
+              underlayColor="transparent"
+              iconStyle={[styles.navigationIcon, { color: 'white' }]}
+              onPress={() => {
+                this.props.navigation.navigate("History");
+              }}
+            />
+          </View>
+      </View>
+    );
+  }
+
   renderHeandingTitle() {
     return (
       <View style={styles.headingTitle}>
@@ -130,7 +146,7 @@ class Charger extends Component {
   }
 
   removeModal() {
-    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false, messageVisibleMini: false});
+    this.setState({ modal: null, pinErrorMessage: null, messageVisible: false, messageVisibleMini: false });
   }
 
   _handlePinInput = text => {
@@ -187,16 +203,16 @@ class Charger extends Component {
     })
   }
 
-  _performRecharge = ()=>{
-    try{
-      console.log("Instruction");
+  _performRecharge = () => {
+    try {
       this.setState({
         messageText: "Opération en cours de traitement",
         color: "#FF9521",
-        messageVisible:true,
-        loading:true,
-        error:false});
-      AchatService._initAchat(this).then(()=>{
+        messageVisible: true,
+        loading: true,
+        error: false
+      });
+      AchatService._initAchat(this).then(() => {
         let message = achatService.getInstructionByMobileMoneyPhoneNumber(this.state.phoneNumber);
         this.setState({
           loading: false,
@@ -205,37 +221,35 @@ class Charger extends Component {
           color: "#FF9521",
           messageVisible: false,
           iconName: "info",
-          messageVisibleMini :true,
-          error:false});
+          messageVisibleMini: true,
+          error: false
+        });
       }).catch(err => {
         this.setState({
-          messageVisible:false,
-          loading:false,
+          messageVisible: false,
+          loading: false,
           error: true,
-          errorMessage: err.message,})
+          errorMessage: err.message,
+        })
       })
     }
-    catch (err){
-      this.setState({error: true, errorMessage: err.message})
+    catch (err) {
+      this.setState({ error: true, errorMessage: err.message })
     }
   };
   _handleAmountInput = (text) => {
-    console.log("ato tsika zao montant");
     this.setState({ amount: Services.formatNumber(text) })
   };
   _handlePhoneInput = (phone) => {
-    console.log(phone, this.state.phoneNumber);
     try {
       let formatedPhone = AchatService._parsePhone(phone, 'mg');
       this.setState({ phoneNumber: formatedPhone })
     }
     catch (err) {
-      //this.setState({ error: true })
       this.setState({ phoneNumber: phone })
     }
   };
   _handleValider = () => {
-    console.log('Perform transaction');
     try {
       AchatService.validatePhoneNumer(this.state.phoneNumber);
       AchatService._checkMontant(Services.reformatNumber(this.state.amount));
@@ -259,6 +273,7 @@ class Charger extends Component {
           underlayColor={"#e2e2e2"}
           style={{
             justifyContent: "center",
+            alignSelf: 'center',
             backgroundColor: colors.$secondaryColor,
             borderRadius: 5,
             height: 50,
@@ -312,14 +327,17 @@ class Charger extends Component {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
     backgroundColor: "rgba(226, 226, 226, 0.3)"
   },
   innerContainer: {
     flex: 1,
     width: width - 15,
+    alignSelf: 'center',
+    justifyContent:'center',
     marginBottom: 10,
+    marginTop: 10,
     backgroundColor: "#fff"
   },
   headingTitle: {
@@ -363,7 +381,27 @@ const styles = EStyleSheet.create({
   },
   rechargeForm: {
     backgroundColor: "#fff"
-  }
+  },
+  navigationIcon: {
+    color: "#FFF",
+    fontSize: 30,
+    marginHorizontal: 15
+  },
+  navigation: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor:"$darkColor",
+    paddingVertical: 20
+  },
+  userNameText: {
+    color: "#FFF",
+    fontSize: 22,
+    paddingBottom: 8,
+    textAlign: "center"
+  },
+  headerBackgroundImage: {
+    paddingBottom: 20
+  },
 });
 //make this component available to the app
 const StackSettings = new StackNavigator(
