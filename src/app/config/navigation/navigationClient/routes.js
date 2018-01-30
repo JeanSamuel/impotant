@@ -88,7 +88,6 @@ class Navigateur extends Component {
     this.dropdown.alertWithType("error", title, "L'achat de "+Utils.formatNumber(notification.data.amount) +" Ar a échoué");
   }
   showAlert(notification) {
-    console.log("notification======================>",JSON.stringify(notification));
     this.receptionAlert(notification);
     this.envoieAlert(notification);
     this.receptionAlert(notification);

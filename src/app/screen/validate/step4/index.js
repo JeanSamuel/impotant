@@ -61,10 +61,10 @@ export default class Step4 extends Component {
       password: connexion.password,
       role: 'simple'
     }
-    try {
-      UserService.updateUserInfo(dataRegister, null)
+    UserService.updateUserInfo(dataRegister, null).then(response => {
       ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
         .then(response => {
+          console.log("validation", response);
           this.modalVIsible();
         })
         .catch(error => {
@@ -75,13 +75,15 @@ export default class Step4 extends Component {
           });
           this.modalVIsible();
         });
-    } catch (error) {
-      his.setState({
-        text: error.toString(),
-        color: "red",
-        icon: "close"
+    })
+      .catch(error => {
+        this.setState({
+          text: "Erreur de validation " + error.toString(),
+          color: "red",
+          icon: "close"
+        });
+        this.modalVIsible();
       });
-    }
   };
 
   returnToHome() {

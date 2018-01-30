@@ -54,8 +54,6 @@ export default class DrawerContent extends Component {
       .getData("userInfo")
       .then(response => {
         if (response != null) {
-          console.log(response);
-
           let dataParsed = JSON.parse(response);
           let usname = dataParsed.nom;
           if (usname == null || usname == "") {

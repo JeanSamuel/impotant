@@ -60,7 +60,6 @@ class Login extends Component {
     let result = await AuthSession.startAsync({
       authUrl: uri
     })
-    console.log(result);
   }
   onErrorLoading(webViewState) { }
 

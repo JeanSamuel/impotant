@@ -16,14 +16,13 @@ class ServiceRetrait extends Component {
     }
     async doRetrait(dataRetrait) {
         let url = BASEURL + 'retrait';
-        let hdrs = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        };
         try {
             await fetch(url, {
                 method: 'POST',
-                headers: hdrs,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(dataRetrait),
             })
                 .then(response => response.json())

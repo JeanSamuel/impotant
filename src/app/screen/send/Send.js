@@ -59,13 +59,13 @@ class Send extends Component {
         if (user_id === null || pin === null) {
           this.props.navigation.navigate("Handler");
         } else {
-          services.getData("solde").then(solde =>{
-            this.setState({ loading: false, loggedIn: true, solde: solde });
+          services.getData("userInfo").then(userInfo =>{
+            let ui=JSON.parse(userInfo)
+            this.setState({ loading: false, loggedIn: true, solde: ui.solde });
           })
         }
       });
     });
-
   }
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.backHandler);

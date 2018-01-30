@@ -186,8 +186,6 @@ export default class componentName extends Component {
 
   goToNextStep = () => {
     let data = this.createDataForNextStep();
-    console.log(data);
-
     this.props.navigation.navigate("Step3", data);
   };
 

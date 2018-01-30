@@ -216,29 +216,30 @@ class Retrait extends Component {
         let device_token = Utils.registerForPushNotificationsAsync();
         let params_to_send = {
             account_id: this.state.account_id,
-            token: device_token,
             amount: Utils.getNumeric(this.state.amount),
-            phone: this.getPhoneNumber(this.state.phoneNumber),
+            number: this.getPhoneNumber(this.state.phoneNumber),
         };
-        // ServiceRetrait.doRetrait(params_to_send).then(() => {
-        //     this.setState({
-        //         loading: false,
-        //         messageTitle: "message.title",
-        //         messageText: "",
-        //         color: "#FF9521",
-        //         messageVisible: false,
-        //         iconName: "info",
-        //         messageVisibleMini: true,
-        //         error: false
-        //     });
-        // }).catch(err => {
-        //     this.setState({
-        //         messageVisible: false,
-        //         loading: false,
-        //         error: true,
-        //         errorMessage: err.message,
-        //     })
-        // })
+        console.log("paramstosend",params_to_send)
+        ServiceRetrait.doRetrait(params_to_send).then(() => {
+            this.setState({
+                loading: false,
+                messageTitle: "message.title",
+                messageText: "",
+                color: "#FF9521",
+                messageVisible: false,
+                iconName: "info",
+                messageVisibleMini: true,
+                error: false
+            });
+
+        }).catch(err => {
+            this.setState({
+                messageVisible: false,
+                loading: false,
+                error: true,
+                errorMessage: err.message,
+            })
+        })
     }
     _handleAmountInput = (text) => {
         this.setState({ amount: Services.formatNumber(text) })

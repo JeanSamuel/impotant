@@ -22,10 +22,13 @@ class ProfileScreen extends Component {
         return "compte temporaire";
         break;
       case "ROLE_CLIENT_SIMPLE":
+        return "compte simple";
+        break;
+      case "ROLE_VALIDATION":
         return "En attente de validation";
         break;
       case "ROLE_CLIENT_VALIDE":
-        return "confirmé";
+        return "compte confirmé";
         break;
     }
   }
@@ -35,8 +38,9 @@ class ProfileScreen extends Component {
     let datasUSER = {};
     let imageHolder = "../";
     try {
-      let data = await UserService.getUserInfo(user_id, null);
-      if (data.roles[0] == "ROLE_CLIENT_TEMP") {
+      console.log('atooo',user_id);
+      let data = await UserService.getUserInfo(user_id, null)
+      if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE" || data.roles[0] == "ROLE_VALIDATION") {
         datasUSER = {
           code: data.code,
           username: data.username,
