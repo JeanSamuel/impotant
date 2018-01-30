@@ -125,7 +125,6 @@ class RegisterPwd extends Component {
                   marginVertical: 10,
                   marginRight: 5,
                   paddingHorizontal: 10
-                  // backgroundColor: "red"
                 }}
                 onPress={() => {
                   this.toggleHidePwd();
@@ -137,7 +136,6 @@ class RegisterPwd extends Component {
               </TouchableOpacity>
               <TextInput
                 style={{
-                  //height: 50,
                   fontSize: 15,
                   paddingHorizontal: 10,
                   marginTop: 20,
