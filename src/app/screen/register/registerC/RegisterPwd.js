@@ -65,9 +65,8 @@ class RegisterPwd extends Component {
           user_id: this.state.username
         })
       } catch (error) {
-        console.log(error);
         this.removeLoader()
-        this.setState({ errorMessage: error.toString() });
+        this.setState({ hasError: true,errorMessage: error.toString() });
       }
     }
   }
