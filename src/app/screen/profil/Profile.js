@@ -25,6 +25,7 @@ class Profile extends Component {
   }
 
   goToValidation() {
+    this.removeModal();
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -32,7 +33,14 @@ class Profile extends Component {
     };
     this.props.navigation.navigate("Validation", data);
   }
-
+  goToRetrait(){
+    const { user_id, username } = this.props.navigation.state.params;
+    let data = {
+      user_id,
+      username
+    };
+    this.props.navigation.navigate("Retrait", data);
+  }
   goToPay() {
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
@@ -152,6 +160,9 @@ class Profile extends Component {
         </ActionButton.Item>
         <ActionButton.Item textStyle={{ color: '#1abc9c', fontWeight: '800' }} buttonColor='#1abc9c' title="Recharger" onPress={() => this.goToAchat()}>
           <Icon name="md-cart" color={"#fff"} type={"ionicon"} />
+        </ActionButton.Item>
+        <ActionButton.Item textStyle={{ color: '#00cf7e', fontWeight: '800' }} buttonColor='#00cf7e' title="Faire un retrait" onPress={() => this.goToRetrait()}>
+          <Icon name="md-cash" color={"#fff"} type={"ionicon"} />
         </ActionButton.Item>
       </ActionButton>
     )
