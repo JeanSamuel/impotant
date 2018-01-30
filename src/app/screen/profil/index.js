@@ -36,9 +36,7 @@ class ProfileScreen extends Component {
     let user_id = this.props.navigation.state.params.user_id;
     let role = null;
     let datasUSER = {};
-    let imageHolder = "../";
     try {
-      console.log('atooo',user_id);
       let data = await UserService.getUserInfo(user_id, null)
       if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE" || data.roles[0] == "ROLE_VALIDATION") {
         datasUSER = {
