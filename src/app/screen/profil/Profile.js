@@ -25,7 +25,7 @@ class Profile extends Component {
   }
 
   goToValidation(test) {
-    if(test){
+    if(!test){
       this.removeModal();
     }
     const { user_id, username } = this.props.navigation.state.params;

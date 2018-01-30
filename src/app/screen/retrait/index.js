@@ -405,15 +405,4 @@ const styles = EStyleSheet.create({
         paddingBottom: 20
     },
 });
-//make this component available to the app
-const StackSettings = new StackNavigator(
-    {
-        About: {
-            screen: Retrait,
-            navigationOptions: ({ navigation }) => ({
-                header: () => null
-            })
-        }
-    }
-);
-export default StackSettings;
+export default Retrait;

@@ -83,12 +83,6 @@ export default DrawerNavigator(
         header: () => null
       })
     },
-    History: {
-      screen: History,
-      navigationOptions: ({ navigation }) => ({
-        header: () => null
-      })
-    },
     Retrait: {
       screen: Retrait,
       navigationOptions: ({ navigation }) => ({
@@ -101,6 +95,12 @@ export default DrawerNavigator(
             size={28}
           />
         ),
+        header: () => null
+      })
+    },
+    History: {
+      screen: History,
+      navigationOptions: ({ navigation }) => ({
         header: () => null
       })
     },
