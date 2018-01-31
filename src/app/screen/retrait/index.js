@@ -62,8 +62,10 @@ class Retrait extends Component {
 
     }
     goHome() {
-        this.setState({messageVisible:false});
-        this.props.navigation.navigate('Drawer', { user_id: this.state.userinfo.code, username: this.state.userinfo.username });
+        this.setState({ messageVisible: false });
+        if (this.state.color == "green")
+            this.props.navigation.navigate('Drawer', { user_id: this.state.userinfo.code, username: this.state.userinfo.username });
+        else this.setState({ amount: "", phoneNumber: "" });
     }
     createLoader(message) {
         this.setState({

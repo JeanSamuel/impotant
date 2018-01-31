@@ -61,29 +61,29 @@ class Charger extends Component {
   renderHeader() {
     return (
       <View style={styles.headerContainer}>
-          <View style={styles.navigation}>
-            <Icon
-              name="ios-menu"
-              type="ionicon"
-              underlayColor="transparent"
-              iconStyle={styles.navigationIcon}
-              onPress={() => {
-                this.props.navigation.navigate("DrawerOpen");
-              }}
-            />
-            <Text style={styles.userNameText}>
-              Achat bon d'achat
+        <View style={styles.navigation}>
+          <Icon
+            name="ios-menu"
+            type="ionicon"
+            underlayColor="transparent"
+            iconStyle={styles.navigationIcon}
+            onPress={() => {
+              this.props.navigation.navigate("DrawerOpen");
+            }}
+          />
+          <Text style={styles.userNameText}>
+            Achat bon d'achat
             </Text>
-            <Icon
-              name="ios-clock-outline"
-              type="ionicon"
-              underlayColor="transparent"
-              iconStyle={[styles.navigationIcon, { color: 'white' }]}
-              onPress={() => {
-                this.props.navigation.navigate("History");
-              }}
-            />
-          </View>
+          <Icon
+            name="ios-clock-outline"
+            type="ionicon"
+            underlayColor="transparent"
+            iconStyle={[styles.navigationIcon, { color: 'white' }]}
+            onPress={() => {
+              this.props.navigation.navigate("History");
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -147,6 +147,10 @@ class Charger extends Component {
 
   removeModal() {
     this.setState({ modal: null, pinErrorMessage: null, messageVisible: false, messageVisibleMini: false });
+    if (this.state.error) this.props.navigation.navigate("Drawer", { user_id: this.state.userinfo.code, username: this.state.userinfo.username });
+    else {
+      this.setState({ erro: false, amount: "", phoneNumber: "" });
+    }
   }
 
   _handlePinInput = text => {
@@ -335,7 +339,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     width: width - 15,
     alignSelf: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     marginBottom: 10,
     marginTop: 10,
     backgroundColor: "#fff"
@@ -390,7 +394,7 @@ const styles = EStyleSheet.create({
   navigation: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor:"$darkColor",
+    backgroundColor: "$darkColor",
     paddingVertical: 20
   },
   userNameText: {

@@ -66,7 +66,7 @@ export default class DrawerContent extends Component {
             solde: dataParsed.solde
           });
           //this.checkSolde();
-          if (dataParsed.avatar == undefined || ataParsed.avatar == null) {
+          if (dataParsed.avatar == undefined || dataParsed.avatar == null) {
             this.setState({
               avatar:
                 "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"

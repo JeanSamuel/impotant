@@ -102,7 +102,7 @@ export default class Step4 extends Component {
   returnToHome() {
     const { connexion } = this.props.navigation.state.params;
     this.modalVIsible();
-    this.props.navigation.navigate("Drawer", { user_id: connexion.identifiant, username: connexion.pseudo });
+    if (this.state.colo = "green") this.props.navigation.navigate("Drawer", { user_id: connexion.identifiant, username: connexion.pseudo });
   }
 
   renderConnexion = () => {
