@@ -38,12 +38,7 @@ class Profile extends Component {
       user_id,
       username
     };
-
-    if (this.props.test !== "ROLE_VALIDATION") {
-      this.props.navigation.navigate("Validation", data);
-    } else {
-      Alert.alert('Info', "Votre compte est en attente de validation");
-    }
+    this.props.navigation.navigate("Validation", data);
   }
   goToRetrait() {
     const { user_id, username } = this.props.navigation.state.params;
@@ -70,14 +65,10 @@ class Profile extends Component {
     this.props.navigation.navigate("Charger", data);
   }
   goToSteps() {
-    if (this.props.test === "ROLE_CLIENT_VALIDE")
+    if (this.props.test === "ROLE_CLIENT_VALIDE" || this.props.test === "ROLE_VALIDATION")
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
     else {
-      if (this.props.test === "ROLE_VALIDATION") {
-        Alert.alert('Info', "Votre compte est en attente de validation");
-      } else {
-        this.removeModal();
-      }
+      this.removeModal();
     }
   }
   renderHeader() {
@@ -155,21 +146,20 @@ class Profile extends Component {
   }
   renderUser() {
     return <View style={styles.telContainer}>
-      <UserData name={this.props.name} birthday={this.props.birthday} />
+      <UserData name={this.props.name} birthday={this.props.birthday} edit={this.goToSteps.bind(this)} />
     </View>
   }
   renderActionButton() {
     return (
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        {this.props.test === "ROLE_CLIENT_VALIDE"
-          ? (
+        {(this.props.test !== "ROLE_CLIENT_VALIDE" && this.props.test !== "ROLE_VALIDATION")
+          ? (<ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
+            <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
+          </ActionButton.Item>) : (
             <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code })}>
               <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"} />
             </ActionButton.Item>
           )
-          : (<ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
-            <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
-          </ActionButton.Item>)
         }
         <ActionButton.Item textStyle={{ color: '#3498db', fontWeight: '800' }} buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
           <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"} />
@@ -192,8 +182,8 @@ class Profile extends Component {
         key={"tel-1"}
         name={"Mobile"}
         number={this.props.tels}
-        onPressSms={this.onPressSms}
-        onPressTel={this.onPressTel}
+        onPressSms={this.goToSteps.bind(this)}
+        onPressTel={this.goToSteps.bind(this)}
       />
     </View>
   }
@@ -205,7 +195,7 @@ class Profile extends Component {
         index={0}
         name={"E-mail"}
         email={this.props.emails}
-        onPressEmail={this.onPressEmail}
+        onPressEmail={this.goToSteps.bind(this)}
       />
     </View>
   }

@@ -315,7 +315,7 @@ class EditInfo extends Component {
                         iconStyle={styles.navigationIcon}
                         onPress={() => { this.props.navigation.goBack(null) }}
                     />
-                    <Text style={styles.userNameText}>Editer vos informations</Text>
+                    <Text style={styles.userNameText}>Modifier vos informations</Text>
                     <TouchableOpacity>
                         <Icon
                             name="edit"

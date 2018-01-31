@@ -14,9 +14,7 @@ class UserData extends Component {
   }
 
   toggleHidden() {
-    this.setState({
-      isHidden: !this.state.isHidden
-    });
+    this.props.edit();
   }
 
   render() {
@@ -52,7 +50,9 @@ const Child = () => (
   </View>
 );
 
+
 UserData.defaultProps = {
+  edit: PropTypes.func,
   containerStyle: {},
   name: null
 };
