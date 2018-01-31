@@ -62,19 +62,21 @@ export default class DrawerContent extends Component {
           this.setState({
             username: usname,
             avatar: dataParsed.avatar,
-            account_id: dataParsed.code
+            account_id: dataParsed.code,
+            solde: dataParsed.solde
           });
+          //this.checkSolde();
           if (dataParsed.avatar == undefined || ataParsed.avatar == null) {
             this.setState({
               avatar:
                 "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
             });
           }
-          this.checkSolde();
         } else {
           this.setState({
             username: "unassigned",
-            account_id: 0
+            account_id: 0,
+            solde: 0
           });
         }
       })
@@ -165,7 +167,7 @@ export default class DrawerContent extends Component {
           />
           <View style={styles.dataContainer}>
             <View style={styles.textContainer}>
-              <Text style={{ fontSize: 16, color: "#fff",fontWeight:'800'}}>
+              <Text style={{ fontSize: 16, color: "#fff", fontWeight: '800' }}>
                 {this.state.username} ({this.state.account_id})
               </Text>
               <View

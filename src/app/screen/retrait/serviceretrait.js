@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import config from "../../config/data/dataM";
-import { Utils } from '../../services';
+import { Utils, UserService } from '../../services';
 
 let instance = null;
 
@@ -27,7 +27,6 @@ class ServiceRetrait extends Component {
             })
                 .then(response => response.json())
                 .then(responseJson => {
-                    console.log("Retrait",responseJson)
                     if (responseJson.error_message != null) {
                         throw responseJson.error_message;
                     }
@@ -35,7 +34,7 @@ class ServiceRetrait extends Component {
                 .catch(err => {
                     throw err.toString();
                 });
-            let userInfo = await this.getUserInfo(dataRetrait.account_id, null);
+            let userInfo = await UserService.getUserInfo(dataRetrait.account_id, null);
             await Utils._saveItem('userData', JSON.stringify(userInfo));
             await Utils._saveItem('userInfo', JSON.stringify(userInfo));
         } catch (error) {

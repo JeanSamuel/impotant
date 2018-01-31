@@ -35,7 +35,7 @@ class Retrait extends Component {
             modal: null,
 
             messageVisible: false,
-            text: "Votre demande de retrait à été envoyé et prise en compte!!!",
+            text: "Votre demande de retrait a été bien envoyé et prise en compte!!!",
             color: "green",
             icon: "check"
 

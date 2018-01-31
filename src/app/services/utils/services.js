@@ -409,9 +409,9 @@ class Services extends Component {
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        //console.log("====================================");
-        //console.log("solde", responseJSON);
-        //console.log("====================================");
+        console.log("====================================");
+        console.log("solde", responseJSON);
+        console.log("====================================");
         if (!responseJSON.error) {
           this.saveData("solde", JSON.stringify(responseJSON.value));
           return responseJSON;
