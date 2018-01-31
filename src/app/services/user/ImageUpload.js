@@ -21,40 +21,31 @@ class ImageUpload {
      */
     let uriParts = uri_avatar.split(".");
     let fileType = uriParts[uriParts.length - 1];
-    if (fileType != "png") {
+    let end=fileType;
+    if (fileType == "jpg") {
       fileType = "jpeg";
     }
     let uri = uri_avatar;
     formData.append("avatar", {
       uri,
-      name: `avatar.${fileType}`,
-      type: `image/jpeg`
+      name: `avatar.${end}`,
+      type: `image/{${fileType}}`
     });
     /**
      * Cin Image Config
      */
     let uriParts1 = uri_dossier.split(".");
     let fileType1 = uriParts1[uriParts1.length - 1];
-    if (fileType1 != "png") {
+    let end1=fileType1;
+    if (fileType1 == "jpg") {
       fileType1 = "jpeg";
     }
     uri = uri_dossier;
     formData.append("dossier", {
       uri,
-      name: `cin.${fileType1}`,
+      name: `cin.${end}`,
       type: `image/${fileType1}`
     });
-
-    /**
-     * other datas for validation
-     */
-    // formData.append("email", connexion.email);
-    // formData.append("pseudo", connexion.pseudo);
-    // formData.append("password", connexion.password);
-
-    // formData.append("nom", user.name);
-    // formData.append("dateN", user.dateN);
-    // formData.append("phone", user.phone);
 
     formData.append("account_id", connexion.identifiant);
     formData.append("cin", user.cin);
@@ -77,7 +68,6 @@ class ImageUpload {
     /**
      * execute validation process
      */
-
     return await fetch(apiUrl, options);
   }
 

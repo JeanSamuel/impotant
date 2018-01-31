@@ -124,7 +124,7 @@ export default DrawerNavigator(
       navigationOptions: ({ navigation }) => ({
         title: "Déconnexion",
         drawerIcon: ({ tintColor }) => (
-          <Icon name="ios-log-out" type="ionicon" size={28} color={tintColor}/>
+          <Icon name="ios-log-out" type="ionicon" size={28} color={tintColor} />
         ),
         header: () => null
       })
@@ -132,10 +132,9 @@ export default DrawerNavigator(
   },
   {
     initialRouteName: "Profil",
-    drawerWidth: width - 50,
+    drawerWidth: width >= 400 ? 350 : width - 50,
     contentOptions: {
       activeTintColor: colors.$darkColor,
-      // activeBackgroundColor: "",
       itemStyle: {
         paddingLeft: 15
       },

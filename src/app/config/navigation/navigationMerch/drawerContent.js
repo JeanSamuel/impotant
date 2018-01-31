@@ -19,7 +19,7 @@ const back = require("../../../assets/images/backHeader.jpg");
 const logoFromFile = require("../../../assets/images/icons/user.png");
 import { styleBase } from "../../../assets/styles";
 import colors from "../../../config/constants/colors";
-const bg = require("../../../assets/images/1.jpg");
+const bg = require("../../../assets/images/profil-background.png");
 export default class DrawerContent extends Component {
   constructor(props) {
     super(props);
@@ -48,7 +48,7 @@ export default class DrawerContent extends Component {
     this.getUserInfo();
   }
 
-  getUserInfo() {
+  async getUserInfo() {
     let services = new Services();
     services
       .getData("userInfo")
@@ -64,7 +64,7 @@ export default class DrawerContent extends Component {
             avatar: dataParsed.avatar,
             account_id: dataParsed.code
           });
-          if (dataParsed.avatar == undefined) {
+          if (dataParsed.avatar == undefined || ataParsed.avatar == null) {
             this.setState({
               avatar:
                 "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
@@ -153,7 +153,7 @@ export default class DrawerContent extends Component {
       <View style={styles.container}>
         <Image
           style={styles.imageBack}
-          blurRadius={Platform.OS == "ios" ? 6 : 3}
+          blurRadius={10}
           source={bg}
         >
           <Avatar

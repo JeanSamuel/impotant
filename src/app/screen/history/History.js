@@ -362,7 +362,7 @@ class History extends React.Component {
     return (
       <View style={{ backgroundColor: "red", paddingVertical: 5 }}>
         <Text style={{ textAlign: "center", color: "#fff" }}>
-          Vous êtes hors connection
+          Aucune transaction effectuée
         </Text>
       </View>
     );
@@ -480,7 +480,7 @@ class History extends React.Component {
             <RowEmpty />
           </View>
         ) : null}
-        {!this.state.online ? this.renderErrorMessage() : null}
+        {/* {this.state.dataBrute==null ? this.renderErrorMessage() : null} */}
         {this.state.online && !this.state.loading
           ? this.renderConnectedMessage()
           : null}

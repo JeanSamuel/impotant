@@ -51,8 +51,8 @@ export default {
   scope: "userinfo",
   grant_type_Oauth: "authorization_code",
   grant_type_refresh: "refresh_token",
-  client_id : 'ariarynet',
-  client_secret : 'ariarynetpass',
+  client_id: 'ariarynet',
+  client_secret: 'ariarynetpass',
   uri:
     "http://auth.vola.mg/oauth2/authorize?response_type=code&state=xyz&client_id=ariarynet&redirect_uri=http://auth.vola.mg/index.php/&scope=userinfo",
   message: [

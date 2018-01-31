@@ -83,12 +83,12 @@ const Tel = ({
           </View>
         </View>
         <View style={styles.smsRow}>
-          <Icon
+          {/* <Icon
             name="textsms"
             underlayColor="transparent"
             iconStyle={styles.smsIcon}
             onPress={() => onPressSms()}
-          />
+          /> */}
         </View>
       </View>
     </TouchableOpacity>

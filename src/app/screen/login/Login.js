@@ -52,7 +52,7 @@ class Login extends Component {
           notif.loginForExpoToken(response.username);
           this.props.navigation.navigate('RegisterPin', response);
         })
-        .catch(error => {console.log("Error login",error) });
+        .catch(error => { console.log("Error login", error) });
     }
   }
 

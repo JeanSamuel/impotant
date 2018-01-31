@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Colors from "../../../config/constants/colors";
 import { ImageUpload, UserService } from "../../../services";
 import { MessagePrompt } from "../../../components/modal";
+import { Loader } from "../../../components/loader";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -17,7 +18,8 @@ export default class Step4 extends Component {
       text:
         "Merci d'avoir validé votre compte, nous vous tenons au courant des changements",
       color: "green",
-      icon: "check"
+      icon: "check",
+      modal: null,
     };
   }
 
@@ -48,7 +50,18 @@ export default class Step4 extends Component {
     });
   }
 
+  createLoader(message) {
+    this.setState({
+      modal: <Loader visibility={true} message={message} />
+    });
+  }
+
+  removeLoader() {
+    this.setState({ modal: null });
+  }
+
   ValidateChange = () => {
+    this.createLoader('Validation en cours');
     const { pieces, user, connexion } = this.props.navigation.state.params;
     let dataRegister = {
       account_id: connexion.identifiant,
@@ -64,12 +77,12 @@ export default class Step4 extends Component {
     UserService.updateUserInfo(dataRegister, null).then(response => {
       ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
         .then(response => {
-          console.log("validation", response);
+          this.removeLoader();
           this.modalVIsible();
         })
         .catch(error => {
           this.setState({
-            text: "il ya eu un erreur lors de la validation",
+            text: "il ya eu un erreur lors de la validation " + error.toString(),
             color: "red",
             icon: "close"
           });
@@ -148,6 +161,7 @@ export default class Step4 extends Component {
     return (
       <View style={styles.container}>
         <Header position={3} title="Vos informations" />
+        <View>{this.state.modal}</View>
         <ScrollView behavior="padding" style={styles.body}>
           {this.renderConnexion()}
           {Separator()}

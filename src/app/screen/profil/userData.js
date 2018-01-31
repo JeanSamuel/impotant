@@ -38,7 +38,7 @@ class UserData extends Component {
             <View style={styles.emailNameColumn}>
               <Text style={styles.emailNameText}>{this.props.birthday}</Text>
             </View>
-            {!this.state.isHidden && <Child />}
+            {/* {!this.state.isHidden && <Child />} */}
           </View>
         </View>
       </TouchableOpacity>

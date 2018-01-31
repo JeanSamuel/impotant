@@ -7,6 +7,8 @@ import EditInfo from "./EditInfo";
 import Services from "../../services/utils/services";
 import { UserService, AchatService } from "../../services/index";
 import Utils from "../../services/utils/Utils";
+import { View } from "react-native-animatable";
+import { MessagePromptWithAnnuler } from "../../components/modal";
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -32,13 +34,22 @@ class ProfileScreen extends Component {
         break;
     }
   }
-  async componentWillMount() {
+  async _onRefresh(){
+    let user_id = this.props.navigation.state.params.user_id;
+    await UserService.refreshData(user_id,null)
+    await this.getUserData();
+  }
+  async getUserData(){
     let user_id = this.props.navigation.state.params.user_id;
     let role = null;
     let datasUSER = {};
+    let service = new Services();
     try {
-      let data = await UserService.getUserInfo(user_id, null)
-      if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE" || data.roles[0] == "ROLE_VALIDATION") {
+      let data = await service.getUserDetails(user_id);
+      if (data === null) {
+        this.setState({ haserror: true });
+      }
+      if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE") {
         datasUSER = {
           code: data.code,
           username: data.username,
@@ -75,15 +86,25 @@ class ProfileScreen extends Component {
         emails: datasUSER.maily,
         birthday: datasUSER.birthday,
         role: this.getRoles(data.roles[0]),
-        solde: Utils.formatNumber(data.solde)
+        solde: Utils.formatNumber(data.solde),
+        test: data.roles[0]
       };
       this.setState({ info: info, datas: datasUSER });
     } catch (error) {
       console.log("Error", error);
     }
   }
+  async componentWillMount() {
+    await this.getUserData();
+  }
+  removeModal() {
+
+  }
+  close() {
+
+  }
   render() {
-    return <Profile {...this.state.info} navigation={this.props.navigation} />;
+    return <Profile {...this.state.info} navigation={this.props.navigation} refresh={this._onRefresh.bind(this)}/>
   }
 }
 

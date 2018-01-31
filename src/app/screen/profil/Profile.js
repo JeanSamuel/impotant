@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, Icon } from "react-native-elements";
-import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, RefreshControl, Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../../config/constants/colors";
 import Email from "./Email";
@@ -15,7 +15,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messageVisible: false
+      messageVisible: false,
+      refreshing: false,
     };
   }
   removeModal() {
@@ -23,9 +24,13 @@ class Profile extends Component {
       messageVisible: !this.state.messageVisible
     });
   }
-
+  refreshData() {
+    this.setState({ refreshing: true });
+    this.props.refresh();
+    this.setState({ refreshing: false });
+  }
   goToValidation(test) {
-    if(!test){
+    if (!test) {
       this.removeModal();
     }
     const { user_id, username } = this.props.navigation.state.params;
@@ -33,9 +38,14 @@ class Profile extends Component {
       user_id,
       username
     };
-    this.props.navigation.navigate("Validation", data);
+
+    if (this.props.test !== "ROLE_VALIDATION") {
+      this.props.navigation.navigate("Validation", data);
+    } else {
+      Alert.alert('Info', "Votre compte est en attente de validation");
+    }
   }
-  goToRetrait(){
+  goToRetrait() {
     const { user_id, username } = this.props.navigation.state.params;
     let data = {
       user_id,
@@ -60,9 +70,15 @@ class Profile extends Component {
     this.props.navigation.navigate("Charger", data);
   }
   goToSteps() {
-    if (this.props.role === "confirmé")
+    if (this.props.test === "ROLE_CLIENT_VALIDE")
       this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
-    else this.removeModal();
+    else {
+      if (this.props.test === "ROLE_VALIDATION") {
+        Alert.alert('Info', "Votre compte est en attente de validation");
+      } else {
+        this.removeModal();
+      }
+    }
   }
   renderHeader() {
     const { avatar, avatarBackground, name, solde, code, role } = this.props;
@@ -142,21 +158,19 @@ class Profile extends Component {
       <UserData name={this.props.name} birthday={this.props.birthday} />
     </View>
   }
-
   renderActionButton() {
     return (
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        {this.props.role === "confirmé"
+        {this.props.test === "ROLE_CLIENT_VALIDE"
           ? (
             <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Modifier" onPress={() => this.props.navigation.navigate("EditInfo", { user_id: this.props.code })}>
               <Icon name="md-create" style={styles.actionButtonIcon} color={"white"} type={"ionicon"} />
-            </ActionButton.Item>  
-          )
-          : (
-            <ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
-              <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
             </ActionButton.Item>
-          )}
+          )
+          : (<ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
+            <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
+          </ActionButton.Item>)
+        }
         <ActionButton.Item textStyle={{ color: '#3498db', fontWeight: '800' }} buttonColor='#3498db' title="Payer/Envoyer" onPress={() => this.goToPay()}>
           <Icon name="ios-qr-scanner" color={"#fff"} type={"ionicon"} />
         </ActionButton.Item>
@@ -195,12 +209,16 @@ class Profile extends Component {
       />
     </View>
   }
-
   render() {
     return (
       <View style={{ backgroundColor: "#fff", flex: 1 }}>
         {this.renderHeader()}
-        <ScrollView style={styles.scroll}>
+        <ScrollView style={styles.scroll} refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.refreshData.bind(this)}
+          />
+        }>
           <View style={styles.container}>
             <Card containerStyle={styles.cardContainer}>
               {this.renderUser()}
@@ -231,12 +249,13 @@ class Profile extends Component {
     );
   }
   componentDidMount() {
-    const { role } = this.props;
-    if (role!== undefined && role !== "confirmé") this.removeModal();
+    const { test } = this.props;
+    if (test !== undefined && test !== "ROLE_CLIENT_VALIDE") this.removeModal();
   }
 }
 
 Profile.propTypes = {
+  refresh: PropTypes.func,
   avatar: PropTypes.string,
   avatarBackground: PropTypes.string,
   name: PropTypes.string,

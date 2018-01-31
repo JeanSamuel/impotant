@@ -31,7 +31,8 @@ class RegisterPwd extends Component {
       hasError: false,
       username: this.props.navigation.state.params.username,
       modal: null,
-      hidePwd: true
+      hidePwd: true,
+      errorMessage: "Donnée entrer non valide",
     };
   }
 
@@ -51,11 +52,9 @@ class RegisterPwd extends Component {
 
   async handleContinue() {
     if (this.state.password.length === 0) {
-      this.setState({ hasError: true })
-      errorMessage = 'Ne laisser pas le champ vide'
+      this.setState({ hasError: true, errorMessage: 'Ne laisser pas le champ vide' })
     } else if (this.state.password.length < 6) {
-      this.setState({ hasError: true })
-      errorMessage = 'Doit comporter au moins 6 caractères'
+      this.setState({ hasError: true, errorMessage: 'Doit comporter au moins 6 caractères' })
     } else {
       this.createLoader('Enregistrement en cours')
       try {
@@ -65,24 +64,22 @@ class RegisterPwd extends Component {
           user_id: this.state.username
         })
       } catch (error) {
+        let er = "Nom d'utilisateur déjà utilisé";
         this.removeLoader()
-        this.setState({ hasError: true,errorMessage: error.toString() });
+        this.setState({ hasError: true, errorMessage: er });
       }
     }
   }
   handleEndEditing() {
     if (this.state.password.length === 0) {
-      this.setState({ hasError: true });
-      errorMessage = "Ne laisser pas le champ vide";
+      this.setState({ hasError: true, errorMessage: "Ne laisser pas le champ vide" });
     } else if (this.state.password.length < 6) {
-      this.setState({ hasError: true });
-      errorMessage = "Doit comporter au moins 6 caractères";
+      this.setState({ hasError: true, errorMessage: "Doit comporter au moins 6 caractères" });
     } else {
       try {
         Utils._isValidPass(this.state.password);
       } catch (error) {
-        this.setState({ hasError: true });
-        errorMessage = error.toString();
+        this.setState({ hasError: true, errorMessage: error.toString() });
       }
     }
   }
@@ -163,7 +160,7 @@ class RegisterPwd extends Component {
                   color: "red"
                 }}
               >
-                {errorMessage}
+                {this.state.errorMessage}
               </Text>
             ) : null}
           </View>

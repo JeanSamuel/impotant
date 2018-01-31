@@ -14,6 +14,7 @@ import { FormInput, FormLabel, FormValidationMessage, Icon } from 'react-native-
 import colors from '../../config/constants/colors'
 import { HeaderButton } from '../../components/drawerMenu'
 import PropTypes from "prop-types";
+import { Loader } from "../../components/loader";
 // create a component
 const { height, width } = Dimensions.get("window");
 const achatService = AchatService;
@@ -28,13 +29,16 @@ class Retrait extends Component {
             amount: "",
             errorMessage: "",
             pinErrorMessage: null,
-            messageTitle: "Patientez!",
             makeTransaction: false,
             phoneNumber: "",
-            messageVisible: false,
-            messageVisibleMini: false,
             pin: "",
-            modal: null
+            modal: null,
+
+            messageVisible: false,
+            text: "Votre demande de retrait à été envoyé et prise en compte!!!",
+            color: "green",
+            icon: "check"
+
         }
     }
     componentWillMount() {
@@ -56,6 +60,19 @@ class Retrait extends Component {
             console.log("Erreur: " + err.message);
         })
 
+    }
+    goHome() {
+        this.setState({messageVisible:false});
+        this.props.navigation.navigate('Drawer', { user_id: this.state.userinfo.code, username: this.state.userinfo.username });
+    }
+    createLoader(message) {
+        this.setState({
+            modal: <Loader visibility={true} message={message} />
+        });
+    }
+
+    removeLoader() {
+        this.setState({ modal: null });
     }
     renderHeader() {
         return (
@@ -200,45 +217,34 @@ class Retrait extends Component {
 
         })
     }
-
+    modalVIsible() {
+        this.setState({
+            messageVisible: !this.state.messageVisible
+        });
+    }
     getPhoneNumber(number) {
         var tel = Utils.getNumeric(number);
         return '0' + tel.substr(4, tel.length);
     }
     _performRetrait = () => {
-        this.setState({
-            messageText: "Opération en cours de traitement",
-            color: "#FF9521",
-            messageVisible: true,
-            loading: true,
-            error: false
-        });
+        this.createLoader('Opération en cours de traitement');
         let device_token = Utils.registerForPushNotificationsAsync();
         let params_to_send = {
             account_id: this.state.account_id,
             amount: Utils.getNumeric(this.state.amount),
             number: this.getPhoneNumber(this.state.phoneNumber),
         };
-        console.log("paramstosend",params_to_send)
         ServiceRetrait.doRetrait(params_to_send).then(() => {
-            this.setState({
-                loading: false,
-                messageTitle: "message.title",
-                messageText: "",
-                color: "#FF9521",
-                messageVisible: false,
-                iconName: "info",
-                messageVisibleMini: true,
-                error: false
-            });
-
+            this.removeLoader()
+            this.modalVIsible()
         }).catch(err => {
+            this.removeLoader()
             this.setState({
-                messageVisible: false,
-                loading: false,
-                error: true,
-                errorMessage: err.message,
-            })
+                text: err.toString(),
+                color: "red",
+                icon: "close"
+            });
+            this.modalVIsible()
         })
     }
     _handleAmountInput = (text) => {
@@ -267,6 +273,7 @@ class Retrait extends Component {
             <View style={styles.container}>
                 {this.renderHeader()}
                 {this.renderHeandingTitle()}
+                <View>{this.state.modal}</View>
                 <View style={styles.innerContainer}>
                     <ScrollView>
                         {this.renderRechargeForm()}
@@ -301,23 +308,11 @@ class Retrait extends Component {
                 {this.state.modal}
                 {this.state.messageVisible ? (
                     <MessagePrompt
-                        onRequestClose={() => this.removeModal()}
-                        iconName={this.state.iconName}
-                        loading={this.state.loading}
-                        text={this.state.messageText}
-                        title={this.state.messageTitle}
-                        error={this.state.error}
-                        color={this.state.color}
-                    />
-                ) : null}
-                {this.state.messageVisibleMini ? (
-                    <MessagePromptMini
-                        onRequestClose={() => this.removeModal()}
-                        iconName={this.state.iconName}
-                        loading={this.state.loading}
-                        text={this.state.messageText}
-                        title={this.state.messageTitle}
-                        error={this.state.error}
+                        onRequestClose={() => this.goHome()}
+                        iconName={this.state.icon}
+                        loading={false}
+                        text={this.state.text}
+                        title={"Demande de retrait"}
                         color={this.state.color}
                     />
                 ) : null}
@@ -339,7 +334,7 @@ const styles = EStyleSheet.create({
         width: width - 15,
         marginTop: 10,
         alignSelf: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         marginBottom: 10,
         backgroundColor: "#fff"
     },

@@ -132,7 +132,6 @@ class UserService {
       await fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
           if (responseJson.error_message != null) {
             throw responseJson.error_message;
           } else {

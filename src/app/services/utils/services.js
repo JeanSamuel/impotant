@@ -58,6 +58,8 @@ class Services extends Component {
       "token_data",
       "oauthCode",
       "user_id",
+      "userInfo",
+      "userData",
       "adress",
       "history",
       "pin"
@@ -103,8 +105,6 @@ class Services extends Component {
   }
 
   createErrorWithoutThrow(error, message) {
-    //console.log("erreur auto :", error);
-    //console.log("erreur perso :", message);
     let myerror = new Error(error);
     myerror.message = message;
   }
@@ -153,7 +153,6 @@ class Services extends Component {
   async goLogin(webViewState) {
     try {
       let OauthCode = await this.extractOauthCode(webViewState.url);
-      console.log(OauthCode);
       let response = await this.getToken(OauthCode);
       return this.getUserInfo(response).then(userInfo => {
         return userInfo;
@@ -376,7 +375,7 @@ class Services extends Component {
           };
           this.saveData("user_id", JSON.stringify(userInfo));
           this.saveData("userData", JSON.stringify(responseJSON));
-
+          this.saveData("userInfo", JSON.stringify(responseJSON));
           return userInfo;
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");
@@ -403,7 +402,7 @@ class Services extends Component {
    */
   checkSolde(id_account) {
     //var url = configs.NEW_BASE_URL + "src/balance.php?account-id=" + id_account;
-    let url = configs.ARIARY_BASE_URL + "balance/"+ id_account;
+    let url = configs.ARIARY_BASE_URL + "balance/" + id_account;
     let data = {
       method: "GET"
     };
