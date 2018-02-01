@@ -64,6 +64,7 @@ class RegisterPwd extends Component {
           user_id: this.state.username
         })
       } catch (error) {
+        console.log(error);
         let er = "Nom d'utilisateur déjà utilisé";
         this.removeLoader()
         this.setState({ hasError: true, errorMessage: er });

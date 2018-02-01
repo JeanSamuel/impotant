@@ -77,8 +77,17 @@ export default class Step4 extends Component {
     UserService.updateUserInfo(dataRegister, null).then(response => {
       ImageUpload.doUpload(pieces.userPhoto, pieces.cinPhoto, connexion, user)
         .then(response => {
-          this.removeLoader();
-          this.modalVIsible();
+          UserService.refreshData(connexion.identifiant, null).then(response => {
+            this.removeLoader();
+            this.modalVIsible();
+          }).catch(error => {
+            this.setState({
+              text: "Une erreur s'est produite lors de la mise à jour de votre onformation",
+              color: "red",
+              icon: "close"
+            });
+            this.modalVIsible();
+          });
         })
         .catch(error => {
           this.setState({
@@ -91,7 +100,7 @@ export default class Step4 extends Component {
     })
       .catch(error => {
         this.setState({
-          text: "Erreur de validation " + error.toString(),
+          text: "Erreur de la mise à jour des informations " + error.toString(),
           color: "red",
           icon: "close"
         });

@@ -59,9 +59,9 @@ class UserService {
           .catch(error => {
             throw error.toString();
           });
-        if (updated) {
-          await this.refreshData(dataUser.account_id, activity);
-        }
+        // if (updated) {
+        //   await this.refreshData(dataUser.account_id, activity);
+        // }
       } catch (error) {
         throw error;
       }
@@ -119,6 +119,7 @@ class UserService {
     let userInfo = await this.getUserInfo(account_id, activity);
     await Utils._saveItem('userData', JSON.stringify(userInfo));
     await Utils._saveItem('userInfo', JSON.stringify(userInfo));
+    return userInfo;
   }
   /**
      * get User info by account_id

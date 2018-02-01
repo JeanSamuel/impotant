@@ -8,14 +8,15 @@ import Services from "../../services/utils/services";
 import { UserService, AchatService } from "../../services/index";
 import Utils from "../../services/utils/Utils";
 import { View } from "react-native-animatable";
-import { MessagePromptWithAnnuler } from "../../components/modal";
+import { MessagePrompt } from "../../components/modal";
 
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       datas: {},
-      info: {}
+      info: {},
+      loading: false
     };
   }
   getRoles(role) {
@@ -34,68 +35,75 @@ class ProfileScreen extends Component {
         break;
     }
   }
-  async _onRefresh(){
+  async _onRefresh() {
     let user_id = this.props.navigation.state.params.user_id;
-    await UserService.refreshData(user_id,null)
-    await this.getUserData();
+    await UserService.refreshData(user_id, null);
+    this.getUserData();
   }
-  async getUserData(){
-    let user_id = this.props.navigation.state.params.user_id;
+  getUserData() {
+    let services = new Services();
     let role = null;
     let datasUSER = {};
-    let service = new Services();
-    try {
-      let data = await service.getUserDetails(user_id);
-      if (data === null) {
-        this.setState({ haserror: true });
-      }
-      if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE") {
-        datasUSER = {
-          code: data.code,
-          username: data.username,
-          name: data.username + " (" + data.code + ")",
-          birthday: "Date de naissance...",
-          maily: data.mail,
-          phony: "Numéro téléphone...",
-          solde: data.solde,
-          avatar: ""
-        };
-      } else {
-        datasUSER = {
-          code: data.code,
-          username: data.username,
-          name: data.nom + " (" + data.code + ")",
-          birthday: data.birthday,
-          maily: data.mail,
-          phony: AchatService._parsePhone(data.phone, "mg"),
-          solde: data.solde,
-          avatar: data.avatar
-        };
-      }
-      let info = {
-        username: datasUSER.username,
-        code: datasUSER.code,
-        name: datasUSER.name,
-        address: {
-          city: "Antananarivo",
-          country: "Madagascar"
-        },
-        avatar: datasUSER.avatar,
-        avatarBackground: "../../assets/images/profil-background.png",
-        tels: datasUSER.phony,
-        emails: datasUSER.maily,
-        birthday: datasUSER.birthday,
-        role: this.getRoles(data.roles[0]),
-        solde: Utils.formatNumber(data.solde),
-        test: data.roles[0]
-      };
-      this.setState({ info: info, datas: datasUSER });
-    } catch (error) {
-      console.log("Error", error);
-    }
+    this.setState({ loading: true });
+    services
+      .getData("userInfo")
+      .then(response => {
+        if (response != null) {
+          let data = JSON.parse(response);
+          if (data.roles[0] == "ROLE_CLIENT_TEMP" || data.roles[0] == "ROLE_CLIENT_SIMPLE") {
+            datasUSER = {
+              code: data.code,
+              username: data.username,
+              name: data.username + " (" + data.code + ")",
+              birthday: "Date de naissance...",
+              maily: data.mail,
+              phony: "Numéro téléphone...",
+              solde: data.solde,
+              avatar: ""
+            };
+          } else {
+            datasUSER = {
+              code: data.code,
+              username: data.username,
+              name: data.nom + " (" + data.code + ")",
+              birthday: data.birthday,
+              maily: data.mail,
+              phony: AchatService._parsePhone(data.phone, "mg"),
+              solde: data.solde,
+              avatar: data.avatar
+            };
+          }
+          let info = {
+            username: datasUSER.username,
+            code: datasUSER.code,
+            name: datasUSER.name,
+            address: {
+              city: "Antananarivo",
+              country: "Madagascar"
+            },
+            avatar: datasUSER.avatar,
+            avatarBackground: "../../assets/images/profil-background.png",
+            tels: datasUSER.phony,
+            emails: datasUSER.maily,
+            birthday: datasUSER.birthday,
+            role: this.getRoles(data.roles[0]),
+            solde: Utils.formatNumber(data.solde),
+            test: data.roles[0]
+          };
+          this.setState({ info: info, datas: datasUSER });
+        } else {
+          console.log("Error", error);
+        }
+        this.setState({ loading: false });
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        console.log("Error", error);
+      });
   }
-  async componentWillMount() {
-    await this.getUserData();
+
+  componentWillMount() {
+    this.getUserData();
   }
   removeModal() {
 
@@ -104,7 +112,19 @@ class ProfileScreen extends Component {
 
   }
   render() {
-    return <Profile {...this.state.info} navigation={this.props.navigation} refresh={this._onRefresh.bind(this)}/>
+    if (this.state.loading) {
+      return <MessagePrompt
+        onRequestClose={() => this.removeModal()}
+        iconName={"ion-info"}
+        loading={this.state.loading}
+        text={"Chargement des informations encours,merci de patienter,ce ne sera pas long!!!"}
+        title={"Chargement des données"}
+        error={null}
+        color={"green"}
+      />
+    } else {
+      return <Profile {...this.state.info} navigation={this.props.navigation} refresh={this._onRefresh.bind(this)} />
+    }
   }
 }
 

@@ -56,22 +56,19 @@ export default class DrawerContent extends Component {
         if (response != null) {
           let dataParsed = JSON.parse(response);
           let usname = dataParsed.nom;
+          let avatar = dataParsed.avatar;
           if (usname == null || usname == "") {
             usname = dataParsed.username;
           }
+          if (avatar == undefined || avatar == null || avatar == "") {
+            avatar = "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg";
+          }
           this.setState({
             username: usname,
-            avatar: dataParsed.avatar,
-            account_id: dataParsed.code,
-            solde: dataParsed.solde
+            avatar: avatar,
+            account_id: dataParsed.code
           });
-          //this.checkSolde();
-          if (dataParsed.avatar == undefined || dataParsed.avatar == null) {
-            this.setState({
-              avatar:
-                "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232442-stock-illustration-male-default-placeholder-avatar-profile.jpg"
-            });
-          }
+          this.checkSolde();
         } else {
           this.setState({
             username: "unassigned",

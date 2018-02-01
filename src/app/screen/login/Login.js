@@ -17,6 +17,7 @@ import styleBase from '../../assets/styles/styles';
 import { WarningConnexion } from '../../components/warning/index';
 import { Button } from 'react-native-elements';
 import data from '../../config/data/dataM';
+import { Loader } from "../../components/loader";
 
 // const { width, height } = Dimensions.get("window");
 const uri = `${data.BASE_URL_Oauth}oauth2/authorize` +
@@ -29,18 +30,28 @@ class Login extends Component {
       spinnerVisibility: false,
       saving: false,
       data: null,
+      modal: null,
     };
   }
 
   changeSpinnerVisibility(value) {
     this.setState({ spinnerVisibility: value });
   }
+  createLoader(message) {
+    this.setState({
+      modal: <Loader visibility={true} message={message} />
+    });
+  }
 
+  removeLoader() {
+    this.setState({ modal: null });
+  }
   async _onNavigationStateChange(webViewState) {
     var service = new Services();
     var notif = new NotificationServices();
     this.changeSpinnerVisibility(true);
     if (webViewState.url != uri && !this.state.saving) {
+      this.createLoader('Connexion encours...');
       this.setState({ saving: true });
       service
         .goLogin(webViewState)
@@ -50,9 +61,10 @@ class Login extends Component {
           });
           this.changeSpinnerVisibility(false);
           notif.loginForExpoToken(response.username);
+          this.removeLoader();
           this.props.navigation.navigate('RegisterPin', response);
         })
-        .catch(error => { console.log("Error login", error) });
+        .catch(error => { this.removeLoader(); console.log("Error login", error) });
     }
   }
 
@@ -78,6 +90,7 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
+        <View>{this.state.modal}</View>
         <View style={{ flex: 1 }}>
           <View
             style={{

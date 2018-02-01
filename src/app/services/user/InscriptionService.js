@@ -43,7 +43,7 @@ class InscriptionService {
         .catch(error => {
           throw error.toString();
         });
-      await AuthentificationService._logout(1);
+      //await AuthentificationService._logout(1);
       await Utils._saveItem('user_id', JSON.stringify(user_info));
       await Utils._saveItem('userData', JSON.stringify(responseJson));
       await Utils._saveItem('userInfo', JSON.stringify(responseJson));

@@ -7,6 +7,7 @@ import { Fingerprint, Notifications } from "expo";
 import configs from "../../config/data/dataM";
 import FormData from "FormData";
 import { RegisterServices } from "../index";
+import UserService from '../user/UserService';
 
 // create a component
 class Services extends Component {
@@ -366,17 +367,17 @@ class Services extends Component {
     return fetch(url, { method: "GET" })
       .then(response => response.json())
       .then(responseJSON => {
-        //console.log(responseJSON);
         if (!responseJSON.error) {
-          this.saveData("userInfo", JSON.stringify(responseJSON));
           userInfo = {
             user_id: responseJSON.code,
             username: responseJSON.username
           };
           this.saveData("user_id", JSON.stringify(userInfo));
-          this.saveData("userData", JSON.stringify(responseJSON));
-          this.saveData("userInfo", JSON.stringify(responseJSON));
-          return userInfo;
+          return UserService.refreshData(responseJSON.code, null).then(response => {
+            return response;
+          }).catch(error => {
+            throw this.createError("error getting user info", error);
+          });
         } else {
           throw this.createError(responseJSON.error, "erreur getting userName");
         }
@@ -409,9 +410,6 @@ class Services extends Component {
     return this.myFetch(url, data)
       .then(response => response.json())
       .then(responseJSON => {
-        console.log("====================================");
-        console.log("solde", responseJSON);
-        console.log("====================================");
         if (!responseJSON.error) {
           this.saveData("solde", JSON.stringify(responseJSON.value));
           return responseJSON;

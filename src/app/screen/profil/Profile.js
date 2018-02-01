@@ -9,7 +9,7 @@ import Tel from "./Tel";
 import Localisation from "./localisation";
 import UserData from "./userData";
 import ActionButton from 'react-native-action-button';
-import { MessagePromptWithAnnuler } from "../../components/modal";
+import { MessagePromptWithAnnuler, MessagePrompt } from "../../components/modal";
 
 class Profile extends Component {
   constructor(props) {
@@ -17,11 +17,38 @@ class Profile extends Component {
     this.state = {
       messageVisible: false,
       refreshing: false,
+      loading: false,
+      avatar: undefined,
+      avatarBackground: null,
+      name: undefined,
+      solde: 0,
+      code: undefined,
+      role: undefined,
+      test: undefined,
+      birthday: undefined,
+      tels: undefined,
+      emails: undefined,
     };
+  }
+  componentWillMount() {
+    const { avatar, birthday, avatarBackground, name, solde, code, role, test, emails, tels } = this.props;
+    this.setState({
+      loading: false,
+      birthday: birthday,
+      avatar: avatar,
+      avatarBackground: avatarBackground,
+      name: name,
+      solde: solde,
+      code: code,
+      role: role,
+      tels: tels,
+      test: test,
+      emails: emails
+    })
   }
   removeModal() {
     this.setState({
-      messageVisible: !this.state.messageVisible
+      messageVisible: !this.state.messageVisible,
     });
   }
   refreshData() {
@@ -65,14 +92,15 @@ class Profile extends Component {
     this.props.navigation.navigate("Charger", data);
   }
   goToSteps() {
-    if (this.props.test === "ROLE_CLIENT_VALIDE" || this.props.test === "ROLE_VALIDATION")
-      this.props.navigation.navigate("EditInfo", { user_id: this.props.code });
+    if (this.state.test === "ROLE_CLIENT_VALIDE" || this.state.test === "ROLE_VALIDATION")
+      this.props.navigation.navigate("EditInfo", { user_id: this.state.code });
     else {
       this.removeModal();
     }
   }
+
   renderHeader() {
-    const { avatar, avatarBackground, name, solde, code, role } = this.props;
+    const { avatar, avatarBackground, name, solde, code, role } = this.state;
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
@@ -146,13 +174,13 @@ class Profile extends Component {
   }
   renderUser() {
     return <View style={styles.telContainer}>
-      <UserData name={this.props.name} birthday={this.props.birthday} edit={this.goToSteps.bind(this)} />
+      <UserData name={this.state.name} birthday={this.state.birthday} edit={this.goToSteps.bind(this)} />
     </View>
   }
   renderActionButton() {
     return (
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        {(this.props.test !== "ROLE_CLIENT_VALIDE" && this.props.test !== "ROLE_VALIDATION")
+        {(this.state.test !== "ROLE_CLIENT_VALIDE" && this.state.test !== "ROLE_VALIDATION")
           ? (<ActionButton.Item textStyle={{ color: '#9b59b6', fontWeight: '800' }} buttonColor='#9b59b6' title="Activer mon compte" onPress={() => this.goToValidation(true)}>
             <Icon name="md-checkmark" color={"#fff"} type={"ionicon"} />
           </ActionButton.Item>) : (
@@ -181,7 +209,7 @@ class Profile extends Component {
         index={0}
         key={"tel-1"}
         name={"Mobile"}
-        number={this.props.tels}
+        number={this.state.tels}
         onPressSms={this.goToSteps.bind(this)}
         onPressTel={this.goToSteps.bind(this)}
       />
@@ -194,7 +222,7 @@ class Profile extends Component {
         key={"email-1"}
         index={0}
         name={"E-mail"}
-        email={this.props.emails}
+        email={this.state.emails}
         onPressEmail={this.goToSteps.bind(this)}
       />
     </View>
@@ -239,8 +267,7 @@ class Profile extends Component {
     );
   }
   componentDidMount() {
-    const { test } = this.props;
-    if (test !== undefined && test !== "ROLE_CLIENT_VALIDE") this.removeModal();
+    if (this.state.test !== undefined && this.state.test === "ROLE_CLIENT_TEMP") this.removeModal();
   }
 }
 

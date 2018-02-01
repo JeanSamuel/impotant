@@ -115,6 +115,7 @@ class MessagePrompt extends Component {
                   style={{
                     position: "absolute",
                     bottom: 0,
+                    top:15,
                     alignSelf: "center"
                   }}
                 >
@@ -123,7 +124,7 @@ class MessagePrompt extends Component {
                       height: 50,
                       width: 160,
                       borderRadius: 10,
-                      marginBottom: 20,
+                      marginBottom: 10,
                       borderWidth: 1,
                       borderColor: this.props.color,
                       alignContent: "center",
