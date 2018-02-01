@@ -16,7 +16,6 @@ class UserData extends Component {
   toggleHidden() {
     this.props.edit();
   }
-
   render() {
     return (
       <TouchableOpacity onPress={this.toggleHidden.bind(this)}>
@@ -36,7 +35,9 @@ class UserData extends Component {
             <View style={styles.emailNameColumn}>
               <Text style={styles.emailNameText}>{this.props.birthday}</Text>
             </View>
-            {/* {!this.state.isHidden && <Child />} */}
+            <View style={styles.emailNameColumn}>
+              <Text style={styles.emailNameText}>CIN - {this.props.cin}</Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>

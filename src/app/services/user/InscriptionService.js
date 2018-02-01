@@ -1,4 +1,5 @@
 import { Utils, UserService, ImageUpload, AuthentificationService } from '../';
+import Services from '../../services/utils/services';
 import config from '../../config/data/dataM';
 
 const BASEURL = config.ARIARY_BASE_URL;
@@ -164,6 +165,7 @@ class InscriptionService {
     let url = BASEURL + 'register1';
     let responseJson = null;
     let user_info = null, resp = null;
+    let service = new Services();
     try {
       Utils._isValidPass(activity.state.password);
       await fetch(url, {
@@ -184,57 +186,24 @@ class InscriptionService {
               username: responseJson.username,
               user_id: responseJson.code,
             };
+            service.saveData("user_id", JSON.stringify(user_info));
+            return UserService.refreshData(responseJson.code, null).then(response => {
+              return response;
+            }).catch(error => {
+              throw error.toString();
+            });
           }
         })
         .catch(error => {
           throw error.toString();
         });
       //await AuthentificationService._logout(1);
-      await Utils._saveItem('user_id', JSON.stringify(user_info));
-      await Utils._saveItem('userData', JSON.stringify(resp));
-      await Utils._saveItem('userInfo', JSON.stringify(resp));
     } catch (error) {
+      console.log("111", error)
       throw error.toString();
     }
-    return user_info;
   }
-  // async _registrationTemporaire() {
-  //   let url = BASEURL + 'register0';
-  //   let responseJson = null;
-  //   let user_info = null;
-  //   try {
-  //     await fetch(url, {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //       .then(response => response.json())
-  //       .then(responseJson => {
-  //         if (responseJson.error_message != null) {
-  //           throw responseJson.error_message;
-  //         } else {
-  //           console.log('tempInfo', responseJson);
-  //           resp = responseJson;
-  //           user_info = {
-  //             username: responseJson.username,
-  //             user_id: responseJson.code,
-  //           };
-  //         }
-  //       })
-  //       .catch(error => {
-  //         throw error.toString();
-  //       });
-  //     await AuthentificationService._logout(1);
-  //     await Utils._saveItem('user_id', JSON.stringify(user_info));
-  //     await Utils._saveItem('userData', resp);
-  //     await Utils._saveItem('userInfo', resp);
-  //   } catch (error) {
-  //     throw error.toString();
-  //   }
-  //   return resp;
-  // }
+
   async _saveUserValidation(data, activity) {
     let uploadResponse, uploadResult;
     let dataValidation = {

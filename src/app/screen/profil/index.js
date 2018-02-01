@@ -59,11 +59,19 @@ class ProfileScreen extends Component {
               maily: data.mail,
               phony: "Numéro téléphone...",
               solde: data.solde,
-              avatar: ""
+              avatar: "",
+              ville: "En attente",
+              pays: "En attente",
+              adresse: "En attente",
+              cin: "En attente"
             };
           } else {
             datasUSER = {
+              cin: data.cin,
               code: data.code,
+              ville: data.city,
+              pays: data.country,
+              adresse: data.address,
               username: data.username,
               name: data.nom + " (" + data.code + ")",
               birthday: data.birthday,
@@ -77,10 +85,6 @@ class ProfileScreen extends Component {
             username: datasUSER.username,
             code: datasUSER.code,
             name: datasUSER.name,
-            address: {
-              city: "Antananarivo",
-              country: "Madagascar"
-            },
             avatar: datasUSER.avatar,
             avatarBackground: "../../assets/images/profil-background.png",
             tels: datasUSER.phony,
@@ -88,11 +92,15 @@ class ProfileScreen extends Component {
             birthday: datasUSER.birthday,
             role: this.getRoles(data.roles[0]),
             solde: Utils.formatNumber(data.solde),
-            test: data.roles[0]
+            test: data.roles[0],
+            pays: (datasUSER.pays === undefined) ? "En attente" : datasUSER.pays,
+            ville: (datasUSER.ville === undefined) ? "En attente" : datasUSER.ville,
+            adresse: (datasUSER.adresse === undefined) ? "En attente" : datasUSER.adresse,
+            cin: (datasUSER.cin === undefined) ? "En attente" : datasUSER.cin
           };
           this.setState({ info: info, datas: datasUSER });
         } else {
-          console.log("Error", error);
+          console.log("Error", "null");
         }
         this.setState({ loading: false });
       })

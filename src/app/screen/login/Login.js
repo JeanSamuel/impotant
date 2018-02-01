@@ -17,7 +17,7 @@ import styleBase from '../../assets/styles/styles';
 import { WarningConnexion } from '../../components/warning/index';
 import { Button } from 'react-native-elements';
 import data from '../../config/data/dataM';
-import { Loader } from "../../components/loader";
+import { MessagePrompt } from "../../components/modal";
 
 // const { width, height } = Dimensions.get("window");
 const uri = `${data.BASE_URL_Oauth}oauth2/authorize` +
@@ -31,28 +31,20 @@ class Login extends Component {
       saving: false,
       data: null,
       modal: null,
+      loading: false,
     };
   }
 
   changeSpinnerVisibility(value) {
     this.setState({ spinnerVisibility: value });
   }
-  createLoader(message) {
-    this.setState({
-      modal: <Loader visibility={true} message={message} />
-    });
-  }
 
-  removeLoader() {
-    this.setState({ modal: null });
-  }
   async _onNavigationStateChange(webViewState) {
     var service = new Services();
     var notif = new NotificationServices();
     this.changeSpinnerVisibility(true);
     if (webViewState.url != uri && !this.state.saving) {
-      this.createLoader('Connexion encours...');
-      this.setState({ saving: true });
+      this.setState({ saving: true, loading: true });
       service
         .goLogin(webViewState)
         .then(response => {
@@ -61,10 +53,10 @@ class Login extends Component {
           });
           this.changeSpinnerVisibility(false);
           notif.loginForExpoToken(response.username);
-          this.removeLoader();
+          this.setState({ loading: false });
           this.props.navigation.navigate('RegisterPin', response);
         })
-        .catch(error => { this.removeLoader(); console.log("Error login", error) });
+        .catch(error => { this.setState({ loading: false }); console.log("Error login", error) });
     }
   }
 
@@ -81,7 +73,6 @@ class Login extends Component {
   return() {
     this.props.navigation.goBack();
   }
-
   render() {
     errorView = (
       <View>
@@ -90,7 +81,15 @@ class Login extends Component {
     );
     return (
       <View style={styles.container}>
-        <View>{this.state.modal}</View>
+        {this.state.loading && <MessagePrompt
+          onRequestClose={() => this.removeModal()}
+          iconName={"ion-info"}
+          loading={this.state.loading}
+          text={"Veuillez patienter, vérification des vos information encours"}
+          title={"Connexion"}
+          error={null}
+          color={"green"}
+        />}
         <View style={{ flex: 1 }}>
           <View
             style={{

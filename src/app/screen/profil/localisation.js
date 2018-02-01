@@ -43,23 +43,25 @@ const styles = StyleSheet.create({
   }
 });
 
-const Localisation = ({containerStyle,country,city}) => (
-  <TouchableOpacity onPress={() => console.log("GG")}>
+const Localisation = ({ containerStyle, country, city, address }) => (
+  <TouchableOpacity>
     <View style={[styles.container]}>
       <View style={styles.iconRow}>
         <Icon
           name="home"
           underlayColor="transparent"
           iconStyle={styles.emailIcon}
-          onPress={() => console.log("GG")}
         />
       </View>
       <View style={styles.emailRow}>
         <View style={styles.emailColumn}>
-          <Text style={styles.emailText}>{country}</Text>
+          <Text style={styles.emailText}>{"Addresses"}</Text>
         </View>
         <View style={styles.emailNameColumn}>
-          <Text style={styles.emailNameText}>{city}</Text>
+          <Text style={styles.emailNameText}>{city}, {country}</Text>
+        </View>
+        <View style={styles.emailNameColumn}>
+          <Text style={styles.emailNameText}>{address}</Text>
         </View>
       </View>
     </View>
@@ -69,8 +71,8 @@ const Localisation = ({containerStyle,country,city}) => (
 Localisation.defaultProps = {
   containerStyle: {},
   name: null,
-  city:null,
-  country:null,
+  city: null,
+  country: null,
 };
 
 export default Localisation;

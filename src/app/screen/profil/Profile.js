@@ -28,10 +28,14 @@ class Profile extends Component {
       birthday: undefined,
       tels: undefined,
       emails: undefined,
+      adresse:undefined,
+      ville:undefined,
+      pays:undefined,
+      cin:undefined
     };
   }
   componentWillMount() {
-    const { avatar, birthday, avatarBackground, name, solde, code, role, test, emails, tels } = this.props;
+    const { avatar, birthday, avatarBackground, name, solde, code, role, test, emails, tels,adresse,ville,pays,cin } = this.props;
     this.setState({
       loading: false,
       birthday: birthday,
@@ -43,7 +47,11 @@ class Profile extends Component {
       role: role,
       tels: tels,
       test: test,
-      emails: emails
+      emails: emails,
+      adresse:adresse,
+      ville:ville,
+      pays:pays,
+      cin:cin
     })
   }
   removeModal() {
@@ -169,12 +177,12 @@ class Profile extends Component {
 
   renderLocal() {
     return <View style={styles.telContainer}>
-      <Localisation city={"Antananarivo"} country={"Madagascar"} />
+      <Localisation city={this.state.ville} country={this.state.pays} address={this.state.adresse}/>
     </View>
   }
   renderUser() {
     return <View style={styles.telContainer}>
-      <UserData name={this.state.name} birthday={this.state.birthday} edit={this.goToSteps.bind(this)} />
+      <UserData name={this.state.name} birthday={this.state.birthday} edit={this.goToSteps.bind(this)} cin={this.state.cin}/>
     </View>
   }
   renderActionButton() {
