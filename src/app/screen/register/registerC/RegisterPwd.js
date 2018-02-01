@@ -110,7 +110,7 @@ class RegisterPwd extends Component {
                 { color: "#aaa", marginTop: 20, alignSelf: "center" }
               ]}
             >
-              Votre mot de passe doit comporter au moins 8 caractères
+              Votre mot de passe doit comporter au moins 6 caractères comportants des caractères minuscule(s),majuscusle(s) et chiffre(s)
             </Text>
             <View style={inputStyle}>
               <TouchableOpacity
@@ -152,19 +152,18 @@ class RegisterPwd extends Component {
                 secureTextEntry={this.state.hidePwd}
               />
             </View>
-            {this.state.hasError ? (
-              <Text
-                style={{
-                  textAlign: "center",
-                  paddingVertical: 10,
-                  color: "red"
-                }}
-              >
-                {this.state.errorMessage}
-              </Text>
-            ) : null}
           </View>
         </KeyboardAvoidingView>
+        {this.state.hasError ? (
+          <View style={{alignSelf: 'center'}}><Text
+            style={{
+              textAlign: "center",
+              color: "red"
+            }}
+          >
+            {this.state.errorMessage}
+          </Text></View>
+        ) : null}
         <Footer>
           <View style={[styles.containerWidth, { alignSelf: "center" }]}>
             <RoundedButton
