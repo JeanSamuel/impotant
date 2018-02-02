@@ -10,6 +10,8 @@ import Localisation from "./localisation";
 import UserData from "./userData";
 import ActionButton from 'react-native-action-button';
 import { MessagePromptWithAnnuler, MessagePrompt } from "../../components/modal";
+import Services from "../../services/utils/services";
+import Utils from "../../services/utils/Utils";
 
 class Profile extends Component {
   constructor(props) {
@@ -28,14 +30,14 @@ class Profile extends Component {
       birthday: undefined,
       tels: undefined,
       emails: undefined,
-      adresse:undefined,
-      ville:undefined,
-      pays:undefined,
-      cin:undefined
+      adresse: undefined,
+      ville: undefined,
+      pays: undefined,
+      cin: undefined
     };
   }
   componentWillMount() {
-    const { avatar, birthday, avatarBackground, name, solde, code, role, test, emails, tels,adresse,ville,pays,cin } = this.props;
+    const { avatar, birthday, avatarBackground, name, solde, code, role, test, emails, tels, adresse, ville, pays, cin } = this.props;
     this.setState({
       loading: false,
       birthday: birthday,
@@ -48,10 +50,10 @@ class Profile extends Component {
       tels: tels,
       test: test,
       emails: emails,
-      adresse:adresse,
-      ville:ville,
-      pays:pays,
-      cin:cin
+      adresse: adresse,
+      ville: ville,
+      pays: pays,
+      cin: cin
     })
   }
   removeModal() {
@@ -177,12 +179,18 @@ class Profile extends Component {
 
   renderLocal() {
     return <View style={styles.telContainer}>
-      <Localisation city={this.state.ville} country={this.state.pays} address={this.state.adresse}/>
+      <Localisation city={this.state.ville} country={this.state.pays} address={this.state.adresse} edit={this.goToSteps.bind(this)} />
     </View>
+  }
+
+  getCIN() {
+    let cin = this.state.cin;
+    let cinnumber = Utils.getNumeric(cin.trim());
+    return Services.formatNumber(cinnumber);
   }
   renderUser() {
     return <View style={styles.telContainer}>
-      <UserData name={this.state.name} birthday={this.state.birthday} edit={this.goToSteps.bind(this)} cin={this.state.cin}/>
+      <UserData name={this.state.name} birthday={this.state.birthday} edit={this.goToSteps.bind(this)} cin={this.getCIN()} />
     </View>
   }
   renderActionButton() {
@@ -362,7 +370,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   userImage: {
-    borderColor: colors.$secondaryColor,
+    //borderColor: colors.$secondaryColor,
     borderRadius: 85,
     borderWidth: 3,
     height: 170,

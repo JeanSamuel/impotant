@@ -165,14 +165,20 @@ class EditInfo extends Component {
                     password: this.state.newpassword
                 }
             }
-            const updated = await UserService.updateUserInfo(dataUser, this)
-            this.removeModal()
-            this.props.navigation.navigate('Drawer', {
-                user_id: this.state.account_id,
-                username: this.state.username
-            })
+            const updated = await UserService.updateUserInfo(dataUser, this);
+            if (updated) {
+                return UserService.refreshData(dataUser.account_id, null).then(response => {
+                    this.removeModal()
+                    this.props.navigation.navigate('Drawer', {
+                        user_id: this.state.account_id,
+                        username: this.state.username
+                    })
+                }).catch(error => {
+                    this.setState({ error: true, errorMessage: error.toString() })
+                });
+            }
         } catch (error) {
-            this.setState({ rror: true, errorMessage: err.toString() })
+            this.setState({ error: true, errorMessage: error.toString() })
         }
     }
 

@@ -85,7 +85,7 @@ class Login extends Component {
           onRequestClose={() => this.removeModal()}
           iconName={"ion-info"}
           loading={this.state.loading}
-          text={"Veuillez patienter, vérification des vos information encours"}
+          text={"Veuillez patienter, vérification de vos information encours"}
           title={"Connexion"}
           error={null}
           color={"green"}

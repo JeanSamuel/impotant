@@ -33,7 +33,7 @@ class UserData extends Component {
               <Text style={styles.emailText}>{this.props.name}</Text>
             </View>
             <View style={styles.emailNameColumn}>
-              <Text style={styles.emailNameText}>{this.props.birthday}</Text>
+              <Text style={styles.emailNameText}>Date de naissance - {this.props.birthday}</Text>
             </View>
             <View style={styles.emailNameColumn}>
               <Text style={styles.emailNameText}>CIN - {this.props.cin}</Text>

@@ -55,6 +55,7 @@ export default class DrawerContent extends Component {
       .then(response => {
         if (response != null) {
           let dataParsed = JSON.parse(response);
+          console.log("User Info", dataParsed);
           let usname = dataParsed.nom;
           let avatar = dataParsed.avatar;
           if (usname == null || usname == "") {

@@ -59,9 +59,6 @@ class UserService {
           .catch(error => {
             throw error.toString();
           });
-        // if (updated) {
-        //   await this.refreshData(dataUser.account_id, activity);
-        // }
       } catch (error) {
         throw error;
       }

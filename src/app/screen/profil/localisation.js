@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
-
-const Localisation = ({ containerStyle, country, city, address }) => (
-  <TouchableOpacity>
+const Localisation = ({ containerStyle, country, city, address, edit }) => (
+  <TouchableOpacity onPress={() => { edit() }}>
     <View style={[styles.container]}>
       <View style={styles.iconRow}>
         <Icon
